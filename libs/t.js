@@ -4,8 +4,12 @@
 
 var md5 = require('crypto').createHash('md5');
 
-/* product_name --> product_id */
+/* 将商品名称转换成商品ID */
 exports.md5hash=function(product_name){
     return md5.update(product_name).digest('hex');
 };
 
+/* 从批次ID中获取商品ID */
+exports.get_pid_f_bid=function(bid){
+    return bid.split('-')[1];
+};
