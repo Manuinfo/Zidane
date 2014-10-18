@@ -1,0 +1,24 @@
+//r/w：分别代表服务的读写分离
+//商品查询  2001  入参为商品的
+方法：http://127.0.0.1:3000/r/2001/牛樟菇
+入参：商品的中文名称
+返回：
+{
+    "name": "牛樟菇",
+    "product_id": "12c8656e2a5d34aba5a23f666ab1d0e4",
+    "place": "台湾",
+    "price": 32.53,
+    "create_at": "2014-10-14T02:22:00.000Z",
+    "updated_at": null,
+    "image_file_name": null,
+    "image_content_type": null,
+    "image_file_size": null,
+    "image_updated_at": null
+}
+
+//批次查询  2002  入参为商品的中文名称
+
+
+
+
+//验证二维码 3001

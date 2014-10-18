@@ -25,6 +25,9 @@ console.log(ab(999));
 var pool=require('./conf/db.js');
 var async=require('async');
 var moment=require('moment');
+var aaa=require('./dbmodules/sql.js');
+
+console.log(aaa.r2001.selectSQL('我是谁'));
 
 //console.log(pool);
 

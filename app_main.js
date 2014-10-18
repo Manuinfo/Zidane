@@ -6,14 +6,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-//var routes = require('./routes');
-//var users = require('./routes/user');
+var rest_r = require('./routes/r.js');
+var rest_w = require('./routes/w.js');
 
 var app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
 
 //app.use
 app.use(favicon());
@@ -24,7 +20,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(app.router);
 
-//app.get('/', routes.index);
+app.get('/r/2001/:prdname', rest_r.r2001);
+app.get('/r/2002/:prdname', rest_r.r2002);
+
 //app.get('/users', users.list);
 
 
