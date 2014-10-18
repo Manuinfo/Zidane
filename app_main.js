@@ -22,6 +22,11 @@ app.use(app.router);
 
 app.get('/r/2001/:prdname', rest_r.r2001);
 app.get('/r/2002/:prdname', rest_r.r2002);
+app.get('/r/2003/:bid', rest_r.r2003);
+app.get('/r/2004/:qr', rest_r.r2004);
+app.get('/r/2005/:qr', rest_r.r2005);
+
+
 
 //app.get('/users', users.list);
 

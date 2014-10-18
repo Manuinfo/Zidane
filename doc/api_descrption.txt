@@ -1,4 +1,6 @@
-//r/w：分别代表服务的读写分离
+/* r/w：分别代表服务的读写分离
+*  与外部通信按UTF-8的格式
+*/
 //商品查询  2001  入参为商品的
 方法：http://127.0.0.1:3000/r/2001/牛樟菇
 入参：商品的中文名称
@@ -17,8 +19,45 @@
 }
 
 //批次查询  2002  入参为商品的中文名称
+方法：http://127.0.0.1:3000/r/200r/牛樟菇
+入参：商品的中文名称
+返回：数组
+[
+    {
+        "product_id": "12c8656e2a5d34aba5a23f666ab1d0e4",
+        "prod_part_id": "9",
+        "dist_place": "77",
+        "count": 30000,
+        "verify_time": 5,
+        "batch_id": "20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1",
+        "created_at": "2014-10-14T03:45:00.000Z",
+        "updated_at": null
+    },
+    {
+        "product_id": "12c8656e2a5d34aba5a23f666ab1d0e4",
+        "prod_part_id": "9",
+        "dist_place": "77",
+        "count": 30000,
+        "verify_time": 5,
+        "batch_id": "20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-2",
+        "created_at": "2014-10-14T03:55:00.000Z",
+        "updated_at": null
+    }
+]
 
-
-
+//批次查询  2003  入参为批次的ID
+http://127.0.0.1:3000/r/2003/20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1
+入参：批次ID
+返回：数组
+{
+    "product_id": "12c8656e2a5d34aba5a23f666ab1d0e4",
+    "prod_part_id": "9",
+    "dist_place": "77",
+    "count": 30000,
+    "verify_time": 5,
+    "batch_id": "20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1",
+    "created_at": "2014-10-14T03:45:00.000Z",
+    "updated_at": null
+}
 
 //验证二维码 3001

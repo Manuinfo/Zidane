@@ -180,6 +180,7 @@ DEFAULT CHARSET=gbk;
 create unique index product_id_1 on products(product_id);
 create unique index product_id_2 on products_ele(product_id);
 create unique index batch_id_1 on batches(batch_id);
+create index product_id_3 on batches(product_id);
 create unique index nfc_id_1 on nfc_batch_map(nfc_id);
 create unique index qr_href_1 on qr_batch_map (qr_href);
 #测试数据
@@ -196,10 +197,10 @@ insert into batches values ('827f5c0778d48996b9ee750511c33b09','9','66',20000,3,
 insert into batches values ('12c8656e2a5d34aba5a23f666ab1d0e4','9','77',30000,5,'20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','2014-10-14 11:45:00',NULL);
 insert into batches values ('12c8656e2a5d34aba5a23f666ab1d0e4','9','77',30000,5,'20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-2','2014-10-14 11:55:00',NULL);
 
-insert into qr_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','http://1.1.1.1/abc23434',2);
-insert into qr_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','http://1.1.1.1/42xsdkh34',2);
-insert into qr_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-2','http://1.1.1.1/loidfasdf',2);
-insert into qr_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','http://2.3.4.5/loidfasdf',1);
+insert into qr_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','abc23434',2);
+insert into qr_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','42xsdkh34',2);
+insert into qr_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-2','loidfasdf',2);
+insert into qr_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','xcvzxcvzs',1);
 
 insert into nfc_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','23424safd');
 insert into nfc_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-2','xcvcvcvx');
