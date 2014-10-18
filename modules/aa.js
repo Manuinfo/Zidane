@@ -8,4 +8,4 @@ var sqls = {
     'selectSQL': 'select * from t_user limit 10',
     'deleteSQL': 'delete from t_user',
     'updateSQL': 'update t_user set name="conan update"  where name="conan"'
-};
+}; 
