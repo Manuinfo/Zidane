@@ -69,3 +69,15 @@ exports.r2005=function(req,res){
         conn.release();
     });
 };
+
+//2006  根据名字查看厂商
+exports.r2006=function(req,res){
+    res.set({'Content-Type':'text/json','Encodeing':'utf8'});
+    pool.getConnection(function(err, conn) {
+        conn.query(sql.query_shop.selectSQL(req.param('shopname')),function (err, sqlres) {
+            console.log(sql.query_shop.selectSQL(req.param('shopname')));
+            acc.SendOnErr(res,sqlres);
+        });
+        conn.release();
+    });
+};

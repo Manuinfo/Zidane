@@ -115,13 +115,24 @@ http://$IP/w/good
 http://$IP/w/qr
 http://$IP/w/nfc
 
-#++++++++++++++++++++++
-create table products (
-name varchar(128),
+#+++++++++++++++ 厂商表
+create table busishop (
+name varchar(255),
+prd_name varchar(128),
 product_id varchar(64),
 place varchar(255),
-price double,
 create_at datetime,
+updated_at datetime
+)
+engine=INNODB
+DEFAULT CHARSET=gbk;
+#++++++++++++++++++++++ 商品表
+create table products (
+name varchar(128),
+product_id varchar(64) not null,
+place varchar(255) not null,
+price double not null,
+create_at datetime not null,
 updated_at datetime,
 image_file_name varchar(255),
 image_content_type varchar(255),
@@ -131,25 +142,26 @@ PRIMARY KEY(name)
 )
 engine=INNODB
 DEFAULT CHARSET=gbk ;
-#-----
+#++++++++++++ 商品成分表
 create table products_ele (
 product_id varchar(64),
 elements text)
 engine=INNODB
 DEFAULT CHARSET=gbk ;
-#---
+#+++++++++++  批次表
 CREATE TABLE batches (
 product_id varchar(64),
 prod_part_id varchar(12),
 dist_place varchar(12),
-count double,
+bth_count double,
+nfc_count double,
 verify_time double,
 batch_id varchar(255),
 created_at datetime,
 updated_at datetime
 ) engine=INNODB
 DEFAULT CHARSET=gbk;
-#-------
+#+++++++++++++++++ 操作记录历史表
 CREATE TABLE ops_history (
  batch_id varchar(255),
  dist_place double,
@@ -162,13 +174,13 @@ CREATE TABLE ops_history (
   result varchar(255)
 ) engine=INNODB
 DEFAULT CHARSET=gbk;
-#-----------
+#+++++++++ nfc与批次的对应关系
 create table nfc_batch_map (
 batch_id varchar(255),
 nfc_id varchar(255)
 ) engine=INNODB
 DEFAULT CHARSET=gbk;
-#---------------
+#++++++++++++++ qr与批次的对应关系
 create table qr_batch_map (
 batch_id varchar(255),
 qr_href varchar(255),
@@ -177,6 +189,9 @@ verify_av_times double
 DEFAULT CHARSET=gbk;
 #-----------
 #创建索引
+create index name_1 on busishop(name);
+create index name_2 on busishop(prd_name);
+create index product_id_3 on busishop(product_id);
 create unique index product_id_1 on products(product_id);
 create unique index product_id_2 on products_ele(product_id);
 create unique index batch_id_1 on batches(batch_id);
@@ -187,15 +202,19 @@ create unique index qr_href_1 on qr_batch_map (qr_href);
 1|酵素|台湾|麦芽糊精、葡萄糖、柳橙果汁、糙米、发酵菠萝粉、发酵木瓜粉、植脂末、苹果香精、盐藻、柠檬酸、库拉索芦荟粉、大麦粉。|580|2014-09-11 22:03:38.701908|2014-09-11 22:14:32.232398|1.png|image/png|374503|2014-09-11 22:14:25.652241
 2|牛樟菇|台湾|牛樟菇萃取物95%，明胶|6800|2014-09-11 22:03:42.308260|2014-09-26 17:47:49.174111|red-Lied.png|image/png|7473481|2014-09-26 17:47:46.617673
 
+insert into busishop values ('一生一素公司','乳酸菌','827f5c0778d48996b9ee750511c33b09','台湾','2013-09-23 00:00:00',NULL);
+insert into busishop values ('一生一素公司','牛樟菇','12c8656e2a5d34aba5a23f666ab1d0e4','台湾','2013-09-23 00:00:00',NULL);
+
+
 insert into products values ('乳酸菌','827f5c0778d48996b9ee750511c33b09','台湾',79.5,'2014-11-23 00:00:00',NULL,NULL,NULL,NULL,NULL);
 insert into products values ('牛樟菇','12c8656e2a5d34aba5a23f666ab1d0e4','台湾',32.53,'2014-10-14 10:22:00',NULL,NULL,NULL,NULL,NULL);
 
 insert into products_ele values ('827f5c0778d48996b9ee750511c33b09','麦芽糊精、葡萄糖、柳橙果汁、糙米、发酵菠萝粉、发酵木瓜粉、植脂末');
 insert into products_ele values ('12c8656e2a5d34aba5a23f666ab1d0e4','牛樟菇萃取物95%，明胶');
 
-insert into batches values ('827f5c0778d48996b9ee750511c33b09','9','66',20000,3,'20141014-827f5c0778d48996b9ee750511c33b09-66-1','2014-10-14 11:35:00',NULL);
-insert into batches values ('12c8656e2a5d34aba5a23f666ab1d0e4','9','77',30000,5,'20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','2014-10-14 11:45:00',NULL);
-insert into batches values ('12c8656e2a5d34aba5a23f666ab1d0e4','9','77',30000,5,'20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-2','2014-10-14 11:55:00',NULL);
+insert into batches values ('827f5c0778d48996b9ee750511c33b09','9','66',20000,30000,3,'20141014-827f5c0778d48996b9ee750511c33b09-66-1','2014-10-14 11:35:00',NULL);
+insert into batches values ('12c8656e2a5d34aba5a23f666ab1d0e4','9','77',30000,30000,5,'20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','2014-10-14 11:45:00',NULL);
+insert into batches values ('12c8656e2a5d34aba5a23f666ab1d0e4','9','77',30000,30000,5,'20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-2','2014-10-14 11:55:00',NULL);
 
 insert into qr_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','abc23434',2);
 insert into qr_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','42xsdkh34',2);

@@ -25,6 +25,11 @@ app.get('/r/2002/:prdname', rest_r.r2002);
 app.get('/r/2003/:bid', rest_r.r2003);
 app.get('/r/2004/:qr', rest_r.r2004);
 app.get('/r/2005/:qr', rest_r.r2005);
+app.get('/r/2006/:shopname', rest_r.r2006);
+
+
+app.get('/w/2001/:prdname/:place/:price', rest_w.w2001);
+
 
 
 
