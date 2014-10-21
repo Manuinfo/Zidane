@@ -115,19 +115,10 @@ http://$IP/w/good
 http://$IP/w/qr
 http://$IP/w/nfc
 
-#+++++++++++++++ 厂商表
-create table busishop (
-name varchar(255),
-prd_name varchar(128),
-product_id varchar(64),
-place varchar(255),
-create_at datetime,
-updated_at datetime
-)
-engine=INNODB
-DEFAULT CHARSET=gbk;
+
 #++++++++++++++++++++++ 商品表
 create table products (
+shop_name varchar(255),
 name varchar(128),
 product_id varchar(64) not null,
 place varchar(255) not null,
@@ -189,10 +180,8 @@ verify_av_times double
 DEFAULT CHARSET=gbk;
 #-----------
 #创建索引
-create index name_1 on busishop(name);
-create index name_2 on busishop(prd_name);
-create index product_id_3 on busishop(product_id);
 create unique index product_id_1 on products(product_id);
+create index shop_name on products(shop_name);
 create unique index product_id_2 on products_ele(product_id);
 create unique index batch_id_1 on batches(batch_id);
 create index product_id_3 on batches(product_id);
@@ -202,12 +191,8 @@ create unique index qr_href_1 on qr_batch_map (qr_href);
 1|酵素|台湾|麦芽糊精、葡萄糖、柳橙果汁、糙米、发酵菠萝粉、发酵木瓜粉、植脂末、苹果香精、盐藻、柠檬酸、库拉索芦荟粉、大麦粉。|580|2014-09-11 22:03:38.701908|2014-09-11 22:14:32.232398|1.png|image/png|374503|2014-09-11 22:14:25.652241
 2|牛樟菇|台湾|牛樟菇萃取物95%，明胶|6800|2014-09-11 22:03:42.308260|2014-09-26 17:47:49.174111|red-Lied.png|image/png|7473481|2014-09-26 17:47:46.617673
 
-insert into busishop values ('一生一素公司','乳酸菌','827f5c0778d48996b9ee750511c33b09','台湾','2013-09-23 00:00:00',NULL);
-insert into busishop values ('一生一素公司','牛樟菇','12c8656e2a5d34aba5a23f666ab1d0e4','台湾','2013-09-23 00:00:00',NULL);
-
-
-insert into products values ('乳酸菌','827f5c0778d48996b9ee750511c33b09','台湾',79.5,'2014-11-23 00:00:00',NULL,NULL,NULL,NULL,NULL);
-insert into products values ('牛樟菇','12c8656e2a5d34aba5a23f666ab1d0e4','台湾',32.53,'2014-10-14 10:22:00',NULL,NULL,NULL,NULL,NULL);
+insert into products values ('一生一素公司','乳酸菌','827f5c0778d48996b9ee750511c33b09','台湾',79.5,'2014-11-23 00:00:00',NULL,NULL,NULL,NULL,NULL);
+insert into products values ('一生一素公司','牛樟菇','12c8656e2a5d34aba5a23f666ab1d0e4','台湾',32.53,'2014-10-14 10:22:00',NULL,NULL,NULL,NULL,NULL);
 
 insert into products_ele values ('827f5c0778d48996b9ee750511c33b09','麦芽糊精、葡萄糖、柳橙果汁、糙米、发酵菠萝粉、发酵木瓜粉、植脂末');
 insert into products_ele values ('12c8656e2a5d34aba5a23f666ab1d0e4','牛樟菇萃取物95%，明胶');

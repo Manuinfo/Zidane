@@ -6,7 +6,7 @@ var mysql = require('mysql');
 
 module.exports = mysql.createPool({
     connectionLimit : 10,
-    host: '192.168.113.101',
+    host: '127.0.0.1',
     user: 'root',
     password: '1234',
     database:'minfo',

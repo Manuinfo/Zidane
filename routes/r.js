@@ -15,7 +15,7 @@ var tasks=require('../dbmodules/rule.js');
 exports.r2001=function(req,res){
   res.set({'Content-Type':'text/json','Encodeing':'utf8'});
   pool.getConnection(function(err, conn) {
-       conn.query(sql.query_prd.selectSQL(req.param('prdname')),function (err, sqlres) {
+       conn.query(sql.query_prd_byprdname(req.param('prdname')),function (err, sqlres) {
            acc.SendOnErr(res,sqlres[0]);
        });
       conn.release();
@@ -26,7 +26,7 @@ exports.r2001=function(req,res){
 exports.r2002=function(req,res){
     res.set({'Content-Type':'text/json','Encodeing':'utf8'});
     pool.getConnection(function(err, conn) {
-        conn.query(sql.query_bth_byprdname.selectSQL(req.param('prdname')),function (err, sqlres) {
+        conn.query(sql.query_bth_byprdname(req.param('prdname')),function (err, sqlres) {
             //console.log(sql.query_bth_byprdname.selectSQL(req.param('prdname')));
             acc.SendOnErr(res,sqlres);
         });
@@ -38,7 +38,7 @@ exports.r2002=function(req,res){
 exports.r2003=function(req,res){
     res.set({'Content-Type':'text/json','Encodeing':'utf8'});
     pool.getConnection(function(err, conn) {
-        conn.query(sql.query_bth_bybid.selectSQL(req.param('bid')),function (err, sqlres) {
+        conn.query(sql.query_bth_bybid(req.param('bid')),function (err, sqlres) {
             //console.log(sql.query_bth_bybid.selectSQL(req.param('bid')));
             acc.SendOnErr(res,sqlres[0]);
         });
@@ -50,7 +50,7 @@ exports.r2003=function(req,res){
 exports.r2004=function(req,res){
     res.set({'Content-Type':'text/json','Encodeing':'utf8'});
     pool.getConnection(function(err, conn) {
-        conn.query(sql.query_prd_byqrhref.selectSQL(req.param('qr')),function (err, sqlres) {
+        conn.query(sql.query_prd_byqrhref(req.param('qr')),function (err, sqlres) {
             //console.log(sql.query_prd_byqrhref.selectSQL(req.param('qr')));
             acc.SendOnErr(res,sqlres[0]);
         });
@@ -62,7 +62,7 @@ exports.r2004=function(req,res){
 exports.r2005=function(req,res){
     res.set({'Content-Type':'text/json','Encodeing':'utf8'});
     pool.getConnection(function(err, conn) {
-        conn.query(sql.query_bth_byqrhref.selectSQL(req.param('qr')),function (err, sqlres) {
+        conn.query(sql.query_bth_byqrhref(req.param('qr')),function (err, sqlres) {
             //console.log(sql.query_bth_byqrhref.selectSQL(req.param('qr')));
             acc.SendOnErr(res,sqlres[0]);
         });
@@ -74,8 +74,8 @@ exports.r2005=function(req,res){
 exports.r2006=function(req,res){
     res.set({'Content-Type':'text/json','Encodeing':'utf8'});
     pool.getConnection(function(err, conn) {
-        conn.query(sql.query_shop.selectSQL(req.param('shopname')),function (err, sqlres) {
-            console.log(sql.query_shop.selectSQL(req.param('shopname')));
+        conn.query(sql.query_shop_byshopname(req.param('shopname')),function (err, sqlres) {
+            console.log(sql.query_shop_byshopname(req.param('shopname')));
             acc.SendOnErr(res,sqlres);
         });
         conn.release();
