@@ -115,7 +115,15 @@ http://$IP/w/good
 http://$IP/w/qr
 http://$IP/w/nfc
 
-
+#++++++++++++ 经销地表
+create table sale_zone (
+province varchar(128),
+city varchar(128),
+city_code varchar(24),
+PRIMARY KEY(city)
+)
+engine=INNODB
+DEFAULT CHARSET=gbk ;
 #++++++++++++++++++++++ 商品表
 create table products (
 shop_name varchar(255),
@@ -180,6 +188,7 @@ verify_av_times double
 DEFAULT CHARSET=gbk;
 #-----------
 #创建索引
+create index city_code_1 on sale_zone(city_code);
 create unique index product_id_1 on products(product_id);
 create index shop_name on products(shop_name);
 create unique index product_id_2 on products_ele(product_id);
