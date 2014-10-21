@@ -81,3 +81,15 @@ exports.r2006=function(req,res){
         conn.release();
     });
 };
+
+//2007  根据名字查看厂商
+exports.r2007=function(req,res){
+    res.set({'Content-Type':'text/json','Encodeing':'utf8'});
+    pool.getConnection(function(err, conn) {
+        conn.query(sql.query_pid_byprdname(req.param('prdname')),function (err, sqlres) {
+            console.log(sql.query_pid_byprdname(req.param('prdname')));
+            acc.SendOnErr(res,sqlres);
+        });
+        conn.release();
+    });
+};

@@ -4,7 +4,7 @@
 
 var t=require('./libs/t.js');
 
-
+t.inner_get('http://127.0.0.1/r/2007/牛樟菇');
 console.log(t.md5hash('牛樟菇'));
 
 console.log(t.get_pid_f_bid('20141014-827f5c0778d48996b9ee750511c33b09-66-1'));
@@ -27,7 +27,7 @@ var async=require('async');
 var moment=require('moment');
 var aaa=require('./dbmodules/sql.js');
 
-console.log(aaa.r2001.selectSQL('我是谁'));
+//console.log(aaa.r2001.selectSQL('我是谁'));
 
 //console.log(pool);
 
