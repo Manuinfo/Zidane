@@ -9,7 +9,12 @@ module.exports={
         return 'select * from batches where product_id in ('+
                'select product_id from products where name=\''+b+"')";
     },
-    'query_bth_bybid': function(b){return 'select * from batches where batch_id=\''+b+"'";},
+    'query_bth_bybid': function(b){
+        //return 'select * from batches where batch_id=\''+b+"'";
+        return 'select b.name,a.* from batches a join products b '+
+               'where a.batch_id=\''+b+"'"+
+               'and a.product_id=b.product_id'
+    },
     'query_prd_byqrhref':function(b){
         return 'select * from  products where product_id in ('+
                'select mid(batch_id,10,32) from qr_batch_map where qr_href=\''+b+"')";
@@ -27,18 +32,22 @@ module.exports={
                                             '\''+p_pid+"',"+
                                             '\''+p_place+"',"+
                                             p_price+","+
-                                            '\''+p_crdate+"',NULL,NULL,NULL,NULL,NULL)";
+                                            '\''+p_crdate+"',NULL,NULL,NULL,NULL,NULL);";
     },
-    'query_pid_byprdname':function(b){return 'select pid from products where name=\''+b+"'";},
-    'insert_bth_basic':function(b){
-        return 'insert into products values (\''+p_pid+"',"+
+    'Query_Pid_ByPrdName':function(b){return 'select product_id from products where name=\''+b+"'";},
+    'Query_Zid_ByZoneName':function(b){return 'select city_code from sale_zone where city=\''+b+"'";},
+    'Insert_Bth_Basic':function(p_pid,p_pid_part,p_place,p_bth_count,p_nfc_count,p_vrftime,p_bthid,p_crdate){
+        return 'insert into batches values (\''+p_pid+"',"+
                                             '\''+p_pid_part+"',"+
                                             '\''+p_place+"',"+
                                             p_bth_count+","+
                                             p_nfc_count+","+
                                             p_vrftime+","+
                                             '\''+p_bthid+"',"+
-                                            '\''+p_crdate+"',NULL)";
+                                            '\''+p_crdate+"',NULL);";
+    },
+    'Insert_NFCID':function(p_bid,nfcid){
+        return 'insert into nfc_batch_map values (\''+p_bid+"','"+nfcid+"');";
     }
 };
 

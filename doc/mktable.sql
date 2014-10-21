@@ -157,7 +157,8 @@ nfc_count double,
 verify_time double,
 batch_id varchar(255),
 created_at datetime,
-updated_at datetime
+updated_at datetime,
+PRIMARY KEY(batch_id)
 ) engine=INNODB
 DEFAULT CHARSET=gbk;
 #+++++++++++++++++ 操作记录历史表
@@ -192,7 +193,6 @@ create index city_code_1 on sale_zone(city_code);
 create unique index product_id_1 on products(product_id);
 create index shop_name on products(shop_name);
 create unique index product_id_2 on products_ele(product_id);
-create unique index batch_id_1 on batches(batch_id);
 create index product_id_3 on batches(product_id);
 create unique index nfc_id_1 on nfc_batch_map(nfc_id);
 create unique index qr_href_1 on qr_batch_map (qr_href);

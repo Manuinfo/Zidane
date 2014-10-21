@@ -11,7 +11,7 @@ var t=require('../libs/t.js');
 var sql=require('../dbmodules/sql.js');
 var tasks=require('../dbmodules/rule.js');
 
-//商品查询  2001  入参为商品的中文名称
+//2001 根据商品名称查询商品
 exports.r2001=function(req,res){
   res.set({'Content-Type':'text/json','Encodeing':'utf8'});
   pool.getConnection(function(err, conn) {
@@ -22,7 +22,7 @@ exports.r2001=function(req,res){
   });
 };
 
-//批次查询  2002  入参为商品的中文名称
+//2002 根据商品查询批次信息
 exports.r2002=function(req,res){
     res.set({'Content-Type':'text/json','Encodeing':'utf8'});
     pool.getConnection(function(err, conn) {
@@ -34,12 +34,12 @@ exports.r2002=function(req,res){
     });
 };
 
-//批次查询  2003  入参为批次号
+//2003  根据批次号查询批次
 exports.r2003=function(req,res){
     res.set({'Content-Type':'text/json','Encodeing':'utf8'});
     pool.getConnection(function(err, conn) {
         conn.query(sql.query_bth_bybid(req.param('bid')),function (err, sqlres) {
-            //console.log(sql.query_bth_bybid.selectSQL(req.param('bid')));
+            console.log(sql.query_bth_bybid(req.param('bid')));
             acc.SendOnErr(res,sqlres[0]);
         });
         conn.release();
@@ -82,7 +82,7 @@ exports.r2006=function(req,res){
     });
 };
 
-//2007  根据名字查看厂商
+//2007  根据商品名称查询PID
 exports.r2007=function(req,res){
     res.set({'Content-Type':'text/json','Encodeing':'utf8'});
     pool.getConnection(function(err, conn) {
