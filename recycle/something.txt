@@ -30,3 +30,8 @@ app.use(function(err, req, res, next) {
     });
 });
 */
+
+'Query_Random_Code':function(p_rdcode,p_vrtime){
+        return 'select * from veri_randcode where rdcode=\''+p_rdcode+"'"+
+               ' and TIMESTAMPDIFF(MINUTE,gen_time,\''+p_vrtime+'\')<5';
+    }

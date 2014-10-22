@@ -114,15 +114,18 @@ exports.r2008=function(req,res){
 exports.r2009=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf8'});
     var now=moment();
+    var ddtime=now.format('YYYY-MM-DD hh:mm:ss');
 
     pool.getConnection(function(err, conn) {
-        conn.query(sql.Query_Random_Code(req.param('rdcode'),now.format('YYYY-MM-DD hh:mm:ss')),function (err, sqlres) {
-            console.log(sql.Query_Random_Code(req.param('rdcode'),now.format('YYYY-MM-DD hh:mm:ss')));
+        conn.query(sql.Query_Random_Code(req.param('rdcode'),ddtime),function (err, sqlres) {
+            //console.log(sql.Query_Random_Code(req.param('rdcode'),ddtime));
             if(!sqlres[0])
             { acc.SendOnErr(res, t.res_one('FAIL','验证失败，随机码不存在或已超时5分钟'))}
             else
             {
-              acc.SendOnErr(res, t.res_one('SUCCESS','验证成功'))
+                //console.log(sqlres[0]);
+                var rddate=new Date(sqlres[0].gen_time.replace(/-/g,"/"));
+                acc.SendOnErr(res, t.res_one('SUCCESS','222'))
             }
         });
         conn.release();

@@ -144,8 +144,6 @@ exports.w2005=function(req,res){
 
     var runsqls=sql.Query_ByQRhref(req.param('qrhref'));
 
-
-
     pool.getConnection(function(err, conn) {
 
         /* 先验证 QRCODE  */

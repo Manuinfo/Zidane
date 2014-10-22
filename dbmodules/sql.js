@@ -75,9 +75,9 @@ module.exports={
             '\''+p_gtime+"')";
     },
     'Query_Random_Code':function(p_rdcode,p_vrtime){
-        return 'select * from veri_randcode where rdcode=\''+p_rdcode+"'"+
-               ' and TIMESTAMPDIFF(MINUTE,gen_time,\''+p_vrtime+'\')<5';
+        return 'select qrcode,rdcode,date_format(gen_time,\'%Y-%m-%d %H:%i:%S\') as gen_time  from veri_randcode where rdcode=\''+p_rdcode+"'";
     }
+
 };
 
 //insert into batches values ('12c8656e2a5d34aba5a23f666ab1d0e4','9','77',30000,30000,5,
