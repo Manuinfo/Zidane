@@ -164,14 +164,13 @@ DEFAULT CHARSET=gbk;
 #+++++++++++++++++ 操作记录历史表
 CREATE TABLE ops_history (
  batch_id varchar(255),
- dist_place double,
  client_ip varchar(64),
  client_ua varchar(255),
  type varchar(128),
-  qrcode_record_id double,
-  nfc_record_id double,
-  verify_at datetime,
-  result varchar(255)
+ qrcode varchar(255),
+ nfc varchar(255),
+ verify_at datetime,
+ result varchar(255)
 ) engine=INNODB
 DEFAULT CHARSET=gbk;
 #+++++++++ nfc与批次的对应关系
@@ -196,6 +195,10 @@ create unique index product_id_2 on products_ele(product_id);
 create index product_id_3 on batches(product_id);
 create unique index nfc_id_1 on nfc_batch_map(nfc_id);
 create unique index qr_href_1 on qr_batch_map (qr_href);
+create unique index qr_href_2 on ops_history(qrcode);
+create index verify_at_1 on ops_history(verify_at);
+create index client_ip_1 on ops_history(client_ip);
+
 #测试数据
 1|酵素|台湾|麦芽糊精、葡萄糖、柳橙果汁、糙米、发酵菠萝粉、发酵木瓜粉、植脂末、苹果香精、盐藻、柠檬酸、库拉索芦荟粉、大麦粉。|580|2014-09-11 22:03:38.701908|2014-09-11 22:14:32.232398|1.png|image/png|374503|2014-09-11 22:14:25.652241
 2|牛樟菇|台湾|牛樟菇萃取物95%，明胶|6800|2014-09-11 22:03:42.308260|2014-09-26 17:47:49.174111|red-Lied.png|image/png|7473481|2014-09-26 17:47:46.617673

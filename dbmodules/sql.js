@@ -51,6 +51,22 @@ module.exports={
     },
     'Insert_QRHrefID':function(p_bid,p_qrhfefid,q_av_times){
         return 'insert into qr_batch_map values (\''+p_bid+"','"+p_qrhfefid+"',"+q_av_times+");";
+    },
+    'Query_ByQRhref':function(p_qrcode){
+        return 'select * from qr_batch_map where qr_href=\''+p_qrcode+"'";
+    },
+    'Update_QRAVtimes':function(p_qrcode){
+        return 'update qr_batch_map set verify_av_times=verify_av_times-1 where qr_href=\''+p_qrcode+"'";
+    },
+    'Insert_Log_Basic':function(p_bid,p_cip,p_cua,p_qtype,p_qcode,p_nfc,p_vtime,p_result){
+        return 'insert into ops_history values (\''+p_pid+"',"+
+                            '\''+p_cip+"',"+
+                            '\''+p_cua+"',"+
+                            '\''+p_qtype+"',"+
+                            '\''+p_qcode+"',"+
+                            '\''+p_nfc+"',"+
+                            '\''+p_vtime+"',"+
+                            '\''+p_result+"')";
     }
 };
 

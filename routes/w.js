@@ -133,8 +133,38 @@ exports.w2004=function(req,res){
          console.log('DONE');
          conn.release();
     });
-    acc.SendOnErr(res,JSON.stringify('新建二维码记录成功，约2分钟能全部录入完毕'));
+    acc.SendOnErr(res,JSON.stringify('新建二维码短链接记录成功，约2分钟后能全部录入完毕'));
 };
 
+
+//2005 二维码验证 面向用户 app.get('/w/2005/:qrhref/:cip/:cua', rest_w.w2005);
+exports.w2005=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
+    var now=moment();
+
+    var runsqls=sql.Query_ByQRhref(req.param('qrhref'));
+    pool.getConnection(function(err, conn) {
+
+        /* 先验证 QRCODE  */
+        conn.query(runsqls,function (err, sqlres){
+            console.log(sqlres);
+            if(!sqlres[0])
+            {  acc.SendOnErr(res,JSON.stringify({msg:"该短链接不存在"}));}
+            else
+            {
+               if(sqlres[0].verify_av_times<1)
+               {
+                   acc.SendOnErr(res,JSON.stringify({msg:"该短链接存在，但可验证次数已达到上限"}));
+               }
+               else
+               {
+                   acc.SendOnErr(res,JSON.stringify({msg:"验证成功:未达到验证上限"}));
+               }
+            }
+        })
+
+    });
+
+};
 
 
