@@ -3,12 +3,16 @@
  */
 
 var t=require('./libs/t.js');
+var crypto = require('crypto');
 
-t.inner_get('http://127.0.0.1/r/2007/牛樟菇');
+//t.inner_get('http://127.0.0.1/r/2007/牛樟菇');
 console.log(t.md5hash('牛樟菇'));
 
-console.log(t.get_pid_f_bid('20141014-827f5c0778d48996b9ee750511c33b09-66-1'));
+//console.log(t.get_pid_f_bid('20141014-827f5c0778d48996b9ee750511c33b09-66-1'));
 
+var buf = crypto.randomBytes(256);
+//console.log('Have %d bytes of random data: %s', buf.length, buf);
+console.log(t.get_random(12));
 
 
 function as(a){
@@ -51,6 +55,7 @@ var sqlsc = {
 
 var tasks = ['insertSQL','selectSQL'];
 
+/*
 pool.getConnection(function(err, conn) {
     async.mapSeries(tasks, function (item, callback) {
         conn.query(sqlsb[item](sqlsc[item]), function (err, sqlres) {
@@ -61,7 +66,7 @@ pool.getConnection(function(err, conn) {
         conn.release();
     });
 });
-
+*/
 
 /*
 setTimeout(function(){

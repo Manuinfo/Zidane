@@ -48,6 +48,9 @@ module.exports={
     },
     'Insert_NFCID':function(p_bid,nfcid){
         return 'insert into nfc_batch_map values (\''+p_bid+"','"+nfcid+"');";
+    },
+    'Insert_QRHrefID':function(p_bid,p_qrhfefid,q_av_times){
+        return 'insert into qr_batch_map values (\''+p_bid+"','"+p_qrhfefid+"',"+q_av_times+");";
     }
 };
 

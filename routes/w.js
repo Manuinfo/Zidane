@@ -27,7 +27,7 @@ exports.w2001=function(req,res){
                                             req.param('price'),
                                             now.format('YYYY-MM-DD hh:mm:ss')
                                            )
-    }
+    };
     tasks=['insertSQL'];
     pool.getConnection(function(err, conn) {
         async.mapSeries(tasks,function(item,callback){
@@ -94,7 +94,7 @@ exports.w2003=function(req,res){
     var now=moment();
     var runsqls={
         'insertSQL':sql.Insert_NFCID(req.param('bid'),req.param('nfcid'))
-    }
+    };
     tasks=['insertSQL'];
     pool.getConnection(function(err, conn) {
         async.mapSeries(tasks,function(item,callback){
@@ -109,5 +109,32 @@ exports.w2003=function(req,res){
             delete now;
         });
     });
+};
 
-}
+//2004 新增 指定位数的随机短链接 app.get('/w/2004/:bid/:qrcount/:qravtimes', rest_w.w2004);
+exports.w2004=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
+    var now=moment();
+
+    tasks=['insertSQL'];
+    pool.getConnection(function(err, conn) {
+         for(var i=0;i<req.param('qrcount');i++)
+         {
+             runsqls=sql.Insert_QRHrefID(req.param('bid'),t.get_random(10),req.param('qravtimes'));
+             //console.log(runsqls);
+             conn.query(runsqls,function (err, sqlres) {
+                 if(err)
+                 {
+                    console.log(err.errno+' > '+err.message);
+                    i--; }
+                  //else
+             });
+         }
+         console.log('DONE');
+         conn.release();
+    });
+    acc.SendOnErr(res,JSON.stringify('新建二维码记录成功，约2分钟能全部录入完毕'));
+};
+
+
+
