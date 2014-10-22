@@ -110,22 +110,34 @@ exports.r2008=function(req,res){
     });
 };
 
-//2009  验证随机码
+//2009  验证随机码  app.get('/r/2009/:rdcode',rest_r.r2009);
 exports.r2009=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf8'});
     var now=moment();
     var ddtime=now.format('YYYY-MM-DD hh:mm:ss');
 
+
     pool.getConnection(function(err, conn) {
         conn.query(sql.Query_Random_Code(req.param('rdcode'),ddtime),function (err, sqlres) {
             //console.log(sql.Query_Random_Code(req.param('rdcode'),ddtime));
             if(!sqlres[0])
-            { acc.SendOnErr(res, t.res_one('FAIL','验证失败，随机码不存在或已超时5分钟'))}
+            { acc.SendOnErr(res, t.res_one('FAIL','验证失败，随机码不存在'))}
             else
             {
                 //console.log(sqlres[0]);
-                var rddate=new Date(sqlres[0].gen_time.replace(/-/g,"/"));
-                acc.SendOnErr(res, t.res_one('SUCCESS','222'))
+                if(parseInt(now.subtract(5,'minutes').format('YYYYMMDDhhmmss'))>parseInt(sqlres[0].gen_time))
+                   acc.SendOnErr(res, t.res_one('FAIL','随机码已超时5分钟'));
+                else
+                {
+                   //console.log(parseInt(now.subtract(5,'minutes').format('YYYYMMDDhhmmss')));
+                   //console.log(parseInt(sqlres[0].get_time));
+                    //console.log(sql.Query_VeriHis(req.param('rdcode')));
+                   conn.query(sql.Query_VeriHis(req.param('rdcode')),function(err,sqlres1){
+                       //console.log(sqlres1);
+                       acc.SendOnErr(res, t.res_one('SUCCESS','验证成功，上次验证时间是:'+sqlres1[0].verify_at));
+                   });
+
+                }
             }
         });
         conn.release();

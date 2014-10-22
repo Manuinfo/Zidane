@@ -29,13 +29,14 @@ app.get('/r/2008/:qrcode', rest_r.r2008);
 app.get('/r/2009/:rdcode',rest_r.r2009);
 
 
-
 app.get('/w/2001/:shopname/:prdname/:place/:price', rest_w.w2001);
 app.get('/w/2002/:prdname/:place/:bcount/:nfccount/:vrftime', rest_w.w2002);
 app.get('/w/2003/:bid/:nfcid', rest_w.w2003);
 app.get('/w/2004/:bid/:qrcount/:qravtimes', rest_w.w2004);
 app.get('/w/2005/:qrhref/:cip/:cua', rest_w.w2005);
 app.get('/w/2006/:qrhref', rest_w.w2006);
+app.get('/w/2007/:qrhref/:cip/:cua', rest_w.w2007);
+
 
 
 

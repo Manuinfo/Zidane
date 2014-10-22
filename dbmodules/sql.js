@@ -75,7 +75,11 @@ module.exports={
             '\''+p_gtime+"')";
     },
     'Query_Random_Code':function(p_rdcode,p_vrtime){
-        return 'select qrcode,rdcode,date_format(gen_time,\'%Y-%m-%d %H:%i:%S\') as gen_time  from veri_randcode where rdcode=\''+p_rdcode+"'";
+        return 'select qrcode,rdcode,date_format(gen_time,\'%Y%m%d%H%i%S\') as gen_time  from veri_randcode where rdcode=\''+p_rdcode+"'";
+    },
+    'Query_VeriHis':function(p_rdcode){
+        return 'select * from ops_history where qrcode in (select qrcode from veri_randcode'+
+               ' where rdcode=\''+p_rdcode+'\')  order by verify_at desc LIMIT 1';
     }
 
 };
