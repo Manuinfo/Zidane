@@ -185,6 +185,13 @@ qr_href varchar(255),
 verify_av_times double
 ) engine=INNODB
 DEFAULT CHARSET=gbk;
+#++++++++++++++ 随机码验证表
+create table veri_randcode (
+qrcode varchar(255),
+rdcode varchar(255),
+gen_time datetime
+) engine=INNODB
+DEFAULT CHARSET=gbk;
 #-----------
 #创建索引
 create index city_code_1 on sale_zone(city_code);
@@ -197,6 +204,9 @@ create unique index qr_href_1 on qr_batch_map (qr_href);
 create index qr_href_2 on ops_history(qrcode);
 create index verify_at_1 on ops_history(verify_at);
 create index client_ip_1 on ops_history(client_ip);
+create index qr_code_1 on veri_randcode(qrcode);
+create index rdcode_1 on veri_randcode(rdcode);
+
 
 #测试数据
 1|酵素|台湾|麦芽糊精、葡萄糖、柳橙果汁、糙米、发酵菠萝粉、发酵木瓜粉、植脂末、苹果香精、盐藻、柠檬酸、库拉索芦荟粉、大麦粉。|580|2014-09-11 22:03:38.701908|2014-09-11 22:14:32.232398|1.png|image/png|374503|2014-09-11 22:14:25.652241

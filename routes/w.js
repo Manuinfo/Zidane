@@ -173,7 +173,32 @@ exports.w2005=function(req,res){
         })
 
     });
-
 };
+
+//2006 生成随机码  app.get('/w/2006/:qrhref/', rest_w.w2006);
+exports.w2006=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
+    var now=moment();
+    var rdcode=t.get_random(6);
+
+    pool.getConnection(function(err, conn) {
+        conn.query(sql.Insert_Random_Code(req.param('qrhref'),rdcode,now.format('YYYY-MM-DD hh:mm:ss')),function(err,sqlres){
+            if(err)
+                acc.SendOnErr(res, t.res_one('FAIL',err.message));
+            else
+                acc.SendOnErr(res, t.res_one('SUCCESS','随机码:'+rdcode));
+            conn.release();
+        });
+    });
+};
+
+
+
+
+
+
+
+
+
 
 

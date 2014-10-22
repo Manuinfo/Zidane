@@ -67,6 +67,16 @@ module.exports={
                             '\''+p_nfc+"',"+
                             '\''+p_vtime+"',"+
                             '\''+p_result+"')";
+    },
+    'Insert_Random_Code':function(p_qrcode,p_rdcode,p_gtime){
+        return 'insert into veri_randcode values ('+
+            '\''+p_qrcode+"',"+
+            '\''+p_rdcode+"',"+
+            '\''+p_gtime+"')";
+    },
+    'Query_Random_Code':function(p_rdcode,p_vrtime){
+        return 'select * from veri_randcode where rdcode=\''+p_rdcode+"'"+
+               ' and TIMESTAMPDIFF(MINUTE,gen_time,\''+p_vrtime+'\')<5';
     }
 };
 
