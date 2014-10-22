@@ -25,6 +25,8 @@ app.get('/r/2004/:qr', rest_r.r2004);
 app.get('/r/2005/:qr', rest_r.r2005);
 app.get('/r/2006/:shopname', rest_r.r2006);
 app.get('/r/2007/:prdname', rest_r.r2007);
+app.get('/r/2008/:qrcode', rest_r.r2008);
+
 
 
 

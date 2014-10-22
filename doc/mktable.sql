@@ -163,7 +163,6 @@ PRIMARY KEY(batch_id)
 DEFAULT CHARSET=gbk;
 #+++++++++++++++++ 操作记录历史表
 CREATE TABLE ops_history (
- batch_id varchar(255),
  client_ip varchar(64),
  client_ua varchar(255),
  type varchar(128),
@@ -171,7 +170,7 @@ CREATE TABLE ops_history (
  nfc varchar(255),
  verify_at datetime,
  result varchar(255)
-) engine=INNODB
+ ) engine=INNODB
 DEFAULT CHARSET=gbk;
 #+++++++++ nfc与批次的对应关系
 create table nfc_batch_map (
@@ -195,7 +194,7 @@ create unique index product_id_2 on products_ele(product_id);
 create index product_id_3 on batches(product_id);
 create unique index nfc_id_1 on nfc_batch_map(nfc_id);
 create unique index qr_href_1 on qr_batch_map (qr_href);
-create unique index qr_href_2 on ops_history(qrcode);
+create index qr_href_2 on ops_history(qrcode);
 create index verify_at_1 on ops_history(verify_at);
 create index client_ip_1 on ops_history(client_ip);
 

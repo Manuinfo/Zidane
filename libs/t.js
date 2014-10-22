@@ -49,7 +49,6 @@ exports.get_zoneid=function(zname,callback){
     });
 };
 
-
 /* 产生随机数 */
 exports.get_random=function(n){
     var res = "";
@@ -58,4 +57,39 @@ exports.get_random=function(n){
         res += chars[id];
     }
     return res;
+};
+
+/* 插入日志 */
+exports.db_ops_log=function(conn,cip,cua,qtype,qcode,nfcid,vtime,result){
+   // console.log('1111111');
+    runsqls=sql.Insert_Log_Basic(cip,cua,qtype,qcode,nfcid,vtime,result);
+   // console.log(runsqls);
+    conn.query(runsqls,function (err, sqlres){
+        if(err)
+        {
+            console.log(err);
+        }
+        conn.release();
+    });
+};
+
+/* 内部服务调用 */
+exports.get_inner_ws=function(url,callback){
+    resbody='';
+    http.get(url, function(res) {
+        res.on('data',function(chunk){
+            resbody+=chunk;
+        });
+        res.on('end',function(){
+            callback(resbody.toString());
+        })
+    })
+};
+
+/* 统一RES */
+exports.res_one=function(flag1,msg1){
+    return JSON.stringify({
+        code:flag1,
+        msg:msg1
+    })
 };

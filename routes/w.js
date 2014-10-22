@@ -143,22 +143,31 @@ exports.w2005=function(req,res){
     var now=moment();
 
     var runsqls=sql.Query_ByQRhref(req.param('qrhref'));
+
+
+
     pool.getConnection(function(err, conn) {
 
         /* 先验证 QRCODE  */
         conn.query(runsqls,function (err, sqlres){
-            console.log(sqlres);
+            //console.log(sqlres);
             if(!sqlres[0])
-            {  acc.SendOnErr(res,JSON.stringify({msg:"该短链接不存在"}));}
+            {
+                acc.SendOnErr(res, t.res_one('FAIL','该链接不存在'));
+                t.db_ops_log(conn,req.param('cip'),req.param('cua'),'WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD hh:mm:ss'),'该短链接不存在');
+            }
             else
             {
                if(sqlres[0].verify_av_times<1)
                {
-                   acc.SendOnErr(res,JSON.stringify({msg:"该短链接存在，但可验证次数已达到上限"}));
+                   acc.SendOnErr(res, t.res_one('FAIL','该短链接存在，但可验证次数已达到上限'));
+                   t.db_ops_log(conn,req.param('cip'),req.param('cua'),'WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD hh:mm:ss'),'该短链接存在，但可验证次数已达到上限');
                }
                else
                {
-                   acc.SendOnErr(res,JSON.stringify({msg:"验证成功:未达到验证上限"}));
+                   acc.SendOnErr(res,t.res_one('SUCCESS','该短链接存在，且未达到验证上限'));
+                   conn.query(sql.Update_QRAVtimes(req.param('qrhref')),function(err,res){});
+                   t.db_ops_log(conn,req.param('cip'),req.param('cua'),'WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD hh:mm:ss'),'验证成功:未达到验证上限');
                }
             }
         })

@@ -93,3 +93,18 @@ exports.r2007=function(req,res){
         conn.release();
     });
 };
+
+//2008  根据QR查批次号
+exports.r2008=function(req,res){
+    res.set({'Content-Type':'text/html','Encodeing':'utf8'});
+    pool.getConnection(function(err, conn) {
+        conn.query(sql.Query_ByQRhref(req.param('qrcode')),function (err, sqlres) {
+            console.log(sql.Query_ByQRhref(req.param('qrcode')));
+            if(sqlres[0])
+            { acc.SendOnErr(res,sqlres[0].batch_id);}
+            else
+            { acc.SendOnErr(res,JSON.stringify({msg:"无记录"}))};
+        });
+        conn.release();
+    });
+};

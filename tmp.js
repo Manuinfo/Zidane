@@ -30,6 +30,24 @@ var pool=require('./conf/db.js');
 var async=require('async');
 var moment=require('moment');
 var aaa=require('./dbmodules/sql.js');
+var http=require('http');
+
+url1="http://127.0.0.1:3000/r/2001/香菇";
+a=function(url,callback){
+http.get(url, function(res) {
+    console.log("Got response: " + res.statusCode);
+    res.on('data',function(chunk){
+        callback(chunk.toString());
+    });
+}).on('error', function(e) {
+        console.log("Got error: " + e.message);
+});
+}
+
+a(url1,function(ss){
+    console.log(234234234+ss);
+})
+
 
 //console.log(aaa.r2001.selectSQL('我是谁'));
 
