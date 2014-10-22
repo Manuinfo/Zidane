@@ -80,6 +80,9 @@ module.exports={
     'Query_VeriHis':function(p_rdcode){
         return 'select * from ops_history where qrcode in (select qrcode from veri_randcode'+
                ' where rdcode=\''+p_rdcode+'\')  order by verify_at desc LIMIT 1';
+    },
+    'Query_NFCid_byNFCid':function(p_nfcid){
+        return 'select * from nfc_batch_map where nfc_id=\''+p_nfcid+'\'';
     }
 
 };

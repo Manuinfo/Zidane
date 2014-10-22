@@ -228,37 +228,27 @@ exports.w2007=function(req,res){
 
 
 //2008 NFC验证 商户专用 app.get('/w/2008/:nfcid', rest_w.w2008);
-exports.w2007=function(req,res){
+exports.w2008=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     var now=moment();
 
-    var runsqls=sql.Query_ByQRhref(req.param('qrhref'));
+    var runsqls=sql.Query_NFCid_byNFCid(req.param('nfcid'));
 
     pool.getConnection(function(err, conn) {
 
-        /* 先验证 QRCODE  */
         conn.query(runsqls,function (err, sqlres){
             //console.log(sqlres);
             if(!sqlres[0])
             {
-                acc.SendOnErr(res, t.res_one('FAIL','该链接不存在'));
-                t.db_ops_log(conn,req.param('cip'),req.param('cua'),'PROXY',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD hh:mm:ss'),'该短链接不存在');
+                acc.SendOnErr(res, t.res_one('FAIL','该NFCID不存在'));
+                t.db_ops_log(conn,req.param('cip'),req.param('cua'),'PROXY','NULL',req.param('nfcid'),now.format('YYYY-MM-DD hh:mm:ss'),'该NFC不存在');
             }
             else
             {
-                if(sqlres[0].verify_av_times<1)
-                {
-                    acc.SendOnErr(res, t.res_one('FAIL','该短链接存在，但可验证次数已达到上限'));
-                    t.db_ops_log(conn,req.param('cip'),req.param('cua'),'PROXY',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD hh:mm:ss'),'该短链接存在，但可验证次数已达到上限');
-                }
-                else
-                {
-                    acc.SendOnErr(res,t.res_one('SUCCESS','该短链接存在，且未达到验证上限'));
-                    t.db_ops_log(conn,req.param('cip'),req.param('cua'),'PROXY',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD hh:mm:ss'),'验证成功:未达到验证上限');
-                }
+                acc.SendOnErr(res,t.res_one('SUCCESS','该NFCID验证成功'));
+                t.db_ops_log(conn,req.param('cip'),req.param('cua'),'PROXY','NULL',req.param('nfcid'),now.format('YYYY-MM-DD hh:mm:ss'),'该NFCID验证成功');
             }
         })
-
     });
 };
 

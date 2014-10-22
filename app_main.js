@@ -36,6 +36,7 @@ app.get('/w/2004/:bid/:qrcount/:qravtimes', rest_w.w2004);
 app.get('/w/2005/:qrhref/:cip/:cua', rest_w.w2005);
 app.get('/w/2006/:qrhref', rest_w.w2006);
 app.get('/w/2007/:qrhref/:cip/:cua', rest_w.w2007);
+app.get('/w/2008/:nfcid/:cip/:cua', rest_w.w2008);
 
 
 
