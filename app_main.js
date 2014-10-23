@@ -1,22 +1,28 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
-var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var fs = require('fs');
+//var morgan = require('morgan');
+//var accessLogStream = fs.createWriteStream(__dirname + '/logs/run.log', {flags: 'a'});
+
+var log = require('./libs/log');
+
 
 var rest_r = require('./routes/r.js');
 var rest_w = require('./routes/w.js');
 
 var app = express();
 
-//app.use
-app.use(logger('dev'));
+/* https://github.com/nomiddlename/log4js-node */
+log.use(app);  //放在其他APP前面
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(app.router);
+
+
 
 app.get('/r/2001/:prdname', rest_r.r2001);
 app.get('/r/2002/:prdname', rest_r.r2002);
@@ -41,12 +47,6 @@ app.get('/w/2007/:qrhref/:cip/:cua', rest_w.w2007);
 app.get('/w/2008/:nfcid/:cip/:cua', rest_w.w2008);
 
 
-
-
-
-
-
-//app.get('/users', users.list);
 
 
 
