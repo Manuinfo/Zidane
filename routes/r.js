@@ -143,3 +143,23 @@ exports.r2009=function(req,res){
         conn.release();
     });
 };
+
+
+//2010  报表查询，根据时间和NFCID查询操作记录 app.get('/r/2009/:nfcid/:qtime',rest_r.r2010);
+exports.r2010=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf8'});
+    var now=moment();
+
+
+    pool.getConnection(function(err, conn) {
+        conn.query(sql.Query_Rpt_ByNFCID(req.param('nfcid'),req.param('qtime')),function (err, sqlres) {
+            if(!sqlres[0])
+            { acc.SendOnErr(res, t.res_one('FAIL','该NFC记录不存在'))}
+            else
+            {
+              acc.SendOnErr(res, sqlres);
+            }
+        });
+        conn.release();
+    });
+};

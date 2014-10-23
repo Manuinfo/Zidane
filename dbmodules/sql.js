@@ -83,6 +83,16 @@ module.exports={
     },
     'Query_NFCid_byNFCid':function(p_nfcid){
         return 'select * from nfc_batch_map where nfc_id=\''+p_nfcid+'\'';
+    },
+    'Query_Rpt_ByNFCID':function(p_nfcid,p_qtime){
+        return 'select * from ( '+
+               'select shop_name,name from products where product_id in (select substr(batch_id,10,32) '+
+               'from nfc_batch_map where nfc_id=\''+p_nfcid+'\')'+
+               ') a,' +
+               '(select * from ops_history where nfc in ( '+
+               'select nfc_id from nfc_batch_map where nfc_id=\''+p_nfcid+'\' ) ' +
+               ' and verify_at > str_to_date(\''+p_qtime+'\',\'%Y%m%d%H%i%S\') ) b, ' +
+               '(select batch_id from nfc_batch_map where nfc_id=\''+p_nfcid+'\' )  c';
     }
 
 };
