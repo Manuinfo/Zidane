@@ -18,7 +18,7 @@ log4js.configure({
             filename: './logs/run.log',
             pattern: "_yyyy-MM-dd",
             alwaysIncludePattern: false,
-            category: 'dateFileLog'
+            category: 'ZidaneBI Switch'
         }//日期文件格式
     ],
     //replaceConsole: true,   //替换console.log
@@ -27,12 +27,12 @@ log4js.configure({
     }
 });
 
-var dateFileLog = log4js.getLogger('dateFileLog');
+var dateFileLog = log4js.getLogger('ZidaneBI Switch');
 
 exports.logger = dateFileLog;
 
 exports.use = function(app) {
     //页面请求日志,用auto的话,默认级别是WARN
     //app.use(log4js.connectLogger(dateFileLog, {level:'auto', format:':method :url'}));
-    app.use(log4js.connectLogger(dateFileLog, {level:'debug', format:':remote-addr :method :url :status :response-time'+'ms'+' :user-agent'}));
+    app.use(log4js.connectLogger(dateFileLog, {level:'debug', format:':remote-addr :method :url :status :response-time'+'ms'}));
 };

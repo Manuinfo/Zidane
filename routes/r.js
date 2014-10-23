@@ -14,7 +14,7 @@ var logger = require('../libs/log').logger;
 
 //2001 根据商品名称查询商品
 exports.r2001=function(req,res){
-  logger.info(req.url+' '+req.method);
+  logger.debug(req.url+' '+req.method);
   res.set({'Content-Type':'text/json','Encodeing':'utf8'});
   pool.getConnection(function(err, conn) {
        conn.query(sql.query_prd_byprdname(req.param('prdname')),function (err, sqlres) {
@@ -114,7 +114,7 @@ exports.r2008=function(req,res){
 
 //2009  验证随机码  app.get('/r/2009/:rdcode',rest_r.r2009);
 exports.r2009=function(req,res){
-    logger.info(req.url+' '+req.method);
+    logger.debug(req.url+' '+req.method);
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf8'});
     //console.log(req);
     var now=moment();

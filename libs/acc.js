@@ -6,11 +6,11 @@ var logger = require('../libs/log').logger;
 
 exports.SendOnErr=function(res,objsend){
     try{
-        logger.info(objsend);
+        logger.debug(objsend);
         res.send(objsend);
     }
     catch (err){
-        logger.info(err.message);
+        logger.debug(err.message);
         res.send(err.message);
         //console.log(err.message);
     }
