@@ -18,7 +18,8 @@ exports.r2001=function(req,res){
   res.set({'Content-Type':'text/json','Encodeing':'utf8'});
   pool.getConnection(function(err, conn) {
        conn.query(sql.query_prd_byprdname(req.param('prdname')),function (err, sqlres) {
-           acc.SendOnErr(res,sqlres[0]);
+           if (sqlres[0]) {acc.SendOnErr(res,sqlres[0]);}
+           else {acc.SendOnErr(res, t.res_one('FAIL','记录不存在'));}
        });
       conn.release();
   });
@@ -26,11 +27,13 @@ exports.r2001=function(req,res){
 
 //2002 根据商品查询批次信息
 exports.r2002=function(req,res){
+    logger.debug(req.url+' '+req.method);
     res.set({'Content-Type':'text/json','Encodeing':'utf8'});
     pool.getConnection(function(err, conn) {
         conn.query(sql.query_bth_byprdname(req.param('prdname')),function (err, sqlres) {
             //console.log(sql.query_bth_byprdname.selectSQL(req.param('prdname')));
-            acc.SendOnErr(res,sqlres);
+            if (sqlres) {acc.SendOnErr(res,sqlres);}
+            else {acc.SendOnErr(res, t.res_one('FAIL','批次不存在'));}
         });
         conn.release();
     });
@@ -38,11 +41,13 @@ exports.r2002=function(req,res){
 
 //2003  根据批次号查询批次
 exports.r2003=function(req,res){
+    logger.debug(req.url+' '+req.method);
     res.set({'Content-Type':'text/json','Encodeing':'utf8'});
     pool.getConnection(function(err, conn) {
         conn.query(sql.query_bth_bybid(req.param('bid')),function (err, sqlres) {
-            console.log(sql.query_bth_bybid(req.param('bid')));
-            acc.SendOnErr(res,sqlres[0]);
+            //console.log(sql.query_bth_bybid(req.param('bid')));
+            if (sqlres[0]) {acc.SendOnErr(res,sqlres[0]);}
+            else {acc.SendOnErr(res, t.res_one('FAIL','批次不存在'));}
         });
         conn.release();
     });
@@ -50,11 +55,13 @@ exports.r2003=function(req,res){
 
 //2004  根据QR查商品信息
 exports.r2004=function(req,res){
+    logger.debug(req.url+' '+req.method);
     res.set({'Content-Type':'text/json','Encodeing':'utf8'});
     pool.getConnection(function(err, conn) {
         conn.query(sql.query_prd_byqrhref(req.param('qr')),function (err, sqlres) {
             //console.log(sql.query_prd_byqrhref.selectSQL(req.param('qr')));
-            acc.SendOnErr(res,sqlres[0]);
+            if (sqlres[0]) {acc.SendOnErr(res,sqlres[0]);}
+            else {acc.SendOnErr(res, t.res_one('FAIL','该商品不存在'));}
         });
         conn.release();
     });
@@ -62,12 +69,14 @@ exports.r2004=function(req,res){
 
 //2005  根据QR查询批次信息
 exports.r2005=function(req,res){
+    logger.debug(req.url+' '+req.method);
     res.set({'Content-Type':'text/json','Encodeing':'utf8'});
     var now=moment();
     pool.getConnection(function(err, conn) {
         conn.query(sql.query_bth_byqrhref(req.param('qr')),function (err, sqlres) {
             //console.log(sql.query_bth_byqrhref.selectSQL(req.param('qr')));
-            acc.SendOnErr(res,sqlres[0]);
+            if (sqlres[0]) {acc.SendOnErr(res,sqlres[0]);}
+            else {acc.SendOnErr(res, t.res_one('FAIL','该商品不存在'));}
         });
         conn.release();
     });
@@ -75,11 +84,13 @@ exports.r2005=function(req,res){
 
 //2006  根据名字查看厂商
 exports.r2006=function(req,res){
+    logger.debug(req.url+' '+req.method);
     res.set({'Content-Type':'text/json','Encodeing':'utf8'});
     pool.getConnection(function(err, conn) {
         conn.query(sql.query_shop_byshopname(req.param('shopname')),function (err, sqlres) {
-            console.log(sql.query_shop_byshopname(req.param('shopname')));
-            acc.SendOnErr(res,sqlres);
+            //console.log(sql.query_shop_byshopname(req.param('shopname')));
+            if (sqlres) {acc.SendOnErr(res,sqlres);}
+            else {acc.SendOnErr(res, t.res_one('FAIL','厂商不存在'));}
         });
         conn.release();
     });
@@ -87,11 +98,13 @@ exports.r2006=function(req,res){
 
 //2007  根据商品名称查询PID
 exports.r2007=function(req,res){
+    logger.debug(req.url+' '+req.method);
     res.set({'Content-Type':'text/json','Encodeing':'utf8'});
     pool.getConnection(function(err, conn) {
         conn.query(sql.query_pid_byprdname(req.param('prdname')),function (err, sqlres) {
-            console.log(sql.query_pid_byprdname(req.param('prdname')));
-            acc.SendOnErr(res,sqlres);
+            //console.log(sql.query_pid_byprdname(req.param('prdname')));
+            if (sqlres) {acc.SendOnErr(res,sqlres);}
+            else {acc.SendOnErr(res, t.res_one('FAIL','商品ID不存在'));}
         });
         conn.release();
     });
@@ -99,6 +112,7 @@ exports.r2007=function(req,res){
 
 //2008  根据QR查批次号
 exports.r2008=function(req,res){
+    logger.debug(req.url+' '+req.method);
     res.set({'Content-Type':'text/html','Encodeing':'utf8'});
     pool.getConnection(function(err, conn) {
         conn.query(sql.Query_ByQRhref(req.param('qrcode')),function (err, sqlres) {
@@ -106,7 +120,7 @@ exports.r2008=function(req,res){
             if(sqlres[0])
             { acc.SendOnErr(res,sqlres[0].batch_id);}
             else
-            { acc.SendOnErr(res,JSON.stringify({msg:"无记录"}))};
+            { acc.SendOnErr(res,t.res_one('FAIL','该批次号不存在'));};
         });
         conn.release();
     });
