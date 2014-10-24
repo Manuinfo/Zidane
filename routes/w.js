@@ -11,11 +11,14 @@ var acc=require('../libs/acc.js');
 var t=require('../libs/t.js');
 var sql=require('../dbmodules/sql.js');
 var tasks=require('../dbmodules/rule.js');
+var logger = require('../libs/log').logger;
+
 
 
 
 //新增商品  2001  入参为商品的中文名称  :prdname/:place/:price
 exports.w2001=function(req,res){
+    logger.debug(req.url+' '+req.method);
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     var now=moment();
     var runsqls={
@@ -33,9 +36,9 @@ exports.w2001=function(req,res){
         async.mapSeries(tasks,function(item,callback){
             conn.query(runsqls[item],function (err, sqlres) {
                 if(err)
-                    callback(err,acc.SendOnErr(res,JSON.stringify(err.errno+' > '+err.message)));
+                    callback(err,acc.SendOnErr(res,t.res_one('FAIL',err.message)));
                 else
-                    callback(null,acc.SendOnErr(res,JSON.stringify('新建记录成功')));
+                    callback(null,acc.SendOnErr(res,t.res_one('FAIL','新建记录成功')));
             });
         },function(err){
             conn.release();
@@ -47,6 +50,7 @@ exports.w2001=function(req,res){
 
 //新增批次  2002  /w/2002/:prdname/:place/:bcount/:nfccount/:vrftime
 exports.w2002=function(req,res){
+    logger.debug(req.url+' '+req.method);
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     var now=moment();
     var p_pid,p_place_id;
@@ -80,9 +84,9 @@ exports.w2002=function(req,res){
                 conn.release();
                 delete now;
                 if(err)
-                    acc.SendOnErr(res,JSON.stringify(err.errno+' > '+err.message));
+                    acc.SendOnErr(res,t.res_one('FAIL',err.message));
                 else
-                    acc.SendOnErr(res,JSON.stringify('新建记录成功'));
+                    acc.SendOnErr(res,t.res_one('FAIL','新建记录成功'));
             });
         });
     });
@@ -90,6 +94,7 @@ exports.w2002=function(req,res){
 
 //2003 新增NFCID /w/2003/:bid/:nfcid
 exports.w2003=function(req,res){
+    logger.debug(req.url+' '+req.method);
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     var now=moment();
     var runsqls={
@@ -100,9 +105,9 @@ exports.w2003=function(req,res){
         async.mapSeries(tasks,function(item,callback){
             conn.query(runsqls[item],function (err, sqlres) {
                 if(err)
-                    callback(err,acc.SendOnErr(res,JSON.stringify(err.errno+' > '+err.message)));
+                    callback(err,acc.SendOnErr(res, t.res_one('FAIL',err.message)));
                 else
-                    callback(null,acc.SendOnErr(res,JSON.stringify('新建记录成功')));
+                    callback(null,acc.SendOnErr(res,t.res_one('FAIL','新建记录成功')));
             });
         },function(err){
             conn.release();
@@ -113,6 +118,7 @@ exports.w2003=function(req,res){
 
 //2004 新增 指定位数的随机短链接 app.get('/w/2004/:bid/:qrcount/:qravtimes', rest_w.w2004);
 exports.w2004=function(req,res){
+    logger.debug(req.url+' '+req.method);
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     var now=moment();
 
@@ -125,7 +131,7 @@ exports.w2004=function(req,res){
              conn.query(runsqls,function (err, sqlres) {
                  if(err)
                  {
-                    console.log(err.errno+' > '+err.message);
+                    //console.log(err.errno+' > '+err.message);
                     i--; }
                   //else
              });
@@ -133,12 +139,13 @@ exports.w2004=function(req,res){
          console.log('DONE');
          conn.release();
     });
-    acc.SendOnErr(res,JSON.stringify('新建二维码短链接记录成功，约2分钟后能全部录入完毕'));
+    acc.SendOnErr(res, t.res_one('SUCCESS','新建二维码短链接记录成功，约2-5分钟后能全部录入完毕'));
 };
 
 
 //2005 二维码验证 面向用户 app.get('/w/2005/:qrhref/:cip/:cua', rest_w.w2005);
 exports.w2005=function(req,res){
+    logger.debug(req.url+' '+req.method);
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     var now=moment();
 
@@ -175,6 +182,7 @@ exports.w2005=function(req,res){
 
 //2006 生成随机码  app.get('/w/2006/:qrhref/', rest_w.w2006);
 exports.w2006=function(req,res){
+    logger.debug(req.url+' '+req.method);
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     var now=moment();
     var rdcode=t.get_random(6);
@@ -193,6 +201,7 @@ exports.w2006=function(req,res){
 
 //2007 二维码验证 面向代理商 app.get('/w/2007/:qrhref/:cip/:cua', rest_w.w2007);
 exports.w2007=function(req,res){
+    logger.debug(req.url+' '+req.method);
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     var now=moment();
 
@@ -229,6 +238,7 @@ exports.w2007=function(req,res){
 
 //2008 NFC验证 商户专用 app.get('/w/2008/:nfcid', rest_w.w2008);
 exports.w2008=function(req,res){
+    logger.debug(req.url+' '+req.method);
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     var now=moment();
 
