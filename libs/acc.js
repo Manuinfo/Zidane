@@ -6,11 +6,11 @@ var logger = require('../libs/log').logger;
 
 exports.SendOnErr=function(res,objsend){
     try{
-        logger.debug(objsend);
+        logger.debug('Res:'+objsend);
         res.send(objsend);
     }
     catch (err){
-        logger.debug(err.message);
+        logger.debug('Res:'+err.message);
         res.send(err.message);
         //console.log(err.message);
     }
@@ -19,12 +19,14 @@ exports.SendOnErr=function(res,objsend){
 
 exports.Jspp=function(req,cb)
 {
-    var qss;
+    logger.debug('Req:'+req.url+' '+req.method);
+    var qss='';
     req.on('data',function(chunk)
     {
         qss+=chunk;
     });
     req.on('end',function(){
-        cb(qss);
+        logger.debug('Req:'+qss);
+        cb(JSON.parse(qss));
     });
 };
