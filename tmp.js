@@ -13,10 +13,10 @@ var options = {
 
 
 var xdata={
-    'username':'W101LS01333',
-    'passwd':'0192023a7bbd73250516f069df18b500111',
-    'ip':'2.3.4.5',
-    'os':'IOS8.0.1'
+    "username":"W101LS01333",
+    "passwd":"0192023a7bbd73250516f069df18b500111",
+    "ip":"2.3.4.5",
+    "os":"IOS8.0.1"
 };
 /*
 var xdata={
@@ -41,5 +41,6 @@ req.on('error', function(e) {
 });
 
 // write data to request body
+console.log(JSON.stringify(xdata));
 req.write(JSON.stringify(xdata));
 req.end();

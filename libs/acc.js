@@ -26,6 +26,7 @@ exports.Jspp=function(req,cb)
         qss+=chunk;
     });
     req.on('end',function(){
+        //console.log(qss);
         logger.debug('Req:'+qss);
         cb(JSON.parse(qss));
     });

@@ -75,7 +75,7 @@ exports.Login_HisAppend=function(name,ip,reason){
     });
 };
 
-
+//密码重置
 exports.ResetPassword=function(name,passwd){
     var now=moment();
     pool.getConnection(function(err, conn) {
@@ -85,4 +85,6 @@ exports.ResetPassword=function(name,passwd){
         });
     });
 };
+
+
 
