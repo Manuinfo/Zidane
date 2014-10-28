@@ -45,7 +45,9 @@ app.get('/w/2007/:qrhref/:cip/:cua', rest_w.w2007);
 app.get('/w/2008/:nfcid/:cip/:cua', rest_w.w2008);
 
 app.post('/py_w/2001', rest_pw.w2001);
+app.post('/py_w/2002', rest_pw.w2002);
 
+//
 
 
 

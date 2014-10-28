@@ -7,14 +7,25 @@ var t=require('./libs/t.js');
 var options = {
     hostname: '127.0.0.1',
     port: 3000,
-    path: '/py_w/2001',
+    path: '/py_w/2002',
     method: 'POST'
 };
 
+
 var xdata={
-    'username':'W101LS01',
-    'passwd':'0192023a7bbd73250516f069df18b500'
+    'username':'W101LS01333',
+    'passwd':'0192023a7bbd73250516f069df18b500111',
+    'ip':'2.3.4.5',
+    'os':'IOS8.0.1'
 };
+/*
+var xdata={
+    'username':'W101LS01222',
+    'passwd':'0192023a7bbd73250516f069df18b500111',
+    'ip':'2.3.4.5',
+    'os':'IOS8.0.1'
+};
+*/
 
 var req = http.request(options, function(res) {
     console.log('STATUS: ' + res.statusCode);

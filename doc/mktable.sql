@@ -221,11 +221,15 @@ create table py_user_login_his (
 name varchar(255),
 logintime datetime,
 loginip varchar(64),
-loginres varchar(64)
+loginres varchar(64),
+reason varchar(128)
 ) engine=INNODB
 DEFAULT CHARSET=gbk;
 create index py_accounts_3 on py_user_login_his(logintime);
 create index py_accounts_4 on py_user_login_his(name);
+create index py_accounts_7 on py_user_login_his(reason);
+create index py_accounts_8 on py_user_login_his(loginres);
+
 
 
 
