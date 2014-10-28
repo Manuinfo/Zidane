@@ -15,3 +15,16 @@ exports.SendOnErr=function(res,objsend){
         //console.log(err.message);
     }
 };
+
+
+exports.Jspp=function(req,cb)
+{
+    var qss;
+    req.on('data',function(chunk)
+    {
+        qss+=chunk;
+    });
+    req.on('end',function(){
+        cb(qss);
+    });
+};

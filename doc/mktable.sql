@@ -192,6 +192,37 @@ rdcode varchar(255),
 gen_time datetime
 ) engine=INNODB
 DEFAULT CHARSET=gbk;
+#++++++++++++++ 用户管理表
+create table py_user_accounts (
+name varchar(255),
+passwd varchar(255),
+ulevel varchar(24),
+uzone varchar(128),
+logintime datetime,
+state  varchar(10),
+PRIMARY KEY(name)
+) engine=INNODB
+DEFAULT CHARSET=gbk;
+create index py_accounts_1 on py_user_accounts(ulevel);
+create index py_accounts_2 on py_user_accounts(state);
+create index py_accounts_5 on py_user_accounts(uzone);
+
+insert into py_user_accounts values ('林磊胤','sdfsdfsdfsdfsdfsdf','');
+insert into py_user_accounts values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','42xsdkh34',2);
+
+#++++++++++++++ 用户登陆历史表
+create table py_user_login_his (
+name varchar(255),
+logintime datetime,
+loginip varchar(64),
+loginres varchar(64)
+) engine=INNODB
+DEFAULT CHARSET=gbk;
+create index py_accounts_3 on py_user_login_his(logintime);
+create index py_accounts_4 on py_user_login_his(name);
+
+
+
 #-----------
 #创建索引
 create index city_code_1 on sale_zone(city_code);
