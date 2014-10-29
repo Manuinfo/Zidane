@@ -1,11 +1,5 @@
 
 
-
-
-
-
-
-
 功能点：
 1，查看/新建/删除/修改  厂商
 2，查看/新建/删除/修改 商品
@@ -105,18 +99,9 @@ sqlite> select * from qrcode_records limit 10;
 5|白金橙花匀亮修护隐形面膜|厦门||288|2014-09-29 16:15:34.772765|2014-10-11 16:27:26.195203||||
 
 
-http://$IP/r/good/
-http://$IP/r/qr
-http://$IP/r/nfc
-http://$IP/d/good
-http://$IP/d/qr
-http://$IP/d/nfc
-http://$IP/w/good
-http://$IP/w/qr
-http://$IP/w/nfc
 
 #++++++++++++ 经销地表
-create table sale_zone (
+create table g_sale_zone (
 province varchar(128),
 city varchar(128),
 city_code varchar(24),
@@ -124,9 +109,49 @@ PRIMARY KEY(city)
 )
 engine=INNODB
 DEFAULT CHARSET=gbk ;
+
+create index city_code_1 on g_sale_zone(city_code);
+
+#++++++++++++ 经销地表
+create table g_sale_zone (
+province varchar(128),
+city varchar(128),
+city_code varchar(24),
+PRIMARY KEY(city)
+)
+engine=INNODB
+DEFAULT CHARSET=gbk ;
+
+create index city_code_1 on g_sale_zone(city_code);
+
+#++++++++++++ ID管理表
+create table b_id_mgnt (
+id varchar(128),
+name varchar(128),
+PRIMARY KEY(name)
+)
+engine=INNODB
+DEFAULT CHARSET=gbk ;
+
+insert into b_id_mgnt values ('1':'生产商');
+insert into b_id_mgnt values ('2':'省级代理');
+insert into b_id_mgnt values ('3':'一级代理商');
+insert into b_id_mgnt values ('4':'二级代理商');
+insert into b_id_mgnt values ('5':'正品销售商');
+insert into b_id_mgnt values ('6':'正品销售商3');
+insert into b_id_mgnt values ('02':'米亚妮亚');
+insert into b_id_mgnt values ('01':'一生一素');
+insert into b_id_mgnt values ('01':'白金橙花匀亮修护隐形面膜');
+insert into b_id_mgnt values ('02':'酵素');
+insert into b_id_mgnt values ('03':'乳酸菌');
+insert into b_id_mgnt values ('04':'牛樟菇');
+insert into b_id_mgnt values ('CH':'上海承煌');
+
+
 #++++++++++++++++++++++ 商品表
-create table products (
+create table g_products (
 shop_name varchar(255),
+serias varchar(255),
 name varchar(128),
 product_id varchar(64) not null,
 place varchar(255) not null,
@@ -141,12 +166,23 @@ PRIMARY KEY(name)
 )
 engine=INNODB
 DEFAULT CHARSET=gbk ;
+
+create unique index products_1 on g_products(product_id);
+create index products_2 on g_products(shop_name);
+create index products_3 on g_products(serias);
+create index products_4 on g_products(name);
+
+insert into g_products values ('承煌','一生一素','乳酸菌','827f5c0778d48996b9ee750511c33b09','台湾',79.5,'2014-11-23 00:00:00',NULL,NULL,NULL,NULL,NULL);
+insert into g_products values ('承煌','一生一素','牛樟菇','12c8656e2a5d34aba5a23f666ab1d0e4','台湾',32.53,'2014-10-14 10:22:00',NULL,NULL,NULL,NULL,NULL);
+insert into g_products values ('承煌','一生一素','酵素','42342333333333333222222222','台湾',32.53,'2014-10-14 10:22:00',NULL,NULL,NULL,NULL,NULL);
+
 #++++++++++++ 商品成分表
 create table products_ele (
 product_id varchar(64),
 elements text)
 engine=INNODB
 DEFAULT CHARSET=gbk ;
+
 #+++++++++++  批次表
 CREATE TABLE batches (
 product_id varchar(64),
@@ -161,6 +197,7 @@ updated_at datetime,
 PRIMARY KEY(batch_id)
 ) engine=INNODB
 DEFAULT CHARSET=gbk;
+
 #+++++++++++++++++ 操作记录历史表
 CREATE TABLE ops_history (
  client_ip varchar(64),
@@ -172,12 +209,27 @@ CREATE TABLE ops_history (
  result varchar(255)
  ) engine=INNODB
 DEFAULT CHARSET=gbk;
+
 #+++++++++ nfc与批次的对应关系
-create table nfc_batch_map (
+create table g_nfc_batch_map (
 batch_id varchar(255),
-nfc_id varchar(255)
+nfc_id varchar(32),
+nfc_flag varchar(64)
 ) engine=INNODB
 DEFAULT CHARSET=gbk;
+
+create unique index nfc_id_1 on g_nfc_batch_map(nfc_id);
+create index batch_id_1 on g_nfc_batch_map(batch_id);
+
+insert into g_nfc_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','04a9ba12723680','CH3304820101BB');
+insert into g_nfc_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','04a9ba22723680','CH3304820101BB');
+insert into g_nfc_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','04a9ba32723680','CH3304820101BB');
+insert into g_nfc_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','04a9ba52723680','CH3304820101AA');
+
+insert into g_nfc_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-2','04a9bc42723680','CH6542010202AA');
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9bd42723680','CH6542010203BB');
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723680','CH6542010204BB');
+
 #++++++++++++++ qr与批次的对应关系
 create table qr_batch_map (
 batch_id varchar(255),
@@ -185,6 +237,9 @@ qr_href varchar(255),
 verify_av_times double
 ) engine=INNODB
 DEFAULT CHARSET=gbk;
+
+create unique index nfc_id_1 on nfc_batch_map(nfc_id);
+
 #++++++++++++++ 随机码验证表
 create table veri_randcode (
 qrcode varchar(255),
@@ -242,12 +297,9 @@ create index py_accounts_8 on py_user_login_his(loginres);
 
 #-----------
 #创建索引
-create index city_code_1 on sale_zone(city_code);
-create unique index product_id_1 on products(product_id);
-create index shop_name on products(shop_name);
+
 create unique index product_id_2 on products_ele(product_id);
 create index product_id_3 on batches(product_id);
-create unique index nfc_id_1 on nfc_batch_map(nfc_id);
 create unique index qr_href_1 on qr_batch_map (qr_href);
 create index qr_href_2 on ops_history(qrcode);
 create index verify_at_1 on ops_history(verify_at);
@@ -260,8 +312,6 @@ create index rdcode_1 on veri_randcode(rdcode);
 1|酵素|台湾|麦芽糊精、葡萄糖、柳橙果汁、糙米、发酵菠萝粉、发酵木瓜粉、植脂末、苹果香精、盐藻、柠檬酸、库拉索芦荟粉、大麦粉。|580|2014-09-11 22:03:38.701908|2014-09-11 22:14:32.232398|1.png|image/png|374503|2014-09-11 22:14:25.652241
 2|牛樟菇|台湾|牛樟菇萃取物95%，明胶|6800|2014-09-11 22:03:42.308260|2014-09-26 17:47:49.174111|red-Lied.png|image/png|7473481|2014-09-26 17:47:46.617673
 
-insert into products values ('一生一素公司','乳酸菌','827f5c0778d48996b9ee750511c33b09','台湾',79.5,'2014-11-23 00:00:00',NULL,NULL,NULL,NULL,NULL);
-insert into products values ('一生一素公司','牛樟菇','12c8656e2a5d34aba5a23f666ab1d0e4','台湾',32.53,'2014-10-14 10:22:00',NULL,NULL,NULL,NULL,NULL);
 
 insert into products_ele values ('827f5c0778d48996b9ee750511c33b09','麦芽糊精、葡萄糖、柳橙果汁、糙米、发酵菠萝粉、发酵木瓜粉、植脂末');
 insert into products_ele values ('12c8656e2a5d34aba5a23f666ab1d0e4','牛樟菇萃取物95%，明胶');
@@ -275,9 +325,7 @@ insert into qr_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1
 insert into qr_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-2','loidfasdf',2);
 insert into qr_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','xcvzxcvzs',1);
 
-insert into nfc_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','23424safd');
-insert into nfc_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-2','xcvcvcvx');
-insert into nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','zxcvzxcvzcvzcv');
+
 
 
 

@@ -13,6 +13,8 @@ var log = require('./libs/log');
 var rest_r = require('./routes/r.js');
 var rest_w = require('./routes/w.js');
 var rest_pw = require('./routes/py_w.js');
+var rest_pr = require('./routes/py_r.js');
+
 var app = express();
 
 /* https://github.com/nomiddlename/log4js-node */
@@ -44,14 +46,22 @@ app.get('/w/2006/:qrhref', rest_w.w2006);
 app.get('/w/2007/:qrhref/:cip/:cua', rest_w.w2007);
 app.get('/w/2008/:nfcid/:cip/:cua', rest_w.w2008);
 
+//代理商管理
 app.post('/py_w/2001', rest_pw.w2001);
 app.post('/py_w/2002', rest_pw.w2002);
 app.post('/py_w/2003', rest_pw.w2003);
+
+
+app.get('/py_r/2001/:cmd', rest_pr.r2001);
+
+
 
 //
 
 
 
+
 app.listen(3000,function(){
+    global.varA=222;
     console.log('Zidane Web Service is started at 3000');
 });

@@ -32,6 +32,6 @@ module.exports = mysql.createPool({
     host: 'minfo2014.mysql.rds.aliyuncs.com',
     user: 'minfo',
     password: '6yhn7ujm',
-    database:'6yhn7ujm',
+    database:'minfo',
     port: 3306
 });

@@ -10,8 +10,6 @@ var pool=require('../conf/db.js');
 var acc=require('../libs/acc.js');
 var t=require('../libs/t.js');
 var sql=require('../dbmodules/sql.js');
-var sql_py=require('../dbmodules/sql_py.js');
-var dbm=require('../dbmodules/rule.js');
 var m_login=require('../dbmodules/m_login.js');
 var logger = require('../libs/log').logger;
 
@@ -96,7 +94,7 @@ exports.w2003=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     acc.Jspp(req,function(jbody){
         m_login.Get_AcctName(jbody.username,function(db_res){
-            console.log(db_res);
+            //console.log(db_res);
             if(db_res.frstate==1)
             {
                 m_login.Login_HisAppend(jbody.username,jbody.ip,'非首次登陆不能修改密码，请联系厂商重置密码');
