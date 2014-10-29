@@ -86,5 +86,17 @@ exports.ResetPassword=function(name,passwd){
     });
 };
 
+//首次登陆时的密码修改
+exports.UpdatePasswdFr=function(name,passwd){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_py.update_passwd_fr(name,passwd));
+        conn.query(sql_py.update_passwd_fr(name,passwd),function (err, sqlres) {
+            //console.log(err,sqlres);
+            conn.release();
+        });
+    });
+};
+
+
 
 

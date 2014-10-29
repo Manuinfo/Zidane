@@ -46,6 +46,7 @@ app.get('/w/2008/:nfcid/:cip/:cua', rest_w.w2008);
 
 app.post('/py_w/2001', rest_pw.w2001);
 app.post('/py_w/2002', rest_pw.w2002);
+app.post('/py_w/2003', rest_pw.w2003);
 
 //
 

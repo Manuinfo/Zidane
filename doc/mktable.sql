@@ -201,7 +201,7 @@ ulevel varchar(24),
 uzone varchar(128),
 logintime datetime,
 state  varchar(10),
-frstat int(1),
+frstate int(1),
 channel_id int(4),
 loginerr int(4),
 PRIMARY KEY(name)
@@ -211,7 +211,7 @@ create index py_accounts_1 on py_user_accounts(ulevel);
 create index py_accounts_2 on py_user_accounts(state);
 create index py_accounts_5 on py_user_accounts(uzone);
 create index py_accounts_6 on py_user_accounts(alname);
-create index py_accounts_9 on py_user_accounts(frstat);
+create index py_accounts_9 on py_user_accounts(frstate);
 create index py_accounts_10 on py_user_accounts(channel_id);
 
 
@@ -220,6 +220,8 @@ insert into py_user_accounts values ('W201','3503883**','0192023a7bbd73250516f06
 insert into py_user_accounts values ('W2YT205','3916**','c93ccd78b2076528346216b3b2f701e6','4','江苏无锡',NULL,'A',0,1,0);
 insert into py_user_accounts values ('1314TP11','MMMMiran**','c93ccd78b2076528346216b3b2f701e6','2','江苏',NULL,'A',0,1,0);
 insert into py_user_accounts values ('FACT','某某工厂','81dc9bdb52d04dc20036dbd8313ed055','1','山东',NULL,'A',0,1,0);
+insert into py_user_accounts values ('ABDCD','温州市前进街正品销售','81dc9bdb52d04dc20036dbd8313ed055','6','浙江',NULL,'A',0,1,0);
+
 
 #++++++++++++++ 用户登陆历史表
 create table py_user_login_his (

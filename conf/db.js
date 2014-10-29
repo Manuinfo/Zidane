@@ -4,6 +4,7 @@
 
 var mysql = require('mysql');
 
+/*
 module.exports = mysql.createPool({
     connectionLimit : 10,
     host: '210.209.80.221',
@@ -12,8 +13,10 @@ module.exports = mysql.createPool({
     database:'s596906db0',
     port: 3306
 });
+*/
 
-/*
+
+
  module.exports = mysql.createPool({
  connectionLimit : 10,
  host: '127.0.0.1',
@@ -22,4 +25,4 @@ module.exports = mysql.createPool({
  database:'minfo',
  port: 3306
  });
- */
+

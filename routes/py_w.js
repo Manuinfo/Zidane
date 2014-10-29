@@ -42,7 +42,7 @@ exports.w2001=function(req,res){
         m_login.Get_AcctName(jbody.username,function(db_res){
             if(!db_res)
             {
-                m_login.Login_HisAppend(jbody.username,jbody.ip,'用户名不存在');
+                m_login.Login_HisAppend(jbody.username,jbody.ip,'该登陆名不存在');
                 acc.SendOnErr(res,t.res_one('FAIL','该登陆名不存在'));
             }
             else //再判断密码是否正确
@@ -56,7 +56,11 @@ exports.w2001=function(req,res){
                     {
                         m_login.Login_Fail(jbody.username,jbody.passwd,jbody.ip,'账户被锁定');
                         acc.SendOnErr(res,t.res_one('FAIL','账户被锁定'));
-                    } else  //登陆成功
+                    } else if (db_res.frstate==0)
+                    {
+                        m_login.Login_Fail(jbody.username,jbody.passwd,jbody.ip,'首次登陆需要修改密码');
+                        acc.SendOnErr(res,t.res_one('FAIL','首次登陆需要修改密码'));
+                    } else //登陆成功
                     {
                         m_login.Login_Succ(jbody.username,jbody.passwd,jbody.ip);
                         acc.SendOnErr(res,t.res_one('SUCC','登陆成功'));
@@ -67,7 +71,7 @@ exports.w2001=function(req,res){
     });
 };
 
-//密码验证
+//密码重置
 exports.w2002=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     acc.Jspp(req,function(jbody){
@@ -83,5 +87,28 @@ exports.w2002=function(req,res){
                 acc.SendOnErr(res,t.res_one('SUCC','重置成功'));
             }
         });
+    });
+};
+
+
+//首次登陆时的密码修改
+exports.w2003=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
+    acc.Jspp(req,function(jbody){
+        m_login.Get_AcctName(jbody.username,function(db_res){
+            console.log(db_res);
+            if(db_res.frstate==1)
+            {
+                m_login.Login_HisAppend(jbody.username,jbody.ip,'非首次登陆不能修改密码，请联系厂商重置密码');
+                acc.SendOnErr(res,t.res_one('FAIL','非首次登陆不能修改密码，请联系厂商重置密码'));
+            }
+            else
+            {
+                m_login.UpdatePasswdFr(jbody.username,jbody.passwd);
+                m_login.Login_HisAppend(jbody.username,jbody.ip,'首次密码修改成功，请重新登陆');
+                acc.SendOnErr(res,t.res_one('SUCC','首次密码修改成功，请重新登陆'));
+            }
+        });
+
     });
 };

@@ -29,8 +29,13 @@ module.exports={
                     ');'},
     'reset_passwd':
         function(p_name,p_passwd){
-            return 'update py_user_accounts set passwd=\''+p_passwd+'\',loginerr=0,state=\'A\' where name=\''+p_name+'\'' ;
+            return 'update py_user_accounts set passwd=\''+p_passwd+'\',loginerr=0,state=\'A\',frstate=0 where name=\''+p_name+'\'' ;
+        },
+    'update_passwd_fr':
+        function(p_name,p_passwd){
+            return 'update py_user_accounts set passwd=\''+p_passwd+'\',loginerr=0,state=\'A\',frstate=1 where name=\''+p_name+'\' and frstate=0' ;
         }
+
 
 };
 
