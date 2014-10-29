@@ -61,7 +61,9 @@ exports.w2001=function(req,res){
                     } else //登陆成功
                     {
                         m_login.Login_Succ(jbody.username,jbody.passwd,jbody.ip);
-                        acc.SendOnErr(res,t.res_one('SUCC','登陆成功'));
+                        m_login.Get_AcctName(jbody.username,function(dbres2){
+                            acc.SendOnErr(res,t.res_one('SUCC',dbres2));
+                        });
                     }
                 })
             }

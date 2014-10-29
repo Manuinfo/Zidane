@@ -12,6 +12,13 @@ var options = {
 };
 
 
+var acc=require('./libs/acc.js');
+var a ={"a":"1","b":"2"};
+var b ={"c":"3","d":"4","e":"5"};
+
+var c=acc.Jsadd({},[a,b]);
+console.log(c['0']);
+
 var xdata={
     "username":"W101LS01333",
     "passwd":"0192023a7bbd73250516f069df18b500111",

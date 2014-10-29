@@ -35,6 +35,18 @@ exports.Get_IDByType=function(type,callback){
     })
 };
 
+//根据系列获取下面有哪些商品
+exports.Get_IDByType=function(type,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.get_id_by_type(type));
+        conn.query(sql_g.get_id_by_type(type),function (err, sqlres) {
+            conn.release();
+            callback(sqlres);
+        });
+    })
+};
+
+
 //ID管理，获取全量信息
 exports.Get_AllBase=function(callback){
     pool.getConnection(function(err, conn) {
