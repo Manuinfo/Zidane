@@ -1,9 +1,7 @@
 /**
- * Created by linly on 14-10-28.
- */
-
-/**
  * Created by z30 on 14-10-18.
+ * ===========
+ * 处理代理商登陆
  */
 
 
@@ -35,7 +33,5 @@ module.exports={
         function(p_name,p_passwd){
             return 'update py_user_accounts set passwd=\''+p_passwd+'\',loginerr=0,state=\'A\',frstate=1 where name=\''+p_name+'\' and frstate=0' ;
         }
-
-
 };
 
