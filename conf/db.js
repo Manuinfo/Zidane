@@ -16,7 +16,7 @@ module.exports = mysql.createPool({
 */
 
 
-
+/*
  module.exports = mysql.createPool({
  connectionLimit : 10,
  host: '127.0.0.1',
@@ -25,9 +25,9 @@ module.exports = mysql.createPool({
  database:'minfo',
  port: 3306
  });
+*/
 
 
-/*
 module.exports = mysql.createPool({
     connectionLimit : 10,
     host: 'minfo2014.mysql.rds.aliyuncs.com',
@@ -36,5 +36,3 @@ module.exports = mysql.createPool({
     database:'minfo',
     port: 3306
 });
-
-*/
