@@ -128,25 +128,30 @@ create index city_code_1 on g_sale_zone(city_code);
 create table b_id_mgnt (
 id varchar(128),
 name varchar(128),
-PRIMARY KEY(name)
+type varchar(10)
 )
 engine=INNODB
 DEFAULT CHARSET=gbk ;
 
-insert into b_id_mgnt values ('1':'生产商');
-insert into b_id_mgnt values ('2':'省级代理');
-insert into b_id_mgnt values ('3':'一级代理商');
-insert into b_id_mgnt values ('4':'二级代理商');
-insert into b_id_mgnt values ('5':'正品销售商');
-insert into b_id_mgnt values ('6':'正品销售商3');
-insert into b_id_mgnt values ('02':'米亚妮亚');
-insert into b_id_mgnt values ('01':'一生一素');
-insert into b_id_mgnt values ('01':'白金橙花匀亮修护隐形面膜');
-insert into b_id_mgnt values ('02':'酵素');
-insert into b_id_mgnt values ('03':'乳酸菌');
-insert into b_id_mgnt values ('04':'牛樟菇');
-insert into b_id_mgnt values ('CH':'上海承煌');
+create index id_ind_1 on b_id_mgnt(name);
 
+
+insert into b_id_mgnt values ('1','生产商','LAY');
+insert into b_id_mgnt values ('2','省级代理','LAY');
+insert into b_id_mgnt values ('3','一级代理商','LAY');
+insert into b_id_mgnt values ('4','二级代理商','LAY');
+insert into b_id_mgnt values ('5','正品销售商','LAY');
+insert into b_id_mgnt values ('6','正品销售商3','LAY');
+insert into b_id_mgnt values ('C1','一三一素','CHANNEL');
+insert into b_id_mgnt values ('C2','米亚妮亚','CHANNEL');
+insert into b_id_mgnt values ('C3','一三一素,米亚妮亚','CHANNEL');
+insert into b_id_mgnt values ('A2','米亚妮亚','SERIAL');
+insert into b_id_mgnt values ('A1','一生一素','SERIAL');
+insert into b_id_mgnt values ('01','白金橙花匀亮修护隐形面膜','BRAND');
+insert into b_id_mgnt values ('02','酵素','BRAND');
+insert into b_id_mgnt values ('03','乳酸菌','BRAND');
+insert into b_id_mgnt values ('04','牛樟菇','BRAND');
+insert into b_id_mgnt values ('CH','上海承煌','BRAND');
 
 #++++++++++++++++++++++ 商品表
 create table g_products (
@@ -291,6 +296,8 @@ create index py_accounts_3 on py_user_login_his(logintime);
 create index py_accounts_4 on py_user_login_his(name);
 create index py_accounts_7 on py_user_login_his(reason);
 create index py_accounts_8 on py_user_login_his(loginres);
+
+#++++++++++++++ 装箱历史表
 
 
 

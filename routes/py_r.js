@@ -18,15 +18,23 @@ exports.r2001=function(req,res){
     switch (req.param('cmd'))
     {
         case 'GETGOODSBASE':
-            acc.SendOnErr(res,t.res_one('SUCC',dbm.goodsmapid));
+            m_goods.Get_IDByType('BRAND',function(dbres){ acc.SendOnErr(res,t.res_one('SUCC',dbres));});
             break;
         case 'GETSERIASID':
-            acc.SendOnErr(res,t.res_one('SUCC',dbm.seriasid));
+            m_goods.Get_IDByType('SERIAL',function(dbres){ acc.SendOnErr(res,t.res_one('SUCC',dbres));});
+            break;
+        case 'GETCHANNELID':
+            m_goods.Get_IDByType('CHANNEL',function(dbres){ acc.SendOnErr(res,t.res_one('SUCC',dbres));});
             break;
         case 'GETLEVEL':
-            acc.SendOnErr(res,t.res_one('SUCC',dbm.ulevel));
+            m_goods.Get_IDByType('LAY',function(dbres){ acc.SendOnErr(res,t.res_one('SUCC',dbres));});
+            break;
+        case 'GETALLBASE':
+            m_goods.Get_AllBase(function(dbres){ acc.SendOnErr(res,t.res_one('SUCC',dbres));});
             break;
         default :
             acc.SendOnErr(res,t.res_one('FAIL','访问有问题，请重新确认'));
     }
 };
+
+

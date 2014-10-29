@@ -120,7 +120,7 @@ exports.r2008=function(req,res){
             if(sqlres[0])
             { acc.SendOnErr(res,sqlres[0].batch_id);}
             else
-            { acc.SendOnErr(res,t.res_one('FAIL','该批次号不存在'));};
+            { acc.SendOnErr(res,t.res_one('FAIL','该批次号不存在'));}
         });
         conn.release();
     });
