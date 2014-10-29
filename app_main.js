@@ -4,6 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fs = require('fs');
+var conf=require('./dbmodules/m_goods.js');
+var acc=require('./libs/acc.js');
+var logger = require('./libs/log').logger;
+
 //var morgan = require('morgan');
 //var accessLogStream = fs.createWriteStream(__dirname + '/logs/run.log', {flags: 'a'});
 
@@ -53,15 +57,30 @@ app.post('/py_w/2003', rest_pw.w2003);
 
 
 app.get('/py_r/2001/:cmd', rest_pr.r2001);
+app.get('/py_r/2002/:sid', rest_pr.r2002);
+app.post('/py_r/2003', rest_pr.r2003);  //校验装箱商品是否准确以及重复
+
 
 
 
 //
 
+logger.debug('Load Initial BaseData');
+conf.Get_IDByType('CHANNEL',function(confall){ global.u_CHID=acc.G_JSON({},confall)});
+conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL=acc.G_JSON({},confall)});
+conf.Get_IDByType('BRAND',function(confall){ global.u_BRAND=acc.G_JSON({},confall);});
+conf.Get_IDByType('LAY',function(confall){ global.u_LAY=acc.G_JSON({},confall);});
+
+var x='一三一素,米亚妮亚';
+console.log(x.split('-'));
 
 
+setTimeout(function(){
+    app.listen(3000,function(){
+        console.log('Zidane Web Service is started at 3000');
+        logger.debug('Zidane Web Service is started at 3000');
+        //console.log(global.u_CHID);
+    });
+},500);
 
-app.listen(3000,function(){
-    global.varA=222;
-    console.log('Zidane Web Service is started at 3000');
-});
+

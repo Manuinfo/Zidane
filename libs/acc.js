@@ -43,4 +43,12 @@ exports.Jsadd=function extend(des, src, override){
         }
     }
     return des;
-}
+};
+
+exports.G_JSON=function extend(des, src){
+   des={};
+   // console.log(src);
+   for(var i = 0, len = src.length; i < len; i++)
+        des[src[i].id]=src[i].name;
+   return des;
+};

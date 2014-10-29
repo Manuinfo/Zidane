@@ -10,24 +10,26 @@ var pool=require('../conf/db.js');
 var acc=require('../libs/acc.js');
 var t=require('../libs/t.js');
 var m_goods=require('../dbmodules/m_goods.js');
-var dbm=require('../dbmodules/rule.js')
+//var dbm=require('../dbmodules/rule.js')
 var logger = require('../libs/log').logger;
 
+
+//取基础信息
 exports.r2001=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     switch (req.param('cmd'))
     {
         case 'GETGOODSBASE':
-            m_goods.Get_IDByType('BRAND',function(dbres){ acc.SendOnErr(res,t.res_one('SUCC',dbres));});
+            acc.SendOnErr(res,t.res_one('SUCC',global.u_BRAND));
             break;
         case 'GETSERIASID':
-            m_goods.Get_IDByType('SERIAL',function(dbres){ acc.SendOnErr(res,t.res_one('SUCC',dbres));});
+            acc.SendOnErr(res,t.res_one('SUCC',global.u_SERIAL));
             break;
         case 'GETCHANNELID':
-            m_goods.Get_IDByType('CHANNEL',function(dbres){ acc.SendOnErr(res,t.res_one('SUCC',dbres));});
+            acc.SendOnErr(res,t.res_one('SUCC',global.u_CHID));
             break;
         case 'GETLEVEL':
-            m_goods.Get_IDByType('LAY',function(dbres){ acc.SendOnErr(res,t.res_one('SUCC',dbres));});
+            acc.SendOnErr(res,t.res_one('SUCC',global.u_LAY));
             break;
         case 'GETALLBASE':
             m_goods.Get_AllBase(function(dbres){ acc.SendOnErr(res,t.res_one('SUCC',dbres));});
@@ -37,4 +39,16 @@ exports.r2001=function(req,res){
     }
 };
 
+//根据系列取商品列表
+exports.r2002=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
+    //console.log(req.param('sid'));
+    //console.log(global.u_CHID);
+    if(global.u_CHID[req.param('sid')])
+    {
+        m_goods.Get_NameBySerial(global.u_CHID[req.param('sid')].split(','),function(dbres){
+        acc.SendOnErr(res,t.res_one('SUCC',dbres));
+        });
+    }
+};
 

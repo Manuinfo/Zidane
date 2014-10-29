@@ -168,7 +168,6 @@ exports.r2010=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf8'});
     var now=moment();
 
-
     pool.getConnection(function(err, conn) {
         conn.query(sql.Query_Rpt_ByNFCID(req.param('nfcid'),req.param('qtime')),function (err, sqlres) {
             if(!sqlres[0])

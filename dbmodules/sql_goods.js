@@ -10,5 +10,9 @@ module.exports={
     'get_all_base':
         function(){return 'select * from b_id_mgnt;'},
     'get_goods_bySerial':
-        function(b){return 'select name from g_products where serias=\''+b+'\';'}
+        function(b){return 'select name from g_products where serias=\''+b+'\';'},
+    'get_goods_byNFCID':
+        function(b){return 'select name from g_products a where a.product_id in ('+
+            'select b.product_id from batches b where b.batch_id in ('+
+            'select c.batch_id from g_nfc_batch_map c where c.nfc_id=\''+b+'\'))'}
 };

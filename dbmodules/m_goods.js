@@ -15,27 +15,34 @@ var dbm=require('../dbmodules/rule.js');
 var logger = require('../libs/log').logger;
 
 //ID管理，根据中文名称获取ID
-exports.Get_IdByName=function(name,callback){
+exports.Get_IdByName=function(name,type,callback){
     pool.getConnection(function(err, conn) {
-        logger.debug('Req:'+sql_g.get_id_by_name(name));
-        conn.query(sql_g.get_id_by_name(name),function (err, sqlres) {
+        logger.debug('Req:'+sql_g.get_id_by_name(name,type));
+        conn.query(sql_g.get_id_by_name(name,type),function (err, sqlres) {
             conn.release();
             callback(sqlres[0]);
         });
     })
 };
-//ID管理，根据类型获取全量信息
-exports.Get_IDByType=function(type,callback){
+
+
+//根据类型获取有哪些配置信息
+exports.Get_NameBySerial=function(types,callback){
     pool.getConnection(function(err, conn) {
-        logger.debug('Req:'+sql_g.get_id_by_type(type));
-        conn.query(sql_g.get_id_by_type(type),function (err, sqlres) {
+        async.map(types,function(item,cb){
+            logger.debug('Req:'+sql_g.get_goods_bySerial(item));
+            conn.query(sql_g.get_goods_bySerial(item),function (err, sqlres) {
+                cb(null,sqlres);
+            });
+        },function(err,exres){
             conn.release();
-            callback(sqlres);
+            //console.log(exres);
+            callback(exres);
         });
     })
 };
 
-//根据系列获取下面有哪些商品
+//根据SERIAL获取有哪些商品
 exports.Get_IDByType=function(type,callback){
     pool.getConnection(function(err, conn) {
         logger.debug('Req:'+sql_g.get_id_by_type(type));
@@ -54,6 +61,17 @@ exports.Get_AllBase=function(callback){
         conn.query(sql_g.get_all_base(),function (err, sqlres) {
             conn.release();
             callback(sqlres);
+        });
+    })
+};
+
+//根据NFC ID查商品名称
+exports.Get_NameByNFCID=function(nfcid,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.get_goods_byNFCID(nfcid));
+        conn.query(sql_g.get_goods_byNFCID(nfcid),function (err, sqlres) {
+            conn.release();
+            callback(sqlres[0]);
         });
     })
 };

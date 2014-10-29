@@ -177,9 +177,9 @@ create index products_2 on g_products(shop_name);
 create index products_3 on g_products(serias);
 create index products_4 on g_products(name);
 
-insert into g_products values ('承煌','一生一素','乳酸菌','827f5c0778d48996b9ee750511c33b09','台湾',79.5,'2014-11-23 00:00:00',NULL,NULL,NULL,NULL,NULL);
-insert into g_products values ('承煌','一生一素','牛樟菇','12c8656e2a5d34aba5a23f666ab1d0e4','台湾',32.53,'2014-10-14 10:22:00',NULL,NULL,NULL,NULL,NULL);
-insert into g_products values ('承煌','一生一素','酵素','42342333333333333222222222','台湾',32.53,'2014-10-14 10:22:00',NULL,NULL,NULL,NULL,NULL);
+insert into g_products values ('承煌','一三一素','乳酸菌','827f5c0778d48996b9ee750511c33b09','台湾',79.5,'2014-11-23 00:00:00',NULL,NULL,NULL,NULL,NULL);
+insert into g_products values ('承煌','一三一素','牛樟菇','12c8656e2a5d34aba5a23f666ab1d0e4','台湾',32.53,'2014-10-14 10:22:00',NULL,NULL,NULL,NULL,NULL);
+insert into g_products values ('承煌','一三一素','酵素','42342333333333333222222222','台湾',32.53,'2014-10-14 10:22:00',NULL,NULL,NULL,NULL,NULL);
 insert into g_products values ('承煌','米亚妮亚','超级面膜','345345345345345','海南',32.53,'2014-10-14 10:22:00',NULL,NULL,NULL,NULL,NULL);
 
 #++++++++++++ 商品成分表
@@ -204,6 +204,15 @@ PRIMARY KEY(batch_id)
 ) engine=INNODB
 DEFAULT CHARSET=gbk;
 
+create index product_id_3 on batches(product_id);
+
+
+insert into batches values ('827f5c0778d48996b9ee750511c33b09','9','66',20000,30000,3,'20141014-827f5c0778d48996b9ee750511c33b09-66-1','2014-10-14 11:35:00',NULL);
+insert into batches values ('12c8656e2a5d34aba5a23f666ab1d0e4','9','77',30000,30000,5,'20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','2014-10-14 11:45:00',NULL);
+insert into batches values ('12c8656e2a5d34aba5a23f666ab1d0e4','9','77',30000,30000,5,'20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-2','2014-10-14 11:55:00',NULL);
+
+
+
 #+++++++++++++++++ 操作记录历史表
 CREATE TABLE ops_history (
  client_ip varchar(64),
@@ -215,6 +224,8 @@ CREATE TABLE ops_history (
  result varchar(255)
  ) engine=INNODB
 DEFAULT CHARSET=gbk;
+
+
 
 #+++++++++ nfc与批次的对应关系
 create table g_nfc_batch_map (
@@ -253,6 +264,7 @@ rdcode varchar(255),
 gen_time datetime
 ) engine=INNODB
 DEFAULT CHARSET=gbk;
+
 #++++++++++++++ 用户管理表
 create table py_user_accounts (
 name varchar(255),
@@ -299,16 +311,28 @@ create index py_accounts_4 on py_user_login_his(name);
 create index py_accounts_7 on py_user_login_his(reason);
 create index py_accounts_8 on py_user_login_his(loginres);
 
-#++++++++++++++ 装箱历史表
+#++++++++++++++ 装箱历史表/大小箱关系绑定
+create table py_package_his (
+son_id varchar(128),
+par_id varchar(128),
+pack_time datetime,
+uname varchar(255),
+alname varchar(255),
+channel_id varchar(10),
+PRIMARY KEY(son_id)
+) engine=INNODB
+DEFAULT CHARSET=gbk;
 
-
+create index py_package_his_1 on py_package_his(par_id);
+create index py_package_his_2 on py_package_his(uname);
+create index py_package_his_3 on py_package_his(pack_time);
+create index py_package_his_4 on py_package_his(alname);
 
 
 #-----------
 #创建索引
 
 create unique index product_id_2 on products_ele(product_id);
-create index product_id_3 on batches(product_id);
 create unique index qr_href_1 on qr_batch_map (qr_href);
 create index qr_href_2 on ops_history(qrcode);
 create index verify_at_1 on ops_history(verify_at);
@@ -324,10 +348,6 @@ create index rdcode_1 on veri_randcode(rdcode);
 
 insert into products_ele values ('827f5c0778d48996b9ee750511c33b09','麦芽糊精、葡萄糖、柳橙果汁、糙米、发酵菠萝粉、发酵木瓜粉、植脂末');
 insert into products_ele values ('12c8656e2a5d34aba5a23f666ab1d0e4','牛樟菇萃取物95%，明胶');
-
-insert into batches values ('827f5c0778d48996b9ee750511c33b09','9','66',20000,30000,3,'20141014-827f5c0778d48996b9ee750511c33b09-66-1','2014-10-14 11:35:00',NULL);
-insert into batches values ('12c8656e2a5d34aba5a23f666ab1d0e4','9','77',30000,30000,5,'20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','2014-10-14 11:45:00',NULL);
-insert into batches values ('12c8656e2a5d34aba5a23f666ab1d0e4','9','77',30000,30000,5,'20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-2','2014-10-14 11:55:00',NULL);
 
 insert into qr_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','abc23434',2);
 insert into qr_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','42xsdkh34',2);
