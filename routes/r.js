@@ -132,7 +132,7 @@ exports.r2009=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf8'});
     //console.log(req);
     var now=moment();
-    var ddtime=now.format('YYYY-MM-DD hh:mm:ss');
+    var ddtime=now.format('YYYY-MM-DD HH:mm:ss');
 
 
     pool.getConnection(function(err, conn) {

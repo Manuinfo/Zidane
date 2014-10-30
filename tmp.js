@@ -35,6 +35,13 @@ a.push(1);
 a.push(y);
 console.log(a);
 
+var moment=require('moment');
+var now=moment();
+
+console.log(now);
+console.log(now.format('YYYY-MM-DD HH:mm:ss'));
+
+
   //   04a9be42723619
 //   04a9be42723619
  //    04a9ba42723619

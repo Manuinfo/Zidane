@@ -28,7 +28,7 @@ exports.w2001=function(req,res){
                                             t.md5hash(req.param('prdname')),
                                             req.param('place'),
                                             req.param('price'),
-                                            now.format('YYYY-MM-DD hh:mm:ss')
+                                            now.format('YYYY-MM-DD HH:mm:ss')
                                            )
     };
     tasks=['insertSQL'];
@@ -78,7 +78,7 @@ exports.w2002=function(req,res){
                 req.param('nfccount'),
                 req.param('vrftime'),
                 now.format('YYYYMMDD')+p_pid+everes[1].city_code+now.format('hhmm'),
-                now.format('YYYY-MM-DD hh:mm:ss')
+                now.format('YYYY-MM-DD HH:mm:ss')
             ),function (err, sqlres) {
                 //console.log(err);
                 conn.release();
@@ -159,20 +159,20 @@ exports.w2005=function(req,res){
             if(!sqlres[0])
             {
                 acc.SendOnErr(res, t.res_one('FAIL','该链接不存在'));
-                t.db_ops_log(conn,req.param('cip'),req.param('cua'),'WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD hh:mm:ss'),'该短链接不存在');
+                t.db_ops_log(conn,req.param('cip'),req.param('cua'),'WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'该短链接不存在');
             }
             else
             {
                if(sqlres[0].verify_av_times<1)
                {
                    acc.SendOnErr(res, t.res_one('FAIL','该短链接存在，但可验证次数已达到上限'));
-                   t.db_ops_log(conn,req.param('cip'),req.param('cua'),'WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD hh:mm:ss'),'该短链接存在，但可验证次数已达到上限');
+                   t.db_ops_log(conn,req.param('cip'),req.param('cua'),'WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'该短链接存在，但可验证次数已达到上限');
                }
                else
                {
                    acc.SendOnErr(res,t.res_one('SUCCESS','该短链接存在，且未达到验证上限'));
                    conn.query(sql.Update_QRAVtimes(req.param('qrhref')),function(err,res){});
-                   t.db_ops_log(conn,req.param('cip'),req.param('cua'),'WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD hh:mm:ss'),'验证成功:未达到验证上限');
+                   t.db_ops_log(conn,req.param('cip'),req.param('cua'),'WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'验证成功:未达到验证上限');
                }
             }
         })
@@ -188,7 +188,7 @@ exports.w2006=function(req,res){
     var rdcode=t.get_random(6);
 
     pool.getConnection(function(err, conn) {
-        conn.query(sql.Insert_Random_Code(req.param('qrhref'),rdcode,now.format('YYYY-MM-DD hh:mm:ss')),function(err,sqlres){
+        conn.query(sql.Insert_Random_Code(req.param('qrhref'),rdcode,now.format('YYYY-MM-DD HH:mm:ss')),function(err,sqlres){
             if(err)
                 acc.SendOnErr(res, t.res_one('FAIL',err.message));
             else
@@ -215,19 +215,19 @@ exports.w2007=function(req,res){
             if(!sqlres[0])
             {
                 acc.SendOnErr(res, t.res_one('FAIL','该链接不存在'));
-                t.db_ops_log(conn,req.param('cip'),req.param('cua'),'PROXY',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD hh:mm:ss'),'该短链接不存在');
+                t.db_ops_log(conn,req.param('cip'),req.param('cua'),'PROXY',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'该短链接不存在');
             }
             else
             {
                 if(sqlres[0].verify_av_times<1)
                 {
                     acc.SendOnErr(res, t.res_one('FAIL','该短链接存在，但可验证次数已达到上限'));
-                    t.db_ops_log(conn,req.param('cip'),req.param('cua'),'PROXY',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD hh:mm:ss'),'该短链接存在，但可验证次数已达到上限');
+                    t.db_ops_log(conn,req.param('cip'),req.param('cua'),'PROXY',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'该短链接存在，但可验证次数已达到上限');
                 }
                 else
                 {
                     acc.SendOnErr(res,t.res_one('SUCCESS','该短链接存在，且未达到验证上限'));
-                    t.db_ops_log(conn,req.param('cip'),req.param('cua'),'PROXY',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD hh:mm:ss'),'验证成功:未达到验证上限');
+                    t.db_ops_log(conn,req.param('cip'),req.param('cua'),'PROXY',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'验证成功:未达到验证上限');
                 }
             }
         })
@@ -251,12 +251,12 @@ exports.w2008=function(req,res){
             if(!sqlres[0])
             {
                 acc.SendOnErr(res, t.res_one('FAIL','该NFCID不存在'));
-                t.db_ops_log(conn,req.param('cip'),req.param('cua'),'PROXY','NULL',req.param('nfcid'),now.format('YYYY-MM-DD hh:mm:ss'),'该NFC不存在');
+                t.db_ops_log(conn,req.param('cip'),req.param('cua'),'PROXY','NULL',req.param('nfcid'),now.format('YYYY-MM-DD HH:mm:ss'),'该NFC不存在');
             }
             else
             {
                 acc.SendOnErr(res,t.res_one('SUCCESS','该NFCID验证成功'));
-                t.db_ops_log(conn,req.param('cip'),req.param('cua'),'PROXY','NULL',req.param('nfcid'),now.format('YYYY-MM-DD hh:mm:ss'),'该NFCID验证成功');
+                t.db_ops_log(conn,req.param('cip'),req.param('cua'),'PROXY','NULL',req.param('nfcid'),now.format('YYYY-MM-DD HH:mm:ss'),'该NFCID验证成功');
             }
         })
     });

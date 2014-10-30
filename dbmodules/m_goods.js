@@ -126,13 +126,23 @@ exports.Insert_PackHis=function(sonid,farid,uname,alname,cid,callback){
         //console.log(farid+uname+alname+cid);
         var now=moment();
         async.each(sonid,function(item,cb){
-            logger.debug('Req:'+sql_g.insert_boxhis(item,farid,now.format('YYYY-MM-DD hh:mm:ss'),uname,alname,cid));
-            conn.query(sql_g.insert_boxhis(item,farid,now.format('YYYY-MM-DD hh:mm:ss'),uname,alname,cid),function (err, sqlres) {
+            logger.debug('Req:'+sql_g.insert_boxhis(item,farid,now.format('YYYY-MM-DD HH:mm:ss'),uname,alname,cid));
+            conn.query(sql_g.insert_boxhis(item,farid,now.format('YYYY-MM-DD HH:mm:ss'),uname,alname,cid),function (err, sqlres) {
                 cb(null,'ok');
             });
         },function(err,exres){
             conn.release();
             callback(exres);
+        });
+    })
+};
+
+//查询装箱历史
+exports.Query_PackHis=function(uname,stime,etime,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.query_packhis(uname,stime,etime));
+        conn.query(sql_g.query_packhis(uname,stime,etime),function (err, sqlres) {
+            callback(sqlres);
         });
     })
 };

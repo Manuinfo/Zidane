@@ -26,5 +26,11 @@ module.exports={
             '\''+p_uname+'\','+
             '\''+p_alname+'\','+
             '\''+p_cid+'\');'
+        },
+    'query_packhis':
+        function(p_uname,p_stime,p_etime)
+        {return 'select pack_time,son_id,alname from py_package_his where uname=\''+p_uname+'\''+
+                ' and pack_time >\''+p_stime+'\''+
+                ' and pack_time <\''+p_etime+'\';'
         }
 };

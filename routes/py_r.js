@@ -57,7 +57,7 @@ exports.r2002=function(req,res){
 
 /*先根据NFCID查看商品信息
 * 也就是看是否这个ID是这个商品
-*
+* 再看有无重复
 */
 exports.r2003=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
@@ -108,5 +108,16 @@ exports.r2003=function(req,res){
         } else
         { acc.SendOnErr(res,t.res_one('FAIL','输入的ID有误，请重新输入'));  }
     });
+};
+
+
+//查询装箱历史
+exports.r2004=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
+        acc.Jspp(req,function(jbody){
+            m_goods.Query_PackHis(jbody.username,jbody.stime,jbody.etime,function(dbres){
+                acc.SendOnErr(res,t.res_one('SUCC',dbres));
+            });
+        });
 };
 

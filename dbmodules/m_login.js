@@ -40,10 +40,10 @@ exports.Get_PassWord=function(name,passwd,callback){
 exports.Login_Succ=function(name,passwd,ip){
     var now=moment();
     pool.getConnection(function(err, conn) {
-        logger.debug('Req:'+sql_py.update_acclogintime(now.format('YYYY-MM-DD hh:mm:ss'),name));
-        conn.query(sql_py.update_acclogintime(now.format('YYYY-MM-DD hh:mm:ss'),name),function (err, sqlres) {
-            logger.debug('Req:'+sql_py.insert_accloginhis(name,now.format('YYYY-MM-DD hh:mm:ss'),ip,'SUCC','NULL'));
-            conn.query(sql_py.insert_accloginhis(name,now.format('YYYY-MM-DD hh:mm:ss'),ip,'SUCC','NULL'),function (err, sqlres) {
+        logger.debug('Req:'+sql_py.update_acclogintime(now.format('YYYY-MM-DD HH:mm:ss'),name));
+        conn.query(sql_py.update_acclogintime(now.format('YYYY-MM-DD HH:mm:ss'),name),function (err, sqlres) {
+            logger.debug('Req:'+sql_py.insert_accloginhis(name,now.format('YYYY-MM-DD HH:mm:ss'),ip,'SUCC','NULL'));
+            conn.query(sql_py.insert_accloginhis(name,now.format('YYYY-MM-DD HH:mm:ss'),ip,'SUCC','NULL'),function (err, sqlres) {
                 conn.release();
             });
         });
@@ -54,10 +54,10 @@ exports.Login_Succ=function(name,passwd,ip){
 exports.Login_Fail=function(name,passwd,ip,reason){
     var now=moment();
     pool.getConnection(function(err, conn) {
-        logger.debug('Req:'+sql_py.update_acclogintime_err(now.format('YYYY-MM-DD hh:mm:ss'),name));
-        conn.query(sql_py.update_acclogintime_err(now.format('YYYY-MM-DD hh:mm:ss'),name),function (err, sqlres) {
-            logger.debug('Req:'+sql_py.insert_accloginhis(name,now.format('YYYY-MM-DD hh:mm:ss'),ip,'FAIL',reason));
-            conn.query(sql_py.insert_accloginhis(name,now.format('YYYY-MM-DD hh:mm:ss'),ip,'FAIL',reason),function (err, sqlres) {
+        logger.debug('Req:'+sql_py.update_acclogintime_err(now.format('YYYY-MM-DD HH:mm:ss'),name));
+        conn.query(sql_py.update_acclogintime_err(now.format('YYYY-MM-DD HH:mm:ss'),name),function (err, sqlres) {
+            logger.debug('Req:'+sql_py.insert_accloginhis(name,now.format('YYYY-MM-DD HH:mm:ss'),ip,'FAIL',reason));
+            conn.query(sql_py.insert_accloginhis(name,now.format('YYYY-MM-DD HH:mm:ss'),ip,'FAIL',reason),function (err, sqlres) {
                 conn.release();
             });
         });
@@ -68,8 +68,8 @@ exports.Login_Fail=function(name,passwd,ip,reason){
 exports.Login_HisAppend=function(name,ip,reason){
     var now=moment();
     pool.getConnection(function(err, conn) {
-        logger.debug('Req:'+sql_py.insert_accloginhis(name,now.format('YYYY-MM-DD hh:mm:ss'),ip,'FAIL',reason));
-        conn.query(sql_py.insert_accloginhis(name,now.format('YYYY-MM-DD hh:mm:ss'),ip,'FAIL',reason),function (err, sqlres) {
+        logger.debug('Req:'+sql_py.insert_accloginhis(name,now.format('YYYY-MM-DD HH:mm:ss'),ip,'FAIL',reason));
+        conn.query(sql_py.insert_accloginhis(name,now.format('YYYY-MM-DD HH:mm:ss'),ip,'FAIL',reason),function (err, sqlres) {
              conn.release();
         });
     });
