@@ -125,6 +125,7 @@ exports.Insert_PackHis=function(sonid,farid,uname,alname,cid,callback){
     pool.getConnection(function(err, conn) {
         //console.log(farid+uname+alname+cid);
         var now=moment();
+        console.log(now.format('YYYY-MM-DD HH:mm:ss'));
         async.each(sonid,function(item,cb){
             logger.debug('Req:'+sql_g.insert_boxhis(item,farid,now.format('YYYY-MM-DD HH:mm:ss'),uname,alname,cid));
             conn.query(sql_g.insert_boxhis(item,farid,now.format('YYYY-MM-DD HH:mm:ss'),uname,alname,cid),function (err, sqlres) {
