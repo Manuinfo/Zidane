@@ -49,6 +49,9 @@ exports.r2002=function(req,res){
         m_goods.Get_NameBySerial(global.u_CHID[req.param('sid')].split(','),function(dbres){
         acc.SendOnErr(res,t.res_one('SUCC',dbres));
         });
+    } else
+    {
+        acc.SendOnErr(res,t.res_one('FAIL','查询的记录出错'));
     }
 };
 
