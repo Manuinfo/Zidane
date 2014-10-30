@@ -58,7 +58,7 @@ app.post('/py_w/2003', rest_pw.w2003);
 
 app.get('/py_r/2001/:cmd', rest_pr.r2001);
 app.get('/py_r/2002/:sid', rest_pr.r2002);
-app.post('/py_r/2003', rest_pr.r2003);  //校验装箱商品是否准确以及重复
+//app.post('/py_r/2003', rest_pr.r2003);  //校验装箱商品是否准确以及重复
 
 
 
