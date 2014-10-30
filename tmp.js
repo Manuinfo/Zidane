@@ -23,6 +23,18 @@ xh=[
     '04a9be42723617',
     '04a9be42723618',
     '04a9be42723619'];
+
+y='04a9be42723644';
+z=xh.push(y);
+//console.log(xh);
+console.log(xh);
+
+var a = ['04a9be42723619'];// 创建数组
+y='04a9be42723619';
+a.push(1);
+a.push(y);
+console.log(a);
+
   //   04a9be42723619
 //   04a9be42723619
  //    04a9ba42723619
@@ -34,7 +46,7 @@ m.Get_NameByNFCID('04a9be42723619',function(xx){
 
 sss='\u4e2d\u56fd'
 sss='\u4e0a\u6d77\u5e02'
-console.log(unescape(sss.replace(/\\u/gi, '%u')));
+//console.log(unescape(sss.replace(/\\u/gi, '%u')));
 
 
 

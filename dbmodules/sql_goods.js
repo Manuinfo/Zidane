@@ -14,5 +14,17 @@ module.exports={
     'get_goods_byNFCID':
         function(b){return 'select name from g_products a where a.product_id in ('+
             'select b.product_id from batches b where b.batch_id in ('+
-            'select c.batch_id from g_nfc_batch_map c where c.nfc_id=\''+b+'\'))'}
+            'select c.batch_id from g_nfc_batch_map c where c.nfc_id=\''+b+'\'))'},
+    'check_repeat':
+        function(b){return 'SELECT son_id FROM py_package_his where son_id=\''+b+'\';'},
+    'insert_boxhis':
+        function(p_sonid,p_farid,p_packtime,p_uname,p_alname,p_cid)
+        {return 'insert into py_package_his values ('+
+            '\''+p_sonid+'\','+
+            '\''+p_farid+'\','+
+            '\''+p_packtime+'\','+
+            '\''+p_uname+'\','+
+            '\''+p_alname+'\','+
+            '\''+p_cid+'\');'
+        }
 };

@@ -2,6 +2,11 @@
  * Created by z30 on 14-10-18.
  */
 
+exports.packagelimit={
+    '01':54,
+    '02':20
+};
+
 /*
 exports.ulevel={
     '1':'生产商',

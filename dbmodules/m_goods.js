@@ -65,7 +65,7 @@ exports.Get_AllBase=function(callback){
 };
 
 //根据NFC ID查商品名称
-exports.Get_NameByNFCID=function(nfcid,callback){
+exports.Get_NameByNFCID=function(nfcid,number,callback){
     pool.getConnection(function(err, conn) {
         if (nfcid.length==1)
         {
@@ -76,19 +76,63 @@ exports.Get_NameByNFCID=function(nfcid,callback){
         });
         } else
         {
-            async.mapSeries(nfcid,function(item,cb){
+            var ncount=0;
+            async.map(nfcid,function(item,cb){
                 logger.debug('Req:'+sql_g.get_goods_byNFCID(item));
                 conn.query(sql_g.get_goods_byNFCID(item),function (err, sqlres) {
                     //console.log(sqlres[0]);
                     if(sqlres[0])
-                        cb(null,item+":"+sqlres[0].name);
+                    {    ncount++;
+                        cb(null,item+":"+sqlres[0].name);}
                     else
                         cb(null,item+":"+"记录为空");
                 });
             },function(err,exres){
                 conn.release();
-                callback(exres);
+                if(ncount==number){delete ncount;  callback(1); }
+                else  {delete ncount; callback(exres); }
             });
         }
+    })
+};
+
+
+//校验装箱历史
+exports.Check_PackRepeat=function(sonid,callback){
+    pool.getConnection(function(err, conn) {
+        //console.log(sonid);
+         async.map(sonid,function(item,cb){
+             logger.debug('Req:'+sql_g.check_repeat(item));
+             conn.query(sql_g.check_repeat(item),function (err, sqlres) {
+                 //console.log(sqlres);
+                 if(sqlres[0])  //记录不存在，为新纪录
+                 {
+                     cb(null,item);
+                 }
+                 else  //记录数存在，为重复数据
+                     cb(null,'ok');
+               });
+         },function(err,exres){
+            //console.log(exres);
+             callback(exres);
+             conn.release();
+         });
+    })
+};
+
+//插入装箱历史
+exports.Insert_PackHis=function(sonid,farid,uname,alname,cid,callback){
+    pool.getConnection(function(err, conn) {
+        //console.log(farid+uname+alname+cid);
+        var now=moment();
+        async.each(sonid,function(item,cb){
+            logger.debug('Req:'+sql_g.insert_boxhis(item,farid,now.format('YYYY-MM-DD hh:mm:ss'),uname,alname,cid));
+            conn.query(sql_g.insert_boxhis(item,farid,now.format('YYYY-MM-DD hh:mm:ss'),uname,alname,cid),function (err, sqlres) {
+                cb(null,'ok');
+            });
+        },function(err,exres){
+            conn.release();
+            callback(exres);
+        });
     })
 };

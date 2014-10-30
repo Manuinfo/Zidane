@@ -152,6 +152,12 @@ insert into b_id_mgnt values ('02','酵素','BRAND');
 insert into b_id_mgnt values ('03','乳酸菌','BRAND');
 insert into b_id_mgnt values ('04','牛樟菇','BRAND');
 insert into b_id_mgnt values ('CH','上海承煌','BRAND');
+insert into b_id_mgnt values ('01','54','PACKLIMIT');
+insert into b_id_mgnt values ('02','20','PACKLIMIT');
+insert into b_id_mgnt values ('03','20','PACKLIMIT');
+insert into b_id_mgnt values ('04','20','PACKLIMIT');
+
+update b_id_mgnt set name="5" where id="02" and type="PACKLIMIT";
 
 #++++++++++++++++++++++ 商品表
 create table g_products (
@@ -345,7 +351,7 @@ create index py_package_his_2 on py_package_his(uname);
 create index py_package_his_3 on py_package_his(pack_time);
 create index py_package_his_4 on py_package_his(alname);
 
-insert into py_package_his values ('04a9ba52723680','04a9ba52723680')
+insert into py_package_his values ('04a9ba52723680','04a9ba52723680','22222',)
 
 
 

@@ -79,6 +79,7 @@ conf.Get_IDByType('CHANNEL',function(confall){ global.u_CHID=acc.G_JSON({},confa
 conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL=acc.G_JSON({},confall)});
 conf.Get_IDByType('BRAND',function(confall){ global.u_BRAND=acc.G_JSON({},confall);});
 conf.Get_IDByType('LAY',function(confall){ global.u_LAY=acc.G_JSON({},confall);});
+conf.Get_IDByType('PACKLIMIT',function(confall){ global.u_PACKLIMIT=acc.G_JSON({},confall);});
 
 //var x='一三一素,米亚妮亚';
 //console.log(x.split('-'));

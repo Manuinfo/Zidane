@@ -64,3 +64,11 @@ exports.G_JSON=function extend(des, src){
         des[src[i].id]=src[i].name;
     return des;
 };
+
+//判断数组制定字符重复数量
+exports.G_ARRAY_IF=function(arr,xstr){
+    var n=0;
+    for(var i=0,len=arr.length;i<len;i++)
+        if (arr[i]==xstr) n++;
+    return n;
+};

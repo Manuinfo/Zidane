@@ -55,17 +55,54 @@ exports.r2002=function(req,res){
     }
 };
 
-//根据NFCID查看商品信息，也就是看是否这个ID是这个商品
+/*先根据NFCID查看商品信息
+* 也就是看是否这个ID是这个商品
+*
+*/
 exports.r2003=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     acc.Jspp(req,function(jbody){
-        console.log(jbody.son_id);
-        if(jbody.son_id)
+        //console.log(jbody.son_id);
+        if(jbody.son_id)  //判断小盒ID是否存在
         {
-            m_goods.Get_NameByNFCID(jbody.son_id,function(dbres){
-                acc.SendOnErr(res,t.res_one('FAIL',dbres));
+            logger.debug('判断商品是否属实');
+            m_goods.Get_NameByNFCID(jbody.son_id,global.u_PACKLIMIT[jbody.expgoods],function(dbres){
+                //console.log(dbres);
+
+                if(dbres==1)  //判断商品是否属实
+                {
+                    var x=jbody.son_id;
+                    x.push(jbody.par_id);
+                    //console.log(x);
+                    logger.debug('判断盒子是否重复');
+                    m_goods.Check_PackRepeat(x,function(xres){
+                        if(acc.G_ARRAY_IF(xres,'ok')==global.u_PACKLIMIT[jbody.expgoods])
+                        {
+                            delete x;
+                            logger.debug('不重复，开始装箱');
+                            m_goods.Insert_PackHis(jbody.son_id,
+                                                   jbody.par_id,
+                                                   jbody.username,
+                                                   jbody.expgoods,
+                                                   jbody.channel_id,function(xxres){
+                              logger.debug('装箱完毕');
+                              acc.SendOnErr(res,t.res_one('SUCC','无重复记录,装箱完毕'));
+                            });
+                            //
+                        } else
+                        {
+                            delete x;
+                            logger.debug('有记录重复:'+xres);
+                            acc.SendOnErr(res,t.res_one('FAIL','有记录重复:'+xres));
+                        }
+                    });
+                }else   //如果商品不匹配
+                {
+                    acc.SendOnErr(res,t.res_one('FAIL','有商品不匹配:['+dbres+']'));
+                }
             });
-        }
+        } else
+        { acc.SendOnErr(res,t.res_one('FAIL','输入的ID有误，请重新输入'));  }
     });
 };
 

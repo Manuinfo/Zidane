@@ -35,11 +35,12 @@ exports.w2000=function(req,res){
 exports.w2001=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     acc.Jspp(req,function(jbody){
-
+        logger.debug('先判断用户名是否存在?');
         //先判断用户名是否存在？
         m_login.Get_AcctName(jbody.username,function(db_res){
             if(!db_res)
             {
+                logger.debug(jbody.username+'该登陆名不存在');
                 m_login.Login_HisAppend(jbody.username,jbody.ip,'该登陆名不存在');
                 acc.SendOnErr(res,t.res_one('FAIL','该登陆名不存在'));
             }
@@ -48,18 +49,22 @@ exports.w2001=function(req,res){
                 m_login.Get_PassWord(jbody.username,jbody.passwd,function(db_res){
                     if(!db_res)
                     {
+                        logger.debug(jbody.username+'密码错误');
                         m_login.Login_Fail(jbody.username,jbody.passwd,jbody.ip,'密码错误');
                         acc.SendOnErr(res,t.res_one('FAIL','密码错误'));
                     } else if (db_res.state=='D')  //再判断账户是否被锁定
                     {
+                        logger.debug(jbody.username+'账户被锁定');
                         m_login.Login_Fail(jbody.username,jbody.passwd,jbody.ip,'账户被锁定');
                         acc.SendOnErr(res,t.res_one('FAIL','账户被锁定'));
                     } else if (db_res.frstate==0)
                     {
+                        logger.debug(jbody.username+'首次登陆需要修改密码');
                         m_login.Login_Fail(jbody.username,jbody.passwd,jbody.ip,'首次登陆需要修改密码');
                         acc.SendOnErr(res,t.res_one('FAIL','首次登陆需要修改密码'));
                     } else //登陆成功
                     {
+                        logger.debug(jbody.username+'登陆成功');
                         m_login.Login_Succ(jbody.username,jbody.passwd,jbody.ip);
                         m_login.Get_AcctName(jbody.username,function(dbres2){
                             acc.SendOnErr(res,t.res_one('SUCC',dbres2));
