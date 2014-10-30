@@ -55,3 +55,17 @@ exports.r2002=function(req,res){
     }
 };
 
+//根据NFCID查看商品信息，也就是看是否这个ID是这个商品
+exports.r2003=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
+    acc.Jspp(req,function(jbody){
+        console.log(jbody.son_id);
+        if(jbody.son_id)
+        {
+            m_goods.Get_NameByNFCID(jbody.son_id,function(dbres){
+                acc.SendOnErr(res,t.res_one('FAIL',dbres));
+            });
+        }
+    });
+};
+

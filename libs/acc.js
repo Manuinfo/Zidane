@@ -4,6 +4,7 @@
 
 var logger = require('../libs/log').logger;
 
+//发送时做校验
 exports.SendOnErr=function(res,objsend){
     try{
         logger.debug('Res:'+objsend);
@@ -16,7 +17,7 @@ exports.SendOnErr=function(res,objsend){
     }
 };
 
-
+//翻译REQ至JSON
 exports.Jspp=function(req,cb)
 {
     logger.debug('Req:'+req.url+' '+req.method);
@@ -32,6 +33,7 @@ exports.Jspp=function(req,cb)
     });
 };
 
+//翻译JSON拼接
 exports.Jsadd=function extend(des, src, override){
     if(src instanceof Array){
         for(var i = 0, len = src.length; i < len; i++)
@@ -45,10 +47,20 @@ exports.Jsadd=function extend(des, src, override){
     return des;
 };
 
+//从数组组装成JSON 格式1
 exports.G_JSON=function extend(des, src){
    des={};
    // console.log(src);
    for(var i = 0, len = src.length; i < len; i++)
         des[src[i].id]=src[i].name;
    return des;
+};
+
+//从数组组装成JSON 格式2
+exports.G_JSON=function extend(des, src){
+    des={};
+    // console.log(src);
+    for(var i = 0, len = src.length; i < len; i++)
+        des[src[i].id]=src[i].name;
+    return des;
 };

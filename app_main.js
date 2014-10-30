@@ -58,8 +58,8 @@ app.post('/py_w/2003', rest_pw.w2003);
 
 app.get('/py_r/2001/:cmd', rest_pr.r2001);
 app.get('/py_r/2002/:sid', rest_pr.r2002);  //根据系列取商品列表
-//app.post('/py_r/2003', rest_pr.r2003);  //校验装箱商品是否准确以及重复
-
+app.post('/py_r/2003', rest_pr.r2003);  //校验装箱商品是否准确
+//app.post('/py_w/2004',rest_pr.w2004);  //校验装箱商品是否重复
 //(?:\.\.(\w+))?$
 //(?:\.\.(\w+))
 app.get('/:aaaa',function(req, res){
@@ -80,8 +80,8 @@ conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL=acc.G_JSON({},conf
 conf.Get_IDByType('BRAND',function(confall){ global.u_BRAND=acc.G_JSON({},confall);});
 conf.Get_IDByType('LAY',function(confall){ global.u_LAY=acc.G_JSON({},confall);});
 
-var x='一三一素,米亚妮亚';
-console.log(x.split('-'));
+//var x='一三一素,米亚妮亚';
+//console.log(x.split('-'));
 
 
 setTimeout(function(){

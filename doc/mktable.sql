@@ -206,12 +206,9 @@ DEFAULT CHARSET=gbk;
 
 create index product_id_3 on batches(product_id);
 
-
 insert into batches values ('827f5c0778d48996b9ee750511c33b09','9','66',20000,30000,3,'20141014-827f5c0778d48996b9ee750511c33b09-66-1','2014-10-14 11:35:00',NULL);
 insert into batches values ('12c8656e2a5d34aba5a23f666ab1d0e4','9','77',30000,30000,5,'20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','2014-10-14 11:45:00',NULL);
 insert into batches values ('12c8656e2a5d34aba5a23f666ab1d0e4','9','77',30000,30000,5,'20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-2','2014-10-14 11:55:00',NULL);
-
-
 
 #+++++++++++++++++ 操作记录历史表
 CREATE TABLE ops_history (
@@ -246,6 +243,26 @@ insert into g_nfc_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-7
 insert into g_nfc_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-2','04a9bc42723680','CH6542010202AA');
 insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9bd42723680','CH6542010203BB');
 insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723680','CH6542010204BB');
+
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723601',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723602',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723603',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723604',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723605',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723606',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723607',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723608',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723609',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723610',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723611',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723612',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723613',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723614',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723615',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723616',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723617',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723618',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723619',NULL);
 
 #++++++++++++++ qr与批次的对应关系
 create table qr_batch_map (
@@ -327,6 +344,9 @@ create index py_package_his_1 on py_package_his(par_id);
 create index py_package_his_2 on py_package_his(uname);
 create index py_package_his_3 on py_package_his(pack_time);
 create index py_package_his_4 on py_package_his(alname);
+
+insert into py_package_his values ('04a9ba52723680','04a9ba52723680')
+
 
 
 #-----------

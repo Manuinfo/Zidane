@@ -53,7 +53,6 @@ exports.Get_IDByType=function(type,callback){
     })
 };
 
-
 //ID管理，获取全量信息
 exports.Get_AllBase=function(callback){
     pool.getConnection(function(err, conn) {
@@ -68,10 +67,28 @@ exports.Get_AllBase=function(callback){
 //根据NFC ID查商品名称
 exports.Get_NameByNFCID=function(nfcid,callback){
     pool.getConnection(function(err, conn) {
-        logger.debug('Req:'+sql_g.get_goods_byNFCID(nfcid));
-        conn.query(sql_g.get_goods_byNFCID(nfcid),function (err, sqlres) {
-            conn.release();
+        if (nfcid.length==1)
+        {
+            logger.debug('Req:'+sql_g.get_goods_byNFCID(nfcid));
+            conn.query(sql_g.get_goods_byNFCID(nfcid),function (err, sqlres) {
+                conn.release();
             callback(sqlres[0]);
         });
+        } else
+        {
+            async.mapSeries(nfcid,function(item,cb){
+                logger.debug('Req:'+sql_g.get_goods_byNFCID(item));
+                conn.query(sql_g.get_goods_byNFCID(item),function (err, sqlres) {
+                    //console.log(sqlres[0]);
+                    if(sqlres[0])
+                        cb(null,item+":"+sqlres[0].name);
+                    else
+                        cb(null,item+":"+"记录为空");
+                });
+            },function(err,exres){
+                conn.release();
+                callback(exres);
+            });
+        }
     })
 };
