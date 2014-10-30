@@ -353,6 +353,23 @@ create index py_package_his_4 on py_package_his(alname);
 
 insert into py_package_his values ('04a9ba52723680','04a9ba52723680','22222',)
 
+#++++++++++++++ 发货历史表/大小箱关系绑定
+create table py_package_his (
+par_id varchar(128),
+dist_time datetime,
+uname varchar(255),
+zname varchar(255),
+alname varchar(255),
+channel_id varchar(10)  #发货人渠道ID
+) engine=INNODB
+DEFAULT CHARSET=gbk;
+
+create index py_package_his_1 on py_package_his(par_id);
+create index py_package_his_2 on py_package_his(uname);
+create index py_package_his_3 on py_package_his(pack_time);
+create index py_package_his_4 on py_package_his(alname);
+
+insert into py_package_his values ('04a9ba52723680','04a9ba52723680','22222',)
 
 
 #-----------
