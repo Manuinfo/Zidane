@@ -75,8 +75,12 @@ exports.r2003=function(req,res){
                     x.push(jbody.par_id);
                     //console.log(x);
                     logger.debug('判断盒子是否重复');
+                    //console.log(global.u_PACKLIMIT[jbody.expgoods]);
                     m_goods.Check_PackRepeat(x,function(xres){
-                        if(acc.G_ARRAY_IF(xres,'ok')==global.u_PACKLIMIT[jbody.expgoods])
+                        //console.log(xres)
+                        //console.log(acc.G_ARRAY_IF(xres,'ok'));
+                        //console.log(global.u_PACKLIMIT[jbody.expgoods]+1);
+                        if(acc.G_ARRAY_IF(xres,'ok')==parseInt(global.u_PACKLIMIT[jbody.expgoods])+1)
                         {
                             delete x;
                             logger.debug('不重复，开始装箱');
