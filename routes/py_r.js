@@ -51,7 +51,7 @@ exports.r2002=function(req,res){
         });
     } else
     {
-        acc.SendOnErr(res,t.res_one('FAIL','查询的记录出错'));
+        acc.SendOnErr(res,t.res_one('FAIL','查询记录出错或该渠道下没有可售商品'));
     }
 };
 
