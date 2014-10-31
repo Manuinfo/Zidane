@@ -364,16 +364,21 @@ dist_time datetime,
 send_name varchar(255),    #发货人ID
 recv_name varchar(255),    #收货人ID
 alname varchar(255),    #商品名称
-send_cid varchar(10),  #发货人渠道ID
-recv_cid varchar(10)  #发货人渠道ID
+send_lid varchar(10),  #发货人层级ID
+recv_lid varchar(10)   #收货人层级ID
 ) engine=INNODB
 DEFAULT CHARSET=gbk;
 
+#15800750648
 create index py_send_his_1 on py_send_his(par_id);
 create index py_send_his_2 on py_send_his(dist_time);
 create index py_send_his_3 on py_send_his(send_name);
 create index py_send_his_4 on py_send_his(recv_name);
 create index py_send_his_5 on py_send_his(alname);
+
+insert into py_send_his values('04a9be427236FF','2014-10-31 11:50:00','FACT','1314TP11','A0','1','2');
+insert into py_send_his values('04a9be427236CF','2014-10-31 11:51:00','FACT','1314TP11','A0','1','2');
+insert into py_send_his values('04a9be427236CF','2014-10-31 11:51:00','FACT','1314TP11','A0','1','2');
 
 #++++++++  代理层级关系
 create table py_relatation(

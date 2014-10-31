@@ -132,3 +132,13 @@ exports.r2005=function(req,res){
     });
 };
 
+//查询上家是谁
+exports.r2006=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
+    acc.Jspp(req,function(jbody){
+        m_goods.WhoIsMyDaddy(jbody.username,function(dbres){
+            acc.SendOnErr(res,t.res_one('SUCC',dbres));
+        });
+    });
+};
+
