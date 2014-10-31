@@ -9,6 +9,8 @@ module.exports={
         function(c){return 'select * from b_id_mgnt where type=\''+c+'\';'},
     'get_all_base':
         function(){return 'select * from b_id_mgnt;'},
+    'get_all_accts':
+        function(){return 'SELECT name as id ,ulevel as name FROM py_user_accounts  ;'},
     'get_goods_bySerial':
         function(b){return 'select name from g_products where serias=\''+b+'\';'},
     'get_goods_byNFCID':

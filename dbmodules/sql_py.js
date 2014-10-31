@@ -32,6 +32,14 @@ module.exports={
     'update_passwd_fr':
         function(p_name,p_passwd){
             return 'update py_user_accounts set passwd=\''+p_passwd+'\',loginerr=0,state=\'A\',frstate=1 where name=\''+p_name+'\' and frstate=0' ;
+        },
+    'query_upname':
+        function(p_name){
+            return 'select up_name,up_id from py_relatation where down_name=\''+p_name+'\'' ;
+        },
+    'query_downname':
+        function(p_name){
+            return 'select down_name,down_id from py_relatation where up_name=\''+p_name+'\'' ;
         }
 };
 

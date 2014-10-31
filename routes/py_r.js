@@ -121,3 +121,14 @@ exports.r2004=function(req,res){
         });
 };
 
+
+//查询下家范围
+exports.r2005=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
+    acc.Jspp(req,function(jbody){
+        m_goods.WhoIsMySons(jbody.username,function(dbres){
+            acc.SendOnErr(res,t.res_one('SUCC',dbres));
+        });
+    });
+};
+

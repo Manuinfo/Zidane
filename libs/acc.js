@@ -61,6 +61,7 @@ exports.G_JSON=function extend(des, src){
     des={};
     // console.log(src);
     for(var i = 0, len = src.length; i < len; i++)
+        //console.log(src[i]);
         des[src[i].id]=src[i].name;
     return des;
 };

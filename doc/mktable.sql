@@ -317,7 +317,11 @@ insert into py_user_accounts values ('W201','3503883**','0192023a7bbd73250516f06
 insert into py_user_accounts values ('W2YT205','3916**','c93ccd78b2076528346216b3b2f701e6','4','江苏无锡',NULL,'A',0,'C2',0);
 insert into py_user_accounts values ('1314TP11','MMMMiran**','c93ccd78b2076528346216b3b2f701e6','2','江苏',NULL,'A',0,'C1',0);
 insert into py_user_accounts values ('FACT','某某工厂','81dc9bdb52d04dc20036dbd8313ed055','1','山东',NULL,'A',0,'C3',0);
+insert into py_user_accounts values ('PKAA','某某工厂发货员','81dc9bdb52d04dc20036dbd8313ed055','1','山东',NULL,'A',0,'C3',0);
 insert into py_user_accounts values ('ABDCD','温州市前进街正品销售','81dc9bdb52d04dc20036dbd8313ed055','6','浙江',NULL,'A',0,'C1',0);
+insert into py_user_accounts values ('root','呈煌','81dc9bdb52d04dc20036dbd8313ed055','0','上海',NULL,'A',1,'C1',0);
+insert into py_user_accounts values ('asdf','asdf**','0192023a7bbd73250516f069df18b500','5','浙江杭州西溪湿地',NULL,'A',0,'C1',0);
+insert into py_user_accounts values ('setbus','setbus**','0192023a7bbd73250516f069df18b500','6','常州武进区',NULL,'A',0,'C1',0);
 
 
 #++++++++++++++ 用户登陆历史表
@@ -353,24 +357,49 @@ create index py_package_his_4 on py_package_his(alname);
 
 insert into py_package_his values ('04a9ba52723680','04a9ba52723680','22222',)
 
-#++++++++++++++ 发货历史表/大小箱关系绑定
-create table py_package_his (
+#++++++++++++++ 发货历史表
+create table py_send_his (
 par_id varchar(128),
 dist_time datetime,
-uname varchar(255),
-zname varchar(255),
-alname varchar(255),
-channel_id varchar(10)  #发货人渠道ID
+send_name varchar(255),    #发货人ID
+recv_name varchar(255),    #收货人ID
+alname varchar(255),    #商品名称
+send_cid varchar(10),  #发货人渠道ID
+recv_cid varchar(10)  #发货人渠道ID
 ) engine=INNODB
 DEFAULT CHARSET=gbk;
 
-create index py_package_his_1 on py_package_his(par_id);
-create index py_package_his_2 on py_package_his(uname);
-create index py_package_his_3 on py_package_his(pack_time);
-create index py_package_his_4 on py_package_his(alname);
+create index py_send_his_1 on py_send_his(par_id);
+create index py_send_his_2 on py_send_his(dist_time);
+create index py_send_his_3 on py_send_his(send_name);
+create index py_send_his_4 on py_send_his(recv_name);
+create index py_send_his_5 on py_send_his(alname);
 
-insert into py_package_his values ('04a9ba52723680','04a9ba52723680','22222',)
+#++++++++  代理层级关系
+create table py_relatation(
+up_name varchar(255),    #发货人ID
+down_name varchar(255),    #收货人ID
+up_id varchar(10),      #发货人层级ID
+down_id varchar(10),     #收货人层级ID
+utime datetime            #更新时间
+) engine=INNODB
+DEFAULT CHARSET=gbk;
 
+create index py_relatation_1  on py_relatation(up_name);
+create index py_relatation_2  on py_relatation(down_name);
+create index py_relatation_3  on py_relatation(up_id);
+create index py_relatation_4  on py_relatation(down_id);
+
+
+insert into py_relatation values ('root','FACT','0','1','2014-10-31 09:00:00');
+insert into py_relatation values ('root','PKAA','0','1','2014-10-31 09:00:00');
+insert into py_relatation values ('FACT','1314TP11','1','2','2014-10-31 09:00:00');
+insert into py_relatation values ('1314TP11','W201','2','3','2014-10-31 09:00:00');
+insert into py_relatation values ('1314TP11','asdf','2','5','2014-10-31 09:00:00');
+insert into py_relatation values ('W201','W2YT205','3','4','2014-10-31 09:00:00');
+insert into py_relatation values ('W2YT205','W101LS01','4','5','2014-10-31 09:00:00');
+insert into py_relatation values ('W101LS01','setbus','5','6','2014-10-31 09:00:00');
+insert into py_relatation values ('W201','ABDCD','3','6','2014-10-31 09:00:00');
 
 #-----------
 #创建索引

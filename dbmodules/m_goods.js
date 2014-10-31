@@ -11,7 +11,7 @@ var pool=require('../conf/db.js');
 var acc=require('../libs/acc.js');
 var t=require('../libs/t.js');
 var sql_g=require('../dbmodules/sql_goods.js');
-var dbm=require('../dbmodules/rule.js');
+var sql_py=require('../dbmodules/sql_py.js');
 var logger = require('../libs/log').logger;
 
 //ID管理，根据中文名称获取ID
@@ -59,6 +59,18 @@ exports.Get_AllBase=function(callback){
         logger.debug('Req:'+sql_g.get_all_base());
         conn.query(sql_g.get_all_base(),function (err, sqlres) {
             conn.release();
+            callback(sqlres);
+        });
+    })
+};
+
+//账户管理，获取账户信息
+exports.Get_ALLAccts=function(callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.get_all_accts());
+        conn.query(sql_g.get_all_accts(),function (err, sqlres) {
+            conn.release();
+            ///console.log(sqlres);
             callback(sqlres);
         });
     })
@@ -143,6 +155,26 @@ exports.Query_PackHis=function(uname,stime,etime,callback){
     pool.getConnection(function(err, conn) {
         logger.debug('Req:'+sql_g.query_packhis(uname,stime,etime));
         conn.query(sql_g.query_packhis(uname,stime,etime),function (err, sqlres) {
+            callback(sqlres);
+        });
+    })
+};
+
+//查询可以发给哪些下家
+exports.WhoIsMySons=function(up_name,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_py.query_downname(up_name));
+        conn.query(sql_py.query_downname(up_name),function (err, sqlres) {
+            callback(sqlres);
+        });
+    })
+};
+
+//查询我的上级是谁
+exports.WhoIsMyDaddy=function(down_name,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_py.query_upname(down_name));
+        conn.query(sql_py.query_upname(down_name),function (err, sqlres) {
             callback(sqlres);
         });
     })
