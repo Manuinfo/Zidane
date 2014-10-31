@@ -60,7 +60,7 @@ app.post('/py_w/2003', rest_pw.w2003);
 app.get('/py_r/2001/:cmd', rest_pr.r2001);
 app.get('/py_r/2002/:sid', rest_pr.r2002);  //根据系列取商品列表
 app.post('/py_r/2003', rest_pr.r2003);  //校验装箱商品是否准确
-app.post('/py_r/2004', rest_pr.r2004);  //校验装箱商品是否准确
+app.post('/py_r/2004', rest_pr.r2004);  //查询装箱历史
 app.post('/py_r/2005', rest_pr.r2005);  //查询哪些下家
 app.post('/py_r/2006', rest_pr.r2006);  //查询哪些上家
 app.post('/py_r/2007', rest_pr.r2007);  //查询这批货是否属于我，验货
