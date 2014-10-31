@@ -29,7 +29,19 @@ exports.Jspp=function(req,cb)
     req.on('end',function(){
         //console.log(qss);
         logger.debug('Req:'+qss);
-        cb(JSON.parse(qss));
+        try{
+            JSON.parse(qss);
+        }
+        catch (err){
+            if(err)
+            {
+                logger.debug('Res:'+err.message);
+                cb(999+":"+err.message);
+            }
+            else
+                cb(JSON.parse(qss));
+            //console.log(err.message);
+        }
     });
 };
 

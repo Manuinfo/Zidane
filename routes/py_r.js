@@ -115,10 +115,14 @@ exports.r2003=function(req,res){
 exports.r2004=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
         acc.Jspp(req,function(jbody){
+            if(jbody.split(':')[0]==999)  acc.SendOnErr(res,t.res_one('FAIL',jbody.split(':')[1]));
+            else
+            {
             logger.debug('查询装箱历史');
             m_goods.Query_PackHis(jbody.username,jbody.stime,jbody.etime,function(dbres){
                 acc.SendOnErr(res,t.res_one('SUCC',dbres));
             });
+            }
         });
 };
 
@@ -127,10 +131,13 @@ exports.r2004=function(req,res){
 exports.r2005=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     acc.Jspp(req,function(jbody){
+        if(jbody.split(':')[0]==999)  acc.SendOnErr(res,t.res_one('FAIL',jbody.split(':')[1]));
+        else {
         logger.debug('查询下家范围');
         m_goods.WhoIsMySons(jbody.username,function(dbres){
             acc.SendOnErr(res,t.res_one('SUCC',dbres));
         });
+        }
     });
 };
 
@@ -138,10 +145,13 @@ exports.r2005=function(req,res){
 exports.r2006=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     acc.Jspp(req,function(jbody){
+        if(jbody.split(':')[0]==999)  acc.SendOnErr(res,t.res_one('FAIL',jbody.split(':')[1]));
+        else {
         logger.debug('查询上家范围');
         m_goods.WhoIsMyDaddy(jbody.username,function(dbres){
             acc.SendOnErr(res,t.res_one('SUCC',dbres));
         });
+        }
     });
 };
 
@@ -150,6 +160,8 @@ exports.r2007=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     logger.debug('收货时进行验货');
     acc.Jspp(req,function(jbody){
+        if(jbody.split(':')[0]==999)  acc.SendOnErr(res,t.res_one('FAIL',jbody.split(':')[1]));
+        else {
         m_goods.Check_Belongme(jbody.par_id,function(dbres){
             console.log(acc.G_ARRAY_KV_IF(dbres,':','记录为空'));
             if(acc.G_ARRAY_KV_IF(dbres,':','记录为空')==0)
@@ -159,6 +171,7 @@ exports.r2007=function(req,res){
             else
                 acc.SendOnErr(res, t.res_one('FAIL',dbres));
         });
+        }
     });
 };
 
@@ -168,6 +181,8 @@ exports.r2008=function(req,res){
     logger.debug('准备发货');
 
     acc.Jspp(req,function(jbody){
+        if(jbody.split(':')[0]==999)  acc.SendOnErr(res,t.res_one('FAIL',jbody.split(':')[1]));
+        else {
         logger.debug('发货前验货');
         m_goods.Check_Belongme(jbody.par_id,function(dbres){
             //console.log(acc.G_ARRAY_KV_IF(dbres,':','记录为空'));
@@ -182,6 +197,7 @@ exports.r2008=function(req,res){
             else
                 acc.SendOnErr(res, t.res_one('FAIL',dbres));
         });
+        }
     });
 };
 
@@ -191,9 +207,12 @@ exports.r2009=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     acc.Jspp(req,function(jbody){
         logger.debug('查询发货历史');
+        if(jbody.split(':')[0]==999)  acc.SendOnErr(res,t.res_one('FAIL',jbody.split(':')[1]));
+        else {
         m_goods.Query_SendHis(jbody.username,jbody.stime,jbody.etime,function(dbres){
             acc.SendOnErr(res,t.res_one('SUCC',dbres));
         });
+        }
     });
 };
 

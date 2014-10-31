@@ -25,8 +25,11 @@ exports.w2000=function(req,res){
            //acc.SendOnErr(res,t.res_one('SUCCESS','登陆成功'))
         //});
        // m_login.Login_Succ(jbody.username,jbody.passwd,jbody.ip,jbody.os);
+        if(jbody.split(':')[0]==999)  acc.SendOnErr(res,t.res_one('FAIL',jbody.split(':')[1]));
+        else {
         m_login.Login_Fail(jbody.username,jbody.passwd,jbody.ip,jbody.os);
         acc.SendOnErr(res,t.res_one('SUCCESS','登陆成功'))
+        }
     });
 };
 
@@ -35,6 +38,8 @@ exports.w2000=function(req,res){
 exports.w2001=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     acc.Jspp(req,function(jbody){
+        if(jbody.split(':')[0]==999)  acc.SendOnErr(res,t.res_one('FAIL',jbody.split(':')[1]));
+        else {
         logger.debug('先判断用户名是否存在?');
         //先判断用户名是否存在？
         m_login.Get_AcctName(jbody.username,function(db_res){
@@ -73,6 +78,7 @@ exports.w2001=function(req,res){
                 })
             }
         })
+        }
     });
 };
 
@@ -80,6 +86,8 @@ exports.w2001=function(req,res){
 exports.w2002=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     acc.Jspp(req,function(jbody){
+        if(jbody.split(':')[0]==999)  acc.SendOnErr(res,t.res_one('FAIL',jbody.split(':')[1]));
+        else {
         m_login.Get_AcctName(jbody.username,function(db_res){
             if(!db_res)
             {
@@ -92,6 +100,7 @@ exports.w2002=function(req,res){
                 acc.SendOnErr(res,t.res_one('SUCC','重置成功'));
             }
         });
+        }
     });
 };
 
@@ -100,6 +109,8 @@ exports.w2002=function(req,res){
 exports.w2003=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     acc.Jspp(req,function(jbody){
+        if(jbody.split(':')[0]==999)  acc.SendOnErr(res,t.res_one('FAIL',jbody.split(':')[1]));
+        else {
         m_login.Get_AcctName(jbody.username,function(db_res){
             //console.log(db_res);
             if(db_res.frstate==1)
@@ -114,6 +125,6 @@ exports.w2003=function(req,res){
                 acc.SendOnErr(res,t.res_one('SUCC','首次密码修改成功，请重新登陆'));
             }
         });
-
+        }
     });
 };
