@@ -155,6 +155,7 @@ exports.Query_PackHis=function(uname,stime,etime,callback){
     pool.getConnection(function(err, conn) {
         logger.debug('Req:'+sql_g.query_packhis(uname,stime,etime));
         conn.query(sql_g.query_packhis(uname,stime,etime),function (err, sqlres) {
+            conn.release();
             callback(sqlres);
         });
     })
@@ -165,6 +166,7 @@ exports.WhoIsMySons=function(up_name,callback){
     pool.getConnection(function(err, conn) {
         logger.debug('Req:'+sql_py.query_downname(up_name));
         conn.query(sql_py.query_downname(up_name),function (err, sqlres) {
+            conn.release();
             callback(sqlres);
         });
     })
@@ -175,9 +177,58 @@ exports.WhoIsMyDaddy=function(down_name,callback){
     pool.getConnection(function(err, conn) {
         logger.debug('Req:'+sql_py.query_upname(down_name));
         conn.query(sql_py.query_upname(down_name),function (err, sqlres) {
+            conn.release();
             callback(sqlres);
         });
     })
 };
 
+//查询这箱货是否属于我的
+exports.Check_Belongme=function(nfcids,callback){
+    var now=moment().subtract(1,'month').format('YYYY-MM-DD HH:mm:ss');
+    pool.getConnection(function(err, conn) {
+        async.map(nfcids,function(item,cb){
+            logger.debug('Req:'+sql_g.query_belongme(item,now));
+            conn.query(sql_g.query_belongme(item,now),function (err, sqlres) {
+                if(sqlres[0])
+                   cb(null,item+":"+sqlres[0].recv_name);
+                else
+                   cb(null,item+":记录为空")
+            });
+        },function(err,exres){
+            //console.log(exres);
+            callback(exres);
+            conn.release();
+        });
+    })
+};
+
+//insert into py_send_his values('04a9be427236GF','2014-10-01 11:51:00','FACT','1314TP11','A0','1','2');
+
+//给这项货开始发货
+exports.SendBox=function(jbd,callback){
+    var now=moment().format('YYYY-MM-DD HH:mm:ss');
+    pool.getConnection(function(err, conn) {
+        async.map(jbd.par_id,function(item,cb){
+            logger.debug('Req:'+sql_g.insert_sendhis(item,now,jbd.username,jbd.cv_name,jbd.expgoods,jbd.sn_id,jbd.cv_id));
+            conn.query(sql_g.insert_sendhis(item,now,jbd.username,jbd.cv_name,jbd.expgoods,jbd.sn_id,jbd.cv_id),function (err, sqlres) {
+                cb(null,'OK');
+            });
+    },function(err,exres){
+            callback(exres);
+            conn.release();
+        });
+    })
+};
+
+//查询发货历史
+exports.Query_SendHis=function(uname,stime,etime,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.query_sendhis(uname,stime,etime));
+        conn.query(sql_g.query_sendhis(uname,stime,etime),function (err, sqlres) {
+            conn.release();
+            callback(sqlres);
+        });
+    });
+};
 

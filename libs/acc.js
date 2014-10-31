@@ -73,3 +73,11 @@ exports.G_ARRAY_IF=function(arr,xstr){
         if (arr[i]==xstr) n++;
     return n;
 };
+
+//判断数组内K-V中V的制定字符重复数量
+exports.G_ARRAY_KV_IF=function(arr,delimer,xstr){
+    var n=0;
+    for(var i=0,len=arr.length;i<len;i++)
+    {  if ((arr[i].split(delimer))[1]==xstr) n++;}
+    return n;
+};

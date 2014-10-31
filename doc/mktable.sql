@@ -376,9 +376,11 @@ create index py_send_his_3 on py_send_his(send_name);
 create index py_send_his_4 on py_send_his(recv_name);
 create index py_send_his_5 on py_send_his(alname);
 
+insert into py_send_his values('04a9be427236GF','2014-10-01 11:51:00','FACT','1314TP11','A0','1','2');
+insert into py_send_his values('04a9be427236ZF','2014-10-01 11:51:00','FACT','1314TP11','A0','1','2');
 insert into py_send_his values('04a9be427236FF','2014-10-31 11:50:00','FACT','1314TP11','A0','1','2');
 insert into py_send_his values('04a9be427236CF','2014-10-31 11:51:00','FACT','1314TP11','A0','1','2');
-insert into py_send_his values('04a9be427236CF','2014-10-31 11:51:00','FACT','1314TP11','A0','1','2');
+insert into py_send_his values('04a9be427236GF','2014-10-31 11:51:00','FACT','1314TP11','A0','1','2');
 
 #++++++++  代理层级关系
 create table py_relatation(

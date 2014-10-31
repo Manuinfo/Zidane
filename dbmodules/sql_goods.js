@@ -34,5 +34,31 @@ module.exports={
         {return 'select pack_time,son_id,alname from py_package_his where uname=\''+p_uname+'\''+
                 ' and pack_time >\''+p_stime+'\''+
                 ' and pack_time <\''+p_etime+'\';'
+        },
+    'query_belongme':
+        function(p_nfcid,p_dtime)
+        {return 'select recv_name from py_send_his where par_id=\''+p_nfcid+'\''+
+                ' and dist_time > \''+p_dtime+'\'order by dist_time desc;'
+        },
+    'insert_sendhis':
+        function(p_farid,p_sendtime,p_sendname,p_recvname,p_alname,p_snid,p_cvid)
+        {return 'insert into py_send_his values ('+
+            '\''+p_farid+'\','+
+            '\''+p_sendtime+'\','+
+            '\''+p_sendname+'\','+
+            '\''+p_recvname+'\','+
+            '\''+p_alname+'\','+
+            '\''+p_snid+'\','+
+            '\''+p_cvid+'\');'
+        },
+    'query_sendhis':
+        function(p_uname,p_stime,p_etime)
+        {return 'select * from py_send_his where send_name=\''+p_uname+'\''+
+            ' and dist_time >\''+p_stime+'\''+
+            ' and dist_time <\''+p_etime+'\';'
         }
+
+
+    //insert into py_send_his values('04a9be427236GF','2014-10-01 11:51:00','FACT','1314TP11','A0','1','2');
+
 };

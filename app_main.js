@@ -63,6 +63,9 @@ app.post('/py_r/2003', rest_pr.r2003);  //校验装箱商品是否准确
 app.post('/py_r/2004', rest_pr.r2004);  //校验装箱商品是否准确
 app.post('/py_r/2005', rest_pr.r2005);  //查询哪些下家
 app.post('/py_r/2006', rest_pr.r2006);  //查询哪些上家
+app.post('/py_r/2007', rest_pr.r2007);  //查询这批货是否属于我，验货
+app.post('/py_r/2008', rest_pr.r2008);  //发货，当然之前还要验货
+app.post('/py_r/2009', rest_pr.r2009);  //查询发货历史
 
 
 //app.post('/py_w/2004',rest_pr.w2004);  //校验装箱商品是否重复
