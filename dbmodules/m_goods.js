@@ -255,4 +255,17 @@ exports.Query_SendHis=function(uname,stime,etime,nfcid,callback){
 };
 
 
-
+//ADMIN查询历史查询
+exports.Query_AdminHis=function(stime,etime,goodsid,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('ADMIN查过的记录开始查询');
+        console.log(goodsid);
+        console.log(global.u_BRAND);
+        console.log(global.u_BRAND[goodsid]);
+        logger.debug('Req:'+sql_g.query_adminhis(stime,etime,global.u_BRAND[goodsid]));
+        conn.query(sql_g.query_adminhis(stime,etime,global.u_BRAND[goodsid]),function (err, sqlres) {
+            conn.release();
+            callback(sqlres);
+        });
+    });
+};

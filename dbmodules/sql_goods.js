@@ -56,9 +56,16 @@ module.exports={
         {return 'select * from py_send_his where send_name=\''+p_uname+'\''+
             ' and dist_time >\''+p_stime+'\''+
             ' and dist_time <\''+p_etime+'\' and par_id=\''+p_nfcid+'\';'
+        },
+    'query_adminhis':
+        function(p_stime,p_etime,p_prdid)
+        {return 'SELECT * FROM  ops_history where client_ip=\'root\' and type=\'ADMINCHECK\' and' +
+                ' client_ua=\''+p_prdid+'\''+
+                ' and  verify_at >\''+p_stime+'\''+
+                ' and verify_at < \''+p_etime+'\';'
         }
 
-
+//SELECT * FROM  ops_history where client_ip='root' and type='ADMINCHECK' and client_ua='' and  verify_at > '' and verify_at < ''
     //insert into py_send_his values('04a9be427236GF','2014-10-01 11:51:00','FACT','1314TP11','A0','1','2');
 
 };

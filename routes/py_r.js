@@ -208,7 +208,7 @@ exports.r2009=function(req,res){
     //
     acc.Jspp(req,function(jbody){
         logger.debug('查询发货历史');
-        console.log(jbody);
+        //console.log(jbody);
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
             //console.log('222222222');
@@ -219,5 +219,21 @@ exports.r2009=function(req,res){
     });
 };
 
+//查询发货历史
+exports.r2010=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
+    //
+    acc.Jspp(req,function(jbody){
+        logger.debug('查ADMIN的查询历史');
+        //console.log(jbody);
+        if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
+        else {
+            //console.log('222222222');
+            m_goods.Query_AdminHis(jbody.stime,jbody.etime,jbody.goods_id,function(dbres){
+                acc.SendOnErr(res,t.res_one('SUCC',dbres));
+            });
+        }
+    });
+};
 
 
