@@ -52,10 +52,10 @@ module.exports={
             '\''+p_cvid+'\');'
         },
     'query_sendhis':
-        function(p_uname,p_stime,p_etime)
+        function(p_uname,p_stime,p_etime,p_nfcid)
         {return 'select * from py_send_his where send_name=\''+p_uname+'\''+
             ' and dist_time >\''+p_stime+'\''+
-            ' and dist_time <\''+p_etime+'\';'
+            ' and dist_time <\''+p_etime+'\' and par_id=\''+p_nfcid+'\';'
         }
 
 

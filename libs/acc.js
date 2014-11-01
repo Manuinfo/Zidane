@@ -31,12 +31,13 @@ exports.Jspp=function(req,cb)
         logger.debug('Req:'+qss);
         try{
             JSON.parse(qss);
+            cb(JSON.parse(qss));
         }
         catch (err){
             if(err)
             {
                 logger.debug('Res:'+err.message);
-                cb(999+":"+err.message);
+                cb(JSON.parse("{\"msg\":\""+err.message+"\"}"));
             }
             else
                 cb(JSON.parse(qss));

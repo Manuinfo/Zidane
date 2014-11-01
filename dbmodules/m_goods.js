@@ -10,6 +10,8 @@ var url=require('url');
 var pool=require('../conf/db.js');
 var acc=require('../libs/acc.js');
 var t=require('../libs/t.js');
+var me=require('./m_goods.js');
+var sql_trust=require('../dbmodules/sql.js');
 var sql_g=require('../dbmodules/sql_goods.js');
 var sql_py=require('../dbmodules/sql_py.js');
 var logger = require('../libs/log').logger;
@@ -79,7 +81,7 @@ exports.Get_ALLAccts=function(callback){
 //根据NFC ID查商品名称
 exports.Get_NameByNFCID=function(nfcid,number,callback){
     pool.getConnection(function(err, conn) {
-        if (nfcid.length==1)
+        if (typeof nfcid=="string")
         {
             logger.debug('Req:'+sql_g.get_goods_byNFCID(nfcid));
             conn.query(sql_g.get_goods_byNFCID(nfcid),function (err, sqlres) {
@@ -221,14 +223,36 @@ exports.SendBox=function(jbd,callback){
     })
 };
 
-//查询发货历史
-exports.Query_SendHis=function(uname,stime,etime,callback){
+//ADMIN 插入历史记录
+exports.Insert_QuerySendLog_ByAdmin=function(uname,unfc){
+    var now=moment();
+    me.Get_NameByNFCID(unfc,1,function(alname){
+        //console.log(unfc);
+        //console.log(alname);
+        if (alname.name) xalname=alname.name
+        pool.getConnection(function(err, conn) {
+            logger.debug('Req:'+sql_trust.Insert_Log_Basic(uname,xalname,'ADMINCHECK','NULL',unfc,now.format('YYYY-MM-DD HH:mm:ss'),'SUCC'));
+            conn.query(sql_trust.Insert_Log_Basic(uname,xalname,'ADMINCHECK','NULL',unfc,now.format('YYYY-MM-DD HH:mm:ss'),'SUCC'),function (err, sqlres) {
+                conn.release();
+            });
+        });
+    });
+};
+
+//查询发货链
+exports.Query_SendHis=function(uname,stime,etime,nfcid,callback){
     pool.getConnection(function(err, conn) {
-        logger.debug('Req:'+sql_g.query_sendhis(uname,stime,etime));
-        conn.query(sql_g.query_sendhis(uname,stime,etime),function (err, sqlres) {
+        logger.debug('Req:'+sql_g.query_sendhis(uname,stime,etime,nfcid));
+        conn.query(sql_g.query_sendhis(uname,stime,etime,nfcid),function (err, sqlres) {
             conn.release();
+            logger.debug('如果是ADMIN查询，则插入记录');
+            if (uname=='root'){
+                me.Insert_QuerySendLog_ByAdmin(uname,nfcid);
+            }
             callback(sqlres);
         });
     });
 };
+
+
 

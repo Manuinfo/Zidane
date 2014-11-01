@@ -218,9 +218,9 @@ insert into batches values ('12c8656e2a5d34aba5a23f666ab1d0e4','9','77',30000,30
 
 #+++++++++++++++++ 操作记录历史表
 CREATE TABLE ops_history (
- client_ip varchar(64),
- client_ua varchar(255),
- type varchar(128),
+ client_ip varchar(64) comment '客户端IP',
+ client_ua varchar(255) comment '客户端AGENT',
+ type varchar(128) comment '类型',
  qrcode varchar(255),
  nfc varchar(255),
  verify_at datetime,
@@ -269,6 +269,7 @@ insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-6
 insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723617',NULL);
 insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723618',NULL);
 insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723619',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be427236FF',NULL);
 
 #++++++++++++++ qr与批次的对应关系
 create table qr_batch_map (
