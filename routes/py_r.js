@@ -31,6 +31,9 @@ exports.r2001=function(req,res){
         case 'GETLEVEL':
             acc.SendOnErr(res,t.res_one('SUCC',global.u_LAY));
             break;
+        case 'GETLIMIT':
+            acc.SendOnErr(res,t.res_one('SUCC',global.u_PACKLIMIT));
+            break;
         case 'GETALLBASE':
             m_goods.Get_AllBase(function(dbres){ acc.SendOnErr(res,t.res_one('SUCC',dbres));});
             break;
@@ -42,17 +45,15 @@ exports.r2001=function(req,res){
 //根据系列取商品列表
 exports.r2002=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
-    //console.log(req.param('sid'));
-    //console.log(global.u_CHID);
-    if(global.u_CHID[req.param('sid')])
-    {
-        m_goods.Get_NameBySerial(global.u_CHID[req.param('sid')].split(','),function(dbres){
+
+        m_goods.Get_NameBySerial(req.param('sid'),function(dbres){
         acc.SendOnErr(res,t.res_one('SUCC',dbres));
         });
+        /*
     } else
     {
         acc.SendOnErr(res,t.res_one('FAIL','查询记录出错或该渠道下没有可售商品'));
-    }
+    }*/
 };
 
 /*先根据NFCID查看商品信息
@@ -80,7 +81,8 @@ exports.r2003=function(req,res){
                         //console.log(xres)
                         //console.log(acc.G_ARRAY_IF(xres,'ok'));
                         //console.log(global.u_PACKLIMIT[jbody.expgoods]+1);
-                        if(acc.G_ARRAY_IF(xres,'ok')==parseInt(global.u_PACKLIMIT[jbody.expgoods])+1)
+                        //if(acc.G_ARRAY_IF(xres,'ok')==parseInt(global.u_PACKLIMIT[jbody.expgoods])+1)
+                        if(acc.G_ARRAY_IF(xres,'ok')==7)
                         {
                             delete x;
                             logger.debug('不重复，开始装箱');
@@ -97,7 +99,9 @@ exports.r2003=function(req,res){
                         {
                             delete x;
                             logger.debug('有记录重复:'+xres);
-                            acc.SendOnErr(res,t.res_one('FAIL','有记录重复:'+xres));
+                            m_goods.Query_BigOrSmall(xres,function(repres){
+                                acc.SendOnErr(res,t.res_one('FAIL','['+repres+']'));
+                            });
                         }
                     });
                 }else   //如果商品不匹配

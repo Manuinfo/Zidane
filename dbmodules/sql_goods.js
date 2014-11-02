@@ -11,8 +11,8 @@ module.exports={
         function(){return 'select * from b_id_mgnt;'},
     'get_all_accts':
         function(){return 'SELECT name as id ,ulevel as name FROM py_user_accounts  ;'},
-    'get_goods_bySerial':
-        function(b){return 'select name from g_products where serias=\''+b+'\';'},
+    'get_goods_bySerialID':
+        function(b){return 'select name from g_products where s_id=\''+b+'\';'},
     'get_goods_byNFCID':
         function(b){return 'select name from g_products a where a.product_id in ('+
             'select b.product_id from batches b where b.batch_id in ('+
@@ -56,6 +56,10 @@ module.exports={
         {return 'select * from py_send_his where '+
             ' and dist_time >\''+p_stime+'\''+
             ' and dist_time <\''+p_etime+'\' and par_id=\''+p_nfcid+'\';'
+        },
+    'check_bigorsmall':
+        function(p_nfcid)
+        {return 'select nfc_flag from g_nfc_batch_map where nfc_id =\''+p_nfcid+'\';'
         },
         /*
         {return 'select * from py_send_his where send_name=\''+p_uname+'\''+

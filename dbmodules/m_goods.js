@@ -29,19 +29,13 @@ exports.Get_IdByName=function(name,type,callback){
 
 
 //根据类型获取有哪些配置信息
-exports.Get_NameBySerial=function(types,callback){
+exports.Get_NameBySerial=function(sid,callback){
     pool.getConnection(function(err, conn) {
-        async.map(types,function(item,cb){
-            logger.debug('Req:'+sql_g.get_goods_bySerial(item));
-            conn.query(sql_g.get_goods_bySerial(item),function (err, sqlres) {
-                cb(null,sqlres);
+            logger.debug('Req:'+sql_g.get_goods_bySerialID(sid));
+            conn.query(sql_g.get_goods_bySerialID(sid),function (err, sqlres) {
+                callback(sqlres);
             });
-        },function(err,exres){
-            conn.release();
-            //console.log(exres);
-            callback(exres);
-        });
-    })
+    });
 };
 
 //根据SERIAL获取有哪些商品
@@ -119,11 +113,11 @@ exports.Check_PackRepeat=function(sonid,callback){
              logger.debug('Req:'+sql_g.check_repeat(item));
              conn.query(sql_g.check_repeat(item),function (err, sqlres) {
                  //console.log(sqlres);
-                 if(sqlres[0])  //记录不存在，为新纪录
+                 if(sqlres[0])  //记录数存在，为重复数据
                  {
                      cb(null,item);
                  }
-                 else  //记录数存在，为重复数据
+                 else   //记录数不存在
                      cb(null,'ok');
                });
          },function(err,exres){
@@ -268,4 +262,30 @@ exports.Query_AdminHis=function(stime,etime,goodsid,callback){
             callback(sqlres);
         });
     });
+};
+
+
+//判断大箱还是小箱
+exports.Query_BigOrSmall=function(nfcids,callback){
+    pool.getConnection(function(err, conn) {
+        async.map(nfcids,function(item,cb){
+            logger.debug('Req:'+sql_g.check_bigorsmall(item));
+            conn.query(sql_g.check_bigorsmall(item),function (err, sqlres) {
+               // console.log(sqlres[0]);
+                if(sqlres[0])   //存在NFCFLAG则是大箱
+                    if(sqlres[0].nfc_flag==null)
+                        cb(null,item+":小箱");
+                    else
+                        cb(null,item+":大箱");
+                else
+                    cb(null,item+":这个箱子不重复")
+            });
+        },function(err,exres){
+            //console.log(exres);
+            //console.log(exres);
+            callback(exres);
+            conn.release();
+        });
+    })
+
 };

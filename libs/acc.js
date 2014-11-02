@@ -29,7 +29,7 @@ exports.Jspp=function(req,cb)
     });
     req.on('end',function(){
         //console.log(qss);
-        console.log(qss);
+        //console.log(qss);
         logger.debug('Req:'+qss);
         try{
             JSON.parse(qss);

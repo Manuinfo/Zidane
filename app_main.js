@@ -100,6 +100,8 @@ setTimeout(function(){
     app.listen(3000,function(){
         console.log('Zidane Web Service is started at 3000');
         logger.debug('Zidane Web Service is started at 3000');
+        console.log(global.u_CHID);
+        console.log(global.u_SERIAL);
 
     });
 },500);

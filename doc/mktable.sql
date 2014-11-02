@@ -136,21 +136,22 @@ DEFAULT CHARSET=gbk ;
 create index id_ind_1 on b_id_mgnt(name);
 
 
-insert into b_id_mgnt values ('1','生产商','LAY');
-insert into b_id_mgnt values ('2','省级代理','LAY');
-insert into b_id_mgnt values ('3','一级代理商','LAY');
-insert into b_id_mgnt values ('4','二级代理商','LAY');
-insert into b_id_mgnt values ('5','正品销售商','LAY');
-insert into b_id_mgnt values ('6','正品销售商3','LAY');
-insert into b_id_mgnt values ('C1','一三一素','CHANNEL');
-insert into b_id_mgnt values ('C2','米亚妮亚','CHANNEL');
-insert into b_id_mgnt values ('C3','一三一素,米亚妮亚','CHANNEL');
+insert into b_id_mgnt values ('0','呈煌','LAY');
+insert into b_id_mgnt values ('1','生产商装箱员','LAY');
+insert into b_id_mgnt values ('2','生产商发货员','LAY');
+insert into b_id_mgnt values ('3','省级代理','LAY');
+insert into b_id_mgnt values ('4','一级代理商','LAY');
+insert into b_id_mgnt values ('5','二级代理商','LAY');
+insert into b_id_mgnt values ('6','正品销售商','LAY');
+insert into b_id_mgnt values ('7','正品销售商3','LAY');
+insert into b_id_mgnt values ('C1','米亚妮亚','CHANNEL');
+insert into b_id_mgnt values ('C2','一三一素','CHANNEL');
 insert into b_id_mgnt values ('A2','米亚妮亚','SERIAL');
 insert into b_id_mgnt values ('A1','一生一素','SERIAL');
-insert into b_id_mgnt values ('01','白金橙花匀亮修护隐形面膜','BRAND');
-insert into b_id_mgnt values ('02','酵素','BRAND');
-insert into b_id_mgnt values ('03','乳酸菌','BRAND');
-insert into b_id_mgnt values ('04','牛樟菇','BRAND');
+insert into b_id_mgnt values ('01','酵素','BRAND');
+insert into b_id_mgnt values ('02','乳酸菌','BRAND');
+insert into b_id_mgnt values ('03','牛樟菇','BRAND');
+insert into b_id_mgnt values ('04','白金橙花匀亮修护隐形面膜','BRAND');
 insert into b_id_mgnt values ('CH','上海承煌','BRAND');
 insert into b_id_mgnt values ('01','54','PACKLIMIT');
 insert into b_id_mgnt values ('02','20','PACKLIMIT');
@@ -291,7 +292,7 @@ DEFAULT CHARSET=gbk;
 
 #++++++++++++++ 用户管理表
 create table py_user_accounts (
-name varchar(255),
+name varchar(255) comment '账户名',
 alname varchar(255),
 passwd varchar(255),
 ulevel varchar(24),
@@ -299,7 +300,7 @@ uzone varchar(128),
 logintime datetime,
 state  varchar(10),
 frstate int(1),
-channel_id varchar(10),
+s_id varchar(10) comment '系列ID',
 loginerr int(4),
 PRIMARY KEY(name)
 ) engine=INNODB
@@ -310,19 +311,21 @@ create index py_accounts_2 on py_user_accounts(state);
 create index py_accounts_5 on py_user_accounts(uzone);
 create index py_accounts_6 on py_user_accounts(alname);
 create index py_accounts_9 on py_user_accounts(frstate);
-create index py_accounts_10 on py_user_accounts(channel_id);
+create index py_accounts_10 on py_user_accounts(s_id);
 
 
-insert into py_user_accounts values ('W101LS01','yezi5993189**','0192023a7bbd73250516f069df18b500','5','浙江杭州西湖区',NULL,'A',0,'C1',0);
-insert into py_user_accounts values ('W201','3503883**','0192023a7bbd73250516f069df18b500','3','江苏',NULL,'A',0,'C1',0);
-insert into py_user_accounts values ('W2YT205','3916**','c93ccd78b2076528346216b3b2f701e6','4','江苏无锡',NULL,'A',0,'C2',0);
-insert into py_user_accounts values ('1314TP11','MMMMiran**','c93ccd78b2076528346216b3b2f701e6','2','江苏',NULL,'A',0,'C1',0);
-insert into py_user_accounts values ('FACT','某某工厂','81dc9bdb52d04dc20036dbd8313ed055','1','山东',NULL,'A',0,'C3',0);
-insert into py_user_accounts values ('PKAA','某某工厂发货员','81dc9bdb52d04dc20036dbd8313ed055','1','山东',NULL,'A',0,'C3',0);
-insert into py_user_accounts values ('ABDCD','温州市前进街正品销售','81dc9bdb52d04dc20036dbd8313ed055','6','浙江',NULL,'A',0,'C1',0);
-insert into py_user_accounts values ('root','呈煌','81dc9bdb52d04dc20036dbd8313ed055','0','上海',NULL,'A',1,'C1',0);
-insert into py_user_accounts values ('asdf','asdf**','0192023a7bbd73250516f069df18b500','5','浙江杭州西溪湿地',NULL,'A',0,'C1',0);
-insert into py_user_accounts values ('setbus','setbus**','0192023a7bbd73250516f069df18b500','6','常州武进区',NULL,'A',0,'C1',0);
+insert into py_user_accounts values ('W101LS01','yezi5993189**','c93ccd78b2076528346216b3b2f701e6','5','浙江杭州西湖区',NULL,'A',0,'A1',0);
+insert into py_user_accounts values ('W201','3503883**','c93ccd78b2076528346216b3b2f701e6','3','江苏',NULL,'A',0,'A1',0);
+insert into py_user_accounts values ('W2YT205','3916**','c93ccd78b2076528346216b3b2f701e6','4','江苏无锡',NULL,'A',0,'A1',0);
+insert into py_user_accounts values ('1314TP11','MMMMiran**','c93ccd78b2076528346216b3b2f701e6','2','江苏',NULL,'A',0,'A1',0);
+insert into py_user_accounts values ('FACT','某某工厂','c93ccd78b2076528346216b3b2f701e6','1','山东',NULL,'A',0,'A1',0);
+insert into py_user_accounts values ('PKAA','某某工厂发货员','c93ccd78b2076528346216b3b2f701e6','1','山东',NULL,'A',0,'A2',0);
+insert into py_user_accounts values ('ABDCD','温州市前进街正品销售','c93ccd78b2076528346216b3b2f701e6','6','浙江',NULL,'A',0,'A2',0);
+insert into py_user_accounts values ('root','呈煌','c93ccd78b2076528346216b3b2f701e6','0','上海',NULL,'A',1,'A2',0);
+insert into py_user_accounts values ('asdf','asdf**','c93ccd78b2076528346216b3b2f701e6','5','浙江杭州西溪湿地',NULL,'A',0,'A2',0);
+insert into py_user_accounts values ('setbus','setbus**','0192023a7bbd73250516f069df18b500','6','常州武进区',NULL,'A',0,'A2',0);
+insert into py_user_accounts values ('1','1**','c4ca4238a0b923820dcc509a6f75849b','4','河南郑州',NULL,'A',0,'A2',0);
+
 
 
 #++++++++++++++ 用户登陆历史表
