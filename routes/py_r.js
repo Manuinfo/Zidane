@@ -82,8 +82,8 @@ exports.r2003=function(req,res){
                         //console.log(xres)
                         //console.log(acc.G_ARRAY_IF(xres,'ok'));
                         //console.log(global.u_PACKLIMIT[jbody.expgoods]+1);
-                        //if(acc.G_ARRAY_IF(xres,'ok')==parseInt(global.u_PACKLIMIT[jbody.expgoods])+1)
-                        if(acc.G_ARRAY_IF(xres,'ok')==7)
+                        if(acc.G_ARRAY_IF(xres,'ok')==parseInt(global.u_PACKLIMIT[jbody.expgoods])+1)
+                        //if(acc.G_ARRAY_IF(xres,'ok')==7)
                         {
                             delete x;
                             logger.debug('不重复，开始装箱');
