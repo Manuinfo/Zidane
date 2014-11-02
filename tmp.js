@@ -2,6 +2,11 @@
 var t=require('./libs/t.js');
 var m=require('./dbmodules/m_goods.js');
 
+aa={'aaa':'ssss'};
+
+console.log(aa);
+console.log(JSON.stringify(aa));
+
 console.log(t.md5hash('admin1234'));
 //admin123   0192023a7bbd73250516f069df18b500
 //admin1234  c93ccd78b2076528346216b3b2f701e6

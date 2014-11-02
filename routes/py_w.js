@@ -38,9 +38,11 @@ exports.w2000=function(req,res){
 exports.w2001=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     acc.Jspp(req,function(jbody){
+        //logger.debug(req);
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
         logger.debug('先判断用户名是否存在?');
+        console.log(jbody);
         //先判断用户名是否存在？
         m_login.Get_AcctName(jbody.username,function(db_res){
             if(!db_res)
@@ -109,7 +111,7 @@ exports.w2002=function(req,res){
 exports.w2003=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     acc.Jspp(req,function(jbody){
-        if(jbody.split(':')[0]==999)  acc.SendOnErr(res,t.res_one('FAIL',jbody.split(':')[1]));
+        if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
         m_login.Get_AcctName(jbody.username,function(db_res){
             //console.log(db_res);

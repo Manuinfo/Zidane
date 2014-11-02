@@ -21,6 +21,7 @@ exports.SendOnErr=function(res,objsend){
 exports.Jspp=function(req,cb)
 {
     logger.debug('Req:'+req.url+' '+req.method);
+    //logger.debug(req);
     var qss='';
     req.on('data',function(chunk)
     {
@@ -28,6 +29,7 @@ exports.Jspp=function(req,cb)
     });
     req.on('end',function(){
         //console.log(qss);
+        console.log(qss);
         logger.debug('Req:'+qss);
         try{
             JSON.parse(qss);
