@@ -67,6 +67,8 @@ app.post('/py_r/2007', rest_pr.r2007);  //查询这批货是否属于我，验�
 app.post('/py_r/2008', rest_pr.r2008);  //发货，当然之前还要验货
 app.post('/py_r/2009', rest_pr.r2009);  //查询发货历史
 app.post('/py_r/2010', rest_pr.r2010);  //查询ADMIN之前查过的历史
+app.post('/py_r/2011', rest_pr.r2011);  //查询发货员下面的省级代理
+app.post('/py_r/2012', rest_pr.r2012);  //查询发货员下面的一级代理
 
 
 //app.post('/py_w/2004',rest_pr.w2004);  //校验装箱商品是否重复
@@ -97,9 +99,9 @@ conf.Get_ALLAccts(function(confall){ global.u_ACCTS=acc.G_JSON({},confall);});
 
 setTimeout(function(){
     app.listen(3000,function(){
-        console.log('Zidane Web Service is started at 3000');
-        logger.debug('Zidane Web Service is started at 3000');
-        //console.log(global.u_CHID);
+        console.log('Zidane Web Service is started at 3000,ID:'+process.pid);
+        logger.debug('Zidane Web Service is started at 3000,ID:'+process.pid);
+       // console.log(global.u_ACCTS);
         //console.log(global.u_SERIAL);
 
     });
@@ -114,6 +116,6 @@ setInterval(function(){
     conf.Get_IDByType('LAY',function(confall){ global.u_LAY=acc.G_JSON({},confall);});
     conf.Get_IDByType('PACKLIMIT',function(confall){ global.u_PACKLIMIT=acc.G_JSON({},confall);});
     conf.Get_ALLAccts(function(confall){ global.u_ACCTS=acc.G_JSON({},confall);});
-},120000);
+},240000);
 
 

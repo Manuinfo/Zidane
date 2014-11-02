@@ -192,7 +192,7 @@ exports.WhoIsMyDaddy=function(down_name,callback){
 exports.Check_Belongme=function(nfcids,callback){
     var now=moment().subtract(1,'month').format('YYYY-MM-DD HH:mm:ss');
     pool.getConnection(function(err, conn) {
-        async.map(nfcids,function(item,cb){
+        async.map(nfcids.split(','),function(item,cb){
             logger.debug('Req:'+sql_g.query_belongme(item,now));
             conn.query(sql_g.query_belongme(item,now),function (err, sqlres) {
                 if(sqlres[0])
@@ -214,7 +214,7 @@ exports.Check_Belongme=function(nfcids,callback){
 exports.SendBox=function(jbd,callback){
     var now=moment().format('YYYY-MM-DD HH:mm:ss');
     pool.getConnection(function(err, conn) {
-        async.map(jbd.par_id,function(item,cb){
+        async.map(jbd.par_id.split(','),function(item,cb){
             logger.debug('Req:'+sql_g.insert_sendhis(item,now,jbd.username,jbd.cv_name,jbd.expgoods,jbd.sn_id,jbd.cv_id));
             conn.query(sql_g.insert_sendhis(item,now,jbd.username,jbd.cv_name,jbd.expgoods,jbd.sn_id,jbd.cv_id),function (err, sqlres) {
                 cb(null,'OK');
@@ -296,5 +296,27 @@ exports.Query_BigOrSmall=function(nfcids,callback){
             conn.release();
         });
     })
+};
 
+
+//判断发货员下面有多少省级代理
+exports.WhoIsMySonsFSend=function(up_name,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_py.query_senddownname(up_name));
+        conn.query(sql_py.query_senddownname(up_name),function (err, sqlres) {
+            conn.release();
+            callback(sqlres);
+        });
+    })
+};
+
+//判断省级代理下面有多少一级代理
+exports.WhoIsMySonsFSD=function(up_name,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_py.query_shengdownname(up_name));
+        conn.query(sql_py.query_shengdownname(up_name),function (err, sqlres) {
+            conn.release();
+            callback(sqlres);
+        });
+    })
 };

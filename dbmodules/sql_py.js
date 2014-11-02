@@ -40,6 +40,14 @@ module.exports={
     'query_downname':
         function(p_name){
             return 'select down_name,down_id from py_relatation where up_name=\''+p_name+'\'' ;
+        },
+    'query_senddownname':
+        function(p_name){
+            return 'select down_name,down_id from py_relatation where down_id=3 and up_name=\''+p_name+'\'' ;
+        },
+    'query_shengdownname':
+        function(p_name){
+            return 'select down_name,down_id from py_relatation where down_id=4 and up_name=\''+p_name+'\'' ;
         }
 };
 

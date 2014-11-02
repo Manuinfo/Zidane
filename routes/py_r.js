@@ -45,8 +45,8 @@ exports.r2001=function(req,res){
 //根据系列取商品列表
 exports.r2002=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
-    console.log(req.param('sid'));
-    console.log(global.u_SERIAL);
+    //console.log(req.param('sid'));
+    //console.log(global.u_SERIAL);
         m_goods.Get_NameBySerial(global.u_SERIAL[req.param('sid')],function(dbres){
             acc.SendOnErr(res,t.res_one('SUCC',dbres));
         });
@@ -191,7 +191,7 @@ exports.r2008=function(req,res){
         logger.debug('发货前验货');
         //如果是工厂发货人员则不校验收货上家，NEW一根CHIAN出来
         logger.debug('验货前校验账号LEVEL:'+jbody.username+','+global.u_ACCTS[jbody.username]);
-        if ( global.u_ACCTS[jbody.username]==1 )
+        if ( parseInt(global.u_ACCTS[jbody.username])==2 )
         {
             m_goods.SendBox(jbody,function(xxres){
                 acc.SendOnErr(res,t.res_one('SUCC','发货成功'));
@@ -252,4 +252,33 @@ exports.r2010=function(req,res){
     });
 };
 
+//查询发货员的下家省级代理
+exports.r2011=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
+    acc.Jspp(req,function(jbody){
+        logger.debug('查询发货员的下家一级代理');
+        if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
+        else {
+            logger.debug('查询下家范围');
+            m_goods.WhoIsMySonsFSend(jbody.username,function(dbres){
+                acc.SendOnErr(res,t.res_one('SUCC',dbres));
+            });
+        }
+    });
+};
+
+//查询省级代理下面有多少一级代理
+exports.r2012=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
+    acc.Jspp(req,function(jbody){
+        logger.debug('查询省级代理下面有多少一级代理');
+        if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
+        else {
+            logger.debug('查询下家范围');
+            m_goods.WhoIsMySonsFSD(jbody.username,function(dbres){
+                acc.SendOnErr(res,t.res_one('SUCC',dbres));
+            });
+        }
+    });
+};
 

@@ -263,9 +263,11 @@ insert into g_nfc_batch_map values ('20141014-fb9df591767a35bbfffd2af564fbac99-7
 insert into g_nfc_batch_map values ('20141014-fb9df591767a35bbfffd2af564fbac99-77-1','0428C20A9B3280',NULL);
 
 #箱子ID
-insert into g_nfc_batch_map values ('20141014-fb9df591767a35bbfffd2af564fbac99-77-1','04a9bc42723680','CH6542010202AA');
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9bd42723680','CH6542010203BB');
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723680','CH6542010204BB');
+#0428D70A9B3280
+#0428DE0A9B3280
+insert into g_nfc_batch_map values ('20141014-fb9df591767a35bbfffd2af564fbac99-77-1','0428D70A9B3280','CH6542010202AA');
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-44-1','0428DE0A9B3280','CH6542010203BB');
+
 
 #++++++++++++++ qr与批次的对应关系
 create table qr_batch_map (
@@ -409,7 +411,12 @@ insert into py_relatation values ('root','FACT','0','1','2014-10-31 09:00:00');
 insert into py_relatation values ('root','88','0','1','2014-10-31 09:00:00');
 insert into py_relatation values ('root','87','0','1','2014-10-31 09:00:00');
 insert into py_relatation values ('root','PKAA','0','2','2014-10-31 09:00:00');
-insert into py_relatation values ('PKAA','1314TP11','2','3','2014-10-31 09:00:00');
+insert into py_relatation values ('root','97','0','2','2014-10-31 09:00:00');
+insert into py_relatation values ('root','99','0','2','2014-10-31 09:00:00');
+insert into py_relatation values ('97','1314TP11','2','3','2014-10-31 09:00:00');
+insert into py_relatation values ('97','1314TP12','2','3','2014-10-31 09:00:00');
+insert into py_relatation values ('PKAA','1314TP12','2','3','2014-10-31 09:00:00');
+insert into py_relatation values ('97','W201','2','4','2014-10-31 09:00:00');
 insert into py_relatation values ('1314TP11','W201','3','4','2014-10-31 09:00:00');
 insert into py_relatation values ('1314TP11','asdf','3','6','2014-10-31 09:00:00');
 insert into py_relatation values ('W201','W2YT205','4','5','2014-10-31 09:00:00');

@@ -38,7 +38,7 @@ module.exports={
     'query_belongme':
         function(p_nfcid,p_dtime)
         {return 'select recv_name from py_send_his where par_id=\''+p_nfcid+'\''+
-                ' and dist_time > \''+p_dtime+'\'order by dist_time desc;'
+                ' and dist_time > \''+p_dtime+'\' order by dist_time desc;'
         },
     'insert_sendhis':
         function(p_farid,p_sendtime,p_sendname,p_recvname,p_alname,p_snid,p_cvid)
