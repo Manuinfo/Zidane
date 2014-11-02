@@ -42,7 +42,7 @@ exports.w2001=function(req,res){
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
         logger.debug('先判断用户名是否存在?');
-        console.log(jbody);
+        //console.log(jbody);
         //先判断用户名是否存在？
         m_login.Get_AcctName(jbody.username,function(db_res){
             if(!db_res)
