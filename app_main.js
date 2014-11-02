@@ -114,6 +114,6 @@ setInterval(function(){
     conf.Get_IDByType('LAY',function(confall){ global.u_LAY=acc.G_JSON({},confall);});
     conf.Get_IDByType('PACKLIMIT',function(confall){ global.u_PACKLIMIT=acc.G_JSON({},confall);});
     conf.Get_ALLAccts(function(confall){ global.u_ACCTS=acc.G_JSON({},confall);});
-},60000);
+},120000);
 
 

@@ -31,7 +31,7 @@ exports.Get_IdByName=function(name,type,callback){
 //根据类型获取有哪些配置信息
 exports.Get_NameBySerial=function(sid,callback){
     pool.getConnection(function(err, conn) {
-            console.log(sid);
+            //console.log(sid);
             logger.debug('Req:'+sql_g.get_goods_bySerialID(sid));
             conn.query(sql_g.get_goods_bySerialID(sid),function (err, sqlres) {
                 callback(sqlres);
@@ -76,8 +76,15 @@ exports.Get_ALLAccts=function(callback){
 //根据NFC ID查商品名称
 exports.Get_NameByNFCID=function(nfcid,number,callback){
     pool.getConnection(function(err, conn) {
-        if (typeof nfcid=="string")
+        //var s = "[abc,abcd,aaa]";
+        //console.log(s);
+        //console.log(nfcid);
+        //if (typeof nfcid=="string")
+        console.log(nfcid.split(','));
+
+        if(nfcid.length < 16)
         {
+            console.log(111);
             logger.debug('Req:'+sql_g.get_goods_byNFCID(nfcid));
             conn.query(sql_g.get_goods_byNFCID(nfcid),function (err, sqlres) {
                 conn.release();
@@ -86,7 +93,8 @@ exports.Get_NameByNFCID=function(nfcid,number,callback){
         } else
         {
             var ncount=0;
-            async.map(nfcid,function(item,cb){
+            console.log(nfcid.split(','));
+            async.map(nfcid.split(','),function(item,cb){
                 logger.debug('Req:'+sql_g.get_goods_byNFCID(item));
                 conn.query(sql_g.get_goods_byNFCID(item),function (err, sqlres) {
                     //console.log(sqlres[0]);
@@ -134,7 +142,7 @@ exports.Insert_PackHis=function(sonid,farid,uname,alname,cid,callback){
     pool.getConnection(function(err, conn) {
         //console.log(farid+uname+alname+cid);
         var now=moment();
-        console.log(now.format('YYYY-MM-DD HH:mm:ss'));
+        //console.log(now.format('YYYY-MM-DD HH:mm:ss'));
         async.each(sonid,function(item,cb){
             logger.debug('Req:'+sql_g.insert_boxhis(item,farid,now.format('YYYY-MM-DD HH:mm:ss'),uname,alname,cid));
             conn.query(sql_g.insert_boxhis(item,farid,now.format('YYYY-MM-DD HH:mm:ss'),uname,alname,cid),function (err, sqlres) {

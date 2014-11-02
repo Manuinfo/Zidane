@@ -183,10 +183,11 @@ create index products_2 on g_products(shop_name);
 create index products_3 on g_products(serias);
 create index products_4 on g_products(name);
 
-insert into g_products values ('承煌','一三一素','乳酸菌','827f5c0778d48996b9ee750511c33b09','台湾',79.5,'2014-11-23 00:00:00',NULL,NULL,NULL,NULL,NULL);
-insert into g_products values ('承煌','一三一素','牛樟菇','12c8656e2a5d34aba5a23f666ab1d0e4','台湾',32.53,'2014-10-14 10:22:00',NULL,NULL,NULL,NULL,NULL);
-insert into g_products values ('承煌','一三一素','酵素','42342333333333333222222222','台湾',32.53,'2014-10-14 10:22:00',NULL,NULL,NULL,NULL,NULL);
-insert into g_products values ('承煌','米亚妮亚','白金橙花匀亮修护隐形面膜','345345345345345','海南',32.53,'2014-10-14 10:22:00',NULL,NULL,NULL,NULL,NULL);
+
+insert into g_products values ('承煌','一三一素','乳酸菌','9e89e9c76e7e768e0f032b4edb4e0b92','台湾',79.5,'2014-11-23 00:00:00',NULL,NULL,NULL,NULL,NULL);
+insert into g_products values ('承煌','一三一素','牛樟菇','3f1c22052884a3ad7b24d6d6ce9c40be','台湾',32.53,'2014-10-14 10:22:00',NULL,NULL,NULL,NULL,NULL);
+insert into g_products values ('承煌','一三一素','酵素','0fc145308d031e7b4623cc6c22c8ea3f','台湾',32.53,'2014-10-14 10:22:00',NULL,NULL,NULL,NULL,NULL);
+insert into g_products values ('承煌','米亚妮亚','白金橙花匀亮修护隐形面膜','fb9df591767a35bbfffd2af564fbac99','海南',32.53,'2014-10-14 10:22:00',NULL,NULL,NULL,NULL,NULL);
 
 #++++++++++++ 商品成分表
 create table products_ele (
@@ -212,9 +213,17 @@ DEFAULT CHARSET=gbk;
 
 create index product_id_3 on batches(product_id);
 
-insert into batches values ('827f5c0778d48996b9ee750511c33b09','9','66',20000,30000,3,'20141014-827f5c0778d48996b9ee750511c33b09-66-1','2014-10-14 11:35:00',NULL);
-insert into batches values ('12c8656e2a5d34aba5a23f666ab1d0e4','9','77',30000,30000,5,'20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','2014-10-14 11:45:00',NULL);
-insert into batches values ('12c8656e2a5d34aba5a23f666ab1d0e4','9','77',30000,30000,5,'20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-2','2014-10-14 11:55:00',NULL);
+insert into batches values ('9e89e9c76e7e768e0f032b4edb4e0b92','9','66',20000,30000,3,'20141014-9e89e9c76e7e768e0f032b4edb4e0b92-66-1','2014-10-14 11:35:00',NULL);
+insert into batches values ('9e89e9c76e7e768e0f032b4edb4e0b92','9','66',20000,30000,3,'20141014-9e89e9c76e7e768e0f032b4edb4e0b92-66-2','2014-10-14 11:35:00',NULL);
+
+insert into batches values ('3f1c22052884a3ad7b24d6d6ce9c40be','9','55',20000,30000,3,'20141014-3f1c22052884a3ad7b24d6d6ce9c40be-55-1','2014-10-14 11:35:00',NULL);
+insert into batches values ('3f1c22052884a3ad7b24d6d6ce9c40be','9','55',20000,30000,3,'20141014-3f1c22052884a3ad7b24d6d6ce9c40be-55-2','2014-10-14 11:35:00',NULL);
+#酵素
+insert into batches values ('0fc145308d031e7b4623cc6c22c8ea3f','9','44',20000,30000,3,'20141014-0fc145308d031e7b4623cc6c22c8ea3f-44-1','2014-10-14 11:35:00',NULL);
+insert into batches values ('0fc145308d031e7b4623cc6c22c8ea3f','9','44',20000,30000,3,'20141014-0fc145308d031e7b4623cc6c22c8ea3f-44-2','2014-10-14 11:35:00',NULL);
+
+insert into batches values ('fb9df591767a35bbfffd2af564fbac99','9','77',30000,30000,5,'20141014-fb9df591767a35bbfffd2af564fbac99-77-1','2014-10-14 11:45:00',NULL);
+insert into batches values ('fb9df591767a35bbfffd2af564fbac99','9','77',30000,30000,5,'20141014-fb9df591767a35bbfffd2af564fbac99-77-2','2014-10-14 11:55:00',NULL);
 
 #+++++++++++++++++ 操作记录历史表
 CREATE TABLE ops_history (
@@ -241,35 +250,22 @@ DEFAULT CHARSET=gbk;
 create unique index nfc_id_1 on g_nfc_batch_map(nfc_id);
 create index batch_id_1 on g_nfc_batch_map(batch_id);
 
-insert into g_nfc_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','04a9ba12723680','CH3304820101BB');
-insert into g_nfc_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','04a9ba22723680','CH3304820101BB');
-insert into g_nfc_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','04a9ba32723680','CH3304820101BB');
-insert into g_nfc_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1','04a9ba52723680','CH3304820101AA');
+#酵素
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-44-1','0428F30A9B3280',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-44-1','0428EC0A9B3280',NULL);
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-44-1','0428E50A9B3280',NULL);
 
-insert into g_nfc_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-2','04a9bc42723680','CH6542010202AA');
+#白金橙花匀亮修护隐形面膜
+insert into g_nfc_batch_map values ('20141014-fb9df591767a35bbfffd2af564fbac99-77-1','0428A60A9B3280',NULL);
+insert into g_nfc_batch_map values ('20141014-fb9df591767a35bbfffd2af564fbac99-77-1','0428AD0A9B3280',NULL);
+insert into g_nfc_batch_map values ('20141014-fb9df591767a35bbfffd2af564fbac99-77-1','0428B40A9B3280',NULL);
+insert into g_nfc_batch_map values ('20141014-fb9df591767a35bbfffd2af564fbac99-77-1','0428BB0A9B3280',NULL);
+insert into g_nfc_batch_map values ('20141014-fb9df591767a35bbfffd2af564fbac99-77-1','0428C20A9B3280',NULL);
+
+#箱子ID
+insert into g_nfc_batch_map values ('20141014-fb9df591767a35bbfffd2af564fbac99-77-1','04a9bc42723680','CH6542010202AA');
 insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9bd42723680','CH6542010203BB');
 insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723680','CH6542010204BB');
-
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723601',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723602',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723603',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723604',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723605',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723606',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723607',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723608',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723609',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723610',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723611',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723612',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723613',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723614',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723615',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723616',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723617',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723618',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be42723619',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','04a9be427236FF',NULL);
 
 #++++++++++++++ qr与批次的对应关系
 create table qr_batch_map (
@@ -329,7 +325,7 @@ insert into py_user_accounts values ('2','1**','c4ca4238a0b923820dcc509a6f75849b
 insert into py_user_accounts values ('88','1**','c4ca4238a0b923820dcc509a6f75849b','1','河南郑州',NULL,'A',0,'A2',0);
 insert into py_user_accounts values ('99','1**','c4ca4238a0b923820dcc509a6f75849b','2','河南郑州',NULL,'A',0,'A2',0);
 insert into py_user_accounts values ('87','1**','c4ca4238a0b923820dcc509a6f75849b','1','河南郑州',NULL,'A',0,'A1',0);
-insert into py_user_accounts values ('97','1**','c4ca4238a0b923820dcc509a6f75849b','1','河南郑州',NULL,'A',0,'A1',0);
+insert into py_user_accounts values ('97','1**','c4ca4238a0b923820dcc509a6f75849b','2','河南郑州',NULL,'A',0,'A1',0);
 insert into py_user_accounts values ('301','1**','c4ca4238a0b923820dcc509a6f75849b','3','河南郑州',NULL,'A',0,'A1',0);
 insert into py_user_accounts values ('302','1**','c4ca4238a0b923820dcc509a6f75849b','3','河南郑州',NULL,'A',0,'A2',0);
 
@@ -410,6 +406,8 @@ create index py_relatation_4  on py_relatation(down_id);
 
 
 insert into py_relatation values ('root','FACT','0','1','2014-10-31 09:00:00');
+insert into py_relatation values ('root','88','0','1','2014-10-31 09:00:00');
+insert into py_relatation values ('root','87','0','1','2014-10-31 09:00:00');
 insert into py_relatation values ('root','PKAA','0','2','2014-10-31 09:00:00');
 insert into py_relatation values ('PKAA','1314TP11','2','3','2014-10-31 09:00:00');
 insert into py_relatation values ('1314TP11','W201','3','4','2014-10-31 09:00:00');
