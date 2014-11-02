@@ -221,7 +221,7 @@ insert into batches values ('3f1c22052884a3ad7b24d6d6ce9c40be','9','55',20000,30
 #酵素
 insert into batches values ('0fc145308d031e7b4623cc6c22c8ea3f','9','44',20000,30000,3,'20141014-0fc145308d031e7b4623cc6c22c8ea3f-44-1','2014-10-14 11:35:00',NULL);
 insert into batches values ('0fc145308d031e7b4623cc6c22c8ea3f','9','44',20000,30000,3,'20141014-0fc145308d031e7b4623cc6c22c8ea3f-44-2','2014-10-14 11:35:00',NULL);
-
+#面膜
 insert into batches values ('fb9df591767a35bbfffd2af564fbac99','9','77',30000,30000,5,'20141014-fb9df591767a35bbfffd2af564fbac99-77-1','2014-10-14 11:45:00',NULL);
 insert into batches values ('fb9df591767a35bbfffd2af564fbac99','9','77',30000,30000,5,'20141014-fb9df591767a35bbfffd2af564fbac99-77-2','2014-10-14 11:55:00',NULL);
 
@@ -251,9 +251,14 @@ create unique index nfc_id_1 on g_nfc_batch_map(nfc_id);
 create index batch_id_1 on g_nfc_batch_map(batch_id);
 
 #酵素
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-44-1','0428F30A9B3280',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-44-1','0428EC0A9B3280',NULL);
-insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-44-1','0428E50A9B3280',NULL);
+#酵素
+#insert into batches values ('0fc145308d031e7b4623cc6c22c8ea3f','9','44',20000,30000,3,'20141014-0fc145308d031e7b4623cc6c22c8ea3f-44-1','2014-10-14 11:35:00',NULL);
+#insert into batches values ('0fc145308d031e7b4623cc6c22c8ea3f','9','44',20000,30000,3,'20141014-0fc145308d031e7b4623cc6c22c8ea3f-44-2','2014-10-14 11:35:00',NULL);
+
+#827f5c0778d48996b9ee750511c33b09
+insert into g_nfc_batch_map values ('20141014-0fc145308d031e7b4623cc6c22c8ea3f-44-1','0428F30A9B3280',NULL);
+insert into g_nfc_batch_map values ('20141014-0fc145308d031e7b4623cc6c22c8ea3f-44-1','0428EC0A9B3280',NULL);
+insert into g_nfc_batch_map values ('20141014-0fc145308d031e7b4623cc6c22c8ea3f-44-1','0428E50A9B3280',NULL);
 
 #白金橙花匀亮修护隐形面膜
 insert into g_nfc_batch_map values ('20141014-fb9df591767a35bbfffd2af564fbac99-77-1','0428A60A9B3280',NULL);

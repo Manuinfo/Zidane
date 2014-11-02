@@ -74,10 +74,10 @@ exports.r2003=function(req,res){
 
                 if(dbres==1)  //判断商品是否属实
                 {
-                    var x=jbody.son_id;
-                    x.push(jbody.par_id);
+                    var x=jbody.son_id.split(',');
+                    //x.push(jbody.par_id);
                     //console.log(x);
-                    logger.debug('判断盒子是否重复');
+                    logger.debug('判断盒子是否重复，限制为:'+global.u_PACKLIMIT[jbody.expgoods]);
                     //console.log(global.u_PACKLIMIT[jbody.expgoods]);
                     m_goods.Check_PackRepeat(x,function(xres){
                         //console.log(xres)
@@ -88,7 +88,7 @@ exports.r2003=function(req,res){
                         {
                             delete x;
                             logger.debug('不重复，开始装箱');
-                            m_goods.Insert_PackHis(jbody.son_id,
+                            m_goods.Insert_PackHis(jbody.son_id.split(','),
                                                    jbody.par_id,
                                                    jbody.username,
                                                    jbody.expgoods,
