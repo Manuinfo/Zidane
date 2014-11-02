@@ -1,7 +1,11 @@
 
-
+var t=require('./libs/t.js');
 var m=require('./dbmodules/m_goods.js');
 
+console.log(t.md5hash('admin1234'));
+//admin123   0192023a7bbd73250516f069df18b500
+//admin1234  c93ccd78b2076528346216b3b2f701e6
+/*
 x='一三一素,米亚妮亚';
 xh=[
     '04a9be42723601',

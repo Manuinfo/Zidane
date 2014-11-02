@@ -184,19 +184,30 @@ exports.r2008=function(req,res){
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
         logger.debug('发货前验货');
-        m_goods.Check_Belongme(jbody.par_id,function(dbres){
-            //console.log(acc.G_ARRAY_KV_IF(dbres,':','记录为空'));
-            if(acc.G_ARRAY_KV_IF(dbres,':','记录为空')==0)
-            {
-                logger.debug('验货通过，准备发货');
-                m_goods.SendBox(jbody,function(xxres){
-                    acc.SendOnErr(res,t.res_one('SUCC','发货成功'));
-                });
-                //
-            }
-            else
-                acc.SendOnErr(res, t.res_one('FAIL',dbres));
-        });
+        //如果是工厂发货人员则不校验收货上家，NEW一根CHIAN出来
+        logger.debug('验货前校验账号LEVEL:'+jbody.username+','+global.u_ACCTS[jbody.username]);
+        if ( global.u_ACCTS[jbody.username]==1 )
+        {
+            m_goods.SendBox(jbody,function(xxres){
+                acc.SendOnErr(res,t.res_one('SUCC','发货成功'));
+            });
+        } else
+        {
+            m_goods.Check_Belongme(jbody.par_id,function(dbres){
+                //console.log(acc.G_ARRAY_KV_IF(dbres,':','记录为空'));
+                if(acc.G_ARRAY_KV_IF(dbres,':','记录为空')==0)
+                {
+                    logger.debug('验货通过，准备发货');
+                    m_goods.SendBox(jbody,function(xxres){
+                        acc.SendOnErr(res,t.res_one('SUCC','发货成功'));
+                    });
+                    //
+                }
+                else
+                    acc.SendOnErr(res, t.res_one('FAIL',dbres));
+            });
+        }
+
         }
     });
 };
