@@ -80,17 +80,16 @@ app.get('/:aaaa',function(req, res){
 
 
 
+logger.debug('Load Initial BaseData 1/5sec');
 
-
-//
-
-logger.debug('Load Initial BaseData');
 conf.Get_IDByType('CHANNEL',function(confall){ global.u_CHID=acc.G_JSON({},confall)});
 conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL=acc.G_JSON({},confall)});
 conf.Get_IDByType('BRAND',function(confall){ global.u_BRAND=acc.G_JSON({},confall);});
 conf.Get_IDByType('LAY',function(confall){ global.u_LAY=acc.G_JSON({},confall);});
 conf.Get_IDByType('PACKLIMIT',function(confall){ global.u_PACKLIMIT=acc.G_JSON({},confall);});
 conf.Get_ALLAccts(function(confall){ global.u_ACCTS=acc.G_JSON({},confall);});
+//
+
 
 //var x='一三一素,米亚妮亚';
 //console.log(x.split('-'));
@@ -98,12 +97,23 @@ conf.Get_ALLAccts(function(confall){ global.u_ACCTS=acc.G_JSON({},confall);});
 
 setTimeout(function(){
     app.listen(3000,function(){
-        console.log('Zidane Web Service is started at 3000');
+        //console.log('Zidane Web Service is started at 3000');
         logger.debug('Zidane Web Service is started at 3000');
-        console.log(global.u_CHID);
-        console.log(global.u_SERIAL);
+        //console.log(global.u_CHID);
+        //console.log(global.u_SERIAL);
 
     });
 },500);
+
+
+setInterval(function(){
+    logger.debug('Load Initial BaseData 1/5sec');
+    conf.Get_IDByType('CHANNEL',function(confall){ global.u_CHID=acc.G_JSON({},confall)});
+    conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL=acc.G_JSON({},confall)});
+    conf.Get_IDByType('BRAND',function(confall){ global.u_BRAND=acc.G_JSON({},confall);});
+    conf.Get_IDByType('LAY',function(confall){ global.u_LAY=acc.G_JSON({},confall);});
+    conf.Get_IDByType('PACKLIMIT',function(confall){ global.u_PACKLIMIT=acc.G_JSON({},confall);});
+    conf.Get_ALLAccts(function(confall){ global.u_ACCTS=acc.G_JSON({},confall);});
+},60000);
 
 

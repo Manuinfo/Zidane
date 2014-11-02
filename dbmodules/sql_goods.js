@@ -12,7 +12,7 @@ module.exports={
     'get_all_accts':
         function(){return 'SELECT name as id ,ulevel as name FROM py_user_accounts  ;'},
     'get_goods_bySerialID':
-        function(b){return 'select name from g_products where s_id=\''+b+'\';'},
+        function(b){return 'select name from g_products where serias=\''+b+'\';'},
     'get_goods_byNFCID':
         function(b){return 'select name from g_products a where a.product_id in ('+
             'select b.product_id from batches b where b.batch_id in ('+

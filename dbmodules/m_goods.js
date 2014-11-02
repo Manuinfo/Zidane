@@ -31,6 +31,7 @@ exports.Get_IdByName=function(name,type,callback){
 //根据类型获取有哪些配置信息
 exports.Get_NameBySerial=function(sid,callback){
     pool.getConnection(function(err, conn) {
+            console.log(sid);
             logger.debug('Req:'+sql_g.get_goods_bySerialID(sid));
             conn.query(sql_g.get_goods_bySerialID(sid),function (err, sqlres) {
                 callback(sqlres);

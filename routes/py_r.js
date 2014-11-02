@@ -45,9 +45,10 @@ exports.r2001=function(req,res){
 //根据系列取商品列表
 exports.r2002=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
-
-        m_goods.Get_NameBySerial(req.param('sid'),function(dbres){
-        acc.SendOnErr(res,t.res_one('SUCC',dbres));
+    console.log(req.param('sid'));
+    console.log(global.u_SERIAL);
+        m_goods.Get_NameBySerial(global.u_SERIAL[req.param('sid')],function(dbres){
+            acc.SendOnErr(res,t.res_one('SUCC',dbres));
         });
         /*
     } else
