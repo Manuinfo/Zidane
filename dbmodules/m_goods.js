@@ -32,6 +32,7 @@ exports.Get_IdByName=function(name,type,callback){
 exports.Get_NameBySerial=function(sid,callback){
     pool.getConnection(function(err, conn) {
             //console.log(sid);
+            logger.debug('根据类型获取有哪些配置信息');
             logger.debug('Req:'+sql_g.get_goods_bySerialID(sid));
             conn.query(sql_g.get_goods_bySerialID(sid),function (err, sqlres) {
                 callback(sqlres);
@@ -315,6 +316,17 @@ exports.WhoIsMySonsFSD=function(up_name,callback){
     pool.getConnection(function(err, conn) {
         logger.debug('Req:'+sql_py.query_shengdownname(up_name));
         conn.query(sql_py.query_shengdownname(up_name),function (err, sqlres) {
+            conn.release();
+            callback(sqlres);
+        });
+    })
+};
+
+//根据下层LEVEL_ID查找下家账号
+exports.WhoIsMySonsAccLevel=function(up_name,down_id,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_py.query_downnameandlevel(up_name,down_id));
+        conn.query(sql_py.query_downnameandlevel(up_name,down_id),function (err, sqlres) {
             conn.release();
             callback(sqlres);
         });

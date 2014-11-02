@@ -47,6 +47,7 @@ exports.r2002=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     //console.log(req.param('sid'));
     //console.log(global.u_SERIAL);
+        logger.debug('根据系列取商品列表');
         m_goods.Get_NameBySerial(global.u_SERIAL[req.param('sid')],function(dbres){
             acc.SendOnErr(res,t.res_one('SUCC',dbres));
         });
@@ -140,7 +141,8 @@ exports.r2005=function(req,res){
         else {
         logger.debug('查询下家范围');
         m_goods.WhoIsMySons(jbody.username,function(dbres){
-            acc.SendOnErr(res,t.res_one('SUCC',dbres));
+            //if(dbres)
+                acc.SendOnErr(res,t.res_one('SUCC',dbres));
         });
         }
     });
@@ -282,3 +284,18 @@ exports.r2012=function(req,res){
     });
 };
 
+
+//根据下家层级和上级NAME查这个下家有哪些下家
+exports.r2013=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
+    acc.Jspp(req,function(jbody){
+        logger.debug('根据下家层级和上级NAME查这个下家有哪些下家');
+        if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
+        else {
+            logger.debug('查询下家范围');
+            m_goods.WhoIsMySonsAccLevel(jbody.username,jbody.down_id,function(dbres){
+                acc.SendOnErr(res,t.res_one('SUCC',dbres));
+            });
+        }
+    });
+};

@@ -267,7 +267,7 @@ insert into g_nfc_batch_map values ('20141014-fb9df591767a35bbfffd2af564fbac99-7
 #0428DE0A9B3280
 insert into g_nfc_batch_map values ('20141014-fb9df591767a35bbfffd2af564fbac99-77-1','0428D70A9B3280','CH6542010202AA');
 insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-44-1','0428DE0A9B3280','CH6542010203BB');
-
+insert into g_nfc_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-44-1','04737B42723680','CH6542010203BB');
 
 #++++++++++++++ qr与批次的对应关系
 create table qr_batch_map (

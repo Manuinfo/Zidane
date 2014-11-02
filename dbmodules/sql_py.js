@@ -39,7 +39,7 @@ module.exports={
         },
     'query_downname':
         function(p_name){
-            return 'select down_name,down_id from py_relatation where up_name=\''+p_name+'\'' ;
+            return 'select down_id from py_relatation where up_name=\''+p_name+'\'' ;
         },
     'query_senddownname':
         function(p_name){
@@ -48,6 +48,10 @@ module.exports={
     'query_shengdownname':
         function(p_name){
             return 'select down_name,down_id from py_relatation where down_id=4 and up_name=\''+p_name+'\'' ;
+        },
+    'query_downnameandlevel':
+        function(p_name,p_down_id){
+            return 'select down_name,down_id from py_relatation where down_id='+p_down_id+' and up_name=\''+p_name+'\'' ;
         }
 };
 
