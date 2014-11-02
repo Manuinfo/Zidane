@@ -242,8 +242,8 @@ exports.Insert_QuerySendLog_ByAdmin=function(uname,unfc){
 //查询发货链
 exports.Query_SendHis=function(uname,stime,etime,nfcid,callback){
     pool.getConnection(function(err, conn) {
-        logger.debug('Req:'+sql_g.query_sendhis(uname,stime,etime,nfcid));
-        conn.query(sql_g.query_sendhis(uname,stime,etime,nfcid),function (err, sqlres) {
+        logger.debug('Req:'+sql_g.query_sendhis(stime,etime,nfcid));
+        conn.query(sql_g.query_sendhis(stime,etime,nfcid),function (err, sqlres) {
             conn.release();
             logger.debug('如果是ADMIN查询，则插入记录');
             if (uname=='root'){

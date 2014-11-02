@@ -230,7 +230,7 @@ exports.r2009=function(req,res){
     });
 };
 
-//查询发货历史
+//查询ADMIN发货历史
 exports.r2010=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     //
