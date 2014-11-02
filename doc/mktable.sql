@@ -152,11 +152,10 @@ insert into b_id_mgnt values ('01','酵素','BRAND');
 insert into b_id_mgnt values ('02','乳酸菌','BRAND');
 insert into b_id_mgnt values ('03','牛樟菇','BRAND');
 insert into b_id_mgnt values ('04','白金橙花匀亮修护隐形面膜','BRAND');
-insert into b_id_mgnt values ('CH','上海承煌','BRAND');
-insert into b_id_mgnt values ('01','54','PACKLIMIT');
+insert into b_id_mgnt values ('01','20','PACKLIMIT');
 insert into b_id_mgnt values ('02','20','PACKLIMIT');
 insert into b_id_mgnt values ('03','20','PACKLIMIT');
-insert into b_id_mgnt values ('04','20','PACKLIMIT');
+insert into b_id_mgnt values ('04','54','PACKLIMIT');
 
 update b_id_mgnt set name="5" where id="02" and type="PACKLIMIT";
 
@@ -329,6 +328,10 @@ insert into py_user_accounts values ('1','1**','c4ca4238a0b923820dcc509a6f75849b
 insert into py_user_accounts values ('2','1**','c4ca4238a0b923820dcc509a6f75849b','5','河南郑州',NULL,'A',0,'A2',0);
 insert into py_user_accounts values ('88','1**','c4ca4238a0b923820dcc509a6f75849b','1','河南郑州',NULL,'A',0,'A2',0);
 insert into py_user_accounts values ('99','1**','c4ca4238a0b923820dcc509a6f75849b','2','河南郑州',NULL,'A',0,'A2',0);
+insert into py_user_accounts values ('87','1**','c4ca4238a0b923820dcc509a6f75849b','1','河南郑州',NULL,'A',0,'A1',0);
+insert into py_user_accounts values ('97','1**','c4ca4238a0b923820dcc509a6f75849b','1','河南郑州',NULL,'A',0,'A1',0);
+insert into py_user_accounts values ('301','1**','c4ca4238a0b923820dcc509a6f75849b','3','河南郑州',NULL,'A',0,'A1',0);
+insert into py_user_accounts values ('302','1**','c4ca4238a0b923820dcc509a6f75849b','3','河南郑州',NULL,'A',0,'A2',0);
 
 
 
