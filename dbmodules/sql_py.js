@@ -39,19 +39,31 @@ module.exports={
         },
     'query_downname':
         function(p_name){
-            return 'select down_id from py_relatation where up_name=\''+p_name+'\'' ;
+            return 'select a.*,b.alname as shopname from '+
+                '(select down_name,down_id from py_relatation where up_name=\''+p_name+'\' ) a,'+
+                '(select name,alname from py_user_accounts ) b '+
+                'where a.down_name=b.name ; ';
         },
     'query_senddownname':
         function(p_name){
-            return 'select down_name,down_id from py_relatation where down_id=3 and up_name=\''+p_name+'\'' ;
+            return 'select a.*,b.alname as shopname from '+
+                '(select down_name,down_id from py_relatation where  down_id=3 and up_name=\''+p_name+'\' ) a,'+
+                '(select name,alname from py_user_accounts ) b '+
+                'where a.down_name=b.name ; ';
         },
     'query_shengdownname':
         function(p_name){
-            return 'select down_name,down_id from py_relatation where down_id=4 and up_name=\''+p_name+'\'' ;
+            return 'select a.*,b.alname as shopname from '+
+                '(select down_name,down_id from py_relatation where  down_id=4 and up_name=\''+p_name+'\' ) a,'+
+                '(select name,alname from py_user_accounts ) b '+
+                'where a.down_name=b.name ; ';
         },
     'query_downnameandlevel':
         function(p_name,p_down_id){
-            return 'select down_name,down_id from py_relatation where down_id='+p_down_id+' and up_name=\''+p_name+'\'' ;
+            return 'select a.*,b.alname as shopname from '+
+                '(select down_name,down_id from py_relatation where  down_id=\''+p_down_id+'\' and up_name=\''+p_name+'\' ) a,'+
+                '(select name,alname from py_user_accounts ) b '+
+                'where a.down_name=b.name ; ';
         }
 };
 

@@ -11,6 +11,8 @@ module.exports={
         function(){return 'select * from b_id_mgnt;'},
     'get_all_accts':
         function(){return 'SELECT name as id ,ulevel as name FROM py_user_accounts  ;'},
+    'get_all_acctsname':
+        function(){return 'SELECT name as id ,alname FROM py_user_accounts  ;'},
     'get_goods_bySerialID':
         function(b){return 'select name from g_products where serias=\''+b+'\';'},
     'get_goods_byNFCID':
@@ -28,6 +30,14 @@ module.exports={
             '\''+p_uname+'\','+
             '\''+p_alname+'\','+
             '\''+p_cid+'\');'
+        },
+    'query_packexist':
+        function(p_nfcid)
+        {return 'select * from g_nfc_box_map where nfc_id=upper(\''+p_nfcid+'\')';
+        },
+    'update_packboxhis':
+        function(p_nfcid,p_gname,p_time)
+        {return 'update g_nfc_box_map set g_name=\''+p_gname+'\',bind_date=\''+p_time+'\' where nfc_id=\''+p_nfcid+'\''
         },
     'query_packhis':
         function(p_uname,p_stime,p_etime)

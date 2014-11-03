@@ -62,7 +62,7 @@ exports.Get_AllBase=function(callback){
     })
 };
 
-//账户管理，获取账户信息
+//账户管理，获取账户信息与层级ID的关联
 exports.Get_ALLAccts=function(callback){
     pool.getConnection(function(err, conn) {
         logger.debug('Req:'+sql_g.get_all_accts());
@@ -73,6 +73,72 @@ exports.Get_ALLAccts=function(callback){
         });
     })
 };
+
+//查看箱子的ID是否存在
+exports.Check_BoxExist=function(nfcid,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.query_packexist(nfcid));
+        conn.query(sql_g.query_packexist(nfcid),function (err, sqlres) {
+            conn.release();
+            ///console.log(sqlres);
+            callback(sqlres[0]);
+        });
+    })
+};
+
+//批量查看箱子的ID是否存在
+exports.Check_BoxExistMulti=function(nfcid,callback){
+    pool.getConnection(function(err, conn) {
+        async.map(nfcid,function(item,cb)
+        {
+            logger.debug('Req:'+sql_g.query_packexist(item));
+            conn.query(sql_g.query_packexist(item),function (err, sqlres) {
+                if(sqlres[0])
+                {
+                    if(sqlres[0].bind_date)
+                        cb(null,'YES');
+                    else
+                        cb(null,'YET');
+                }
+                else
+                    cb(null,'NA');
+            })
+        },function(err,dbres){
+                console.log(dbres);
+                callback(dbres);
+                conn.release();
+          });
+    })
+};
+
+
+//账户管理，获取账户信息与商铺名称的关联
+exports.Get_ALLAcctsNAME=function(callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.get_all_acctsname());
+        conn.query(sql_g.get_all_acctsname(),function (err, sqlres) {
+            conn.release();
+            ///console.log(sqlres);
+            callback(sqlres);
+        });
+    })
+};
+
+//更新箱子ID的信息，在装箱的时候
+exports.Update_BoxInfoPack=function(nfcid,goods_id){
+    var now=moment();
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.update_packboxhis(nfcid,goods_id,now.format('YYYY-MM-DD HH:mm:ss')));
+        conn.query(sql_g.update_packboxhis(nfcid,goods_id,now.format('YYYY-MM-DD HH:mm:ss')),function (err, sqlres) {
+            conn.release();
+            ///console.log(sqlres);
+           // callback(sqlres);
+        });
+    })
+};
+
+
+
 
 //根据NFC ID查商品名称
 exports.Get_NameByNFCID=function(nfcid,number,callback){

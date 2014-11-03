@@ -91,6 +91,7 @@ conf.Get_IDByType('BRAND',function(confall){ global.u_BRAND=acc.G_JSON({},confal
 conf.Get_IDByType('LAY',function(confall){ global.u_LAY=acc.G_JSON({},confall);});
 conf.Get_IDByType('PACKLIMIT',function(confall){ global.u_PACKLIMIT=acc.G_JSON({},confall);});
 conf.Get_ALLAccts(function(confall){ global.u_ACCTS=acc.G_JSON({},confall);});
+
 //
 
 
@@ -102,6 +103,7 @@ setTimeout(function(){
     app.listen(3000,function(){
         console.log('Zidane Web Service is started at 3000,ID:'+process.pid);
         logger.debug('Zidane Web Service is started at 3000,ID:'+process.pid);
+        //console.log(global.u_ACCTS);
        // console.log(global.u_ACCTS);
         //console.log(global.u_SERIAL);
 

@@ -65,44 +65,60 @@ exports.r2002=function(req,res){
 exports.r2003=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     acc.Jspp(req,function(jbody){
-        //console.log(jbody.son_id);
-        if(jbody.son_id)  //判断小盒ID是否存在
+        //console.log(jbody);
+        if(jbody.son_id)  //判断盒子ID是否属实
         {
             logger.debug('判断商品是否属实');
             m_goods.Get_NameByNFCID(jbody.son_id,global.u_PACKLIMIT[jbody.expgoods],function(dbres){
-                //console.log(dbres);
 
                 if(dbres==1)  //判断商品是否属实
                 {
                     var x=jbody.son_id.split(',');
-                    //x.push(jbody.par_id);
-                    //console.log(x);
                     logger.debug('判断盒子是否重复，限制为:'+global.u_PACKLIMIT[jbody.expgoods]);
-                    //console.log(global.u_PACKLIMIT[jbody.expgoods]);
+                    //判断盒子ID是否重复
                     m_goods.Check_PackRepeat(x,function(xres){
-                        //console.log(xres)
-                        //console.log(acc.G_ARRAY_IF(xres,'ok'));
-                        //console.log(global.u_PACKLIMIT[jbody.expgoods]+1);
                         if(acc.G_ARRAY_IF(xres,'ok')==parseInt(global.u_PACKLIMIT[jbody.expgoods]))
-                        //if(acc.G_ARRAY_IF(xres,'ok')==7)
                         {
                             delete x;
-                            logger.debug('不重复，开始装箱');
-                            m_goods.Insert_PackHis(jbody.son_id.split(','),
-                                                   jbody.par_id,
-                                                   jbody.username,
-                                                   jbody.expgoods,
-                                                   jbody.channel_id,function(xxres){
-                              logger.debug('装箱完毕');
-                              acc.SendOnErr(res,t.res_one('SUCC','无重复记录,装箱完毕'));
+                            //判断箱子ID是否已存在
+                            logger.debug('判断箱子ID是否存在，'+jbody.par_id);
+                            m_goods.Check_BoxExist(jbody.par_id,function(boxres){
+
+                                logger.debug(boxres);
+                                //判断箱子ID是否已存在
+                                if(boxres)
+                                {
+                                    //判断箱子ID是否已被烧录
+                                    if(boxres.g_name!=jbody.expgoods)
+                                    {
+                                        logger.debug('判断箱子ID未使用，盒子不重复，属实，开始装箱');
+                                        m_goods.Insert_PackHis(jbody.son_id.split(','),
+                                            jbody.par_id,
+                                            jbody.username,
+                                            jbody.expgoods,
+                                            jbody.channel_id,function(xxres){
+                                                logger.debug('装箱完毕');
+                                                acc.SendOnErr(res,t.res_one('SUCC','无重复记录,装箱完毕'));
+                                            });
+                                        m_goods.Update_BoxInfoPack(jbody.par_id,jbody.expgoods);
+                                    } else
+                                    {
+                                        acc.SendOnErr(res,t.res_one('FAIL','箱子ID存在,但商品已被烧录，上次商品是:'+boxres.g_name));
+                                        logger.debug('箱子ID存在,但商品已被烧录，上次商品是:'+boxres.g_name);
+                                    }
+
+                                } else
+                                {
+                                    acc.SendOnErr(res,t.res_one('FAIL','箱子ID不存在'));
+                                    logger.debug('箱子不存在');
+                                }
                             });
-                            //
                         } else
                         {
                             delete x;
                             logger.debug('有记录重复:'+xres);
                             m_goods.Query_BigOrSmall(xres,function(repres){
-                                acc.SendOnErr(res,t.res_one('FAIL','['+repres+']'));
+                                acc.SendOnErr(res,t.res_one('FAIL','重复盒子:['+repres+']'));
                             });
                         }
                     });
@@ -195,9 +211,20 @@ exports.r2008=function(req,res){
         logger.debug('验货前校验账号LEVEL:'+jbody.username+','+global.u_ACCTS[jbody.username]);
         if ( parseInt(global.u_ACCTS[jbody.username])==2 )
         {
-            m_goods.SendBox(jbody,function(xxres){
-                acc.SendOnErr(res,t.res_one('SUCC','发货成功'));
+            logger.debug('工厂发货员:'+jbody.username+','+global.u_ACCTS[jbody.username]+'正校验这些箱子是否已装箱');
+            m_goods.Check_BoxExistMulti(jbody.par_id.split(','),function(yres){
+                logger.debug('校验箱子ID已经装箱并且数量与扫描一致');
+                if(acc.G_ARRAY_IF(yres,'YES')==jbody.par_id.split(',').length)
+                {
+                    m_goods.SendBox(jbody,function(xxres){
+                        acc.SendOnErr(res,t.res_one('SUCC','发货成功'));
+                    });
+                } else
+                {
+                    acc.SendOnErr(res,t.res_one('FAIL','有箱子未装箱或不存在:'+yres));
+                }
             });
+
         } else
         {
             m_goods.Check_Belongme(jbody.par_id,function(dbres){
