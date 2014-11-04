@@ -33,7 +33,11 @@ module.exports={
         },
     'query_packexist':
         function(p_nfcid)
-        {return 'select * from g_nfc_box_map where nfc_id=upper(\''+p_nfcid+'\')';
+        {return 'select * from py_package_his where par_id=upper(\''+p_nfcid+'\')';
+        },
+    'query_packexistByFactSend':
+        function(p_nfcid,p_alname)
+        {return 'select * from py_package_his where par_id=upper(\''+p_nfcid+'\') and alname=\''+p_alname+'\'';
         },
     'update_packboxhis':
         function(p_nfcid,p_gname,p_time)
@@ -46,8 +50,8 @@ module.exports={
                 ' and pack_time <\''+p_etime+'\';'
         },
     'query_belongme':
-        function(p_nfcid,p_dtime)
-        {return 'select recv_name from py_send_his where par_id=\''+p_nfcid+'\''+
+        function(p_cvname,p_nfcid,p_dtime)
+        {return 'select recv_name from py_send_his where recv_name=\''+p_cvname+'\' and par_id=\''+p_nfcid+'\''+
                 ' and dist_time > \''+p_dtime+'\' order by dist_time desc;'
         },
     'insert_sendhis':
@@ -64,7 +68,7 @@ module.exports={
     'query_sendhis':
         function(p_stime,p_etime,p_nfcid)
         {return 'select * from py_send_his where '+
-            ' and dist_time >\''+p_stime+'\''+
+            ' dist_time >\''+p_stime+'\''+
             ' and dist_time <\''+p_etime+'\' and par_id=\''+p_nfcid+'\';'
         },
     'check_bigorsmall':

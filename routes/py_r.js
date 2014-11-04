@@ -79,17 +79,20 @@ exports.r2003=function(req,res){
                     m_goods.Check_PackRepeat(x,function(xres){
                         if(acc.G_ARRAY_IF(xres,'ok')==parseInt(global.u_PACKLIMIT[jbody.expgoods]))
                         {
+                            logger.debug('判断盒子不重复');
                             delete x;
                             //判断箱子ID是否已存在
                             logger.debug('判断箱子ID是否存在，'+jbody.par_id);
                             m_goods.Check_BoxExist(jbody.par_id,function(boxres){
-
                                 logger.debug(boxres);
                                 //判断箱子ID是否已存在
                                 if(boxres)
                                 {
-                                    //判断箱子ID是否已被烧录
-                                    if(boxres.g_name!=jbody.expgoods)
+                                    //console.log(boxres.g_name!=jbody.expgoods );
+                                    //console.log((boxres.nfc_flag).substr(10,2)==jbody.expgoods.toString());
+                                    //判断箱子ID是否已被烧录且箱子的NFCFLAG符合装箱商品语气
+                                    if( (boxres.g_name!=jbody.expgoods ) && ((boxres.nfc_flag).substr(10,2)==jbody.expgoods))        //
+                                    if (boxres.g_name!=jbody.expgoods )
                                     {
                                         logger.debug('判断箱子ID未使用，盒子不重复，属实，开始装箱');
                                         m_goods.Insert_PackHis(jbody.son_id.split(','),
@@ -185,7 +188,7 @@ exports.r2007=function(req,res){
     acc.Jspp(req,function(jbody){
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
-        m_goods.Check_Belongme(jbody.par_id,function(dbres){
+        m_goods.Check_Belongme(jbody.username,jbody.par_id,function(dbres){
             console.log(acc.G_ARRAY_KV_IF(dbres,':','记录为空'));
             if(acc.G_ARRAY_KV_IF(dbres,':','记录为空')==0)
             {
@@ -193,6 +196,9 @@ exports.r2007=function(req,res){
             }
             else
                 acc.SendOnErr(res, t.res_one('FAIL',dbres));
+            m_goods.SendBox(jbody,function(insres){
+
+            });
         });
         }
     });
@@ -207,13 +213,15 @@ exports.r2008=function(req,res){
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
         logger.debug('发货前验货');
-        //如果是工厂发货人员则不校验收货上家，NEW一根CHIAN出来
         logger.debug('验货前校验账号LEVEL:'+jbody.username+','+global.u_ACCTS[jbody.username]);
+
         if ( parseInt(global.u_ACCTS[jbody.username])==2 )
         {
+            //console.log(jbody.expgoods);
             logger.debug('工厂发货员:'+jbody.username+','+global.u_ACCTS[jbody.username]+'正校验这些箱子是否已装箱');
-            m_goods.Check_BoxExistMulti(jbody.par_id.split(','),function(yres){
-                logger.debug('校验箱子ID已经装箱并且数量与扫描一致');
+            m_goods.Check_BoxExistMulti(jbody.par_id.split(','),jbody.expgoods,function(yres){
+                logger.debug('校验箱子ID是否已经装箱并且数量与扫描一致');
+                console.log(yres);
                 if(acc.G_ARRAY_IF(yres,'YES')==jbody.par_id.split(',').length)
                 {
                     m_goods.SendBox(jbody,function(xxres){
@@ -227,9 +235,10 @@ exports.r2008=function(req,res){
 
         } else
         {
-            m_goods.Check_Belongme(jbody.par_id,function(dbres){
+            m_goods.Check_Belongme(jbody.username,jbody.par_id,function(dbres){
+                console.log(dbres);
                 //console.log(acc.G_ARRAY_KV_IF(dbres,':','记录为空'));
-                if(acc.G_ARRAY_KV_IF(dbres,':','记录为空')==0)
+                if(acc.G_ARRAY_KV_IF(dbres,':','不是你的箱子')==0)
                 {
                     logger.debug('验货通过，准备发货');
                     m_goods.SendBox(jbody,function(xxres){
@@ -256,8 +265,7 @@ exports.r2009=function(req,res){
         //console.log(jbody);
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
-            //console.log('222222222');
-            m_goods.Query_SendHis(jbody.username,jbody.stime,jbody.etime,jbody.nfc_id,function(dbres){
+            m_goods.Query_SendHis(jbody.username,jbody.stime,jbody.etime,jbody.nfc_id,jbody.expgoods,function(dbres){
             acc.SendOnErr(res,t.res_one('SUCC',dbres));
         });
         }

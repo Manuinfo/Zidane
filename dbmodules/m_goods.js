@@ -87,24 +87,21 @@ exports.Check_BoxExist=function(nfcid,callback){
 };
 
 //批量查看箱子的ID是否存在
-exports.Check_BoxExistMulti=function(nfcid,callback){
+exports.Check_BoxExistMulti=function(nfcid,goodsid,callback){
+    //console.log(goodsid);
     pool.getConnection(function(err, conn) {
         async.map(nfcid,function(item,cb)
         {
-            logger.debug('Req:'+sql_g.query_packexist(item));
-            conn.query(sql_g.query_packexist(item),function (err, sqlres) {
+            logger.debug('Req:'+sql_g.query_packexistByFactSend(item,goodsid));
+            conn.query(sql_g.query_packexistByFactSend(item,goodsid),function (err, sqlres) {
+                console.log(sqlres[0]);
                 if(sqlres[0])
-                {
-                    if(sqlres[0].bind_date)
-                        cb(null,'YES');
-                    else
-                        cb(null,'YET');
-                }
+                    cb(null,'YES');
                 else
                     cb(null,'NA');
             })
         },function(err,dbres){
-                console.log(dbres);
+                //console.log(dbres);
                 callback(dbres);
                 conn.release();
           });
@@ -149,7 +146,7 @@ exports.Get_NameByNFCID=function(nfcid,number,callback){
         //if (typeof nfcid=="string")
         console.log(nfcid.split(','));
 
-        if(nfcid.length < 16)
+        if(nfcid.length < 14)
         {
             console.log(111);
             logger.debug('Req:'+sql_g.get_goods_byNFCID(nfcid));
@@ -256,16 +253,16 @@ exports.WhoIsMyDaddy=function(down_name,callback){
 };
 
 //查询这箱货是否属于我的
-exports.Check_Belongme=function(nfcids,callback){
+exports.Check_Belongme=function(cvname,nfcids,callback){
     var now=moment().subtract(1,'month').format('YYYY-MM-DD HH:mm:ss');
     pool.getConnection(function(err, conn) {
         async.map(nfcids.split(','),function(item,cb){
-            logger.debug('Req:'+sql_g.query_belongme(item,now));
-            conn.query(sql_g.query_belongme(item,now),function (err, sqlres) {
+            logger.debug('Req:'+sql_g.query_belongme(cvname,item,now));
+            conn.query(sql_g.query_belongme(cvname,item,now),function (err, sqlres) {
                 if(sqlres[0])
                    cb(null,item+":"+sqlres[0].recv_name);
                 else
-                   cb(null,item+":记录为空")
+                   cb(null,item+":不是你的箱子")
             });
         },function(err,exres){
             //console.log(exres);
@@ -294,30 +291,27 @@ exports.SendBox=function(jbd,callback){
 };
 
 //ADMIN 插入历史记录
-exports.Insert_QuerySendLog_ByAdmin=function(uname,unfc){
+exports.Insert_QuerySendLog_ByAdmin=function(goodsid,unfc){
     var now=moment();
-    me.Get_NameByNFCID(unfc,1,function(alname){
-        //console.log(unfc);
-        //console.log(alname);
-        if (alname.name) xalname=alname.name
+
         pool.getConnection(function(err, conn) {
-            logger.debug('Req:'+sql_trust.Insert_Log_Basic(uname,xalname,'ADMINCHECK','NULL',unfc,now.format('YYYY-MM-DD HH:mm:ss'),'SUCC'));
-            conn.query(sql_trust.Insert_Log_Basic(uname,xalname,'ADMINCHECK','NULL',unfc,now.format('YYYY-MM-DD HH:mm:ss'),'SUCC'),function (err, sqlres) {
+            logger.debug('Req:'+sql_trust.Insert_Log_Basic(goodsid,global.u_BRAND[goodsid],'ADMINCHECK','NULL',unfc,now.format('YYYY-MM-DD HH:mm:ss'),'SUCC'));
+            conn.query(sql_trust.Insert_Log_Basic(goodsid,global.u_BRAND[goodsid],'ADMINCHECK','NULL',unfc,now.format('YYYY-MM-DD HH:mm:ss'),'SUCC'),function (err, sqlres) {
                 conn.release();
             });
         });
-    });
+
 };
 
 //查询发货链
-exports.Query_SendHis=function(uname,stime,etime,nfcid,callback){
+exports.Query_SendHis=function(uname,stime,etime,nfcid,goodsid,callback){
     pool.getConnection(function(err, conn) {
         logger.debug('Req:'+sql_g.query_sendhis(stime,etime,nfcid));
         conn.query(sql_g.query_sendhis(stime,etime,nfcid),function (err, sqlres) {
             conn.release();
             logger.debug('如果是ADMIN查询，则插入记录');
             if (uname=='root'){
-                me.Insert_QuerySendLog_ByAdmin(uname,nfcid);
+                me.Insert_QuerySendLog_ByAdmin(goodsid,nfcid);
             }
             callback(sqlres);
         });
