@@ -33,7 +33,7 @@ module.exports={
         },
     'query_packexist':
         function(p_nfcid)
-        {return 'select * from py_package_his where par_id=upper(\''+p_nfcid+'\')';
+        {return 'select * from g_nfc_box_map where par_id=upper(\''+p_nfcid+'\')';
         },
     'query_packexistByFactSend':
         function(p_nfcid,p_alname)
