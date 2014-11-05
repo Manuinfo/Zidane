@@ -29,7 +29,7 @@ module.exports = mysql.createPool({
 
 
 module.exports = mysql.createPool({
-    connectionLimit : 10,
+    connectionLimit : 20,
     host: 'minfo2014.mysql.rds.aliyuncs.com',
     user: 'minfo',
     password: '6yhn7ujm',

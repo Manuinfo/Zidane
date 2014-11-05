@@ -62,6 +62,17 @@ exports.Get_AllBase=function(callback){
     })
 };
 
+//获取登陆名和真是商铺名的对应关系
+exports.Get_RealName=function(callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.get_all_realname());
+        conn.query(sql_g.get_all_realname(),function (err, sqlres) {
+            conn.release();
+            callback(sqlres);
+        });
+    })
+};
+
 //账户管理，获取账户信息与层级ID的关联
 exports.Get_ALLAccts=function(callback){
     pool.getConnection(function(err, conn) {
@@ -391,4 +402,20 @@ exports.WhoIsMySonsAccLevel=function(up_name,down_id,callback){
             callback(sqlres);
         });
     })
+};
+
+
+//查询发货链最后1条
+exports.Query_SendHisLastOne=function(uname,stime,etime,nfcid,goodsid,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.query_sendhisLastOne(stime,etime,nfcid));
+        conn.query(sql_g.query_sendhisLastOne(stime,etime,nfcid),function (err, sqlres) {
+            conn.release();
+            logger.debug('如果是ADMIN查询，则插入记录');
+            if (uname=='root'){
+                me.Insert_QuerySendLog_ByAdmin(goodsid,nfcid);
+            }
+            callback(sqlres);
+        });
+    });
 };

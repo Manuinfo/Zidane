@@ -13,6 +13,8 @@ module.exports={
         function(){return 'SELECT name as id ,ulevel as name FROM py_user_accounts  ;'},
     'get_all_acctsname':
         function(){return 'SELECT name as id ,alname FROM py_user_accounts  ;'},
+    'get_all_realname':
+        function(){return 'SELECT name as id,alname as name FROM py_user_accounts  ;'},
     'get_goods_bySerialID':
         function(b){return 'select name from g_products where serias=\''+b+'\';'},
     'get_goods_byNFCID':
@@ -70,6 +72,12 @@ module.exports={
         {return 'select * from py_send_his where '+
             ' dist_time >\''+p_stime+'\''+
             ' and dist_time <\''+p_etime+'\' and par_id=\''+p_nfcid+'\';'
+        },
+    'query_sendhisLastOne':
+        function(p_stime,p_etime,p_nfcid)
+        {return 'select * from py_send_his where '+
+            ' dist_time >\''+p_stime+'\''+
+            ' and dist_time <\''+p_etime+'\' and par_id=\''+p_nfcid+'\' order by dist_time desc;'
         },
     'check_bigorsmall':
         function(p_nfcid)

@@ -62,22 +62,16 @@ exports.Jsadd=function extend(des, src, override){
     return des;
 };
 
+
+
 //从数组组装成JSON 格式1
 exports.G_JSON=function extend(des, src){
-   des={};
-   // console.log(src);
-   for(var i = 0, len = src.length; i < len; i++)
-        des[src[i].id]=src[i].name;
-   return des;
-};
-
-//从数组组装成JSON 格式2
-exports.G_JSON=function extend(des, src){
     des={};
-    // console.log(src);
+    //console.log(src);
     for(var i = 0, len = src.length; i < len; i++)
         //console.log(src[i]);
         des[src[i].id]=src[i].name;
+   // console.log(des);
     return des;
 };
 

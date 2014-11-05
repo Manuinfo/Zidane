@@ -37,6 +37,14 @@ exports.r2001=function(req,res){
         case 'GETALLBASE':
             m_goods.Get_AllBase(function(dbres){ acc.SendOnErr(res,t.res_one('SUCC',dbres));});
             break;
+        case 'GETREALNAME':
+            m_goods.Get_RealName(function(dbres){
+                //console.log(dbres);
+                //xxx=acc.G_JSON({},dbres);
+                //console.log(xxx);
+                acc.SendOnErr(res,t.res_one('SUCC',acc.G_JSON({},dbres)));
+            });
+            break;
         default :
             acc.SendOnErr(res,t.res_one('FAIL','访问有问题，请重新确认'));
     }
@@ -329,6 +337,24 @@ exports.r2013=function(req,res){
         else {
             logger.debug('查询下家范围');
             m_goods.WhoIsMySonsAccLevel(jbody.username,jbody.down_id,function(dbres){
+                acc.SendOnErr(res,t.res_one('SUCC',dbres));
+            });
+        }
+    });
+};
+
+
+
+
+//查询某项货最后一次收发记录
+exports.r2014=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
+    acc.Jspp(req,function(jbody){
+        logger.debug('查询某项货最后一次收发记录');
+        //console.log(jbody);
+        if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
+        else {
+            m_goods.Query_SendHis(jbody.username,jbody.stime,jbody.etime,jbody.nfc_id,jbody.expgoods,function(dbres){
                 acc.SendOnErr(res,t.res_one('SUCC',dbres));
             });
         }
