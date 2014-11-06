@@ -104,7 +104,7 @@ setTimeout(function(){
     app.listen(3000,function(){
         console.log('Zidane Web Service is started at 3000,ID:'+process.pid);
         logger.debug('Zidane Web Service is started at 3000,ID:'+process.pid);
-        //console.log(global.u_ACCTS);
+        console.log(global.u_ACCTS);
        // console.log(global.u_ACCTS);
         //console.log(global.u_SERIAL);
 

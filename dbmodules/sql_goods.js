@@ -37,6 +37,10 @@ module.exports={
         function(p_nfcid)
         {return 'select * from g_nfc_box_map where nfc_id=upper(\''+p_nfcid+'\')';
         },
+    'query_ifboxpack':
+        function(p_nfcid)
+        {return 'select * from py_package_his where par_id=upper(\''+p_nfcid+'\')';
+        },
     'query_packexistByFactSend':
         function(p_nfcid,p_alname)
         {return 'select * from py_package_his where par_id=upper(\''+p_nfcid+'\') and alname=\''+p_alname+'\'';

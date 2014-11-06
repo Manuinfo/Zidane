@@ -66,9 +66,13 @@ exports.r2002=function(req,res){
     }*/
 };
 
-/*先根据NFCID查看商品信息
-* 也就是看是否这个ID是这个商品
-* 再看有无重复
+/* 装箱
+* ---------------------------
+* 1,判断盒子是否真实存在
+* 2，判断盒子是否已装箱
+* 3，判断箱子是否真实存在
+* 4，判断箱子是否已装箱
+*
 */
 exports.r2003=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
@@ -79,16 +83,16 @@ exports.r2003=function(req,res){
             logger.debug('判断商品是否属实');
             m_goods.Get_NameByNFCID(jbody.son_id,global.u_PACKLIMIT[jbody.expgoods],function(dbres){
 
-                if(dbres==1)  //判断商品是否属实
+                if(dbres==1)
                 {
+                    logger.debug('判断商品属实');
                     var x=jbody.son_id.split(',');
                     logger.debug('判断盒子是否重复，限制为:'+global.u_PACKLIMIT[jbody.expgoods]);
                     //判断盒子ID是否重复
                     m_goods.Check_PackRepeat(x,function(xres){
                         if(acc.G_ARRAY_IF(xres,'ok')==parseInt(global.u_PACKLIMIT[jbody.expgoods]))
                         {
-                            logger.debug('判断盒子不重复');
-                            delete x;
+                            logger.debug('盒子不重复');
                             //判断箱子ID是否已存在
                             logger.debug('判断箱子ID是否存在，'+jbody.par_id);
                             m_goods.Check_BoxExist(jbody.par_id,function(boxres){
@@ -96,26 +100,34 @@ exports.r2003=function(req,res){
                                 //判断箱子ID是否已存在
                                 if(boxres)
                                 {
-                                    //console.log(boxres.g_name!=jbody.expgoods );
-                                    //console.log((boxres.nfc_flag).substr(10,2)==jbody.expgoods.toString());
-                                    //判断箱子ID是否已被烧录且箱子的NFCFLAG符合装箱商品语气
+                                    logger.debug('箱子的ID存在'+jbody.par_id);
                                     if( (boxres.g_name!=jbody.expgoods ) && ((boxres.nfc_flag).substr(10,2)==jbody.expgoods))        //
-                                    if (boxres.g_name!=jbody.expgoods )
+                                    //if (boxres.g_name!=jbody.expgoods )
                                     {
-                                        logger.debug('判断箱子ID未使用，盒子不重复，属实，开始装箱');
-                                        m_goods.Insert_PackHis(jbody.son_id.split(','),
-                                            jbody.par_id,
-                                            jbody.username,
-                                            jbody.expgoods,
-                                            jbody.channel_id,function(xxres){
-                                                logger.debug('装箱完毕');
-                                                acc.SendOnErr(res,t.res_one('SUCC','无重复记录,装箱完毕'));
-                                            });
-                                        m_goods.Update_BoxInfoPack(jbody.par_id,jbody.expgoods);
+                                        logger.debug('判断箱子ID存在与NFCFLAG相符合，继续校验是否已被装过箱');
+                                        m_goods.Check_BoxExistMulti(jbody.par_id,jbody.expgoods,function(eeres){
+                                            if(eeres[0]='NA')
+                                            {
+                                                logger.debug('箱子没有过装过箱，可以装箱');
+                                                m_goods.Insert_PackHis(jbody.son_id.split(','),
+                                                    jbody.par_id,
+                                                    jbody.username,
+                                                    jbody.expgoods,
+                                                    jbody.channel_id,function(xxres){
+                                                        logger.debug('装箱完毕');
+                                                        acc.SendOnErr(res,t.res_one('SUCC','无重复记录,装箱完毕'));                                                                      //22222222222222
+                                                    });
+                                                m_goods.Update_BoxInfoPack(jbody.par_id,jbody.expgoods);
+
+                                            }else
+                                            {
+                                                acc.SendOnErr(res,t.res_one('FAIL','箱子ID存在，但是已被装过箱，请核实'));
+                                            }
+                                        });
                                     } else
                                     {
-                                        acc.SendOnErr(res,t.res_one('FAIL','箱子ID存在,但商品已被烧录，上次商品是:'+boxres.g_name));
-                                        logger.debug('箱子ID存在,但商品已被烧录，上次商品是:'+boxres.g_name);
+                                        acc.SendOnErr(res,t.res_one('FAIL','箱子ID存在,但商品已被烧录，上次商品是:'+boxres.g_name+',上次时间为:'+boxres.bind_date));
+                                        logger.debug('箱子ID存在,但商品已被烧录，上次商品是:'+boxres.g_name+',上次时间为:'+boxres.bind_date);
                                     }
 
                                 } else
