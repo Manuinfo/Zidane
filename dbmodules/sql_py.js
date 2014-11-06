@@ -64,6 +64,10 @@ module.exports={
                 '(select down_name,down_id from py_relatation where  down_id=\''+p_down_id+'\' and up_name=\''+p_name+'\' ) a,'+
                 '(select name,alname from py_user_accounts ) b '+
                 'where a.down_name=b.name ; ';
+        },
+    'query_allchild_recuris':
+        function(p_name){
+            return 'select getChildName(\''+p_name+'\')';
         }
 };
 

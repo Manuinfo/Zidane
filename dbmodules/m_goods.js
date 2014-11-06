@@ -404,6 +404,17 @@ exports.WhoIsMySonsAccLevel=function(up_name,down_id,callback){
     })
 };
 
+//查询一个账号下的所有子树
+exports.AllMySons=function(up_name,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_py.query_allchild_recuris(up_name));
+        conn.query(sql_py.query_allchild_recuris(up_name),function (err, sqlres) {
+            conn.release();
+            callback(sqlres[0]);
+        });
+    })
+};
+
 
 //查询发货链最后1条
 exports.Query_SendHisLastOne=function(uname,stime,etime,nfcid,goodsid,callback){

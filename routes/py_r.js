@@ -372,3 +372,18 @@ exports.r2014=function(req,res){
         }
     });
 };
+
+//查询一个账号下的所有子账号
+exports.r2015=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
+    acc.Jspp(req,function(jbody){
+        logger.debug('查询一个账号下的所有子账号');
+        //console.log(jbody);
+        if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
+        else {
+            m_goods.AllMySons(jbody.username,function(dbres){
+                acc.SendOnErr(res,t.res_one('SUCC',dbres));
+            });
+        }
+    });
+};
