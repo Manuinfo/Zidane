@@ -366,7 +366,7 @@ exports.r2014=function(req,res){
         //console.log(jbody);
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
-            m_goods.Query_SendHis(jbody.username,jbody.stime,jbody.etime,jbody.nfc_id,jbody.expgoods,function(dbres){
+            m_goods.Query_SendHisLastOne(jbody.username,jbody.stime,jbody.etime,jbody.nfc_id,jbody.expgoods,function(dbres){
                 acc.SendOnErr(res,t.res_one('SUCC',dbres));
             });
         }
