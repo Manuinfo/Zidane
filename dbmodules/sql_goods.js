@@ -14,7 +14,7 @@ module.exports={
     'get_all_acctsname':
         function(){return 'SELECT name as id ,alname FROM py_user_accounts  ;'},
     'get_all_realname':
-        function(){return 'SELECT name as id,alname as name FROM py_user_accounts  ;'},
+        function(){return 'SELECT name,alname,ulevel,uzone,person_id,person_name,s_id FROM py_user_accounts  ;'},
     'get_goods_bySerialID':
         function(b){return 'select name from g_products where serias=\''+b+'\';'},
     'get_goods_byNFCID':

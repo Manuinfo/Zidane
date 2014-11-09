@@ -35,6 +35,7 @@ exports.Get_NameBySerial=function(sid,callback){
             logger.debug('根据类型获取有哪些配置信息');
             logger.debug('Req:'+sql_g.get_goods_bySerialID(sid));
             conn.query(sql_g.get_goods_bySerialID(sid),function (err, sqlres) {
+                conn.release();
                 callback(sqlres);
             });
     });
@@ -56,8 +57,35 @@ exports.Get_AllBase=function(callback){
     pool.getConnection(function(err, conn) {
         logger.debug('Req:'+sql_g.get_all_base());
         conn.query(sql_g.get_all_base(),function (err, sqlres) {
-            conn.release();
-            callback(sqlres);
+            var out_o={};
+            var in_o_LAY={},in_o_CHANNEL={},in_o_SERIAL={},in_o_BRAND={},in_o_PACKLIMIT={};
+            for(var i=0;i<sqlres.length;i++)
+            {
+                switch (sqlres[i].type)
+                {
+                    case 'LAY':
+                    { in_o_LAY[sqlres[i].id]=sqlres[i].name; break; }
+                    case 'CHANNEL':
+                    { in_o_CHANNEL[sqlres[i].id]=sqlres[i].name; break;}
+                    case 'SERIAL':
+                    { in_o_SERIAL[sqlres[i].id]=sqlres[i].name;  break;}
+                    case 'BRAND':
+                    { in_o_BRAND[sqlres[i].id]=sqlres[i].name; break;}
+                    case 'PACKLIMIT':
+                    { in_o_PACKLIMIT[sqlres[i].id]=sqlres[i].name; break;}
+                    default :
+                        a=1;
+                }
+            }
+            setTimeout(function(){
+                out_o['LAY']=in_o_LAY;
+                out_o['CHANNEL']=in_o_CHANNEL;
+                out_o['SERIAL']=in_o_SERIAL;
+                out_o['BRAND']=in_o_BRAND;
+                out_o['PACKLIMIT']=in_o_PACKLIMIT;
+                conn.release();
+                callback(out_o);
+            },300);
         });
     })
 };
@@ -66,9 +94,20 @@ exports.Get_AllBase=function(callback){
 exports.Get_RealName=function(callback){
     pool.getConnection(function(err, conn) {
         logger.debug('Req:'+sql_g.get_all_realname());
+        //console.log(sql_g.get_all_realname());
         conn.query(sql_g.get_all_realname(),function (err, sqlres) {
-            conn.release();
-            callback(sqlres);
+            //console.log(sqlres);
+            var out_o={};
+            for(var i=0;i<sqlres.length;i++)
+            {
+                out_o[sqlres[i].name]=sqlres[i];
+            }
+           setTimeout(function(){
+               //console.log(out_o);
+               conn.release();
+               callback(out_o);
+           },300);
+
         });
     })
 };

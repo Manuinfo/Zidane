@@ -35,14 +35,17 @@ exports.r2001=function(req,res){
             acc.SendOnErr(res,t.res_one('SUCC',global.u_PACKLIMIT));
             break;
         case 'GETALLBASE':
-            m_goods.Get_AllBase(function(dbres){ acc.SendOnErr(res,t.res_one('SUCC',dbres));});
+            {
+                m_goods.Get_AllBase(function(dbres){
+                    //console.log(dbres);
+                    acc.SendOnErr(res,t.res_one('SUCC',dbres));
+                });
+            }
             break;
         case 'GETREALNAME':
             m_goods.Get_RealName(function(dbres){
-                //console.log(dbres);
-                //xxx=acc.G_JSON({},dbres);
-                //console.log(xxx);
-                acc.SendOnErr(res,t.res_one('SUCC',acc.G_JSON({},dbres)));
+                //console.log(dbre)
+                acc.SendOnErr(res,t.res_one('SUCC',dbres));
             });
             break;
         default :
