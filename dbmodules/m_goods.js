@@ -426,7 +426,7 @@ exports.Query_SendHisLastOne=function(uname,stime,etime,nfcid,goodsid,callback){
             if (uname=='root'){
                 me.Insert_QuerySendLog_ByAdmin(goodsid,nfcid);
             }
-            callback(sqlres);
+            callback(sqlres[0]);
         });
     });
 };
