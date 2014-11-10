@@ -3,15 +3,19 @@
  */
 
 var logger = require('../libs/log').logger;
+var pool=    require('../conf/db.js');
+
 
 //发送时做校验
 exports.SendOnErr=function(res,objsend){
     try{
         logger.debug('Res:'+objsend);
+        logger.debug('DB Pool Monitor Info@Res:'+pool._freeConnections.length+'/'+pool._allConnections.length);
         res.send(objsend);
     }
     catch (err){
         logger.debug('Res:'+err.message);
+        logger.debug('DB Pool Monitor Info@Res:'+pool._freeConnections.length+'/'+pool._allConnections.length);
         res.send(err.message);
         //console.log(err.message);
     }
@@ -21,6 +25,8 @@ exports.SendOnErr=function(res,objsend){
 exports.Jspp=function(req,cb)
 {
     logger.debug('Req:'+req.url+' '+req.method);
+    logger.debug('DB Pool Monitor Info@Req:'+pool._freeConnections.length+'/'+pool._allConnections.length);
+
     //logger.debug(req);
     var qss='';
     req.on('data',function(chunk)

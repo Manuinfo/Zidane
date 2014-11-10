@@ -407,3 +407,20 @@ exports.r2016=function(req,res){
         }
     });
 };
+
+
+//查询装箱历史，从g_nfc_box_map中查询
+exports.r2017=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
+    //
+    acc.Jspp(req,function(jbody){
+        logger.debug('查询发货历史');
+        //console.log(jbody);
+        if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
+        else {
+            m_goods.Query_PackHisByPackageID(jbody.nfc_id,function(dbres){
+                acc.SendOnErr(res,t.res_one('SUCC',dbres));
+            });
+        }
+    });
+};

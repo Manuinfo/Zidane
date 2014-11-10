@@ -16,6 +16,9 @@ var sql_g=require('../dbmodules/sql_goods.js');
 var sql_py=require('../dbmodules/sql_py.js');
 var logger = require('../libs/log').logger;
 
+
+
+
 //ID管理，根据中文名称获取ID
 exports.Get_IdByName=function(name,type,callback){
     pool.getConnection(function(err, conn) {
@@ -93,6 +96,9 @@ exports.Get_AllBase=function(callback){
 //获取登陆名和其他信息的对应关系
 exports.Get_RealName=function(callback){
     pool.getConnection(function(err, conn) {
+        //console.log(pool.domain);
+        //console.log(pool._allConnections.length);
+        //console.log(pool._freeConnections.length);
         logger.debug('Req:'+sql_g.get_all_realname());
         //console.log(sql_g.get_all_realname());
         conn.query(sql_g.get_all_realname(),function (err, sqlres) {
@@ -268,7 +274,7 @@ exports.Insert_PackHis=function(sonid,farid,uname,alname,cid,callback){
     })
 };
 
-//查询装箱历史
+//查询装箱历史 根据起止时间、盒子ID，查绑定关系
 exports.Query_PackHis=function(uname,stime,etime,callback){
     pool.getConnection(function(err, conn) {
         logger.debug('Req:'+sql_g.query_packhis(uname,stime,etime));
@@ -278,6 +284,18 @@ exports.Query_PackHis=function(uname,stime,etime,callback){
         });
     })
 };
+
+//查询装箱历史 根据起止时间、箱子ID
+exports.Query_PackHisByPackageID=function(nfcid,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.query_packhis_by_pack_id(nfcid));
+        conn.query(sql_g.query_packhis_by_pack_id(nfcid),function (err, sqlres) {
+            conn.release();
+            callback(sqlres);
+        });
+    })
+};
+
 
 //查询可以发给哪些下家
 exports.WhoIsMySons=function(up_name,callback){

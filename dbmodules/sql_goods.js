@@ -49,11 +49,9 @@ module.exports={
         function(p_nfcid,p_gname,p_time)
         {return 'update g_nfc_box_map set g_name=\''+p_gname+'\',bind_date=\''+p_time+'\' where nfc_id=\''+p_nfcid+'\''
         },
-    'query_packhis':
-        function(p_uname,p_stime,p_etime)
-        {return 'select pack_time,son_id,alname from py_package_his where uname=\''+p_uname+'\''+
-                ' and pack_time >\''+p_stime+'\''+
-                ' and pack_time <\''+p_etime+'\';'
+    'query_packhis_by_pack_id':
+        function(p_nfcid)
+        {return 'select nfc_id,g_name,bind_date from g_nfc_box_map where nfc_id=\''+p_nfcid+'\'';
         },
     'query_belongme':
         function(p_cvname,p_nfcid,p_dtime)
