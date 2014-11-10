@@ -279,7 +279,7 @@ exports.r2008=function(req,res){
 };
 
 
-//查询发货历史
+//查询发货历史 条件为起止时间+发货人账号
 exports.r2009=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     //
@@ -385,6 +385,23 @@ exports.r2015=function(req,res){
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
             m_goods.AllMySons(jbody.username,function(dbres){
+                acc.SendOnErr(res,t.res_one('SUCC',dbres));
+            });
+        }
+    });
+};
+
+
+//查询发货历史 条件为起止时间
+exports.r2016=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
+    //
+    acc.Jspp(req,function(jbody){
+        logger.debug('查询发货历史');
+        //console.log(jbody);
+        if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
+        else {
+            m_goods.Query_SendHis_Common(jbody.username,jbody.stime,jbody.etime,function(dbres){
                 acc.SendOnErr(res,t.res_one('SUCC',dbres));
             });
         }

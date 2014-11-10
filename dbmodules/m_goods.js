@@ -367,14 +367,29 @@ exports.Query_SendHis=function(uname,stime,etime,nfcid,goodsid,callback){
     });
 };
 
+//查询发货链 ，条件为起止时间
+exports.Query_SendHis_Common=function(uname,stime,etime,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.query_sendhis_common(stime,etime));
+        conn.query(sql_g.query_sendhis_common(stime,etime),function (err, sqlres) {
+            conn.release();
+            logger.debug('如果是ADMIN查询，则插入记录');
+            if (uname=='root'){
+                //me.Insert_QuerySendLog_ByAdmin(null,nfcid);
+            }
+            callback(sqlres);
+        });
+    });
+};
+
 
 //ADMIN查询历史查询
 exports.Query_AdminHis=function(stime,etime,goodsid,callback){
     pool.getConnection(function(err, conn) {
         logger.debug('ADMIN查过的记录开始查询');
-        console.log(goodsid);
-        console.log(global.u_BRAND);
-        console.log(global.u_BRAND[goodsid]);
+        //console.log(goodsid);
+        //console.log(global.u_BRAND);
+        //console.log(global.u_BRAND[goodsid]);
         logger.debug('Req:'+sql_g.query_adminhis(stime,etime,global.u_BRAND[goodsid]));
         conn.query(sql_g.query_adminhis(stime,etime,global.u_BRAND[goodsid]),function (err, sqlres) {
             conn.release();

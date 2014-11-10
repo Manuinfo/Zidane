@@ -65,14 +65,14 @@ app.post('/py_r/2005', rest_pr.r2005);  //查询哪些下家，返回的下家�
 app.post('/py_r/2006', rest_pr.r2006);  //查询哪些上家
 app.post('/py_r/2007', rest_pr.r2007);  //查询这批货是否属于我，验货
 app.post('/py_r/2008', rest_pr.r2008);  //发货，当然之前还要验货
-app.post('/py_r/2009', rest_pr.r2009);  //查询发货历史，查询条件是开始时间、结束时间、NFC_ID
+app.post('/py_r/2009', rest_pr.r2009);  //查询发货历史，查询条件是开始时间、结束时间、发货人账号
 app.post('/py_r/2010', rest_pr.r2010);  //查询ADMIN之前查过的历史
 app.post('/py_r/2011', rest_pr.r2011);  //查询发货员下面的省级代理
 app.post('/py_r/2012', rest_pr.r2012);  //查询发货员下面的一级代理
 app.post('/py_r/2013', rest_pr.r2013);  //查询根据LEVELID和UPNAME查下家
 app.post('/py_r/2014', rest_pr.r2014);  //查询某箱货物最近一次收发记录
 app.post('/py_r/2015', rest_pr.r2015);  //查询一个账号下所有子账号
-app.post('/py_r/2016', rest_pr.r2016);  //查询发货历史，查询条件是开始时间、结束时间、NFC_ID
+app.post('/py_r/2016', rest_pr.r2016);  //查询发货历史，查询条件是开始时间、结束时间
 
 
 

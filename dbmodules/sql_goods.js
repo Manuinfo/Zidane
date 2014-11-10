@@ -77,6 +77,12 @@ module.exports={
             ' dist_time >\''+p_stime+'\''+
             ' and dist_time <\''+p_etime+'\' and send_name=\''+p_uname+'\';'
         },
+    'query_sendhis_common':
+        function(p_stime,p_etime)
+        {return 'select * from py_send_his where '+
+            ' dist_time >\''+p_stime+'\''+
+            ' and dist_time <\''+p_etime+'\' ;'
+        },
     'query_sendhisLastOne':
         function(p_stime,p_etime,p_nfcid)
         {return 'select * from py_send_his where '+
