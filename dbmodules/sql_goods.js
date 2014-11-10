@@ -72,10 +72,10 @@ module.exports={
             '\''+p_cvid+'\');'
         },
     'query_sendhis':
-        function(p_stime,p_etime,p_nfcid)
+        function(p_stime,p_etime,p_uname)
         {return 'select * from py_send_his where '+
             ' dist_time >\''+p_stime+'\''+
-            ' and dist_time <\''+p_etime+'\' and par_id=\''+p_nfcid+'\';'
+            ' and dist_time <\''+p_etime+'\' and send_name=\''+p_uname+'\';'
         },
     'query_sendhisLastOne':
         function(p_stime,p_etime,p_nfcid)

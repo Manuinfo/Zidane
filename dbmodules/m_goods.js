@@ -90,7 +90,7 @@ exports.Get_AllBase=function(callback){
     })
 };
 
-//获取登陆名和真是商铺名的对应关系
+//获取登陆名和其他信息的对应关系
 exports.Get_RealName=function(callback){
     pool.getConnection(function(err, conn) {
         logger.debug('Req:'+sql_g.get_all_realname());
@@ -107,7 +107,6 @@ exports.Get_RealName=function(callback){
                conn.release();
                callback(out_o);
            },300);
-
         });
     })
 };
@@ -353,11 +352,11 @@ exports.Insert_QuerySendLog_ByAdmin=function(goodsid,unfc){
 
 };
 
-//查询发货链
+//查询发货链 ，条件为起止时间+发货人ACC_ID
 exports.Query_SendHis=function(uname,stime,etime,nfcid,goodsid,callback){
     pool.getConnection(function(err, conn) {
-        logger.debug('Req:'+sql_g.query_sendhis(stime,etime,nfcid));
-        conn.query(sql_g.query_sendhis(stime,etime,nfcid),function (err, sqlres) {
+        logger.debug('Req:'+sql_g.query_sendhis(stime,etime,uname));
+        conn.query(sql_g.query_sendhis(stime,etime,uname),function (err, sqlres) {
             conn.release();
             logger.debug('如果是ADMIN查询，则插入记录');
             if (uname=='root'){
