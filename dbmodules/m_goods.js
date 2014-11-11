@@ -103,6 +103,8 @@ exports.Get_RealName=function(callback){
         //console.log(sql_g.get_all_realname());
         conn.query(sql_g.get_all_realname(),function (err, sqlres) {
             //console.log(sqlres);
+            callback(sqlres);
+            /*
             var out_o={};
             for(var i=0;i<sqlres.length;i++)
             {
@@ -113,6 +115,7 @@ exports.Get_RealName=function(callback){
                conn.release();
                callback(out_o);
            },300);
+           */
         });
     })
 };
