@@ -102,6 +102,7 @@ exports.Get_RealName=function(callback){
         logger.debug('Req:'+sql_g.get_all_realname());
         //console.log(sql_g.get_all_realname());
         conn.query(sql_g.get_all_realname(),function (err, sqlres) {
+            conn.release();
             //console.log(sqlres);
             callback(sqlres);
             /*
