@@ -49,13 +49,18 @@ module.exports={
         function(p_nfcid,p_gname,p_time)
         {return 'update g_nfc_box_map set g_name=\''+p_gname+'\',bind_date=\''+p_time+'\' where nfc_id=\''+p_nfcid+'\''
         },
+    'query_packhis':
+        function(p_uname,p_stime,p_etime)
+        {return 'select  distinct pack_time, par_id,uname from py_package_his where  pack_time > \''+p_stime+'\''+
+                ' and pack_time <\''+p_etime+'\' and uname=\''+p_uname+'\' ;'
+        },
     'query_packhis_by_pack_id':
         function(p_nfcid)
         {return 'select nfc_id,g_name,bind_date from g_nfc_box_map where nfc_id=\''+p_nfcid+'\'';
         },
     'query_belongme':
         function(p_cvname,p_nfcid,p_dtime)
-        {return 'select recv_name from py_send_his where recv_name=\''+p_cvname+'\' and par_id=\''+p_nfcid+'\''+
+        {return 'select recv_name from py_send_his where recv_name=\''+p_cvname+'\' and par_id=\''+p_nfcid+'\''+                  //2333333
                 ' and dist_time > \''+p_dtime+'\' order by dist_time desc;'
         },
     'insert_sendhis':
