@@ -51,7 +51,7 @@ module.exports={
         },
     'query_packhis':
         function(p_uname,p_stime,p_etime)
-        {return 'select  distinct pack_time, par_id,uname from py_package_his where  pack_time > \''+p_stime+'\''+
+        {return 'select  distinct pack_time, par_id,uname,alname as prdname from py_package_his where  pack_time > \''+p_stime+'\''+
                 ' and pack_time <\''+p_etime+'\' and uname=\''+p_uname+'\' ;'
         },
     'query_packhis_by_pack_id':
