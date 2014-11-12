@@ -124,7 +124,7 @@ exports.r2003=function(req,res){
 
                                             }else
                                             {
-                                                acc.SendOnErr(res,t.res_one('FAIL','箱子ID存在，但是已被装过箱，请核实'));
+                                                acc.SendOnErr(res,t.res_one('FAIL','箱子ID存在，但是已被装过箱，请核实，请重新输入或联系管理员'));
                                             }
                                         });
                                     } else
@@ -135,7 +135,7 @@ exports.r2003=function(req,res){
 
                                 } else
                                 {
-                                    acc.SendOnErr(res,t.res_one('FAIL','箱子ID不存在'));
+                                    acc.SendOnErr(res,t.res_one('FAIL','箱子ID不存在，请重新输入或联系管理员'));
                                     logger.debug('箱子不存在');
                                 }
                             });
@@ -144,17 +144,17 @@ exports.r2003=function(req,res){
                             delete x;
                             logger.debug('有记录重复:'+xres);
                             m_goods.Query_BigOrSmall(xres,function(repres){
-                                acc.SendOnErr(res,t.res_one('FAIL','重复盒子:['+repres+']'));
+                                acc.SendOnErr(res,t.res_one('FAIL','输入有重复的盒子，重复盒子:['+repres+']，请重新输入或联系管理员'));
                             });
                         }
                     });
                 }else   //如果商品不匹配
                 {
-                    acc.SendOnErr(res,t.res_one('FAIL','有商品不匹配:['+dbres+']'));
+                    acc.SendOnErr(res,t.res_one('FAIL','输入的盒子与商品不匹配:['+dbres+']，请重新输入或联系管理员'));
                 }
             });
         } else
-        { acc.SendOnErr(res,t.res_one('FAIL','输入的ID有误，请重新输入'));  }
+        { acc.SendOnErr(res,t.res_one('FAIL','输入的盒子ID有误，请重新输入或联系管理员'));  }
     });
 };
 
