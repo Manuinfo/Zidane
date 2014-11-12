@@ -424,3 +424,19 @@ exports.r2017=function(req,res){
         }
     });
 };
+
+//查询发货历史 条件为起止时间+NFCID+所有条件
+exports.r2018=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
+    //
+    acc.Jspp(req,function(jbody){
+        logger.debug('查询发货历史');
+        //console.log(jbody);
+        if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
+        else {
+            m_goods.Query_SendHis_NFCID(jbody.username,jbody.stime,jbody.etime,jbody.par_id,function(dbres){
+                acc.SendOnErr(res,t.res_one('SUCC',dbres));
+            });
+        }
+    });
+};

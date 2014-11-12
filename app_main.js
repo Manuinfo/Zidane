@@ -70,10 +70,11 @@ app.post('/py_r/2010', rest_pr.r2010);  //查询ADMIN之前查过的历史
 app.post('/py_r/2011', rest_pr.r2011);  //查询发货员下面的省级代理
 app.post('/py_r/2012', rest_pr.r2012);  //查询发货员下面的一级代理
 app.post('/py_r/2013', rest_pr.r2013);  //查询根据LEVELID和UPNAME查下家
-app.post('/py_r/2014', rest_pr.r2014);  //查询某箱货物最近一次收发记录
+app.post('/py_r/2014', rest_pr.r2014);  //查询爱发货历史，某箱货物最近一次收发记录
 app.post('/py_r/2015', rest_pr.r2015);  //查询一个账号下所有子账号
 app.post('/py_r/2016', rest_pr.r2016);  //查询发货历史，根据起止时间
 app.post('/py_r/2017', rest_pr.r2017);  //查询装箱历史，根据箱子ID
+app.post('/py_r/2018', rest_pr.r2018);  //查询发货历史，根据起止时间+NFCID+所有记录
 
 
 

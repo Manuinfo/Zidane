@@ -389,6 +389,22 @@ exports.Query_SendHis=function(uname,stime,etime,nfcid,goodsid,callback){
     });
 };
 
+//查询发货链 ，条件为起止时间+NFC_ID+所有记录
+exports.Query_SendHis_NFCID=function(uname,stime,etime,nfcid,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.query_sendhis_nfcid(stime,etime,nfcid));
+        conn.query(sql_g.query_sendhis_nfcid(stime,etime,nfcid),function (err, sqlres) {
+            conn.release();
+            logger.debug('如果是ADMIN查询，则插入记录');
+            if (uname=='root'){
+                me.Insert_QuerySendLog_ByAdmin('999',nfcid);
+            }
+            callback(sqlres);
+        });
+    });
+};
+
+
 //查询发货链 ，条件为起止时间
 exports.Query_SendHis_Common=function(uname,stime,etime,callback){
     pool.getConnection(function(err, conn) {
