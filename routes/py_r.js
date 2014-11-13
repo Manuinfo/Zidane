@@ -236,7 +236,7 @@ exports.r2008=function(req,res){
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
         logger.debug('发货前验货');
-        logger.debug('验货前校验账号LEVEL:'+jbody.username+','+global.u_ACCTS[jbody.username]);
+        logger.debug('验货前校验账号LEVEL:'+jbody.username+','+global.u_ACCTS[jbody.username.toUpperCase()]);
 
         if ( parseInt(global.u_ACCTS[jbody.username.toUpperCase()])==2 )
         {
