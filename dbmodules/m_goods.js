@@ -343,6 +343,30 @@ exports.Check_Belongme=function(cvname,nfcids,callback){
     })
 };
 
+
+//防止发货员重复发货，备份并清空发货链
+exports.DF_SendRepeate=function(nfcids,callback){
+    var now=moment().subtract(1,'month').format('YYYY-MM-DD HH:mm:ss');
+    pool.getConnection(function(err, conn) {
+        async.map(nfcids.split(','),function(item,cb){
+            logger.debug('先备份后删除');
+            logger.debug('Req:'+sql_g.bak_sendhis_before_trunc(item));
+            conn.query(sql_g.bak_sendhis_before_trunc(item),function (err, sqlres) {
+                logger.debug('Req:'+sql_g.trunc_sendhis(item));
+                conn.query(sql_g.trunc_sendhis(item),function(err,sqlres){
+                    callback(null,1);
+                });
+            });
+        },function(err,exres){
+            //console.log(exres);
+            logger.debug('备份删除后的结果:'+exres);
+            callback(exres);
+            conn.release();
+        });
+    })
+};
+
+
 //查询这箱货是否属于我的，校验发货人是不是我
 exports.Check_Belongme2=function(cvname,nfcids,callback){
     var now=moment().subtract(1,'month').format('YYYY-MM-DD HH:mm:ss');

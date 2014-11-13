@@ -81,6 +81,15 @@ module.exports={
             '\''+p_snid+'\','+
             '\''+p_cvid+'\');'
         },
+    'bak_sendhis_before_trunc':
+        function(p_nfcid)
+        { return 'insert into py_send_his_copy select * from py_send_his where  par_id=upper(\''+p_nfcid+'\');'
+        },
+    'trunc_sendhis':
+        function(p_nfcid)
+        { return 'delete from py_send_his where  par_id=upper(\''+p_nfcid+'\');'   },
+
+
     'query_sendhis':
         function(p_stime,p_etime,p_uname)
         {return 'select  par_id,ADDDATE(dist_time,INTERVAL +8 HOUR) as dist_time,send_name,recv_name,alname,send_lid,recv_lid from py_send_his where '+

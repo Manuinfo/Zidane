@@ -248,9 +248,13 @@ exports.r2008=function(req,res){
                 if(acc.G_ARRAY_IF(yres,'YES')==jbody.par_id.split(',').length)
                 {
                     logger.debug('箱子ID已经装箱并且与数量扫描一致');
-                    m_goods.SendBox(jbody,function(xxres){
-                        acc.SendOnErr(res,t.res_one('SUCC','发货成功'));
+                    logger.debug('真正发货前，备份清空之前历史，防止重复发送');
+                    m_goods.DF_SendRepeate(jbody.par_id,function(bakres){
+                        m_goods.SendBox(jbody,function(xxres){
+                            acc.SendOnErr(res,t.res_one('SUCC','发货成功'));
+                        });
                     });
+
                 } else
                 {
                     logger.debug('有箱子未装箱或不存在');
