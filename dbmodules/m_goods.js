@@ -515,8 +515,8 @@ exports.AllMySons=function(up_name,callback){
 //查询发货链最后1条
 exports.Query_SendHisLastOne=function(uname,stime,etime,nfcid,goodsid,callback){
     pool.getConnection(function(err, conn) {
-        logger.debug('Req:'+sql_g.query_sendhisLastOne(stime,etime,nfcid));
-        conn.query(sql_g.query_sendhisLastOne(stime,etime,nfcid),function (err, sqlres) {
+        logger.debug('Req:'+sql_g.query_sendhisLastOne(etime,nfcid));
+        conn.query(sql_g.query_sendhisLastOne(etime,nfcid),function (err, sqlres) {
             conn.release();
             logger.debug('如果是ADMIN查询，则插入记录');
             if (uname=='root'){

@@ -95,9 +95,9 @@ module.exports={
             ' and dist_time <\''+p_etime+'\' ;'
         },
     'query_sendhisLastOne':
-        function(p_stime,p_etime,p_nfcid)
+        function(p_etime,p_nfcid)
         {return 'select  par_id,ADDDATE(dist_time,INTERVAL +8 HOUR) as dist_time,send_name,recv_name,alname,send_lid,recv_lid from py_send_his where '+
-            ' dist_time >\''+p_stime+'\''+
+            ' dist_time > ADDDATE(now(),INTERVAL -90 DAY) '+
             ' and dist_time <\''+p_etime+'\' and par_id=\''+p_nfcid+'\' order by dist_time desc;'
         },
     'check_bigorsmall':
