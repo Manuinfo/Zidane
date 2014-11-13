@@ -22,12 +22,12 @@ module.exports={
             'select b.product_id from batches b where b.batch_id in ('+
             'select c.batch_id from g_nfc_batch_map c where c.nfc_id=upper(\''+b+'\')))'},
     'check_repeat':
-        function(b){return 'SELECT son_id FROM py_package_his where son_id=\''+b+'\';'},
+        function(b){return 'SELECT upper(son_id) FROM py_package_his where son_id=\''+b+'\';'},
     'insert_boxhis':
         function(p_sonid,p_farid,p_packtime,p_uname,p_alname,p_cid)
         {return 'insert into py_package_his values ('+
-            '\''+p_sonid+'\','+
-            '\''+p_farid+'\','+
+            'upper(\''+p_sonid+'\'),'+
+            'upper(\''+p_farid+'\'),'+
             '\''+p_packtime+'\','+
             'upper(\''+p_uname+'\'),'+
             '\''+p_alname+'\','+
@@ -62,13 +62,13 @@ module.exports={
         },
     'query_belongme':
         function(p_cvname,p_nfcid,p_dtime)
-        {return 'select recv_name from py_send_his where recv_name=\''+p_cvname+'\' and par_id=\''+p_nfcid+'\''+                  //2333333
+        {return 'select recv_name from py_send_his where recv_name=\''+p_cvname+'\' and par_id=upper(\''+p_nfcid+'\')'+                  //2333333
                 ' and dist_time > \''+p_dtime+'\' order by dist_time desc;'
         },
     'insert_sendhis':
         function(p_farid,p_sendtime,p_sendname,p_recvname,p_alname,p_snid,p_cvid)
         {return 'insert into py_send_his values ('+
-            '\''+p_farid+'\','+
+            'upper(\''+p_farid+'\'),'+
             '\''+p_sendtime+'\','+
             'upper(\''+p_sendname+'\'),'+
             'upper(\''+p_recvname+'\'),'+
