@@ -81,6 +81,17 @@ exports.G_JSON=function extend(des, src){
     return des;
 };
 
+//从数组组装成JSON 格式2
+exports.G_JSON_R=function extend(des, src){
+    des={};
+    //console.log(src);
+    for(var i = 0, len = src.length; i < len; i++)
+        //console.log(src[i]);
+        des[src[i].name]=src[i].id;
+    // console.log(des);
+    return des;
+};
+
 //判断数组制定字符重复数量
 exports.G_ARRAY_IF=function(arr,xstr){
     var n=0;

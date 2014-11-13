@@ -68,6 +68,36 @@ module.exports={
     'query_allchild_recuris':
         function(p_name){
             return 'select getChildName(\''+p_name+'\')';
+        },
+    'insert_new_id':
+        function(p_name,p_alname,p_passwd,p_ulevel,p_uzone,p_state,p_frstate,p_sid,p_person_id,p_per_name,p_per_cell){
+            return 'insert into py_user_accounts values ('+
+                '\''+p_name+'\','+
+                '\''+p_alname+'\','+
+                '\''+p_passwd+'\','+
+                '\''+p_ulevel+'\','+
+                '\''+p_uzone+'\',null,'+
+                '\''+p_state+'\','+
+                '\''+p_frstate+'\','+
+                '\''+p_sid+'\',null,'+
+                '\''+p_person_id+'\','+
+                '\''+p_per_name+'\','+
+                '\''+p_per_cell+'\');';
+        },
+    'update_new_id':
+        function(p_name,p_alname,p_passwd,p_ulevel,p_uzone,p_state,p_frstate,p_sid,p_person_id,p_per_name,p_per_cell){
+            return 'update py_user_accounts set '+
+                'alname=\''+p_alname+'\','+
+                'passwd=\''+p_passwd+'\','+
+                'ulevel=\''+p_ulevel+'\','+
+                'uzone=\''+p_uzone+'\','+
+                'state=\''+p_state+'\','+
+                'frstate=\''+p_frstate+'\','+
+                's_id=\''+p_sid+'\','+
+                'person_id=\''+p_person_id+'\','+
+                'person_name=\''+p_per_name+'\','+
+                'person_cell=\''+p_per_cell+'\' where name=\''+p_name+'\' ;';
         }
+
 };
 

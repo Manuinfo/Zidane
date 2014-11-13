@@ -11,6 +11,7 @@ var t=require('../libs/t.js');
 var sql_py=require('../dbmodules/sql_py.js');
 var dbm=require('../dbmodules/rule.js');
 var logger = require('../libs/log').logger;
+var me=require('./m_login.js');
 
 
 //检验用户名是否存在
@@ -96,6 +97,63 @@ exports.UpdatePasswdFr=function(name,passwd){
         });
     });
 };
+
+//更新新资料
+//13140731-1-1	王煜熳	一级代理	王孟佳	省级代理	湖南	110105198204118641	18301333551	lena1117
+
+exports.UpdateNewID=function(accid,alname,ulevel,uzone,person_id,person_cell,person_name,serial_id){
+    pool.getConnection(function(err, conn) {
+        if(person_id=='无') {
+            var passwd= t.md5hash('admin7890')
+        } else
+        {
+            console.log(person_id.substr(12,6));
+            var passwd= t.md5hash(person_id.substr(12,6))
+        }
+        logger.debug('Req:'+sql_py.update_new_id(accid,alname,passwd,ulevel,uzone,'A','0',serial_id,person_id,person_name,person_cell));                                                //3333333333
+        conn.query(sql_py.update_new_id(accid,alname,passwd,ulevel,uzone,'A','0',serial_id,person_id,person_name,person_cell),function (err, sqlres) {
+            if (!err)
+            {
+                conn.release();
+                logger.debug('更新记录成功'+accid);
+            } else
+            {
+                conn.release();
+                logger.debug('更新记录失败'+accid+' '+err);
+            }
+        });
+    });
+};
+
+//首次录入新资料
+//13140731-1-1	王煜熳	一级代理	王孟佳	省级代理	湖南	110105198204118641	18301333551	lena1117
+//0             1          2        3   4       5   6                   7           8
+exports.AddNewID=function(accid,alname,ulevel,uzone,person_id,person_cell,person_name,serial_id){
+    pool.getConnection(function(err, conn) {
+        if(person_id=='无') {
+            var passwd= t.md5hash('admin7890')
+        } else
+        {
+            console.log(person_id.substr(12,6));
+            var passwd= t.md5hash(person_id.substr(12,6))
+        }
+        logger.debug('Req:'+sql_py.insert_new_id(accid,alname,passwd,ulevel,uzone,'A','0',serial_id,person_id,person_name,person_cell));                                                //3333333333
+        conn.query(sql_py.insert_new_id(accid,alname,passwd,ulevel,uzone,'A','0',serial_id,person_id,person_name,person_cell),function (err, sqlres) {
+            if (!err)
+            {
+                conn.release();
+                logger.debug('新增记录成功'+accid);
+            } else
+            {
+                conn.release();
+                logger.debug('新增记录失败'+accid+' '+err);
+            }
+
+        });
+    });
+};
+
+
 
 
 

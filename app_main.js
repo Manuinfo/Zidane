@@ -52,9 +52,10 @@ app.get('/w/2007/:qrhref/:cip/:cua', rest_w.w2007);
 app.get('/w/2008/:nfcid/:cip/:cua', rest_w.w2008);
 
 //代理商管理
-app.post('/py_w/2001', rest_pw.w2001);
-app.post('/py_w/2002', rest_pw.w2002);
-app.post('/py_w/2003', rest_pw.w2003);
+app.post('/py_w/2001', rest_pw.w2001); //登陆验证
+app.post('/py_w/2002', rest_pw.w2002); //密码重置
+app.post('/py_w/2003', rest_pw.w2003); //首次登陆时的密码修改
+app.post('/py_w/2004', rest_pw.w2004); //录入新资料
 
 
 app.get('/py_r/2001/:cmd', rest_pr.r2001);
@@ -93,8 +94,10 @@ logger.debug('Load Initial BaseData 1/5sec');
 
 conf.Get_IDByType('CHANNEL',function(confall){ global.u_CHID=acc.G_JSON({},confall)});
 conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL=acc.G_JSON({},confall)});
+conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL_R=acc.G_JSON_R({},confall)});
 conf.Get_IDByType('BRAND',function(confall){ global.u_BRAND=acc.G_JSON({},confall);});
 conf.Get_IDByType('LAY',function(confall){ global.u_LAY=acc.G_JSON({},confall);});
+conf.Get_IDByType('LAY',function(confall){ global.u_LAY_R=acc.G_JSON_R({},confall);});
 conf.Get_IDByType('PACKLIMIT',function(confall){ global.u_PACKLIMIT=acc.G_JSON({},confall);});
 conf.Get_ALLAccts(function(confall){ global.u_ACCTS=acc.G_JSON({},confall);});
 
@@ -108,21 +111,25 @@ conf.Get_ALLAccts(function(confall){ global.u_ACCTS=acc.G_JSON({},confall);});
 setTimeout(function(){
     app.listen(3000,function(){
         console.log('Zidane Web Service is started at 3000,ID:'+process.pid);
+        logger.debug('--------------------------------------------------------')
         logger.debug('Zidane Web Service is started at 3000,ID:'+process.pid);
-        //console.log(global.u_ACCTS);
+        logger.debug('--------------------------------------------------------')
+        console.log(global.u_SERIAL_R);
        // console.log(global.u_ACCTS);
         //console.log(global.u_SERIAL);
-
+        //console.log(global.u_LAY_R);
     });
-},500);
+},1500);
 
 
 setInterval(function(){
     logger.debug('Load Initial BaseData 1/5sec');
     conf.Get_IDByType('CHANNEL',function(confall){ global.u_CHID=acc.G_JSON({},confall)});
     conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL=acc.G_JSON({},confall)});
+    conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL_R=acc.G_JSON_R({},confall)});
     conf.Get_IDByType('BRAND',function(confall){ global.u_BRAND=acc.G_JSON({},confall);});
     conf.Get_IDByType('LAY',function(confall){ global.u_LAY=acc.G_JSON({},confall);});
+    conf.Get_IDByType('LAY',function(confall){ global.u_LAY_R=acc.G_JSON_R({},confall);});
     conf.Get_IDByType('PACKLIMIT',function(confall){ global.u_PACKLIMIT=acc.G_JSON({},confall);});
     conf.Get_ALLAccts(function(confall){ global.u_ACCTS=acc.G_JSON({},confall);});
 },240000);

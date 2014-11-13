@@ -130,3 +130,45 @@ exports.w2003=function(req,res){
         }
     });
 };
+
+
+//新资料录入或更新
+//13140731-1-1	王煜熳	一级代理	王孟佳	省级代理	湖南	110105198204118641	18301333551	lena1117 一三一素
+//0              1         2    3       4       5   6                   7           8         9
+exports.w2004=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
+    acc.Jspp(req,function(jbody){
+        if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
+        else {
+            console.log(jbody.info.split(' '));
+            m_login.Get_AcctName(jbody.info.split(' ')[0],function(dres1){
+                if(!dres1)
+                {
+                    m_login.AddNewID(jbody.info.split(' ')[0]
+                                     ,jbody.info.split(' ')[8]
+                                     ,global.u_LAY_R[jbody.info.split(' ')[2]]
+                                     ,jbody.info.split(' ')[5]
+                                     ,jbody.info.split(' ')[6]
+                                     ,jbody.info.split(' ')[7]
+                                     ,jbody.info.split(' ')[1]
+                                     ,global.u_SERIAL_R[jbody.info.split(' ')[9]])
+                    acc.SendOnErr(res,t.res_one('SUCC',jbody.info.split(' ')[0]+'新增记录成功'));
+                }
+                else
+                {
+                    m_login.UpdateNewID(jbody.info.split(' ')[0]
+                        ,jbody.info.split(' ')[8]
+                        ,global.u_LAY_R[jbody.info.split(' ')[2]]
+                        ,jbody.info.split(' ')[5]
+                        ,jbody.info.split(' ')[6]
+                        ,jbody.info.split(' ')[7]
+                        ,jbody.info.split(' ')[1]
+                        ,global.u_SERIAL_R[jbody.info.split(' ')[9]]);
+                    acc.SendOnErr(res,t.res_one('SUCC',jbody.info.split(' ')[0]+'该记录已存在，现在进行了更新'));
+                }
+
+            });
+
+        }
+    });
+};
