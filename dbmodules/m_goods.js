@@ -393,14 +393,19 @@ exports.Query_SendHis=function(uname,stime,etime,nfcid,goodsid,callback){
 exports.Query_SendHis_NFCID=function(uname,stime,etime,nfcid,callback){
     pool.getConnection(function(err, conn) {
         logger.debug('Req:'+sql_g.query_sendhis_nfcid(stime,etime,nfcid));
-        conn.query(sql_g.query_sendhis_nfcid(stime,etime,nfcid),function (err, sqlres) {
-            conn.release();
-            logger.debug('如果是ADMIN查询，则插入记录');
-            if (uname=='root'){
-                me.Insert_QuerySendLog_ByAdmin('999',nfcid);
-            }
-            callback(sqlres);
+        conn.query('show variables like \'system_time_zone\';',function(err,sqlres){
+            console.log(sqlres);
+            conn.query(sql_g.query_sendhis_nfcid(stime,etime,nfcid),function (err, sqlres) {
+                conn.release();
+                logger.debug('如果是ADMIN查询，则插入记录');
+                if (uname=='root'){
+                    me.Insert_QuerySendLog_ByAdmin('999',nfcid);
+                }
+                callback(sqlres);
+            });
+
         });
+
     });
 };
 

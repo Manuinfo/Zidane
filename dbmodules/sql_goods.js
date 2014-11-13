@@ -50,13 +50,15 @@ module.exports={
         {return 'update g_nfc_box_map set g_name=\''+p_gname+'\',bind_date=\''+p_time+'\' where nfc_id=\''+p_nfcid+'\''
         },
     'query_packhis':
+        //ADDDATE(pack_time,INTERVAL +8 HOUR) as pack_time
         function(p_uname,p_stime,p_etime)
-        {return 'select  distinct pack_time, par_id,uname,alname as prdname from py_package_his where  pack_time > \''+p_stime+'\''+
+        {return 'select  distinct ADDDATE(pack_time,INTERVAL +8 HOUR) as pack_time, par_id,uname,alname as prdname from py_package_his where  pack_time > \''+p_stime+'\''+
                 ' and pack_time <\''+p_etime+'\' and uname=\''+p_uname+'\' ;'
         },
     'query_packhis_by_pack_id':
+    //ADDDATE(bind_date,INTERVAL +8 HOUR) as bind_date
         function(p_nfcid)
-        {return 'select nfc_id,g_name,bind_date from g_nfc_box_map where nfc_id=\''+p_nfcid+'\'';
+        {return 'select nfc_id,g_name,ADDDATE(bind_date,INTERVAL +8 HOUR) as bind_date from g_nfc_box_map where nfc_id=\''+p_nfcid+'\'';
         },
     'query_belongme':
         function(p_cvname,p_nfcid,p_dtime)
@@ -76,25 +78,25 @@ module.exports={
         },
     'query_sendhis':
         function(p_stime,p_etime,p_uname)
-        {return 'select * from py_send_his where '+
+        {return 'select  par_id,ADDDATE(dist_time,INTERVAL +8 HOUR) as dist_time,send_name,recv_name,alname,send_lid,recv_lid from py_send_his where '+
             ' dist_time >\''+p_stime+'\''+
             ' and dist_time <\''+p_etime+'\' and send_name=\''+p_uname+'\';'
         },
     'query_sendhis_nfcid':
         function(p_stime,p_etime,p_nfcid)
-        {return 'select * from py_send_his where '+
+        {return 'select par_id,ADDDATE(dist_time,INTERVAL +8 HOUR) as dist_time,send_name,recv_name,alname,send_lid,recv_lid from py_send_his where '+
             ' dist_time >\''+p_stime+'\''+
             ' and dist_time <\''+p_etime+'\' and par_id=\''+p_nfcid+'\';'
         },
     'query_sendhis_common':
         function(p_stime,p_etime)
-        {return 'select * from py_send_his where '+
+        {return 'select  par_id,ADDDATE(dist_time,INTERVAL +8 HOUR) as dist_time,send_name,recv_name,alname,send_lid,recv_lid from py_send_his where '+
             ' dist_time >\''+p_stime+'\''+
             ' and dist_time <\''+p_etime+'\' ;'
         },
     'query_sendhisLastOne':
         function(p_stime,p_etime,p_nfcid)
-        {return 'select * from py_send_his where '+
+        {return 'select  par_id,ADDDATE(dist_time,INTERVAL +8 HOUR) as dist_time,send_name,recv_name,alname,send_lid,recv_lid from py_send_his where '+
             ' dist_time >\''+p_stime+'\''+
             ' and dist_time <\''+p_etime+'\' and par_id=\''+p_nfcid+'\' order by dist_time desc;'
         },
