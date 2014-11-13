@@ -238,7 +238,7 @@ exports.r2008=function(req,res){
         logger.debug('发货前验货');
         logger.debug('验货前校验账号LEVEL:'+jbody.username+','+global.u_ACCTS[jbody.username]);
 
-        if ( parseInt(global.u_ACCTS[jbody.username])==2 )
+        if ( parseInt(global.u_ACCTS[jbody.username.toUpperCase()])==2 )
         {
             //console.log(jbody.expgoods);
             logger.debug('工厂发货员:'+jbody.username+','+global.u_ACCTS[jbody.username]+'正校验这些箱子是否已装箱');
