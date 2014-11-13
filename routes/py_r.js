@@ -397,7 +397,7 @@ exports.r2014=function(req,res){
                 if(dbres)
                 {acc.SendOnErr(res,t.res_one('SUCC',dbres));}
                 else
-                {acc.SendOnErr(res,t.res_one('FAIL','没有发货记录'));}
+                {acc.SendOnErr(res,t.res_one('FAIL','本箱可以发货'));}
             });
         }
     });
