@@ -260,19 +260,33 @@ exports.r2008=function(req,res){
 
         } else
         {
+            logger.debug('不是工厂发货员，不需校验是否装箱'+jbody.username);
             m_goods.Check_Belongme(jbody.username,jbody.par_id,function(dbres){
                 console.log(dbres);
-                //console.log(acc.G_ARRAY_KV_IF(dbres,':','记录为空'));
                 if(acc.G_ARRAY_KV_IF(dbres,':','不是你的箱子')==0)
                 {
-                    logger.debug('验货通过，准备发货');
-                    m_goods.SendBox(jbody,function(xxres){
-                        acc.SendOnErr(res,t.res_one('SUCC','发货成功'));
+                    logger.debug('验货通过，'+jbody.par_id+'是你'+jbody.username+'的箱子，准备发货，但还要校验你对这个箱子有无发送操作');
+                    m_goods.Check_Belongme2(jbody.username,jbody.par_id,function(dbres2){
+                        logger.debug(dbres2);
+                        if(acc.G_ARRAY_KV_IF(dbres2,':','不是你的箱子')==jbody.par_id.split(',').length)
+                        {
+                            logger.debug('验货通过，你'+jbody.username+'之前没有操作过这个箱子'+jbody.par_id);
+                            m_goods.SendBox(jbody,function(xxres){
+                                acc.SendOnErr(res,t.res_one('SUCC','发货成功'));
+                            });
+                        } else
+                        {
+                            logger.debug('验货不通过，你'+jbody.username+'之前操作过这个箱子'+jbody.par_id);
+                            acc.SendOnErr(res, t.res_one('FAIL','验货不通过，你'+jbody.username+'之前操作过这个箱子'+jbody.par_id));
+                        }
                     });
-                    //
+
                 }
                 else
-                    acc.SendOnErr(res, t.res_one('FAIL',dbres));
+                {
+                    logger.debug('验货不通过，'+jbody.par_id+'不是你'+jbody.username+'的箱子');
+                    acc.SendOnErr(res, t.res_one('FAIL','验货不通过，'+jbody.par_id+'不是你'+jbody.username+'的箱子'));
+                }
             });
         }
 

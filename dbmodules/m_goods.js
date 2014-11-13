@@ -323,7 +323,7 @@ exports.WhoIsMyDaddy=function(down_name,callback){
     })
 };
 
-//查询这箱货是否属于我的
+//查询这箱货是否属于我的，校验收货人是不是我
 exports.Check_Belongme=function(cvname,nfcids,callback){
     var now=moment().subtract(1,'month').format('YYYY-MM-DD HH:mm:ss');
     pool.getConnection(function(err, conn) {
@@ -334,6 +334,26 @@ exports.Check_Belongme=function(cvname,nfcids,callback){
                    cb(null,item+":"+sqlres[0].recv_name);
                 else
                    cb(null,item+":不是你的箱子")
+            });
+        },function(err,exres){
+            //console.log(exres);
+            callback(exres);
+            conn.release();
+        });
+    })
+};
+
+//查询这箱货是否属于我的，校验发货人是不是我
+exports.Check_Belongme2=function(cvname,nfcids,callback){
+    var now=moment().subtract(1,'month').format('YYYY-MM-DD HH:mm:ss');
+    pool.getConnection(function(err, conn) {
+        async.map(nfcids.split(','),function(item,cb){
+            logger.debug('Req:'+sql_g.query_belongme2(cvname,item,now));
+            conn.query(sql_g.query_belongme2(cvname,item,now),function (err, sqlres) {
+                if(sqlres[0])
+                    cb(null,item+":"+sqlres[0].recv_name);
+                else
+                    cb(null,item+":不是你的箱子")
             });
         },function(err,exres){
             //console.log(exres);

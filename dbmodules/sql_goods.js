@@ -65,6 +65,11 @@ module.exports={
         {return 'select recv_name from py_send_his where recv_name=\''+p_cvname+'\' and par_id=upper(\''+p_nfcid+'\')'+                  //2333333
                 ' and dist_time > \''+p_dtime+'\' order by dist_time desc;'
         },
+    'query_belongme2':
+        function(p_cvname,p_nfcid,p_dtime)
+        {return 'select recv_name from py_send_his where send_name=\''+p_cvname+'\' and par_id=upper(\''+p_nfcid+'\')'+                  //2333333
+            ' and dist_time > \''+p_dtime+'\' order by dist_time desc;'
+        },
     'insert_sendhis':
         function(p_farid,p_sendtime,p_sendname,p_recvname,p_alname,p_snid,p_cvid)
         {return 'insert into py_send_his values ('+
