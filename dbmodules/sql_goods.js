@@ -89,9 +89,10 @@ module.exports={
             ' and dist_time <\''+p_etime+'\' and par_id=\''+p_nfcid+'\';'
         },
     'query_sendhis_common':
-        function(p_stime,p_etime)
+        function(p_uname,p_stime,p_etime)
         {return 'select  par_id,ADDDATE(dist_time,INTERVAL +8 HOUR) as dist_time,send_name,recv_name,alname,send_lid,recv_lid from py_send_his where '+
-            ' dist_time >\''+p_stime+'\''+
+            ' send_name=\''+p_uname+'\''+
+            ' and dist_time >\''+p_stime+'\''+
             ' and dist_time <\''+p_etime+'\' ;'
         },
     'query_sendhisLastOne':

@@ -413,8 +413,8 @@ exports.Query_SendHis_NFCID=function(uname,stime,etime,nfcid,callback){
 //查询发货链 ，条件为起止时间
 exports.Query_SendHis_Common=function(uname,stime,etime,callback){
     pool.getConnection(function(err, conn) {
-        logger.debug('Req:'+sql_g.query_sendhis_common(stime,etime));
-        conn.query(sql_g.query_sendhis_common(stime,etime),function (err, sqlres) {
+        logger.debug('Req:'+sql_g.query_sendhis_common(uname,stime,etime));
+        conn.query(sql_g.query_sendhis_common(uname,stime,etime),function (err, sqlres) {
             conn.release();
             logger.debug('如果是ADMIN查询，则插入记录');
             if (uname=='root'){
