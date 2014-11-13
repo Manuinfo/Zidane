@@ -29,7 +29,7 @@ module.exports={
             '\''+p_sonid+'\','+
             '\''+p_farid+'\','+
             '\''+p_packtime+'\','+
-            '\''+p_uname+'\','+
+            'upper(\''+p_uname+'\'),'+
             '\''+p_alname+'\','+
             '\''+p_cid+'\');'
         },
@@ -70,8 +70,8 @@ module.exports={
         {return 'insert into py_send_his values ('+
             '\''+p_farid+'\','+
             '\''+p_sendtime+'\','+
-            '\''+p_sendname+'\','+
-            '\''+p_recvname+'\','+
+            'upper(\''+p_sendname+'\'),'+
+            'upper(\''+p_recvname+'\'),'+
             '\''+p_alname+'\','+
             '\''+p_snid+'\','+
             '\''+p_cvid+'\');'

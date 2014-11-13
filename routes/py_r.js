@@ -244,14 +244,16 @@ exports.r2008=function(req,res){
             logger.debug('工厂发货员:'+jbody.username+','+global.u_ACCTS[jbody.username]+'正校验这些箱子是否已装箱');
             m_goods.Check_BoxExistMulti(jbody.par_id.split(','),jbody.expgoods,function(yres){
                 logger.debug('校验箱子ID是否已经装箱并且数量与扫描一致');
-                console.log(yres);
+                //console.log(yres);
                 if(acc.G_ARRAY_IF(yres,'YES')==jbody.par_id.split(',').length)
                 {
+                    logger.debug('箱子ID已经装箱并且与数量扫描一致');
                     m_goods.SendBox(jbody,function(xxres){
                         acc.SendOnErr(res,t.res_one('SUCC','发货成功'));
                     });
                 } else
                 {
+                    logger.debug('有箱子未装箱或不存在');
                     acc.SendOnErr(res,t.res_one('FAIL','有箱子未装箱或不存在:'+yres));
                 }
             });
