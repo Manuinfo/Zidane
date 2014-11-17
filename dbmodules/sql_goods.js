@@ -126,9 +126,8 @@ module.exports={
         },
         */
     'query_adminhis':
-        function(p_stime,p_etime,p_prdid)
+        function(p_stime,p_etime)
         {return 'SELECT * FROM  ops_history where client_ip=\'root\' and type=\'ADMINCHECK\' and' +
-                ' client_ua=\''+p_prdid+'\''+
                 ' and  verify_at >\''+p_stime+'\''+
                 ' and verify_at < \''+p_etime+'\';'
         }

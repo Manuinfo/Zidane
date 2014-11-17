@@ -329,7 +329,7 @@ exports.r2010=function(req,res){
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
             //console.log('222222222');
-            m_goods.Query_AdminHis(jbody.stime,jbody.etime,jbody.goods_id,function(dbres){
+            m_goods.Query_AdminHis(jbody.stime,jbody.etime,function(dbres){
                 acc.SendOnErr(res,t.res_one('SUCC',dbres));
             });
         }

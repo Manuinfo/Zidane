@@ -471,14 +471,14 @@ exports.Query_SendHis_Common=function(uname,stime,etime,callback){
 
 
 //ADMIN查询历史查询
-exports.Query_AdminHis=function(stime,etime,goodsid,callback){
+exports.Query_AdminHis=function(stime,etime,callback){
     pool.getConnection(function(err, conn) {
         logger.debug('ADMIN查过的记录开始查询');
         //console.log(goodsid);
         //console.log(global.u_BRAND);
         //console.log(global.u_BRAND[goodsid]);
-        logger.debug('Req:'+sql_g.query_adminhis(stime,etime,global.u_BRAND[goodsid]));
-        conn.query(sql_g.query_adminhis(stime,etime,global.u_BRAND[goodsid]),function (err, sqlres) {
+        logger.debug('Req:'+sql_g.query_adminhis(stime,etime));
+        conn.query(sql_g.query_adminhis(stime,etime),function (err, sqlres) {
             conn.release();
             callback(sqlres);
         });
