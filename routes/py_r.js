@@ -325,7 +325,7 @@ exports.r2010=function(req,res){
     //
     acc.Jspp(req,function(jbody){
         logger.debug('查ADMIN的查询历史');
-        //console.log(jbody);
+        console.log(jbody);
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
             m_goods.Query_AdminHis(jbody.stime,jbody.etime,function(dbres){
