@@ -425,7 +425,7 @@ exports.Query_SendHis=function(uname,stime,etime,nfcid,goodsid,callback){
         conn.query(sql_g.query_sendhis(stime,etime,uname),function (err, sqlres) {
             conn.release();
             logger.debug('如果是ADMIN查询，则插入记录');
-            if (uname=='root'){
+            if (global.u_ACCTS[uname]=='0'){
                 me.Insert_QuerySendLog_ByAdmin(goodsid,nfcid);
             }
             callback(sqlres);
@@ -442,7 +442,7 @@ exports.Query_SendHis_NFCID=function(uname,stime,etime,nfcid,callback){
             conn.query(sql_g.query_sendhis_nfcid(stime,etime,nfcid),function (err, sqlres) {
                 conn.release();
                 logger.debug('如果是ADMIN查询，则插入记录');
-                if (uname=='root'){
+                if (global.u_ACCTS[uname]=='0'){
                     me.Insert_QuerySendLog_ByAdmin('999',nfcid);
                 }
                 callback(sqlres);
@@ -461,7 +461,7 @@ exports.Query_SendHis_Common=function(uname,stime,etime,callback){
         conn.query(sql_g.query_sendhis_common(uname,stime,etime),function (err, sqlres) {
             conn.release();
             logger.debug('如果是ADMIN查询，则插入记录');
-            if (uname=='root'){
+            if (global.u_ACCTS[uname]=='0'){
                 //me.Insert_QuerySendLog_ByAdmin(null,nfcid);
             }
             callback(sqlres);
@@ -563,7 +563,7 @@ exports.Query_SendHisLastOne=function(uname,stime,etime,nfcid,goodsid,callback){
         conn.query(sql_g.query_sendhisLastOne(etime,nfcid),function (err, sqlres) {
             logger.debug(sqlres);
             logger.debug('如果是ADMIN查询，则插入记录');
-            if (uname=='root'){
+            if (global.u_ACCTS[uname]=='0'){
                 me.Insert_QuerySendLog_ByAdmin(goodsid,nfcid);
                 conn.release();
             }
