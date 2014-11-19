@@ -84,6 +84,7 @@ exports.r2003=function(req,res){
         if(jbody.son_id)  //判断盒子ID是否属实
         {
             logger.debug('判断商品是否属实');
+            console.log(global.u_PACKLIMIT[jbody.expgoods]);
             m_goods.Get_NameByNFCID(jbody.son_id,global.u_PACKLIMIT[jbody.expgoods],function(dbres){
 
                 if(dbres==1)

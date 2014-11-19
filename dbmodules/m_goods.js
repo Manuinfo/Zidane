@@ -217,7 +217,7 @@ exports.Get_NameByNFCID=function(nfcid,number,callback){
         {
             var ncount=0;
             console.log(nfcid.split(','));
-            async.map(nfcid.split(','),function(item,cb){
+            async.mapSeries(nfcid.split(','),function(item,cb){
                 logger.debug('Req:'+sql_g.get_goods_byNFCID(item));
                 conn.query(sql_g.get_goods_byNFCID(item),function (err, sqlres) {
                     //console.log(sqlres[0]);
@@ -241,7 +241,7 @@ exports.Get_NameByNFCID=function(nfcid,number,callback){
 exports.Check_PackRepeat=function(sonid,callback){
     pool.getConnection(function(err, conn) {
         //console.log(sonid);
-         async.map(sonid,function(item,cb){
+         async.mapSeries(sonid,function(item,cb){
              logger.debug('Req:'+sql_g.check_repeat(item));
              conn.query(sql_g.check_repeat(item),function (err, sqlres) {
                  //console.log(sqlres);
