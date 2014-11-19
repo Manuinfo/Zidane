@@ -409,11 +409,30 @@ exports.SendBox=function(jbd,callback){
 exports.Insert_QuerySendLog_ByAdmin=function(goodsid,unfc){
     var now=moment();
 
+    //等于现在goodsid传了USERNAME,而现在要把NFC_ID关联到NFC_FLAG上去
         pool.getConnection(function(err, conn) {
-            logger.debug('Req:'+sql_trust.Insert_Log_Basic(goodsid,global.u_BRAND[goodsid],'ADMINCHECK','NULL',unfc,now.format('YYYY-MM-DD HH:mm:ss'),'SUCC'));
-            conn.query(sql_trust.Insert_Log_Basic(goodsid,global.u_BRAND[goodsid],'ADMINCHECK','NULL',unfc,now.format('YYYY-MM-DD HH:mm:ss'),'SUCC'),function (err, sqlres) {
-                conn.release();
+            me.Check_BoxExist(unfc,function(res1){
+                //console.log(res1.nfc_flag)
+                //console.log(res1.nfc_flag.substr(10,2))
+                ///console.log(global.u_BRAND[res1.nfc_flag.substr(10,2)])
+               if(res1)
+               {
+
+                   //console.log(global.u_BRAND[res1.nfc_flag.substr(10,2)]);
+                   //取商品ID
+                   logger.debug('Req:'+sql_trust.Insert_Log_Basic(goodsid,global.u_BRAND[res1.nfc_flag.substr(10,2)],'ADMINCHECK','NULL',unfc,now.format('YYYY-MM-DD HH:mm:ss'),'SUCC'));
+                   conn.query(sql_trust.Insert_Log_Basic(goodsid,global.u_BRAND[res1.nfc_flag.substr(10,2)],'ADMINCHECK','NULL',unfc,now.format('YYYY-MM-DD HH:mm:ss'),'SUCC'),function (err, sqlres) {
+                       conn.release();
+                   });
+               } else
+               {
+                   logger.debug('Req:'+sql_trust.Insert_Log_Basic(goodsid,global.u_BRAND[goodsid],'ADMINCHECK','NULL',unfc,now.format('YYYY-MM-DD HH:mm:ss'),'SUCC'));
+                   conn.query(sql_trust.Insert_Log_Basic(goodsid,global.u_BRAND[goodsid],'ADMINCHECK','NULL',unfc,now.format('YYYY-MM-DD HH:mm:ss'),'SUCC'),function (err, sqlres) {
+                       conn.release();
+                   });
+               }
             });
+
         });
 
 };

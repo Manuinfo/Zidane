@@ -116,7 +116,8 @@ setTimeout(function(){
         logger.debug('--------------------------------------------------------')
         //console.log(global.u_SERIAL_R);
         //console.log(global.u_ACCTS);
-        //console.log(global.u_SERIAL);
+        console.log(global.u_BRAND);
+        console.log(global.u_SERIAL_R);
         //console.log(global.u_LAY_R);
     });
 },1500);
