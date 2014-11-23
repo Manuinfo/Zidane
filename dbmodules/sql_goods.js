@@ -98,7 +98,7 @@ module.exports={
         },
     'query_sendhis_nfcid':
         function(p_stime,p_etime,p_nfcid)
-        {return 'select par_id,date_format(ADDDATE(dist_time,INTERVAL +8 HOUR),\'%Y-%m-%d %H:%i:%S\') as dist_time,send_name,recv_name,alname,send_lid,recv_lid from py_send_his where '+
+        {return 'select par_id,date_format(ADDDATE(dist_time,INTERVAL +0 HOUR),\'%Y-%m-%d %H:%i:%S\') as dist_time,send_name,recv_name,alname,send_lid,recv_lid from py_send_his where '+
             ' dist_time >\''+p_stime+'\''+
             ' and dist_time <\''+p_etime+'\' and par_id=\''+p_nfcid+'\';'
         },
