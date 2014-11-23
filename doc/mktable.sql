@@ -454,6 +454,8 @@ DEFAULT CHARSET=gbk;
 
 
 insert into g_nfc_box_map values ('0442D37ABE3480',NULL,NULL,'CH310000A101AA')
+insert into g_nfc_box_map values ('049B02FA463D84',NULL,NULL,'CH310000A101AA')
+
 #-----------
 #创建索引
 

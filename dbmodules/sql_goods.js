@@ -47,7 +47,7 @@ module.exports={
         },
     'update_packboxhis':
         function(p_nfcid,p_gname,p_time)
-        {return 'update g_nfc_box_map set g_name=\''+p_gname+'\',bind_date=\''+p_time+'\' where nfc_id=\''+p_nfcid+'\''
+        {return 'update g_nfc_box_map set g_name=\''+p_gname+'\',bind_date=\''+p_time+'\' where nfc_id=upper(\''+p_nfcid+'\')'
         },
     'query_packhis':
         //ADDDATE(pack_time,INTERVAL +8 HOUR) as pack_time
