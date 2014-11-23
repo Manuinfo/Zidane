@@ -149,7 +149,7 @@ exports.Check_BoxExist=function(nfcid,callback){
 exports.Check_BoxExistMulti=function(nfcid,goodsid,callback){
     //console.log(goodsid);
     pool.getConnection(function(err, conn) {
-        async.map(nfcid,function(item,cb)
+        async.map(nfcid.split(","),function(item,cb)
         {
             logger.debug('Req:'+sql_g.query_packexistByFactSend(item,goodsid));
             conn.query(sql_g.query_packexistByFactSend(item,goodsid),function (err, sqlres) {

@@ -62,6 +62,9 @@ m.Get_NameByNFCID('04a9be42723619',function(xx){
 
 sss='\u4e2d\u56fd'
 sss='\u4e0a\u6d77\u5e02'
+
+sss="2222,3333"
+console.log(sss.split(","))
 //console.log(unescape(sss.replace(/\\u/gi, '%u')));
 
 
