@@ -375,7 +375,7 @@ exports.r2013=function(req,res){
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
             logger.debug('查询下家范围');
-            m_goods.WhoIsMySonsAccLevel(jbody.username,jbody.down_id,function(dbres){
+            m_goods.WhoIsMySonsAccLevel(jbody.username.toUpperCase(),jbody.down_id,function(dbres){
                 acc.SendOnErr(res,t.res_one('SUCC',dbres));
             });
         }
@@ -393,7 +393,7 @@ exports.r2014=function(req,res){
         //console.log(jbody);
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
-            m_goods.Query_SendHisLastOne(jbody.username,jbody.stime,jbody.etime,jbody.nfc_id,jbody.expgoods,function(dbres){
+            m_goods.Query_SendHisLastOne(jbody.username.toUpperCase(),jbody.stime,jbody.etime,jbody.nfc_id,jbody.expgoods,function(dbres){
                 if(dbres)
                 {acc.SendOnErr(res,t.res_one('SUCC',dbres));}
                 else

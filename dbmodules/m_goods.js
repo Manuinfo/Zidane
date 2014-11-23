@@ -583,7 +583,7 @@ exports.Query_SendHisLastOne=function(uname,stime,etime,nfcid,goodsid,callback){
         conn.query(sql_g.query_sendhisLastOne(etime,nfcid),function (err, sqlres) {
             logger.debug(sqlres);
             logger.debug('如果是ADMIN查询，则插入记录');
-            if (global.u_ACCTS[uname]=='0'){
+            if (global.u_ACCTS[uname.toUpperCase()]=='0'){
                 me.Insert_QuerySendLog_ByAdmin(uname,nfcid);
                 conn.release();
             }
