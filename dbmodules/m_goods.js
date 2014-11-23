@@ -148,6 +148,7 @@ exports.Check_BoxExist=function(nfcid,callback){
 //批量查看箱子的ID是否存在
 exports.Check_BoxExistMulti=function(nfcid,goodsid,callback){
     //console.log(goodsid);
+    logger.debug('正在接受这些箱子'+nfcid.split(","));
     pool.getConnection(function(err, conn) {
         async.map(nfcid.split(","),function(item,cb)
         {

@@ -243,7 +243,7 @@ exports.r2008=function(req,res){
         {
             //console.log(jbody.expgoods);
             logger.debug('工厂发货员:'+jbody.username+','+global.u_ACCTS[jbody.username]+'正校验这些箱子是否已装箱');
-            m_goods.Check_BoxExistMulti(jbody.par_id.split(','),jbody.expgoods,function(yres){
+            m_goods.Check_BoxExistMulti(jbody.par_id,jbody.expgoods,function(yres){
                 logger.debug('校验箱子ID是否已经装箱并且数量与扫描一致');
                 //console.log(yres);
                 if(acc.G_ARRAY_IF(yres,'YES')==jbody.par_id.split(',').length)
