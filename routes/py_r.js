@@ -168,7 +168,7 @@ exports.r2004=function(req,res){
             else
             {
             logger.debug('查询装箱历史');
-            m_goods.Query_PackHis(jbody.username,jbody.stime,jbody.etime,function(dbres){
+            m_goods.Query_PackHis(jbody.username.toUpperCase(),jbody.stime,jbody.etime,function(dbres){
                 acc.SendOnErr(res,t.res_one('SUCC',dbres));
             });
             }
@@ -183,7 +183,7 @@ exports.r2005=function(req,res){
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
         logger.debug('查询下家范围');
-        m_goods.WhoIsMySons(jbody.username,function(dbres){
+        m_goods.WhoIsMySons(jbody.username.toUpperCase(),function(dbres){
             //if(dbres)
                 acc.SendOnErr(res,t.res_one('SUCC',dbres));
         });
@@ -198,7 +198,7 @@ exports.r2006=function(req,res){
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
         logger.debug('查询上家范围');
-        m_goods.WhoIsMyDaddy(jbody.username,function(dbres){
+        m_goods.WhoIsMyDaddy(jbody.username.toUpperCase(),function(dbres){
             acc.SendOnErr(res,t.res_one('SUCC',dbres));
         });
         }
@@ -212,7 +212,7 @@ exports.r2007=function(req,res){
     acc.Jspp(req,function(jbody){
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
-        m_goods.Check_Belongme(jbody.username,jbody.par_id,function(dbres){
+        m_goods.Check_Belongme(jbody.username.toUpperCase(),jbody.par_id,function(dbres){
             console.log(acc.G_ARRAY_KV_IF(dbres,':','记录为空'));
             if(acc.G_ARRAY_KV_IF(dbres,':','记录为空')==0)
             {
@@ -242,7 +242,7 @@ exports.r2008=function(req,res){
         if ( parseInt(global.u_ACCTS[jbody.username.toUpperCase()])==2 )
         {
             //console.log(jbody.expgoods);
-            logger.debug('工厂发货员:'+jbody.username+','+global.u_ACCTS[jbody.username]+'正校验这些箱子是否已装箱');
+            logger.debug('工厂发货员:'+jbody.username.toUpperCase()+','+global.u_ACCTS[jbody.username.toUpperCase()]+'正校验这些箱子是否已装箱');
             m_goods.Check_BoxExistMulti(jbody.par_id,jbody.expgoods,function(yres){
                 logger.debug('校验箱子ID是否已经装箱并且数量与扫描一致');
                 //console.log(yres);
@@ -269,13 +269,13 @@ exports.r2008=function(req,res){
 
         } else
         {
-            logger.debug('不是工厂发货员，不需校验是否装箱'+jbody.username);
-            m_goods.Check_Belongme(jbody.username,jbody.par_id,function(dbres){
+            logger.debug('不是工厂发货员，不需校验是否装箱'+jbody.username.toUpperCase());
+            m_goods.Check_Belongme(jbody.username.toUpperCase(),jbody.par_id,function(dbres){
                 console.log(dbres);
                 if(acc.G_ARRAY_KV_IF(dbres,':','不是你的箱子')==0)
                 {
                     logger.debug('验货通过，'+jbody.par_id+'是你'+jbody.username+'的箱子，准备发货，但还要校验你对这个箱子有无发送操作');
-                    m_goods.Check_Belongme2(jbody.username,jbody.par_id,function(dbres2){
+                    m_goods.Check_Belongme2(jbody.username.toUpperCase(),jbody.par_id,function(dbres2){
                         logger.debug(dbres2);
                         if(acc.G_ARRAY_KV_IF(dbres2,':','不是你的箱子')==jbody.par_id.split(',').length)
                         {
@@ -293,8 +293,8 @@ exports.r2008=function(req,res){
                 }
                 else
                 {
-                    logger.debug('验货不通过，'+jbody.par_id+'不是你'+jbody.username+'的箱子');
-                    acc.SendOnErr(res, t.res_one('FAIL','验货不通过，'+jbody.par_id+'不是你'+jbody.username+'的箱子'));
+                    logger.debug('验货不通过，'+jbody.par_id+'不是你'+jbody.username.toUpperCase()+'的箱子');
+                    acc.SendOnErr(res, t.res_one('FAIL','验货不通过，'+jbody.par_id+'不是你'+jbody.username.toUpperCase()+'的箱子'));
                 }
             });
         }
@@ -313,7 +313,7 @@ exports.r2009=function(req,res){
         //console.log(jbody);
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
-            m_goods.Query_SendHis(jbody.username,jbody.stime,jbody.etime,jbody.nfc_id,jbody.expgoods,function(dbres){
+            m_goods.Query_SendHis(jbody.username.toUpperCase(),jbody.stime,jbody.etime,jbody.nfc_id,jbody.expgoods,function(dbres){
             acc.SendOnErr(res,t.res_one('SUCC',dbres));
         });
         }
@@ -344,7 +344,7 @@ exports.r2011=function(req,res){
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
             logger.debug('查询下家范围');
-            m_goods.WhoIsMySonsFSend(jbody.username,function(dbres){
+            m_goods.WhoIsMySonsFSend(jbody.username.toUpperCase(),function(dbres){
                 acc.SendOnErr(res,t.res_one('SUCC',dbres));
             });
         }
@@ -359,7 +359,7 @@ exports.r2012=function(req,res){
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
             logger.debug('查询下家范围');
-            m_goods.WhoIsMySonsFSD(jbody.username,function(dbres){
+            m_goods.WhoIsMySonsFSD(jbody.username.toUpperCase(),function(dbres){
                 acc.SendOnErr(res,t.res_one('SUCC',dbres));
             });
         }
@@ -411,7 +411,7 @@ exports.r2015=function(req,res){
         //console.log(jbody);
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
-            m_goods.AllMySons(jbody.username,function(dbres){
+            m_goods.AllMySons(jbody.username.toUpperCase(),function(dbres){
                 acc.SendOnErr(res,t.res_one('SUCC',dbres));
             });
         }
@@ -428,7 +428,7 @@ exports.r2016=function(req,res){
         //console.log(jbody);
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
-            m_goods.Query_SendHis_Common(jbody.username,jbody.stime,jbody.etime,function(dbres){
+            m_goods.Query_SendHis_Common(jbody.username.toUpperCase(),jbody.stime,jbody.etime,function(dbres){
                 acc.SendOnErr(res,t.res_one('SUCC',dbres));
             });
         }
@@ -461,7 +461,7 @@ exports.r2018=function(req,res){
         //console.log(jbody);
         if(jbody.msg)  acc.SendOnErr(res,t.res_one('FAIL',jbody.msg));
         else {
-            m_goods.Query_SendHis_NFCID(jbody.username,jbody.stime,jbody.etime,jbody.par_id,function(dbres){
+            m_goods.Query_SendHis_NFCID(jbody.username.toUpperCase(),jbody.stime,jbody.etime,jbody.par_id,function(dbres){
                 acc.SendOnErr(res,t.res_one('SUCC',dbres));
             });
         }
