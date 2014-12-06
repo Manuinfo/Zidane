@@ -7,11 +7,30 @@ var fs = require('fs');
 var conf=require('./dbmodules/m_goods.js');
 var acc=require('./libs/acc.js');
 var logger = require('./libs/log').logger;
+var cluster = require('cluster');
+var numCPUs = require('os').cpus().length;
 
 //var morgan = require('morgan');
 //var accessLogStream = fs.createWriteStream(__dirname + '/logs/run.log', {flags: 'a'});
 //112.124.117.97
 
+if (cluster.isMaster) {
+    // Fork workers.
+    for (var i = 0; i < 3; i++) {
+        cluster.fork();
+    }
+
+    logger.debug('Main Cluster PID:'+process.pid);
+
+    cluster.on('exit', function(worker, code, signal) {
+        logger.debug('Worker-'+worker.id+' PID['+worker.process.pid+'] died by '+signal+';'+code+'.Rstarting...');
+        cluster.fork();
+    });
+    cluster.on('online', function(worker) {
+        logger.debug('Worker-'+worker.id+' PID['+worker.process.pid+'] ready to response Master');
+    });
+} else
+{
 var log = require('./libs/log');
 
 
@@ -134,5 +153,4 @@ setInterval(function(){
     conf.Get_IDByType('PACKLIMIT',function(confall){ global.u_PACKLIMIT=acc.G_JSON({},confall);});
     conf.Get_ALLAccts(function(confall){ global.u_ACCTS=acc.G_JSON({},confall);});
 },240000);
-
-
+}
