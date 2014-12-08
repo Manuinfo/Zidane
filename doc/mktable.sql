@@ -255,6 +255,10 @@ create index batch_id_1 on g_nfc_batch_map(batch_id);
 #酵素
 #insert into batches values ('0fc145308d031e7b4623cc6c22c8ea3f','9','44',20000,30000,3,'20141014-0fc145308d031e7b4623cc6c22c8ea3f-44-1','2014-10-14 11:35:00',NULL);
 #insert into batches values ('0fc145308d031e7b4623cc6c22c8ea3f','9','44',20000,30000,3,'20141014-0fc145308d031e7b4623cc6c22c8ea3f-44-2','2014-10-14 11:35:00',NULL);
+#三素藻
+insert into batches values (md5('三素藻'),'9','44',20000,30000,3,'20141208-05-44-1','2014-12-08 11:35:00',NULL);
+
+
 
 #827f5c0778d48996b9ee750511c33b09
 insert into g_nfc_batch_map values ('20141014-01-44-1','0428F30A9B3280',NULL);
@@ -452,10 +456,12 @@ create table g_nfc_box_map
 ) engine=INNODB
 DEFAULT CHARSET=gbk;
 
-
+#酵素
 insert into g_nfc_box_map values ('0442D37ABE3480',NULL,NULL,'CH310000A101AA')
 insert into g_nfc_box_map values ('049B02FA463D84',NULL,NULL,'CH310000A101AA')
 insert into g_nfc_box_map values ('049B52FA463D80',NULL,NULL,'CH310000A101AA')
+#三素藻   CH310000A105AA
+
 
 #-----------
 #创建索引
