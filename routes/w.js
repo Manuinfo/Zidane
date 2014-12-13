@@ -257,7 +257,7 @@ exports.w2008=function(req,res){
             }
             else
             {
-                acc.SendOnErr(res,t.res_one('SUCCESS','10000:'+JSON.stringify(sqlres[0])));
+                acc.SendOnErr(res,sqlres[0]);   //该NFCID验证成功
                 logger.debug('SUCCESS:'+req.param('nfcid')+' 该NFCID验证成功');
                 t.db_ops_log(conn,'NULL','NULL','PROXY','NULL',req.param('nfcid'),now.format('YYYY-MM-DD HH:mm:ss'),'该NFCID验证成功');
             }
