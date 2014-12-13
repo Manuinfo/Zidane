@@ -143,36 +143,53 @@ exports.w2004=function(req,res){
 };
 
 
-//2005 二维码验证 面向用户 app.get('/w/2005/:qrhref/:cip/:cua', rest_w.w2005);
+//2005 二维码验证 面向用户 app.get('/wqr/2005/:qrhref/:cip/:cua', rest_w.w2005);
 exports.w2005=function(req,res){
     logger.debug(req.url+' '+req.method);
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     var now=moment();
 
-    var runsqls=sql.Query_ByQRhref(req.param('qrhref'));
+
+    //console.log(req.headers.host);
+    var runsqls=sql.Query_ByQRhref('http://'+req.headers.host+req.url);
+
+    //console.log(runsqls)
 
     pool.getConnection(function(err, conn) {
-
         /* 先验证 QRCODE  */
         conn.query(runsqls,function (err, sqlres){
+            if (err) {logger.debug(err);throw err;}
             //console.log(sqlres);
             if(!sqlres[0])
             {
-                acc.SendOnErr(res, t.res_one('FAIL','该链接不存在'));
-                t.db_ops_log(conn,req.param('cip'),req.param('cua'),'WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'该短链接不存在');
+                logger.debug('该链接不存在');
+                res.render('failed',{
+                    res_qrcode:"taobao"
+                });
+                //acc.SendOnErr(res, t.res_one('FAIL','该链接不存在'));
+                t.db_ops_log(conn,'NULL','NULL','WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'该短链接不存在');
             }
             else
             {
                if(sqlres[0].verify_av_times<1)
                {
-                   acc.SendOnErr(res, t.res_one('FAIL','该短链接存在，但可验证次数已达到上限'));
-                   t.db_ops_log(conn,req.param('cip'),req.param('cua'),'WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'该短链接存在，但可验证次数已达到上限');
+                   logger.debug('该短链接存在，但可验证次数已达到上限');
+                   res.render('failed',{
+                       res_qrcode:"taobao"
+                   });
+                   //acc.SendOnErr(res, t.res_one('FAIL','该短链接存在，但可验证次数已达到上限'));
+                   t.db_ops_log(conn,'NULL','NULL','WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'该短链接存在，但可验证次数已达到上限');
+
                }
                else
                {
-                   acc.SendOnErr(res,t.res_one('SUCCESS','该短链接存在，且未达到验证上限'));
+                   logger.debug('该短链接存在，且未达到验证上限');
+                   res.render('success',{
+                       res_qrcode:"1212"
+                   });
+                   //acc.SendOnErr(res,t.res_one('SUCCESS','该短链接存在，且未达到验证上限'));
                    conn.query(sql.Update_QRAVtimes(req.param('qrhref')),function(err,res){});
-                   t.db_ops_log(conn,req.param('cip'),req.param('cua'),'WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'验证成功:未达到验证上限');
+                   t.db_ops_log(conn,'NULL','NULL','WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'验证成功:未达到验证上限');
                }
             }
         })
@@ -253,7 +270,7 @@ exports.w2008=function(req,res){
             {
                 acc.SendOnErr(res, t.res_one('FAIL','该NFCID不存在'));
                 logger.debug('FAIL:'+req.param('nfcid')+' 该NFCID不存在');
-                t.db_ops_log('NULL','NULL','PROXY','NULL',req.param('nfcid'),now.format('YYYY-MM-DD HH:mm:ss'),'该NFC不存在');
+                t.db_ops_log(conn,'NULL','NULL','PROXY','NULL',req.param('nfcid'),now.format('YYYY-MM-DD HH:mm:ss'),'该NFC不存在');
             }
             else
             {

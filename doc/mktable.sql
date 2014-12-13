@@ -488,7 +488,8 @@ insert into qr_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-1
 insert into qr_batch_map values ('20141014-12c8656e2a5d34aba5a23f666ab1d0e4-77-2','loidfasdf',2);
 insert into qr_batch_map values ('20141014-827f5c0778d48996b9ee750511c33b09-66-1','xcvzxcvzs',1);
 
-
+insert into qr_batch_map values ('20141014-01-44-2','/wqr/2005/xcvzxcvzsm',10);
+insert into qr_batch_map values ('20141014-01-44-2','http://192.168.0.119:4000/wqr/2005/xv342mnsd3',10);
 
 
 

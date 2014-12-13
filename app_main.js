@@ -41,6 +41,9 @@ var rest_pr = require('./routes/py_r.js');
 
 var app = express();
 
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
 /* https://github.com/nomiddlename/log4js-node */
 log.use(app);  //放在其他APP前面
 app.use(bodyParser.json());
@@ -65,7 +68,7 @@ app.get('/w/2001/:shopname/:prdname/:place/:price', rest_w.w2001);
 app.get('/w/2002/:prdname/:place/:bcount/:nfccount/:vrftime', rest_w.w2002);
 app.get('/w/2003/:bid/:nfcid', rest_w.w2003);
 app.get('/w/2004/:bid/:qrcount/:qravtimes', rest_w.w2004);
-app.get('/w/2005/:qrhref/:cip/:cua', rest_w.w2005);
+app.get('/wqr/2005/:qrhref', rest_w.w2005);  //面向用户的二维码验证
 app.get('/w/2006/:qrhref', rest_w.w2006);
 app.get('/w/2007/:qrhref/:cip/:cua', rest_w.w2007);
 app.get('/w/2008/:nfcid', rest_w.w2008);  //面向商户 盒子的NFC验证，盒子存不存在
