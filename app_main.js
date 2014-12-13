@@ -49,7 +49,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-
+//防伪管理
 app.get('/r/2001/:prdname', rest_r.r2001);
 app.get('/r/2002/:prdname', rest_r.r2002);
 app.get('/r/2003/:bid', rest_r.r2003);
@@ -68,7 +68,7 @@ app.get('/w/2004/:bid/:qrcount/:qravtimes', rest_w.w2004);
 app.get('/w/2005/:qrhref/:cip/:cua', rest_w.w2005);
 app.get('/w/2006/:qrhref', rest_w.w2006);
 app.get('/w/2007/:qrhref/:cip/:cua', rest_w.w2007);
-app.get('/w/2008/:nfcid/:cip/:cua', rest_w.w2008);
+app.get('/w/2008/:nfcid', rest_w.w2008);  //面向商户 盒子的NFC验证，盒子存不存在
 
 //代理商管理
 app.post('/py_w/2001', rest_pw.w2001); //登陆验证
@@ -128,7 +128,7 @@ conf.Get_ALLAccts(function(confall){ global.u_ACCTS=acc.G_JSON({},confall);});
 
 
 setTimeout(function(){
-    app.listen(3000,function(){
+    app.listen(4000,function(){
         console.log('Zidane Web Service is started at 3000,ID:'+process.pid);
         logger.debug('--------------------------------------------------------')
         logger.debug('Zidane Web Service is started at 3000,ID:'+process.pid);

@@ -4,19 +4,19 @@
 
 
 module.exports={
-    'query_prd_byprdname': function(b){return 'select * from products where name=\''+b+"'";},
+    'query_prd_byprdname': function(b){return 'select * from g_products where name=\''+b+"'";},
     'query_bth_byprdname': function(b){
         return 'select * from batches where product_id in ('+
-               'select product_id from products where name=\''+b+"')";
+               'select product_id from g_products where name=\''+b+"')";
     },
     'query_bth_bybid': function(b){
         //return 'select * from batches where batch_id=\''+b+"'";
-        return 'select b.name,a.* from batches a join products b '+
+        return 'select b.name,a.* from batches a join g_products b '+
                'where a.batch_id=\''+b+"'"+
                'and a.product_id=b.product_id'
     },
     'query_prd_byqrhref':function(b){
-        return 'select * from  products where product_id in ('+
+        return 'select * from  g_products where product_id in ('+
                'select mid(batch_id,10,32) from qr_batch_map where qr_href=\''+b+"')";
     },
     'query_bth_byqrhref':function(b){
@@ -24,17 +24,17 @@ module.exports={
                'select batch_id from qr_batch_map where qr_href=\''+b+"')";
     },
     'query_shop_byshopname':function(b){
-        return 'select * from products where shop_name=\''+b+"'";
+        return 'select * from g_products where shop_name=\''+b+"'";
     },
     'insert_prd_basic': function(p_shopname,p_name,p_pid,p_place,p_price,p_crdate){
-        return 'insert into products values (\''+p_shopname+"',"+
+        return 'insert into g_products values (\''+p_shopname+"',"+
                                             '\''+p_name+"',"+
                                             '\''+p_pid+"',"+
                                             '\''+p_place+"',"+
                                             p_price+","+
                                             '\''+p_crdate+"',NULL,NULL,NULL,NULL,NULL);";
     },
-    'Query_Pid_ByPrdName':function(b){return 'select product_id from products where name=\''+b+"'";},
+    'Query_Pid_ByPrdName':function(b){return 'select product_id from g_products where name=\''+b+"'";},
     'Query_Zid_ByZoneName':function(b){return 'select city_code from sale_zone where city=\''+b+"'";},
     'Insert_Bth_Basic':function(p_pid,p_pid_part,p_place,p_bth_count,p_nfc_count,p_vrftime,p_bthid,p_crdate){
         return 'insert into batches values (\''+p_pid+"',"+
@@ -47,7 +47,7 @@ module.exports={
                                             '\''+p_crdate+"',NULL);";
     },
     'Insert_NFCID':function(p_bid,nfcid){
-        return 'insert into nfc_batch_map values (\''+p_bid+"','"+nfcid+"');";
+        return 'insert into g_nfc_batch_map values (\''+p_bid+"','"+nfcid+"');";
     },
     'Insert_QRHrefID':function(p_bid,p_qrhfefid,q_av_times){
         return 'insert into qr_batch_map values (\''+p_bid+"','"+p_qrhfefid+"',"+q_av_times+");";
@@ -82,19 +82,26 @@ module.exports={
                ' where rdcode=\''+p_rdcode+'\')  order by verify_at desc LIMIT 1';
     },
     'Query_NFCid_byNFCid':function(p_nfcid){
-        return 'select * from nfc_batch_map where nfc_id=\''+p_nfcid+'\'';
+        return 'select * from ( '+
+        'select place,name,image_file_name as imgname from g_products where product_id in ( '+
+            'select product_id from batches  where batch_id in ( '+
+            'select batch_id from g_nfc_batch_map where nfc_id=\''+p_nfcid+'\''+
+            ')) ) a, ' +
+            '( ' +
+            'select dist_place,batch_id from batches  where batch_id in ( '+
+            'select batch_id from g_nfc_batch_map where nfc_id=\''+p_nfcid+'\''+
+            ') ) b; '
     },
     'Query_Rpt_ByNFCID':function(p_nfcid,p_qtime){
         return 'select * from ( '+
-               'select shop_name,name from products where product_id in (select substr(batch_id,10,32) '+
-               'from nfc_batch_map where nfc_id=\''+p_nfcid+'\')'+
+               'select shop_name,name from g_products where product_id in (select substr(batch_id,10,32) '+
+               'from g_nfc_batch_map where nfc_id=\''+p_nfcid+'\')'+
                ') a,' +
                '(select * from ops_history where nfc in ( '+
-               'select nfc_id from nfc_batch_map where nfc_id=\''+p_nfcid+'\' ) ' +
+               'select nfc_id from g_nfc_batch_map where nfc_id=\''+p_nfcid+'\' ) ' +
                ' and verify_at > str_to_date(\''+p_qtime+'\',\'%Y%m%d%H%i%S\') ) b, ' +
-               '(select batch_id from nfc_batch_map where nfc_id=\''+p_nfcid+'\' )  c';
+               '(select batch_id from g_nfc_batch_map where nfc_id=\''+p_nfcid+'\' )  c';
     }
-
 };
 
 //insert into batches values ('12c8656e2a5d34aba5a23f666ab1d0e4','9','77',30000,30000,5,

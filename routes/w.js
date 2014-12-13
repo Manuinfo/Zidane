@@ -247,16 +247,19 @@ exports.w2008=function(req,res){
     pool.getConnection(function(err, conn) {
 
         conn.query(runsqls,function (err, sqlres){
+            if (err) {logger.debug(err);throw err;}
             //console.log(sqlres);
             if(!sqlres[0])
             {
                 acc.SendOnErr(res, t.res_one('FAIL','该NFCID不存在'));
-                t.db_ops_log(conn,req.param('cip'),req.param('cua'),'PROXY','NULL',req.param('nfcid'),now.format('YYYY-MM-DD HH:mm:ss'),'该NFC不存在');
+                logger.debug('FAIL:'+req.param('nfcid')+' 该NFCID不存在');
+                t.db_ops_log('NULL','NULL','PROXY','NULL',req.param('nfcid'),now.format('YYYY-MM-DD HH:mm:ss'),'该NFC不存在');
             }
             else
             {
-                acc.SendOnErr(res,t.res_one('SUCCESS','该NFCID验证成功'));
-                t.db_ops_log(conn,req.param('cip'),req.param('cua'),'PROXY','NULL',req.param('nfcid'),now.format('YYYY-MM-DD HH:mm:ss'),'该NFCID验证成功');
+                acc.SendOnErr(res,t.res_one('SUCCESS','10000:'+JSON.stringify(sqlres[0])));
+                logger.debug('SUCCESS:'+req.param('nfcid')+' 该NFCID验证成功');
+                t.db_ops_log(conn,'NULL','NULL','PROXY','NULL',req.param('nfcid'),now.format('YYYY-MM-DD HH:mm:ss'),'该NFCID验证成功');
             }
         })
     });
