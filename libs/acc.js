@@ -107,3 +107,17 @@ exports.G_ARRAY_KV_IF=function(arr,delimer,xstr){
     {  if ((arr[i].split(delimer))[1]==xstr) n++;}
     return n;
 };
+
+
+/*自定义框架，统一查询DB
+ * 连接串、SQL、返回的记录数、CB
+ *
+ */
+
+exports.Gen_DB=function(p_conn,p_sql,p_rec_num,callback){
+    p_conn.query(p_sql,function (err, sqlres) {
+        if (err) {throw err;logger.debug(err);}
+        p_conn.release();
+        (p_rec_num==1) ? callback(sqlres[0]) : callback(sqlres);
+    });
+};

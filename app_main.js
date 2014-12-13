@@ -124,6 +124,7 @@ conf.Get_IDByType('BRAND',function(confall){ global.u_BRAND=acc.G_JSON({},confal
 conf.Get_IDByType('LAY',function(confall){ global.u_LAY=acc.G_JSON({},confall);});
 conf.Get_IDByType('LAY',function(confall){ global.u_LAY_R=acc.G_JSON_R({},confall);});
 conf.Get_IDByType('PACKLIMIT',function(confall){ global.u_PACKLIMIT=acc.G_JSON({},confall);});
+conf.Get_IDByType('SITE',function(confall){ global.u_SITE=acc.G_JSON({},confall);});
 conf.Get_ALLAccts(function(confall){ global.u_ACCTS=acc.G_JSON({},confall);});
 
 //
@@ -141,8 +142,8 @@ setTimeout(function(){
         logger.debug('--------------------------------------------------------')
         //console.log(global.u_SERIAL_R);
         //console.log(global.u_ACCTS);
-        console.log(global.u_BRAND);
-        console.log(global.u_SERIAL_R);
+        console.log(global.u_SITE);
+        //console.log(global.u_SERIAL_R);
         //console.log(global.u_LAY_R);
     });
 },1500);
@@ -157,6 +158,7 @@ setInterval(function(){
     conf.Get_IDByType('LAY',function(confall){ global.u_LAY=acc.G_JSON({},confall);});
     conf.Get_IDByType('LAY',function(confall){ global.u_LAY_R=acc.G_JSON_R({},confall);});
     conf.Get_IDByType('PACKLIMIT',function(confall){ global.u_PACKLIMIT=acc.G_JSON({},confall);});
+    conf.Get_IDByType('SITE',function(confall){ global.u_SITE=acc.G_JSON({},confall);});
     conf.Get_ALLAccts(function(confall){ global.u_ACCTS=acc.G_JSON({},confall);});
 },240000);
 }

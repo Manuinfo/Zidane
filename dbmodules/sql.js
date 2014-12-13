@@ -50,8 +50,8 @@ module.exports={
     'Insert_NFCID':function(p_bid,nfcid){
         return 'insert into g_nfc_batch_map values (\''+p_bid+"','"+nfcid+"');";
     },
-    'Insert_QRHrefID':function(p_bid,p_qrhfefid,q_av_times){
-        return 'insert into qr_batch_map values (\''+p_bid+"','"+p_qrhfefid+"',"+q_av_times+");";
+    'Insert_QRHrefID':function(p_bid,p_url,p_cc,p_av_times){
+        return 'call proc_gen_qr_href(\''+p_bid+'\',\''+p_url+'\','+p_cc+','+p_av_times+');' ;
     },
     'Query_ByQRhref':function(p_qrcode){
         return 'select * from qr_batch_map where qr_href=\''+p_qrcode+"'";
@@ -113,7 +113,10 @@ module.exports={
            'select batch_id from batches  where batch_id in ( '+
            ' select batch_id from qr_batch_map where qr_href=\''+p_qrhref+'\'' +
             ') ) b '
-
+    },
+    'query_prd_bybid':function(p_bid){
+        return 'select shop_name,serias,name from g_products where product_id in ( '+
+                'select product_id from batches  where batch_id =\''+p_bid+'\' );';
     }
 };
 

@@ -118,13 +118,27 @@ exports.w2003=function(req,res){
 };
 
 //2004 新增 指定位数的随机短链接 app.get('/w/2004/:bid/:qrcount/:qravtimes', rest_w.w2004);
+//call proc_gen_qr_href('22','www.baidu.com',5,3);
+//http://127.0.0.1:3000/w/2004/20141014-01-44-2/5/4
 exports.w2004=function(req,res){
     logger.debug(req.url+' '+req.method);
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     var now=moment();
-
-    tasks=['insertSQL'];
+    m_anti.Get_PrdByBid(req.param('bid'),function(dbres){
+        //console.log(dbres.serias);
+        //console.log(global.u_SITE[dbres.serias]);
+        runsqls=sql.Insert_QRHrefID(req.param('bid'),global.u_SITE[dbres.serias],req.param('qrcount'),req.param('qravtimes'));
+        pool.getConnection(function(err, conn) {
+            conn.query(runsqls,function (err, dbres2) {
+                if(err) {throw err;logger.debug(err);}
+                acc.SendOnErr(res,dbres2);
+            });
+        });
+    });
+    /*
     pool.getConnection(function(err, conn) {
+
+
          for(var i=0;i<req.param('qrcount');i++)
          {
              runsqls=sql.Insert_QRHrefID(req.param('bid'),t.get_random(10),req.param('qravtimes'));
@@ -139,8 +153,9 @@ exports.w2004=function(req,res){
          }
          console.log('DONE');
          conn.release();
+
     });
-    acc.SendOnErr(res, t.res_one('SUCCESS','新建二维码短链接记录成功，约2-5分钟后能全部录入完毕'));
+    */
 };
 
 

@@ -23,3 +23,13 @@ exports.Get_InfoAfQrcode_succ=function(qrhref,callback){
         });
     })
 };
+
+//根据批次获取商品的信息，公司名称等等
+exports.Get_PrdByBid=function(bid,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.query_prd_bybid(bid));
+        acc.Gen_DB(conn,sql_g.query_prd_bybid(bid),1,function(dbres){
+            callback(dbres);
+        });
+    });
+};
