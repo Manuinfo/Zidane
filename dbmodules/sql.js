@@ -83,12 +83,12 @@ module.exports={
     },
     'Query_NFCid_byNFCid':function(p_nfcid){
         return 'select * from ( '+
-        'select place,name,image_file_name as image from g_products where product_id in ( '+
+        'select place as prod_place,name,image_file_name as image from g_products where product_id in ( '+
             'select product_id from batches  where batch_id in ( '+
             'select batch_id from g_nfc_batch_map where nfc_id=\''+p_nfcid+'\''+
             ')) ) a, ' +
             '( ' +
-            'select dist_place,batch_id from batches  where batch_id in ( '+
+            'select dist_place,batch_id as serial from batches  where batch_id in ( '+
             'select batch_id from g_nfc_batch_map where nfc_id=\''+p_nfcid+'\''+
             ') ) b; '
     },
