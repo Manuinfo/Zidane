@@ -11,6 +11,7 @@ var acc=require('../libs/acc.js');
 var t=require('../libs/t.js');
 var sql=require('../dbmodules/sql.js');
 var tasks=require('../dbmodules/rule.js');
+var m_anti=require('../dbmodules/m_anti.js');
 var logger = require('../libs/log').logger;
 
 
@@ -152,6 +153,7 @@ exports.w2005=function(req,res){
 
     //console.log(req.headers.host);
     var runsqls=sql.Query_ByQRhref('http://'+req.headers.host+req.url);
+    var pp_qrhref='http://'+req.headers.host+req.url;
 
     //console.log(runsqls)
 
@@ -174,6 +176,7 @@ exports.w2005=function(req,res){
                if(sqlres[0].verify_av_times<1)
                {
                    logger.debug('该短链接存在，但可验证次数已达到上限');
+
                    res.render('failed',{
                        res_qrcode:"taobao"
                    });
@@ -184,8 +187,15 @@ exports.w2005=function(req,res){
                else
                {
                    logger.debug('该短链接存在，且未达到验证上限');
-                   res.render('success',{
-                       res_qrcode:"1212"
+                   m_anti.Get_InfoAfQrcode_succ(pp_qrhref,function(h_res){
+                        console.log(h_res);
+                       res.render('success',{
+                           res_png:h_res.png,
+                           res_name:h_res.name,
+                           res_price:h_res.price,
+                           res_place:h_res.place,
+                           res_batch_id:h_res.batch_id
+                       });
                    });
                    //acc.SendOnErr(res,t.res_one('SUCCESS','该短链接存在，且未达到验证上限'));
                    conn.query(sql.Update_QRAVtimes(req.param('qrhref')),function(err,res){});

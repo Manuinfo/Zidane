@@ -101,6 +101,18 @@ module.exports={
                'select nfc_id from g_nfc_batch_map where nfc_id=\''+p_nfcid+'\' ) ' +
                ' and verify_at > str_to_date(\''+p_qtime+'\',\'%Y%m%d%H%i%S\') ) b, ' +
                '(select batch_id from g_nfc_batch_map where nfc_id=\''+p_nfcid+'\' )  c';
+    },
+    'get_infoaf_qrcode_succ':function(p_qrhref){
+        return 'select * from ( '+
+        'select name,place,price,SUBSTRING_INDEX(image_file_name,\'/\',-1) as png from g_products where product_id in ( '+
+          '  select product_id from batches  where batch_id in ( '+
+           ' select batch_id from qr_batch_map where qr_href=\''+p_qrhref+'\' ' +
+           ')) ) a, '+
+           ' ( '+
+           'select batch_id from batches  where batch_id in ( '+
+           ' select batch_id from qr_batch_map where qr_href=\''+p_qrhref+'\'' +
+            ') ) b '
+
     }
 };
 
