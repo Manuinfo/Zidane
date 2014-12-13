@@ -18,6 +18,18 @@ var logger = require('../libs/log').logger;
 
 
 
+//ID管理，根据中文名称获取ID
+exports.Get_AllGoods=function(callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_trust.query_prd_all());
+        conn.query(sql_trust.query_prd_all(),function (err, sqlres) {
+            if(err) {throw (err);logger.debug(err);}
+            conn.release();
+            callback(sqlres);
+        });
+    })
+};
+
 
 //ID管理，根据中文名称获取ID
 exports.Get_IdByName=function(name,type,callback){

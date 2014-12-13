@@ -492,6 +492,18 @@ insert into qr_batch_map values ('20141014-01-44-2','/wqr/2005/xcvzxcvzsm',10);
 insert into qr_batch_map values ('20141014-01-44-2','http://192.168.0.119:4000/wqr/2005/xv342mnsd3',10);
 
 
+#---------------- 版本号管理 -------------------
+create table py_app_version
+(
+    v_id varchar(128),
+    up_time varchar(128),
+    PRIMARY KEY(v_id)
+) engine=INNODB
+DEFAULT CHARSET=gbk;
+
+insert into py_app_version values ('1.0.1',now());
+
+
 
 
 

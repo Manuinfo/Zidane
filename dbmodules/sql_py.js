@@ -6,6 +6,8 @@
 
 
 module.exports={
+    'check_app_version':
+        function(){return 'select v_id as version from py_app_version order by up_time desc limit 1';},
     'check_acc_exist':
         function(b){return 'select * from py_user_accounts where name=\''+b+'\'';},
     'check_acc_pass':

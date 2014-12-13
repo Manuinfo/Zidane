@@ -166,8 +166,7 @@ exports.w2005=function(req,res){
             {
                 logger.debug('该链接不存在');
                 res.render('failed',{
-                    res_qrcode:"taobao"
-                });
+                                    });
                 //acc.SendOnErr(res, t.res_one('FAIL','该链接不存在'));
                 t.db_ops_log(conn,'NULL','NULL','WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'该短链接不存在');
             }

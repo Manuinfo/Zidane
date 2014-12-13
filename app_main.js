@@ -63,12 +63,14 @@ app.get('/r/2007/:prdname', rest_r.r2007);
 app.get('/r/2008/:qrcode', rest_r.r2008);
 app.get('/r/2009/:rdcode',rest_r.r2009);
 app.get('/r/2010/:nfcid/:qtime',rest_r.r2010);
- 
+app.get('/r/2011',rest_r.r2011);    //获取所有商品的信息
+
 app.get('/w/2001/:shopname/:prdname/:place/:price', rest_w.w2001);
 app.get('/w/2002/:prdname/:place/:bcount/:nfccount/:vrftime', rest_w.w2002);
 app.get('/w/2003/:bid/:nfcid', rest_w.w2003);
 app.get('/w/2004/:bid/:qrcount/:qravtimes', rest_w.w2004);
 app.get('/wqr/2005/:qrhref', rest_w.w2005);  //面向用户的二维码验证
+app.get('/contactus',function(req,res){res.render('contactus',{});});
 app.get('/w/2006/:qrhref', rest_w.w2006);
 app.get('/w/2007/:qrhref/:cip/:cua', rest_w.w2007);
 app.get('/w/2008/:nfcid', rest_w.w2008);  //面向商户 盒子的NFC验证，盒子存不存在
@@ -98,6 +100,7 @@ app.post('/py_r/2015', rest_pr.r2015);  //查询一个账号下所有子账号
 app.post('/py_r/2016', rest_pr.r2016);  //查询发货历史，根据起止时间
 app.post('/py_r/2017', rest_pr.r2017);  //查询装箱历史，根据箱子ID
 app.post('/py_r/2018', rest_pr.r2018);  //查询发货历史，根据起止时间+NFCID+所有记录
+app.get('/py_r/2019', rest_pr.r2019);  //查询APP最新版本号码
 
 
 

@@ -11,6 +11,7 @@ var t=require('../libs/t.js');
 var sql=require('../dbmodules/sql.js');
 var tasks=require('../dbmodules/rule.js');
 var logger = require('../libs/log').logger;
+var m_goods=require('../dbmodules/m_goods.js');
 
 //2001 根据商品名称查询商品
 exports.r2001=function(req,res){
@@ -178,6 +179,15 @@ exports.r2010=function(req,res){
             }
         });
         conn.release();
+    });
+};
+
+//2011   获取所有商品的信息 app.get('/r/2011');
+exports.r2011=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf8'});
+    var now=moment();
+    m_goods.Get_AllGoods(function(dbres){
+        acc.SendOnErr(res, dbres);
     });
 };
 

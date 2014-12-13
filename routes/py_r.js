@@ -10,6 +10,7 @@ var pool=require('../conf/db.js');
 var acc=require('../libs/acc.js');
 var t=require('../libs/t.js');
 var m_goods=require('../dbmodules/m_goods.js');
+var m_login=require('../dbmodules/m_login.js');
 //var dbm=require('../dbmodules/rule.js')
 var logger = require('../libs/log').logger;
 
@@ -465,5 +466,17 @@ exports.r2018=function(req,res){
                 acc.SendOnErr(res,t.res_one('SUCC',dbres));
             });
         }
+    });
+};
+
+
+//查询APP的最新版本号
+exports.r2019=function(req,res){
+    res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
+    logger.debug('查询APP的最新版本号');
+
+    m_login.Get_AppVersion(function(dbres){
+    acc.SendOnErr(res,t.res_one('SUCC',dbres));
+
     });
 };
