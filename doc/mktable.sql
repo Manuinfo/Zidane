@@ -503,6 +503,17 @@ DEFAULT CHARSET=gbk;
 
 insert into py_app_version values ('1.0.1',now());
 
+#---------------- 系统参数管理 -------------------
+create table sys_config
+(
+    sys_key varchar(128),
+    sys_val varchar(128),
+    PRIMARY KEY(sys_key)
+) engine=INNODB
+DEFAULT CHARSET=gbk;
+
+
+
 
 
 
