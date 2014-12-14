@@ -43,7 +43,6 @@ exports.w2001=function(req,res){
             });
         },function(err){
             conn.release();
-            delete now;
         });
     });
 };
@@ -112,7 +111,6 @@ exports.w2003=function(req,res){
             });
         },function(err){
             conn.release();
-            delete now;
         });
     });
 };
@@ -135,27 +133,7 @@ exports.w2004=function(req,res){
             });
         });
     });
-    /*
-    pool.getConnection(function(err, conn) {
 
-
-         for(var i=0;i<req.param('qrcount');i++)
-         {
-             runsqls=sql.Insert_QRHrefID(req.param('bid'),t.get_random(10),req.param('qravtimes'));
-             //console.log(runsqls);
-             conn.query(runsqls,function (err, sqlres) {
-                 if(err)
-                 {
-                    //console.log(err.errno+' > '+err.message);
-                    i--; }
-                  //else
-             });
-         }
-         console.log('DONE');
-         conn.release();
-
-    });
-    */
 };
 
 

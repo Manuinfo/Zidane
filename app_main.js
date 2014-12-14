@@ -7,6 +7,7 @@ var fs = require('fs');
 var conf=require('./dbmodules/m_goods.js');
 var acc=require('./libs/acc.js');
 var logger = require('./libs/log').logger;
+var logger_core = require('morgan');
 var cluster = require('cluster');
 var numCPUs = require('os').cpus().length;
 
@@ -38,6 +39,7 @@ var rest_r = require('./routes/r.js');
 var rest_w = require('./routes/w.js');
 var rest_pw = require('./routes/py_w.js');
 var rest_pr = require('./routes/py_r.js');
+var rest_pt = require('./routes/py_portal.js');
 
 var app = express();
 
@@ -50,7 +52,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(logger_core('dev'));  //打印CONSOLE的日志
 
+
+//Portal管理
+app.get('/admin',rest_pt.pt2001);
 
 //防伪管理
 app.get('/r/2001/:prdname', rest_r.r2001);
