@@ -523,8 +523,10 @@ exports.Query_BigOrSmall=function(nfcids,callback){
     pool.getConnection(function(err, conn) {
         async.map(nfcids,function(item,cb){
             logger.debug('Req:'+sql_g.check_bigorsmall(item));
-            conn.query(sql_g.check_bigorsmall(item),function (err, sqlres) {
-               // console.log(sqlres[0]);
+            if (item!='ok')
+            {
+                conn.query(sql_g.check_bigorsmall(item),function (err, sqlres) {
+                // console.log(sqlres[0]);
                 if(sqlres[0])   //存在NFCFLAG则是大箱
                     if(sqlres[0].nfc_flag==null)
                         cb(null,item+":小箱");
@@ -532,7 +534,8 @@ exports.Query_BigOrSmall=function(nfcids,callback){
                         cb(null,item+":大箱");
                 else
                     cb(null,item+":这个箱子不重复")
-            });
+                });
+            }
         },function(err,exres){
             //console.log(exres);
             //console.log(exres);
