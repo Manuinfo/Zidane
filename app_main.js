@@ -3,6 +3,7 @@ var http = require('http');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var favicon = require('serve-favicon');
 var fs = require('fs');
 var conf=require('./dbmodules/m_goods.js');
 var acc=require('./libs/acc.js');
@@ -47,6 +48,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 /* https://github.com/nomiddlename/log4js-node */
+app.use(favicon(__dirname + '/public/admin/favicon.ico'));
 log.use(app);  //放在其他APP前面
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
