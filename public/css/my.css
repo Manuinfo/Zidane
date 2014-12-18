@@ -108,3 +108,11 @@ body {
 
 
 li,a,body {font-family:"Microsoft JhengHei"}
+
+/*全屏设置*/
+html,body,caption{
+    height:97%;
+    margin:0px;
+    font-family: "Microsoft YaHei";
+}
+

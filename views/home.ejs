@@ -30,16 +30,61 @@
             </ul>
             <ul class="nav nav-sidebar">
                 <li class="active"><a href="#">装箱与发货</a></li>
-                <li><a href="#">查询</a></li>
+                <li><a href="#" id="q3-1">查询</a></li>
             </ul>
         </div>
         <div class="col-sm-9 col-md-10 col-md-offset-1 main" style="float: left;left:80px;">
-            <table>5555555555555555555555555555555555555555</table>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>已装箱</th>
+                        <th>已发货</th>
+                        <th>商品</th>
+                        <th>查询时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>产品1</td>
+                        <td>23/11/2013</td>
+                        <td>待发货</td>
+                        <td>时间</td>
+
+                    </tr>
+                    <tr>
+                        <td>产品2</td>
+                        <td>10/11/2013</td>
+                        <td>发货中</td>
+                        <td>时间</td>
+
+                    </tr>
+                    <tr>
+                        <td>产品3</td>
+                        <td>20/10/2013</td>
+                        <td>待确认</td>
+                        <td>时间</td>
+
+                    </tr>
+                    <tr>
+                        <td>产品4</td>
+                        <td>20/10/2013</td>
+                        <td>已退货</td>
+                        <td>时间</td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
 
-
+<script type="text/javascript">
+    $("#q3-1").click(function(){
+       console.log(this);
+    });
+</script>
 
 <%- include footer%>
 

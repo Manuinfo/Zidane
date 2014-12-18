@@ -1,6 +1,7 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
+var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
@@ -53,12 +54,15 @@ log.use(app);  //放在其他APP前面
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+app.use(express.cookieSession({ secret: 'ch!', cookie: { maxAge: 60 * 60 * 1000 }}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger_core('dev'));  //打印CONSOLE的日志
 
 
 //Portal管理
-app.get('/admin',rest_pt.pt2001);
+app.get('/xadmin',rest_pt.pt2001);
+app.get('/xlogin',rest_pt.pt2002);
+app.post('/xlogin',rest_pt.pt2002_p);
 
 //防伪管理
 app.get('/r/2001/:prdname', rest_r.r2001);

@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "express": "~3.4.8",
+    "express-session": "*",
     "serve-favicon": "~2.0.0",
     "morgan": "~1.0.0",
     "cookie-parser": "~1.0.1",
