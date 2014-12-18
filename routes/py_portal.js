@@ -28,7 +28,7 @@ exports.pt2002=function(req,res){
 };
 exports.pt2002_p=function(req,res){
     //console.log(req.body);
-    if (req.body.acc_name=="ccc")
+    if (req.body.acc_name=="ch_admin")
     {
         res.cookie("l_st","2333",{ maxAge: 5*60*1000,domain:"www.131su.com",httpOnly:true,path:"/"});
         res.redirect('/xadmin')
