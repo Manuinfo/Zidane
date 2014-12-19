@@ -64,7 +64,8 @@ app.get('/xadmin',rest_pt.pt2001);
 app.get('/xlogin',rest_pt.pt2002);
 app.post('/xlogin',rest_pt.pt2002_p);
 app.get('/xadmin/pack_send',rest_pt.pt2003);
-app.post('/xadmin/pack_send',rest_pt.pt2003_p);
+app.post('/xadmin/pack_send_1',rest_pt.pt2003_p_1);
+app.post('/xadmin/pack_send_2',rest_pt.pt2003_p_2);
 
 
 //防伪管理
