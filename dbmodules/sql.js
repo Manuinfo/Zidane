@@ -4,7 +4,7 @@
 
 
 module.exports={
-    'query_prd_all': function(){return 'select create_at,shop_name,serias,name,product_id,place,price,updated_at from g_products ';},
+    'query_prd_all': function(){return 'select date_format(create_at,\'%Y-%m-%d %H:%i\') as create_at ,shop_name,serias,name,product_id,place,price,updated_at from g_products ';},
     'query_prd_byprdname': function(b){return 'select * from g_products where name=\''+b+"'";},
     'query_bth_byprdname': function(b){
         return 'select * from batches where product_id in ('+

@@ -56,7 +56,6 @@ exports.Get_NFC_legal=function(p_nfcid,callback){
                 logger.debug('Req:'+sql_g.qs_if_nfc_exist_inpackage(p_nfcid));
                 pool.getConnection(function(err, conn) {
                 acc.Gen_DB(conn,sql_g.qs_if_nfc_exist_inpackage(p_nfcid),1,function(dbres2){
-                   // console.log(dbres2);
                     if(dbres2)
                     {  //但箱子存在
                         callback({msg:"PACKAGE"});

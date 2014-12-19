@@ -5,6 +5,8 @@ var pool=require('../conf/db.js');
 var acc=require('../libs/acc.js');
 var t=require('../libs/t.js');
 var m_portal=require('../dbmodules/m_portal.js');
+var m_goods=require('../dbmodules/m_goods.js');
+
 var logger = require('../libs/log').logger;
 
 
@@ -81,6 +83,22 @@ exports.pt2003_p_2=function(req,res){
             console.log(dbres);
             res.send(dbres)
         });
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+//查询单个NFC_ID是否有效
+exports.pt2004=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        m_goods.Get_AllGoods(function(dbres){
+            //console.log(dbres);
+            res.render('goods_query',{n_res:dbres})
+        });
+
+
     } else
     {
         res.redirect('/xlogin')
