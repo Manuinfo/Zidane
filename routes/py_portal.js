@@ -19,7 +19,6 @@ exports.pt2001=function(req,res){
     {
         res.redirect('/xlogin')
     }
-
 };
 
 //主登陆路界面
@@ -36,4 +35,16 @@ exports.pt2002_p=function(req,res){
     else
     { res.redirect('/xlogin')}
 
+};
+
+
+//查询装箱和发货
+exports.pt2003=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        res.render('pack_send',{});
+    } else
+    {
+        res.redirect('/xlogin')
+    }
 };

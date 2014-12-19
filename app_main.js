@@ -63,6 +63,9 @@ app.use(logger_core('dev'));  //打印CONSOLE的日志
 app.get('/xadmin',rest_pt.pt2001);
 app.get('/xlogin',rest_pt.pt2002);
 app.post('/xlogin',rest_pt.pt2002_p);
+app.get('/xadmin/pack_send',rest_pt.pt2003);
+app.post('/xadmin/pack_send',rest_pt.pt2003_p);
+
 
 //防伪管理
 app.get('/r/2001/:prdname', rest_r.r2001);
