@@ -38,7 +38,6 @@ exports.pt2002_p=function(req,res){
 
 };
 
-
 //查询当日装箱和发货
 exports.pt2003=function(req,res){
     if (req.cookies["l_st"])
