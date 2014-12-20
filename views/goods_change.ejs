@@ -1,5 +1,27 @@
 <%- include header.ejs%>
 <%- include home_nav.ejs%>
+
+<div  id="dv_home" class="col-sm-9 col-md-10 col-md-offset-1 main" style="float: left;left:80px;">
+
+    <div class="container">
+
+        <h1>X-editable starter template</h1>
+
+        <div>
+            <span>Username:</span>
+            <a href="#" id="username" data-type="text" data-placement="right" data-title="Enter username">superuser</a>
+        </div>
+
+        <div>
+            <span>Status:</span>
+            <a href="#" id="status"></a>
+        </div>
+
+
+    </div>
+
+
+</div>
 <script type="text/javascript">
     $(document).ready(function() {
         //toggle `popup` / `inline` mode
@@ -27,27 +49,6 @@
         });
     });
 </script>
-<div  id="dv_home" class="col-sm-9 col-md-10 col-md-offset-1 main" style="float: left;left:80px;">
-
-    <div class="container">
-
-        <h1>X-editable starter template</h1>
-
-        <div>
-            <span>Username:</span>
-            <a href="#" id="username" data-type="text" data-placement="right" data-title="Enter username">superuser</a>
-        </div>
-
-        <div>
-            <span>Status:</span>
-            <a href="#" id="status"></a>
-        </div>
-
-
-    </div>
-
-
-</div>
 
 <%- include home_footer.ejs%>
 <%- include footer.ejs%>

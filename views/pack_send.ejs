@@ -85,7 +85,8 @@
                     if(data.msg=='NULL')
                     {$("#text_nfc_q").text('该NFC没有装箱记录'); }
                     else
-                    {$("#text_nfc_q").text('装箱时间: '+data.pack_time.replace('T',' ')+
+                    {
+                        $("#text_nfc_q").text('最新的记录：装箱时间: '+data.pack_time.replace('T',' ')+
                             '  箱子ID: '+data.par_id+
                             '  装箱员: '+data.uname+
                             '  商品名称: '+data.name)

@@ -34,7 +34,7 @@ exports.Get_SendNumToday=function(p_ddtime,callback){
 exports.Get_BoxHasPacked=function(p_nfcid,callback){
     pool.getConnection(function(err, conn) {
         logger.debug('Req:'+sql_g.qs_if_box_has_pack(p_nfcid));
-       // console.log(sql_g.qs_if_box_has_pack(p_nfcid));
+       //console.log(sql_g.qs_if_box_has_pack(p_nfcid));
         acc.Gen_DB(conn,sql_g.qs_if_box_has_pack(p_nfcid),1,function(dbres){
             callback(dbres);
         });

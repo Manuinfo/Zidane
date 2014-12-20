@@ -72,9 +72,7 @@ app.get('/xadmin/pack_send',rest_pt.pt2003);
 app.post('/xadmin/pack_send_1',rest_pt.pt2003_p_1);
 app.post('/xadmin/pack_send_2',rest_pt.pt2003_p_2);
 
-app.get('/btn',function(req,res){
-    res.render('btn',{});
-});
+
 
 
 //防伪管理

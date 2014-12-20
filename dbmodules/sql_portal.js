@@ -16,7 +16,8 @@ module.exports={
         },
     'qs_if_box_has_pack':  //user design
         function(p_nfcid){
-            return 'select * from py_package_his where son_id=upper(\''+p_nfcid+'\')';
+            return 'select a.pack_time,a.par_id,a.uname,b.name from py_package_his a,b_id_mgnt b where a.alname=b.id and  ' +
+                '(son_id=upper(\''+p_nfcid+'\') or  par_id=upper(\''+p_nfcid+'\')) LIMIT 1';
         },
     'qs_if_nfc_exist_inbox':  //user design
         function(p_nfcid){
