@@ -27,10 +27,11 @@ module.exports={
             return 'select * from g_nfc_box_map where  nfc_id=upper(\''+p_nfcid+'\')';
         },
     'qs_num_pack':
-        function(p_ddtime){return 'select uname,b.name,count(*) as n_box,count(DISTINCT par_id) as n_package' +
-            ' from py_package_his a,b_id_mgnt b '+
-            'where a.pack_time > \''+p_ddtime+'\''+
-            'and a.alname=b.id '+
-            'group by uname,alname '
+        function(p_ddtime){
+            return 'select uname,b.name,sum(cc) as n_box,sum(n_pack) as n_package from ( '+
+            'select uname,alname,par_id,count(*) as cc,1 as n_pack '+
+            'from py_package_his a where a.pack_time > \''+p_ddtime+'\' '+
+            'group by uname,alname,par_id ' +
+            ') a ,b_id_mgnt b where a.alname=b.id group by uname,alname '
             }
 }
