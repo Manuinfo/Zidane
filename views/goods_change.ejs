@@ -1,0 +1,44 @@
+<%- include header.ejs%>
+<%- include home_nav.ejs%>
+<div  id="dv_home" class="col-sm-9 col-md-10 col-md-offset-1 main" style="float: left;left:80px;">
+
+    <div class="table-responsive">
+        <table class="table">
+            <caption>承煌旗下商品种类</caption>
+            <thead>
+            <tr>
+                <th>创建时间</th>
+                <th>系列</th>
+                <th>商品</th>
+                <th>产地</th>
+                <th>价格</th>
+                <th>更新该信息时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% if(n_res.length>0) { %>
+            <% for(var i=0;i<n_res.length;i++){ %>
+            <tr>
+                <td><%=n_res[i].create_at%></td>
+                <td><%=n_res[i].serias%></td>
+                <td><%=n_res[i].name%></td>
+                <td><%=n_res[i].place%></td>
+                <td><%=n_res[i].price%></td>
+                <td><%=n_res[i].updated_at%></td>
+            </tr>
+            <% }}%>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+<script type="text/javascript">
+
+</script>
+
+
+
+
+<%- include home_footer.ejs%>
+<%- include footer.ejs%>

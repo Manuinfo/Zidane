@@ -97,8 +97,20 @@ exports.pt2004=function(req,res){
             //console.log(dbres);
             res.render('goods_query',{n_res:dbres})
         });
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
 
-
+//变更商品，添加、删除
+exports.pt2005=function(req,res){
+    if (req.cookies["l_st"])
+    {
+       // m_goods.Get_AllGoods(function(dbres){
+            //console.log(dbres);
+            res.render('goods_change',{})
+       // });
     } else
     {
         res.redirect('/xlogin')
