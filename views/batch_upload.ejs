@@ -4,19 +4,66 @@
 
 <script src="/admin/js/ajaxfileupload.js"></script>
 
+<style type="text/css">
+    body{ font-size:14px;font-family: "Microsoft YaHei"}
+    input{ vertical-align:middle; margin:0; padding:0}
+    .file-box{position:relative;width:360px}
+    .txt{ height:32px; border:1px solid #cdcdcd; width:150px;}
+    .file{ position:absolute; top:0; right:60px; height:32px; filter:alpha(opacity:0);opacity: 0;width:300px }
+</style>
+
 <div  id="dv_home" class="col-sm-9 col-md-10 col-md-offset-1 main" style="float: left;left:80px;">
 
-    <form method="post" action="update.do?method=uploader" enctype="multipart/form-data">
-        <input type="file" id="houseMaps" name="houseMaps"  onchange="fileSelected();"/>
-        <input type="button" value="提交" onclick="ajaxFileUpload()"/>
-    </form>
+    <div class="alert alert-warning">
+        <strong>提示！</strong>请选择您需要上传的NFC_ID文件、商品名称、经销地、二维码可验证次数。
+    </div>
+    <div class="file-box">
+        <form action="" method="post" enctype="multipart/form-data">
+            <input type='text' name='textfield' id='textfield' class='txt' />
+            <input type='button' class='btn btn-info' value='浏览' style="width: 100px"/>
+            <input type="file" name="houseMaps" class="file" id="houseMaps"  onchange="fileSelected();" />
+            <div>
+                </br>
+                <select id="id_goods" name="select" class="btn btn-info" style="width: 255px">
+                    <option value ="NULL" selected="selected">请选择商品名称</option>
+                    <% for (var i=0;i<res_goods.length;i++) {%>
+                    <option value ="<%= res_goods[i].name%>"><%= res_goods[i].name%></option>
+                    <% } %>
+                </select>
+            </div>
+            <div >
+                </br>
+                <select id="id_city" name="select" class="btn btn-info"  style="width: 255px">
+                    <option value ="NULL" selected="selected">请选择经销地</option>
+                    <option value ="上海">上海</option>
+                    <option value ="北京">北京</option>
+                    <option value="广州">广州</option>
+                    <option value="深圳">深圳</option>
+                </select>
+            </div>
+            <div >
+                </br>
+                <input type="text" class="form-control" id="id_qrcc"
+                       placeholder="请输入二维码可验证次数"
+                       onkeyup="value=value.replace(/[^\d]/g,'') "
+                       style="width: 255px">
+            </div>
+
+            </br>
+            <input class="btn btn-danger" type="button" value="提交" style="width: 255px" onclick="ajaxFileUpload()"/>
+        </form>
+    </div>
+
+    </br>
     <div id="fileName"></div>
     <div id="fileSize"></div>
     <div id="fileType"></div>
+    </br>
     <div id="result"></div>
 </div>
 <script type="text/javascript">
     function fileSelected() {
+       // document.getElementById('textfield').value=this.value
         var file = document.getElementById('houseMaps').files[0];
         if (file) {
             var fileSize = 0;
@@ -25,19 +72,33 @@
             else
                 fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
 
-            document.getElementById('fileName').innerHTML = 'Name: ' + file.name;
-            document.getElementById('fileSize').innerHTML = 'Size: ' + fileSize;
-            document.getElementById('fileType').innerHTML = 'Type: ' + file.type;
+            document.getElementById('fileName').innerHTML = '文件名称  ： ' + file.name;
+            document.getElementById('fileSize').innerHTML = '文件大小  ： ' + fileSize;
+            document.getElementById('fileType').innerHTML = '文件类型  ： ' + file.type;
         }
     };
 
     function ajaxFileUpload(){
+        //console.log($('#sss').val())   //下来列表
+        var file = document.getElementById('houseMaps').files[0];
+        if(!file)
+        {
+            $('#result').html('<div class="alert alert-warning">上传的文件为空。</div>');
+        } else if ($('#id_goods').val()=="NULL" || $('#id_city').val()=="NULL")
+        {
+            $('#result').html('<div class="alert alert-warning">商品名称 或者 经销地 未选择。</div>');
+        }
+        else if ($('#id_qrcc').val()>20) {
+            $('#result').html('<div class="alert alert-warning">二维码验证可次数过多，大于了10次</div>');
+        } else
+        {
         $.ajaxFileUpload(
                 {
                     url:'/xadmin/batch_upload',            //需要链接到服务器地址
                     secureuri:false,
                     fileElementId:'houseMaps',                        //文件选择框的id属性
                     dataType: 'xml',                           //服务器返回的格式，可以是json
+                    data:{ i_goods:$('#id_goods').val(),i_city:$('#id_city').val(),i_qrcc:$('#id_qrcc').val() },
                     success: function (data, status)            //相当于java中try语句块的用法
                     {
                         $('#result').html('添加成功');
@@ -49,6 +110,7 @@
                     }
                 }
         );
+        }
     }
 </script>
 <%- include home_footer.ejs%>

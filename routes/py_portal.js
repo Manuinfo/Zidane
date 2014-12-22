@@ -31,7 +31,7 @@ exports.pt2002_p=function(req,res){
     //console.log(req.body);
     if (req.body.acc_name=="ch_abc")
     {
-        res.cookie("l_st", t.md5hash('fsdf'),{ maxAge: 10*60*1000,domain:"www.131su.com",httpOnly:true,path:"/"});
+        res.cookie("l_st", t.md5hash('fsdf'),{ maxAge: 30*60*1000,domain:"www.131su.com",httpOnly:true,path:"/"});
         res.redirect('/xadmin')
     }
     else
@@ -128,11 +128,14 @@ exports.pt2005_p=function(req,res){
 };
 
 
-//批次NFC_ID上传的页面
+//批次NFC_ID上传的页面GET
 exports.pt2006=function(req,res){
     if (req.cookies["l_st"])
     {
-        res.render('batch_upload',{upload_res:"44444444444"})
+        m_goods.Get_AllGoods(function(dbres){
+            console.log(dbres);
+            res.render('batch_upload',{res_goods:dbres})
+        });
     } else
     {
         res.redirect('/xlogin')
@@ -143,6 +146,7 @@ exports.pt2006=function(req,res){
 exports.pt2006_p=function(req,res){
     if (req.cookies["l_st"])
     {
+        console.log(req.body);
         console.log(req.files);
         //console.log(req.files.thumbnail.originalFilename);
         //console.log(req.files.thumbnail.path);
