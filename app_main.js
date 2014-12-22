@@ -148,6 +148,7 @@ conf.Get_IDByType('CHANNEL',function(confall){ global.u_CHID=acc.G_JSON({},confa
 conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL=acc.G_JSON({},confall)});
 conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL_R=acc.G_JSON_R({},confall)});
 conf.Get_IDByType('BRAND',function(confall){ global.u_BRAND=acc.G_JSON({},confall);});
+conf.Get_IDByType('BRAND',function(confall){ global.u_BRAND_R=acc.G_JSON_R({},confall);});
 conf.Get_IDByType('LAY',function(confall){ global.u_LAY=acc.G_JSON({},confall);});
 conf.Get_IDByType('LAY',function(confall){ global.u_LAY_R=acc.G_JSON_R({},confall);});
 conf.Get_IDByType('PACKLIMIT',function(confall){ global.u_PACKLIMIT=acc.G_JSON({},confall);});
@@ -168,8 +169,8 @@ setTimeout(function(){
         logger.debug('Zidane Web Service is started at 3000,ID:'+process.pid);
         logger.debug('--------------------------------------------------------')
         //console.log(global.u_SERIAL_R);
-        //console.log(global.u_ACCTS);
-        console.log(global.u_SITE);
+        console.log(global.u_BRAND_R);
+        //console.log(global.u_SITE);
         //console.log(global.u_SERIAL_R);
         //console.log(global.u_LAY_R);
     });

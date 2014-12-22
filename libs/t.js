@@ -16,9 +16,20 @@ var chars = ['0','1','2','3','4','5','6','7','8','9',
 
 /* 将商品名称转换成商品ID */
 exports.md5hash=function(product_name){
-    var md5 = require('crypto').createHash('md5');
-    md5.update(product_name);
-    return md5.digest('hex');
+
+    /*
+    var Buffer = require("buffer").Buffer;
+    var buf = new Buffer(data);
+    var str = buf.toString("binary");
+    var crypto = require("crypto");
+    return crypto.createHash("md5").update(str).digest("hex");
+    */
+
+    var Buffer = require("buffer").Buffer;
+    var buf = new Buffer(product_name);
+    var str = buf.toString("binary");
+    var crypto = require("crypto");
+    return crypto.createHash("md5").update(str).digest("hex");
 };
 
 /* 从批次ID中获取商品ID */

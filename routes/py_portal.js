@@ -133,7 +133,7 @@ exports.pt2006=function(req,res){
     if (req.cookies["l_st"])
     {
         m_goods.Get_AllGoods(function(dbres){
-            console.log(dbres);
+           // console.log(dbres);
             res.render('batch_upload',{res_goods:dbres})
         });
     } else
@@ -146,11 +146,15 @@ exports.pt2006=function(req,res){
 exports.pt2006_p=function(req,res){
     if (req.cookies["l_st"])
     {
-        console.log(req.body);
-        console.log(req.files);
+       // console.log(req.body);
+       // console.log(req.files);
         //console.log(req.files.thumbnail.originalFilename);
         //console.log(req.files.thumbnail.path);
-        res.send({msg:'3333333333'})
+        m_portal.New_Batch(req.body.i_goods,req.body.i_city,2000,2000,req.body.i_qrcc,function(dbres){
+            console.log(dbres);
+            res.send({msg:'3333333333'})
+        });
+
     } else
     {
         res.redirect('/xlogin')

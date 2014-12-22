@@ -6,6 +6,7 @@ var acc=require('../libs/acc.js');
 var t=require('../libs/t.js');
 var me=require('./m_portal.js');
 var sql_g=require('../dbmodules/sql_portal.js');
+var sql_1st=require('../dbmodules/sql.js');
 var logger = require('../libs/log').logger;
 
 
@@ -67,6 +68,39 @@ exports.Get_NFC_legal=function(p_nfcid,callback){
                 })
 
             }
+        });
+    });
+};
+
+
+//新建批次
+exports.New_Batch=function(p_pid,p_place,p_bth_count,p_nfc_count,p_vrftime,callback){
+    pool.getConnection(function(err, conn) {
+        console.log(p_pid);
+        console.log(t.md5hash(p_pid));
+        var now=moment();
+        logger.debug('Req:'+sql_1st.Insert_Bth_Basic(
+            t.md5hash(p_pid),
+            t.md5hash(p_pid)[0],
+            p_place,
+            p_bth_count,
+            p_nfc_count,
+            p_vrftime,
+            now.format('YYYYMMDDHHmmss')+'-'+global.u_BRAND_R[p_pid]+'-'+p_place,
+            now.format('YYYY-MM-DD HH:mm:ss')
+        ));
+        //console.log(sql_g.qs_if_box_has_pack(p_nfcid));
+        acc.Gen_DB(conn,sql_1st.Insert_Bth_Basic(
+            t.md5hash(p_pid),
+            t.md5hash(p_pid)[0],
+            p_place,
+            p_bth_count,
+            p_nfc_count,
+            p_vrftime,
+            now.format('YYYYMMDDHHmmss')+'-'+global.u_BRAND_R[p_pid]+'-'+p_place,
+            now.format('YYYY-MM-DD HH:mm:ss')
+        ),1,function(dbres){
+            callback(dbres);
         });
     });
 };
