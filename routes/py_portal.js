@@ -6,6 +6,7 @@ var acc=require('../libs/acc.js');
 var t=require('../libs/t.js');
 var m_portal=require('../dbmodules/m_portal.js');
 var m_goods=require('../dbmodules/m_goods.js');
+var fs = require('fs');
 
 var logger = require('../libs/log').logger;
 
@@ -106,10 +107,46 @@ exports.pt2004=function(req,res){
 exports.pt2005=function(req,res){
     if (req.cookies["l_st"])
     {
-       // m_goods.Get_AllGoods(function(dbres){
-            //console.log(dbres);
-            res.render('goods_change',{})
-       // });
+          res.render('goods_change',{})
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+//变更商品，添加、删除-POST
+exports.pt2005_p=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        console.log(req.body);
+        console.log(req.files);
+        res.send({msg:'5555'})
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+
+//批次NFC_ID上传的页面
+exports.pt2006=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        res.render('batch_upload',{upload_res:"44444444444"})
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+//处理批次NFC_ID的POST请求
+exports.pt2006_p=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        console.log(req.files);
+        //console.log(req.files.thumbnail.originalFilename);
+        //console.log(req.files.thumbnail.path);
+        res.send({msg:'3333333333'})
     } else
     {
         res.redirect('/xlogin')

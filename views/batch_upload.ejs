@@ -1,0 +1,55 @@
+<%- include header.ejs%>
+<%- include home_nav.ejs%>
+
+
+<script src="/admin/js/ajaxfileupload.js"></script>
+
+<div  id="dv_home" class="col-sm-9 col-md-10 col-md-offset-1 main" style="float: left;left:80px;">
+
+    <form method="post" action="update.do?method=uploader" enctype="multipart/form-data">
+        <input type="file" id="houseMaps" name="houseMaps"  onchange="fileSelected();"/>
+        <input type="button" value="提交" onclick="ajaxFileUpload()"/>
+    </form>
+    <div id="fileName"></div>
+    <div id="fileSize"></div>
+    <div id="fileType"></div>
+    <div id="result"></div>
+</div>
+<script type="text/javascript">
+    function fileSelected() {
+        var file = document.getElementById('houseMaps').files[0];
+        if (file) {
+            var fileSize = 0;
+            if (file.size > 1024 * 1024)
+                fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+            else
+                fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
+
+            document.getElementById('fileName').innerHTML = 'Name: ' + file.name;
+            document.getElementById('fileSize').innerHTML = 'Size: ' + fileSize;
+            document.getElementById('fileType').innerHTML = 'Type: ' + file.type;
+        }
+    };
+
+    function ajaxFileUpload(){
+        $.ajaxFileUpload(
+                {
+                    url:'/xadmin/batch_upload',            //需要链接到服务器地址
+                    secureuri:false,
+                    fileElementId:'houseMaps',                        //文件选择框的id属性
+                    dataType: 'xml',                           //服务器返回的格式，可以是json
+                    success: function (data, status)            //相当于java中try语句块的用法
+                    {
+                        $('#result').html('添加成功');
+                    },
+                    error: function (data, status, e)            //相当于java中catch语句块的用法
+                    {
+                        //console.log(e)
+                        $('#result').html('添加失败');
+                    }
+                }
+        );
+    }
+</script>
+<%- include home_footer.ejs%>
+<%- include footer.ejs%>

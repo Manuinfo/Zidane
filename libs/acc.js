@@ -7,43 +7,7 @@ var pool=    require('../conf/db.js');
 var http=require('http');
 
 
-exports.SelfRequest=function(p_url,callback){
-/*
-    http.get("http://www.131su.com:3000/r/2011", function(res) {
-        console.log("Got response: " + res);
-        callback(res);
-    }).on('error', function(e) {
-            console.log("Got error: " + e.message);
-        });
-        */
 
-    var options = {
-        hostname: 'www.131su.com',
-        port: 3000,
-        path: p_url,
-        method: 'GET'
-    };
-
-    console.log(options)
-    var req = http.request(options, function(res) {
-        var string='';
-        //console.log('STATUS: ' + res.statusCode);
-        //console.log('HEADERS: ' + JSON.stringify(res.headers));
-        res.setEncoding('utf8');
-        res.on('data', function (chunk) {
-            string=string+chunk;
-            //console.log('BODY: ' + chunk);
-        });
-        res.on('end',function(){
-           console.log(string) ;
-            callback(string);
-        });
-    });
-
-    req.write('ch');
-    req.end();
-
-};
 
 //发送时做校验
 exports.SendOnErr=function(res,objsend){
@@ -155,7 +119,7 @@ exports.G_ARRAY_KV_IF=function(arr,delimer,xstr){
 
 exports.Gen_DB=function(p_conn,p_sql,p_rec_num,callback){
     p_conn.query(p_sql,function (err, sqlres) {
-        if (err) {throw err;logger.debug(err);}
+        if (err) {p_conn.release();throw err;logger.debug(err);}
         p_conn.release();
         (p_rec_num==1) ? callback(sqlres[0]) : callback(sqlres);
     });

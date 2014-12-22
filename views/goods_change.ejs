@@ -3,26 +3,24 @@
 
 <div  id="dv_home" class="col-sm-9 col-md-10 col-md-offset-1 main" style="float: left;left:80px;">
 
-    <div class="container">
-
-        <h1>X-editable starter template</h1>
-
-        <div>
-            <span>Username:</span>
-            <a href="#" id="username" data-type="text" data-placement="right" data-title="Enter username">superuser</a>
-        </div>
-
-        <div>
-            <span>Status:</span>
-            <a href="#" id="status"></a>
-        </div>
-
-
-    </div>
-
-
+<a>3333333333333</a>
+</br>
+    <a href="#" id="xname">xroot</a>
 </div>
 <script type="text/javascript">
+
+    $('#xname').editable({
+        type: 'text',
+        pk: 1,
+        url: '/xadmin/goods_change',
+        title: 'Enter sysroot',
+        success: function(response, newValue) {
+            console.log(response);
+            console.log(newValue);
+            if(response.status == 'error') return response.msg; //msg will be shown in editable form
+        }
+    });
+
     $(document).ready(function() {
         //toggle `popup` / `inline` mode
         $.fn.editable.defaults.mode = 'popup';
@@ -41,11 +39,6 @@
                 {value: 2, text: 'status 2'},
                 {value: 3, text: 'status 3'}
             ]
-            /*
-             //uncomment these lines to send data on server
-             ,pk: 1
-             ,url: '/post'
-             */
         });
     });
 </script>

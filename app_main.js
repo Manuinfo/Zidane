@@ -51,6 +51,7 @@ app.set('view engine', 'ejs');
 /* https://github.com/nomiddlename/log4js-node */
 app.use(favicon(__dirname + '/public/admin/favicon.ico'));
 log.use(app);  //放在其他APP前面
+app.use(express.bodyParser({ keepExtensions: true, uploadDir: path.join(__dirname, 'public/admin/uploads') }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
@@ -66,7 +67,10 @@ app.post('/xlogin',rest_pt.pt2002_p);
 
 app.get('/xadmin/goods_query',rest_pt.pt2004);
 app.get('/xadmin/goods_change',rest_pt.pt2005);
+app.post('/xadmin/goods_change',rest_pt.pt2005_p);
 
+app.get('/xadmin/batch_upload',rest_pt.pt2006);
+app.post('/xadmin/batch_upload',rest_pt.pt2006_p);
 
 app.get('/xadmin/pack_send',rest_pt.pt2003);
 app.post('/xadmin/pack_send_1',rest_pt.pt2003_p_1);
