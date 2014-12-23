@@ -161,7 +161,7 @@ exports.pt2006_p=function(req,res){
                 req.files.houseMaps.ws.path.split('\\')[6],
                 xdata,
                 function(dbres){
-                    console.log(dbres);
+                    //console.log(dbres);
                     //res.send({msg:dbres.affectedRows})
                     res.send(dbres)
                 });
