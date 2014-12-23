@@ -97,16 +97,19 @@
                     url:'/xadmin/batch_upload',            //需要链接到服务器地址
                     secureuri:false,
                     fileElementId:'houseMaps',                        //文件选择框的id属性
-                    dataType: 'xml',                           //服务器返回的格式，可以是json
+                    dataType: 'json',                           //服务器返回的格式，可以是json
                     data:{ i_goods:$('#id_goods').val(),i_city:$('#id_city').val(),i_qrcc:$('#id_qrcc').val() },
-                    success: function (data, status)            //相当于java中try语句块的用法
+                    success: function(data, status)            //相当于java中try语句块的用法
                     {
+                        //console.log(data);
+                        //console.log(status);
                         $('#result').html('添加成功');
                     },
                     error: function (data, status, e)            //相当于java中catch语句块的用法
                     {
+                        //console.log(data.responseText);
                         //console.log(e)
-                        $('#result').html('添加失败');
+                        $('#result').html(data.responseText);
                     }
                 }
         );
