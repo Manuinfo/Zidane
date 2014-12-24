@@ -7,6 +7,7 @@ var t=require('../libs/t.js');
 var m_portal=require('../dbmodules/m_portal.js');
 var m_goods=require('../dbmodules/m_goods.js');
 var fs = require('fs');
+var os=require('os');
 
 var logger = require('../libs/log').logger;
 
@@ -150,7 +151,9 @@ exports.pt2006_p=function(req,res){
         //console.log(req.files);
         console.log(req.files.houseMaps.originalFilename);
         console.log(req.files.houseMaps.ws.path);
-        fs.readFile('./public/admin/uploads/'+req.files.houseMaps.ws.path.split('\\')[6],
+        var fname='';
+        os.type()=='Windows_NT'?fname='./public/admin/uploads/'+req.files.houseMaps.ws.path.split('\\')[6]:fname=req.files.houseMaps.ws.path;
+        fs.readFile(fname,
             'utf-8',
             function (err, xdata) {
             if (err) throw err;

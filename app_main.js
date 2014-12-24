@@ -141,7 +141,6 @@ app.get('/:aaaa',function(req, res){
 });
 
 
-
 logger.debug('Load Initial BaseData 1/5sec');
 
 conf.Get_IDByType('CHANNEL',function(confall){ global.u_CHID=acc.G_JSON({},confall)});
