@@ -253,7 +253,7 @@ exports.r2008=function(req,res){
                 {
                     logger.debug('箱子ID已经装箱并且与数量扫描一致');
                     logger.debug('真正发货前，备份清空之前历史，防止重复发送');
-                    m_goods.DF_SendRepeate(jbody.par_id,function(bakres){
+                    m_goods.DF_SendRepeate(jbody.par_id,function(bakres){   //double found!!
 
                     });
                     setTimeout(function(){

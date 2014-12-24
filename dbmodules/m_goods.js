@@ -174,8 +174,8 @@ exports.Check_BoxExistMulti=function(nfcid,goodsid,callback){
             })
         },function(err,dbres){
                 //console.log(dbres);
-                callback(dbres);
                 conn.release();
+                callback(dbres);
           });
     })
 };
@@ -367,14 +367,14 @@ exports.DF_SendRepeate=function(nfcids,callback){
             conn.query(sql_g.bak_sendhis_before_trunc(item),function (err, sqlres) {
                 logger.debug('Req:'+sql_g.trunc_sendhis(item));
                 conn.query(sql_g.trunc_sendhis(item),function(err,sqlres){
-                    callback(null,1);
+                    cb(null,1);
                 });
             });
         },function(err,exres){
             //console.log(exres);
+            conn.release();
             logger.debug('备份删除后的结果:'+exres);
             callback(exres);
-            conn.release();
         });
     })
 };
@@ -412,8 +412,8 @@ exports.SendBox=function(jbd,callback){
                 cb(null,'OK');
             });
     },function(err,exres){
-            callback(exres);
             conn.release();
+            callback(exres);
         });
     })
 };
