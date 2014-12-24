@@ -145,13 +145,15 @@ exports.r2003=function(req,res){
                         {
                             delete x;
                             logger.debug('有记录重复:'+xres);
-                            m_goods.Query_BigOrSmall(xres,function(repres){
-                                acc.SendOnErr(res,t.res_one('FAIL','输入有重复的盒子，重复盒子:['+repres+']，请重新输入或联系管理员'));
-                            });
+                            acc.SendOnErr(res,t.res_one('FAIL','输入有重复的盒子,'+xres));
+                           // m_goods.Query_BigOrSmall(xres,function(repres){
+                                //console.log(repres);
+                             //   acc.SendOnErr(res,t.res_one('FAIL','输入有重复的盒子，重复盒子:['+repres+']，请重新输入或联系管理员'));
+                           // });
                         }
                     });
                 }else   //如果商品不匹配
-                {
+                    {
                     acc.SendOnErr(res,t.res_one('FAIL','输入的盒子与商品不匹配:['+dbres+']，请重新输入或联系管理员'));
                 }
             });
