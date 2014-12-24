@@ -37,7 +37,7 @@ module.exports={
     },
     'Query_Pid_ByPrdName':function(b){return 'select product_id from g_products where name=\''+b+"'";},
     'Query_Zid_ByZoneName':function(b){return 'select city_code from g_sale_zone where city=\''+b+"'";},
-    'Insert_Bth_Basic':function(p_pid,p_pid_part,p_place,p_bth_count,p_nfc_count,p_vrftime,p_bthid,p_crdate,p_rfile,p_nfile){
+    'Insert_Bth_Basic':function(p_pid,p_pid_part,p_place,p_bth_count,p_nfc_count,p_vrftime,p_bthid,p_crdate,p_rfile,p_nfile,p_raw_count){
         return 'insert into batches values (\''+p_pid+"',"+
                                             '\''+p_pid_part+"',"+
                                             '\''+p_place+"',"+
@@ -47,7 +47,7 @@ module.exports={
                                             '\''+p_bthid+"',"+
                                             '\''+p_crdate+'\',NULL,' +
                                             '\''+p_rfile+'\','+
-                                            '\''+p_nfile+'\');'
+                                            '\''+p_nfile+'\','+p_raw_count+');'
     },
     'Insert_NFCID':function(p_bid,nfcid){
         return 'insert into g_nfc_batch_map values (\''+p_bid+'\',upper(\''+nfcid+'\'),NULL);'

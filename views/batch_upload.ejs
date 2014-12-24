@@ -58,6 +58,9 @@
     <div id="fileName"></div>
     <div id="fileSize"></div>
     <div id="fileType"></div>
+    <div id="goodsname"></div>
+    <div id="salecity"></div>
+
     </br>
     <div id="result"></div>
 </div>
@@ -81,6 +84,8 @@
     function ajaxFileUpload(){
         //console.log($('#sss').val())   //下来列表
         var file = document.getElementById('houseMaps').files[0];
+        document.getElementById('goodsname').innerHTML = '商品名称  ： ' + $('#id_goods').val();
+        document.getElementById('salecity').innerHTML =  '经销城市  ： ' + $('#id_city').val();
         if(!file)
         {
             $('#result').html('<div class="alert alert-warning">上传的文件为空。</div>');
@@ -104,12 +109,17 @@
                         //console.log(data);
                         //console.log(status);
                         $('#result').html('添加成功');
+                        $("#id_goods option").eq(0).attr("selected",true);
+                        $("#id_city option").eq(0).attr("selected",true);
                     },
                     error: function (data, status, e)            //相当于java中catch语句块的用法
                     {
                         //console.log(data.responseText);
                         //console.log(e)
                         $('#result').html(data.responseText);
+                        $("#id_goods option").eq(0).attr("selected",true);
+                        $("#id_city option").eq(0).attr("selected",true);
+                        //$("#id_city").find("option[text='请选择经销地']").attr("selected",true);
                     }
                 }
         );
