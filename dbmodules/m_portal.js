@@ -139,12 +139,15 @@ exports.Insert_NFCID=function(p_btd_id,p_rawdata,callback){
     pool.getConnection(function(err, conn) {
         logger.debug('开始导入NFC_ID');
         var n_cc=1;
-        async.map(p_rawdata.split("\r\n"),function(item,cb)
+        var n_rec_cc=0;
+        async.mapLimit(p_rawdata.split("\r\n"),5,function(item,cb)
         {
-            logger.debug('Req:'+sql_1st.Insert_NFCID(p_btd_id,item));
+            logger.debug('Req:'+n_rec_cc+':'+sql_1st.Insert_NFCID(p_btd_id,item));
+            n_rec_cc++;
             conn.query(sql_1st.Insert_NFCID(p_btd_id,item),function (err, sqlres) {
                 if(err)
                 {
+                    logger.debug('DBRES-ERROR:'+err.message);
                     cb(null,err.message+'</br>');
                 }
                 else
