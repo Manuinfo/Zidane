@@ -140,7 +140,7 @@ exports.Insert_NFCID=function(p_btd_id,p_rawdata,callback){
         logger.debug('开始导入NFC_ID');
         var n_cc=1;
         var n_rec_cc=0;
-        async.mapLimit(p_rawdata.split("\r\n"),7,function(item,cb)
+        async.mapLimit(p_rawdata.split("\r\n"),10,function(item,cb)
         {
             logger.debug('Req:'+n_rec_cc+':'+sql_1st.Insert_NFCID(p_btd_id,item));
             n_rec_cc++;
