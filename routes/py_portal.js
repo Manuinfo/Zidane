@@ -145,6 +145,7 @@ exports.pt2006=function(req,res){
 
 //处理批次NFC_ID的POST请求
 exports.pt2006_p=function(req,res){
+    res.setTimeout(300*1000);
     if (req.cookies["l_st"])
     {
         //console.log(req.body);
@@ -171,6 +172,17 @@ exports.pt2006_p=function(req,res){
         });
 
 
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+//上传进度条的请求处理
+exports.pt2006_progress=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        res.send({'msg_progress':global.u_UPLOAD_NFC_PROGRESS,'msg_total':global.u_UPLOAD_NFC_TOTAL})
     } else
     {
         res.redirect('/xlogin')

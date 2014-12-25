@@ -91,6 +91,8 @@ exports.New_Batch=function(p_pid,p_place,p_bth_count,p_nfc_count,p_vrftime,p_rfi
             console.log(p_pid);
             console.log(t.md5hash(p_pid));
             var now=moment();
+            global.u_UPLOAD_NFC_PROGRESS=0;
+            global.u_UPLOAD_NFC_TOTAL=p_bth_count;
 
             //console.log(sql_g.qs_if_box_has_pack(p_nfcid));
                 //开始导入NFC_ID，再新建批次
@@ -144,6 +146,7 @@ exports.Insert_NFCID=function(p_btd_id,p_rawdata,callback){
         {
             logger.debug('Req:'+n_rec_cc+':'+sql_1st.Insert_NFCID(p_btd_id,item));
             n_rec_cc++;
+            global.u_UPLOAD_NFC_PROGRESS++;
             conn.query(sql_1st.Insert_NFCID(p_btd_id,item),function (err, sqlres) {
                 if(err)
                 {
@@ -166,6 +169,8 @@ exports.Insert_NFCID=function(p_btd_id,p_rawdata,callback){
                 callback(n_cc-1+'条导入成功,'+(p_rawdata.split("\r\n").length-n_cc+1)+
                     '条导入失败，失败原因为</br>,'+dbres)
             }
+            //global.u_UPLOAD_NFC_PROGRESS=0;
+            //global.u_UPLOAD_NFC_TOTAL=0;
             conn.release();
         });
     });
