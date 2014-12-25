@@ -71,6 +71,8 @@ app.post('/xadmin/goods_change',rest_pt.pt2005_p);
 
 app.get('/xadmin/batch_upload',rest_pt.pt2006);
 app.post('/xadmin/batch_upload',rest_pt.pt2006_p);
+app.get('/xadmin/batch_upload_package',rest_pt.pt2007);
+app.post('/xadmin/batch_upload_package',rest_pt.pt2007_p);
 
 app.get('/xadmin/pack_send',rest_pt.pt2003);
 app.post('/xadmin/pack_send_1',rest_pt.pt2003_p_1);

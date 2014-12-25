@@ -129,7 +129,7 @@ exports.pt2005_p=function(req,res){
 };
 
 
-//批次NFC_ID上传的页面GET
+//批次NFC_ID上传的页面GET 盒子
 exports.pt2006=function(req,res){
     if (req.cookies["l_st"])
     {
@@ -143,9 +143,9 @@ exports.pt2006=function(req,res){
     }
 };
 
-//处理批次NFC_ID的POST请求
+//处理批次NFC_ID的POST请求盒子
 exports.pt2006_p=function(req,res){
-    res.setTimeout(300*1000);
+    res.setTimeout(360*1000);
     if (req.cookies["l_st"])
     {
         //console.log(req.body);
@@ -170,8 +170,6 @@ exports.pt2006_p=function(req,res){
                     res.send(dbres)
                 });
         });
-
-
     } else
     {
         res.redirect('/xlogin')
@@ -183,6 +181,54 @@ exports.pt2006_progress=function(req,res){
     if (req.cookies["l_st"])
     {
         res.send({'msg_progress':global.u_UPLOAD_NFC_PROGRESS,'msg_total':global.u_UPLOAD_NFC_TOTAL})
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+
+//批次NFC_ID箱子上传的页面GET
+exports.pt2007=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        m_goods.Get_AllGoods(function(dbres){
+            res.render('batch_upload_package',{res_goods:dbres})
+        });
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+
+//处理批次NFC_ID的POST请求 箱子
+exports.pt2007_p=function(req,res){
+    res.setTimeout(300*1000);
+    if (req.cookies["l_st"])
+    {
+        //console.log(req.body);
+        //console.log(req.files);
+        console.log(req.files.houseMaps.originalFilename);
+        console.log(req.files.houseMaps.ws.path);
+        var fname='';
+        os.type()=='Windows_NT'?fname='./public/admin/uploads/'+req.files.houseMaps.ws.path.split('\\')[6]:fname=req.files.houseMaps.ws.path;
+        fs.readFile(fname,
+            'utf-8',
+            function (err, xdata) {
+                if (err) throw err;
+                //console.log(data.split('\r\n'));
+
+                m_portal.Insert_NFCID_PACKAGE(req.body.i_goods,req.body.i_city,
+                    //req.files.houseMaps.originalFilename,
+                    //req.files.houseMaps.ws.path.split('\\')[6],
+                    xdata,
+                    function(dbres){
+                        //console.log(dbres);
+                        //res.send({msg:dbres.affectedRows})
+                        res.send(dbres)
+                    });
+            });
     } else
     {
         res.redirect('/xlogin')

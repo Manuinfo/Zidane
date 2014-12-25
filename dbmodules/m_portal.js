@@ -136,11 +136,11 @@ exports.New_Batch=function(p_pid,p_place,p_bth_count,p_nfc_count,p_vrftime,p_rfi
 };
 
 
-//导入NFC_ID
+//导入NFC_ID盒子
 exports.Insert_NFCID=function(p_btd_id,p_rawdata,callback){
     pool.getConnection(function(err, conn) {
         logger.debug('开始导入NFC_ID');
-        var n_cc=1;
+        var n_cc=0;
         var n_rec_cc=0;
         async.mapLimit(p_rawdata.split("\r\n"),10,function(item,cb)
         {
@@ -155,8 +155,8 @@ exports.Insert_NFCID=function(p_btd_id,p_rawdata,callback){
                 }
                 else
                 {
-                    cb(null,'YES');
                     n_cc++;          //成功则加1
+                    cb(null,'YES');
                 }
             })
         },function(err,dbres){
@@ -166,7 +166,7 @@ exports.Insert_NFCID=function(p_btd_id,p_rawdata,callback){
             { callback(n_cc+'条记录，全部导入成功');}
             else
             {
-                callback(n_cc-1+'条导入成功,'+(p_rawdata.split("\r\n").length-n_cc+1)+
+                callback(n_cc+'条导入成功,'+(p_rawdata.split("\r\n").length-n_cc)+
                     '条导入失败，失败原因为</br>,'+dbres)
             }
             //global.u_UPLOAD_NFC_PROGRESS=0;
@@ -174,4 +174,58 @@ exports.Insert_NFCID=function(p_btd_id,p_rawdata,callback){
             conn.release();
         });
     });
+};
+
+
+//导入NFC_ID箱子
+exports.Insert_NFCID_PACKAGE=function(p_pid,p_city,p_rawdata,callback){
+    var map_serias={
+        '酵素':'A1',
+        '牛樟菇':'A1',
+        '乳酸菌':'A1',
+        '益多菌':'A1',
+        '三素藻':'A1',
+        '白金橙花匀亮修护隐形面膜':'A2'
+    };
+    logger.debug('查询城市编码'+p_city);
+    me.Get_SaleCityID(p_city,function(city_res){
+
+        logger.debug('查询城市编码的结果'+city_res);
+       // console.log(city_res);
+       // console.log(map_serias['酵素']);
+        var nfc_flag='CH'+city_res.city_code+map_serias[p_pid]+u_BRAND_R[p_pid]+'AA'
+        console.log(nfc_flag);
+        pool.getConnection(function(err, conn) {
+            logger.debug('开始导入NFC_ID箱子');
+            var n_cc=0;
+            var n_rec_cc=0;
+            async.mapLimit(p_rawdata.split("\r\n"),10,function(item,cb)
+            {
+                logger.debug('Req:'+n_rec_cc+':'+sql_1st.Insert_NFCID_PACKAGE(item,global.u_BRAND_R[p_pid],nfc_flag));
+                n_rec_cc++;
+                conn.query(sql_1st.Insert_NFCID_PACKAGE(item,global.u_BRAND_R[p_pid],nfc_flag),function (err, sqlres) {
+                    if(err)
+                    {
+                        logger.debug('DBRES-ERROR:'+err.message);
+                        cb(null,err.message+'</br>');
+                    }
+                    else
+                    {
+                        n_cc++;          //成功则加1
+                        cb(null,'YES');
+                    }
+                })
+            },function(err,dbres){
+                if(n_cc==p_rawdata.split("\r\n").length)
+                { callback(n_cc+'条记录，全部导入成功');}
+                else
+                {
+                    callback(n_cc+'条导入成功,'+(p_rawdata.split("\r\n").length-n_cc)+
+                        '条导入失败，失败原因为</br>,'+dbres)
+                }
+                conn.release();
+            });
+        });
+    });
+
 };
