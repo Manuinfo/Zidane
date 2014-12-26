@@ -185,7 +185,8 @@ exports.Insert_NFCID_PACKAGE=function(p_pid,p_city,p_rawdata,callback){
         '乳酸菌':'A1',
         '益多菌':'A1',
         '三素藻':'A1',
-        '白金橙花匀亮修护隐形面膜':'A2'
+        '白金橙花匀亮修护隐形面膜':'A2',
+        '洁面慕斯':'A2'
     };
     logger.debug('查询城市编码'+p_city);
     me.Get_SaleCityID(p_city,function(city_res){
