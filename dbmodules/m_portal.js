@@ -13,6 +13,7 @@ var logger = require('../libs/log').logger;
 //查询当日装箱次数
 exports.Get_PackNumToday=function(p_ddtime,callback){
     pool.getConnection(function(err, conn) {
+        //console.log(sql_g.qs_num_pack(p_ddtime));
         logger.debug('Req:'+sql_g.qs_num_pack(p_ddtime));
         acc.Gen_DB(conn,sql_g.qs_num_pack(p_ddtime),2,function(dbres){
             callback(dbres);
@@ -169,8 +170,6 @@ exports.Insert_NFCID=function(p_btd_id,p_rawdata,callback){
                 callback(n_cc+'条导入成功,'+(p_rawdata.split("\r\n").length-n_cc)+
                     '条导入失败，失败原因为</br>,'+dbres)
             }
-            //global.u_UPLOAD_NFC_PROGRESS=0;
-            //global.u_UPLOAD_NFC_TOTAL=0;
             conn.release();
         });
     });

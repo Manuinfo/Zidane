@@ -12,7 +12,7 @@ module.exports={
             'from py_send_his where dist_time > \''+p_ddtime+'\''+
             'and send_name like \'F%\''+
             'group by send_name,recv_name,par_id,alname '+
-            ') a,b_id_mgnt b where a.alname=b.id group by alname '
+            ') a,b_id_mgnt b where a.alname=b.id  and b.type=\'BRAND\' group by alname '
         },
     'qs_if_box_has_pack':  //user design
         function(p_nfcid){
@@ -33,6 +33,6 @@ module.exports={
             'select uname,alname,par_id,count(*) as cc,1 as n_pack '+
             'from py_package_his a where a.pack_time > \''+p_ddtime+'\' '+
             'group by uname,alname,par_id ' +
-            ') a ,b_id_mgnt b where a.alname=b.id group by uname,alname '
+            ') a ,b_id_mgnt b where a.alname=b.id  and b.type=\'BRAND\' group by uname,alname '
             }
 }
