@@ -154,7 +154,8 @@ exports.r2003=function(req,res){
                     });
                 }else   //如果商品不匹配
                     {
-                    acc.SendOnErr(res,t.res_one('FAIL','输入的盒子与商品不匹配:['+dbres+']，请重新输入或联系管理员'));
+                        //输入的盒子与商品不匹配
+                    acc.SendOnErr(res,t.res_one('FAIL','如下ID的盒子已装箱:['+dbres+']，请重新输入或联系管理员'));
                 }
             });
         } else
