@@ -154,6 +154,9 @@ exports.pt2006_p=function(req,res){
         console.log(req.files.houseMaps.ws.path);
         var fname='';
         os.type()=='Windows_NT'?fname='./public/admin/uploads/'+req.files.houseMaps.ws.path.split('\\')[6]:fname=req.files.houseMaps.ws.path;
+        logger.debug('获得文件名为:'+req.files.houseMaps.originalFilename);
+        logger.debug('落地的路径为:'+req.files.houseMaps.ws.path);
+        logger.debug('导入文件名为:'+fname);
         fs.readFile(fname,
             'utf-8',
             function (err, xdata) {
@@ -163,7 +166,7 @@ exports.pt2006_p=function(req,res){
             m_portal.New_Batch(req.body.i_goods,req.body.i_city,xdata.split('\r\n').length,xdata.split('\r\n').length,req.body.i_qrcc,
                 req.files.houseMaps.originalFilename,
                 req.files.houseMaps.ws.path.split('\\')[6],
-                xdata,
+                xdata,req.body.i_btd_c,
                 function(dbres){
                     //console.log(dbres);
                     //res.send({msg:dbres.affectedRows})
@@ -213,6 +216,9 @@ exports.pt2007_p=function(req,res){
         console.log(req.files.houseMaps.ws.path);
         var fname='';
         os.type()=='Windows_NT'?fname='./public/admin/uploads/'+req.files.houseMaps.ws.path.split('\\')[6]:fname=req.files.houseMaps.ws.path;
+        logger.debug('获得文件名为:'+req.files.houseMaps.originalFilename);
+        logger.debug('落地的路径为:'+req.files.houseMaps.ws.path);
+        logger.debug('导入文件名为:'+fname);
         fs.readFile(fname,
             'utf-8',
             function (err, xdata) {

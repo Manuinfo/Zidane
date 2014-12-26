@@ -85,7 +85,7 @@ exports.Get_SaleCityID=function(p_city,callback){
 };
 
 //新建批次
-exports.New_Batch=function(p_pid,p_place,p_bth_count,p_nfc_count,p_vrftime,p_rfile,p_nfile,p_rawdata,callback){
+exports.New_Batch=function(p_pid,p_place,p_bth_count,p_nfc_count,p_vrftime,p_rfile,p_nfile,p_rawdata,p_bid_c,callback){
 
     me.Get_SaleCityID(p_place,function(city_res){
         pool.getConnection(function(err, conn) {
@@ -112,7 +112,8 @@ exports.New_Batch=function(p_pid,p_place,p_bth_count,p_nfc_count,p_vrftime,p_rfi
                         now.format('YYYY-MM-DD HH:mm:ss'),
                         p_rfile,
                         p_nfile,
-                        p_bth_count
+                        p_bth_count,
+                        p_bid_c
                     ));
                     acc.Gen_DB(conn,sql_1st.Insert_Bth_Basic(
                             t.md5hash(p_pid),
@@ -125,7 +126,8 @@ exports.New_Batch=function(p_pid,p_place,p_bth_count,p_nfc_count,p_vrftime,p_rfi
                             now.format('YYYY-MM-DD HH:mm:ss'),
                             p_rfile,
                             p_nfile,
-                            p_bth_count
+                            p_bth_count,
+                            p_bid_c
                         ),2,function(dbres){
                             logger.debug('批次新建完成');
                             callback(xdbres);
