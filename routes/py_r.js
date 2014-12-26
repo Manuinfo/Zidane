@@ -145,7 +145,7 @@ exports.r2003=function(req,res){
                         {
                             delete x;
                             logger.debug('有记录重复:'+xres);
-                            acc.SendOnErr(res,t.res_one('FAIL','输入有重复的盒子,'+xres));
+                            acc.SendOnErr(res,t.res_one('FAIL','如下ID的盒子已装箱,'+xres));
                            // m_goods.Query_BigOrSmall(xres,function(repres){
                                 //console.log(repres);
                              //   acc.SendOnErr(res,t.res_one('FAIL','输入有重复的盒子，重复盒子:['+repres+']，请重新输入或联系管理员'));
