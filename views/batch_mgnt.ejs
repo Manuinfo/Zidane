@@ -1,0 +1,75 @@
+<%- include header.ejs%>
+<%- include home_nav.ejs%>
+<div  id="dv_home" class="col-sm-9 col-md-10 col-md-offset-1 main" style="float: left;left:80px;">
+
+
+
+    <div id="id_time" class="btn-group">
+        <button type="button" class="btn btn-default" style="height: 33px" value="0">今日</button>
+        <button type="button" class="btn btn-default" style="height: 33px" value="1">1天</button>
+        <button type="button" class="btn btn-default" style="height: 33px" value="3">3天</button>
+        <button type="button" class="btn btn-default" style="height: 33px" value="7">7天</button>
+        <button type="button" class="btn btn-default" style="height: 33px" value="14">14天</button>
+        <button type="button" class="btn btn-default" style="height: 33px" value="30">30天</button>
+    </div>
+    <select id="id_goods" name="select" class="btn btn-info" style="width: 255px;height: 33px;">
+        <option value ="NULL" selected="selected">请选择商品名称</option>
+        <% for (var i=0;i<res_goods.length;i++) {%>
+        <option value ="<%= res_goods[i].name%>"><%= res_goods[i].name%></option>
+        <% } %>
+    </select>
+    </br>
+    </br>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr id="id_btd_dtl" style="background: steelblue;color: white">
+                <th>系统批次</th>
+                <th>商品批次</th>
+                <th>创建时间</th>
+                <th>系列</th>
+                <th>商品</th>
+                <th>经销地</th>
+                <th>实际录入</th>
+                <th>计划录入</th>
+                <th>防伪配置验证次数</th>
+                <th>录入原始文件名</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+<script type="text/javascript">
+
+    function refresh_data(p_m_ddtime,p_pd_name)
+    {
+        $.ajax({
+            type: 'POST',
+            url : '/xadmin/batch_mgnt',
+            data: {m_ddtime:p_m_ddtime,m_pdname:p_pd_name},
+            success: function(data){
+                console.log(data);
+            }
+        });
+    }
+
+    $('#id_goods').change(function(){
+        var st_button='';
+        $('#id_time').val()?st_button=$('#id_time').val():st_button='NULL';
+        refresh_data(st_button,$('#id_goods').val());
+    });
+
+    $('#id_btd_dtl').ready(function(){
+        refresh_data('NULL',$('#id_goods').val());
+    });
+</script>
+
+
+<%- include home_footer.ejs%>
+<%- include footer.ejs%>

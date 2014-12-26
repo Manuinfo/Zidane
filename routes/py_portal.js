@@ -196,7 +196,8 @@ exports.pt2007=function(req,res){
     if (req.cookies["l_st"])
     {
         m_goods.Get_AllGoods(function(dbres){
-            res.render('batch_upload_package',{res_goods:dbres})
+            // console.log(dbres);
+            res.render('batch_upload',{res_goods:dbres})
         });
     } else
     {
@@ -235,6 +236,49 @@ exports.pt2007_p=function(req,res){
                         res.send(dbres)
                     });
             });
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+
+
+//管理我的批次
+exports.pt2008=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        m_goods.Get_AllGoods(function(dbres){
+            // console.log(dbres);
+            res.render('batch_mgnt',{res_goods:dbres})
+        });    } else
+    {
+       res.redirect('/xlogin')
+    }
+};
+
+
+exports.pt2008_p=function(req,res){
+    if (req.cookies["l_st"])
+    {
+       console.log(req.body);
+       var x_ddtime='';
+       var now=moment();
+      //  console.log(now.format('HH')*60+now.format('mm'))
+       req.body.m_ddtime=='NULL'?x_ddtime=parseFloat(now.format('HH')*60+parseInt(now.format('mm')))/(24*60):x_ddtime=req.body.m_ddtime;
+       console.log(x_ddtime);
+      if(req.body.m_pdname=='NULL')
+      {
+          m_portal.Get_BtdByTime(x_ddtime,function(dbres){
+              res.send(dbres);
+          })
+      } else
+      {
+          m_portal.Get_BtdByTimeandPd(x_ddtime,req.body.m_pdname,function(dbres){
+              res.send(dbres);
+          });
+      }
+
     } else
     {
         res.redirect('/xlogin')

@@ -10,6 +10,21 @@ module.exports={
         return 'select * from batches where product_id in ('+
                'select product_id from g_products where name=\''+b+"')";
     },
+    'query_bth_bytime_pdname':function(p_ddtime,p_prdname){
+        return 'select a.batch_id,a.batch_id_c,a.created_at,b.serias,b.name, '+
+            'a.dist_place,a.nfc_count,a.design_count,a.verify_time,a.file_raw '+
+            'from batches a ,g_products b where a.product_id=b.product_id '+
+            'and a.created_at > adddate(now(),interval -'+p_ddtime+'day)' +
+            'and b.name =\''+p_prdname+'\' '+
+            'order by a.created_at desc  '
+    },
+    'query_bth_bytime':function(p_ddtime){
+        return 'select a.batch_id,a.batch_id_c,a.created_at,b.serias,b.name, '+
+            'a.dist_place,a.nfc_count,a.design_count,a.verify_time,a.file_raw '+
+            'from batches a ,g_products b where a.product_id=b.product_id '+
+            'and a.created_at > adddate(now(),interval -'+p_ddtime+'day) ' +
+            'order by a.created_at desc  '
+    },
     'query_bth_bybid': function(b){
         //return 'select * from batches where batch_id=\''+b+"'";
         return 'select b.name,a.* from batches a join g_products b '+
