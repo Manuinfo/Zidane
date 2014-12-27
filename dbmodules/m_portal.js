@@ -119,7 +119,7 @@ exports.New_Batch=function(p_pid,p_place,p_bth_count,p_nfc_count,p_vrftime,p_rfi
                             t.md5hash(p_pid),
                             t.md5hash(p_pid)[0],
                             p_place,
-                            xdbres.split('条')[0],
+                            0,
                             xdbres.split('条')[0],
                             p_vrftime,
                             now.format('YYYYMMDDHHmmss')+'-'+global.u_BRAND_R[p_pid]+'-'+city_res.city_code,
@@ -248,6 +248,17 @@ exports.Get_BtdByTime=function(p_ddtime,callback){
         logger.debug('Req:'+sql_1st.query_bth_bytime(p_ddtime));
        // console.log(sql_1st.query_bth_bytime(p_ddtime));
         acc.Gen_DB(conn,sql_1st.query_bth_bytime(p_ddtime),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};
+
+//查询后台正在执行的任务
+exports.Get_Tasks=function(callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.qs_batch_task());
+        // console.log(sql_1st.query_bth_bytime(p_ddtime));
+        acc.Gen_DB(conn,sql_g.qs_batch_task(),2,function(dbres){
             callback(dbres);
         });
     });

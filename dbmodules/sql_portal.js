@@ -34,5 +34,12 @@ module.exports={
             'from py_package_his a where a.pack_time > \''+p_ddtime+'\' '+
             'group by uname,alname,par_id ' +
             ') a ,b_id_mgnt b where a.alname=b.id  and b.type=\'BRAND\' group by uname,alname '
-            }
+            },
+    'qs_batch_task':
+        function(){
+            return 'select task_id,task_name,batch_id,task_des,' +
+                'DATE_FORMAT(task_start,\'%Y%m%d %H:%i:%s\') as ddtime, '+
+            'round((task_snap/task_des)*100,1) as task_pct from ops_task a ' +
+            'where a.task_state=\'RUNNING\'';
+        }
 }

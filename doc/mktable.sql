@@ -238,6 +238,21 @@ CREATE TABLE ops_history (
  ) engine=INNODB
 DEFAULT CHARSET=gbk;
 
+#+++++++++++++++++ 后台任务管理表
+CREATE TABLE ops_task (
+ task_name varchar(64) comment '任务名称',
+ batch_id varchar(255) comment '批次号',
+ task_des double comment '任务目标数量',
+ task_start varchar(128) comment '任务开始时间',
+ task_end varchar(255) comment '任务结束时间',
+ task_state varchar(255),
+ PRIMARY KEY(batch_id)
+ ) engine=INNODB
+DEFAULT CHARSET=gbk;
+
+create unique index ops_task_ind_1 on ops_task(task_start);
+create index ops_task_ind_2 on ops_task(task_state);
+create index ops_task_ind_3 on ops_task(batch_id);
 
 
 #+++++++++ nfc与批次的对应关系

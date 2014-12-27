@@ -257,7 +257,7 @@ exports.pt2008=function(req,res){
     }
 };
 
-
+//批次的定向刷新
 exports.pt2008_p=function(req,res){
     if (req.cookies["l_st"])
     {
@@ -280,6 +280,22 @@ exports.pt2008_p=function(req,res){
               res.send(dbres);
           });
       }
+
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+
+//管理批次的后台任务
+exports.pt2009=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        m_portal.Get_Tasks(function(dbres){
+            res.render('batch_task',{n_res:dbres})
+        })
+
 
     } else
     {
