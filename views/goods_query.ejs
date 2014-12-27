@@ -4,9 +4,9 @@
 
     <div class="table-responsive">
         <table class="table">
-            <caption>承煌旗下商品种类</caption>
+            <caption style="color: #000000">承煌旗下商品种类</caption>
             <thead>
-            <tr>
+            <tr style="background: steelblue;color: #ffffff;font-size: 10px">
                 <th>创建时间</th>
                 <th>系列</th>
                 <th>商品</th>
@@ -18,7 +18,7 @@
             <tbody>
             <% if(n_res.length>0) { %>
             <% for(var i=0;i<n_res.length;i++){ %>
-            <tr>
+            <tr class="txtdd">
                 <td><%=n_res[i].create_at%></td>
                 <td><%=n_res[i].serias%></td>
                 <td><%=n_res[i].name%></td>

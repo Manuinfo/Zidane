@@ -265,8 +265,10 @@ exports.pt2008_p=function(req,res){
        var x_ddtime='';
        var now=moment();
       //  console.log(now.format('HH')*60+now.format('mm'))
+       // 时间默认值为NULL=今日从00:00到now()
        req.body.m_ddtime=='NULL'?x_ddtime=parseFloat(now.format('HH')*60+parseInt(now.format('mm')))/(24*60):x_ddtime=req.body.m_ddtime;
        console.log(x_ddtime);
+       // 商品初始不选择，则选择所有商品
       if(req.body.m_pdname=='NULL')
       {
           m_portal.Get_BtdByTime(x_ddtime,function(dbres){

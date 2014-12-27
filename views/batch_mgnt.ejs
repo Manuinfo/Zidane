@@ -4,7 +4,7 @@
 
 
 
-    <div id="id_time" class="btn-group">
+    <div id="id_time" class="btn-group" style="float: left">
         <button type="button" class="btn btn-default" style="height: 33px" value="0">今日</button>
         <button type="button" class="btn btn-default" style="height: 33px" value="1">1天</button>
         <button type="button" class="btn btn-default" style="height: 33px" value="3">3天</button>
@@ -12,19 +12,20 @@
         <button type="button" class="btn btn-default" style="height: 33px" value="14">14天</button>
         <button type="button" class="btn btn-default" style="height: 33px" value="30">30天</button>
     </div>
-    <select id="id_goods" name="select" class="btn btn-info" style="width: 255px;height: 33px;">
-        <option value ="NULL" selected="selected">请选择商品名称</option>
+    <div>
+    <select id="id_goods" name="select" class="btn btn-info" style="width: 255px;height: 33px;margin-left: 10px">
+        <option value ="NULL" selected="selected">所有商品</option>
         <% for (var i=0;i<res_goods.length;i++) {%>
         <option value ="<%= res_goods[i].name%>"><%= res_goods[i].name%></option>
         <% } %>
     </select>
-    </br>
+    </div>
     </br>
 
     <div class="table-responsive">
         <table class="table">
             <thead>
-            <tr id="id_btd_dtl" style="background: steelblue;color: white">
+            <tr id="id_btd_dtl" style="background: steelblue;color: white;font-size: 10px">
                 <th>系统批次</th>
                 <th>商品批次</th>
                 <th>创建时间</th>
@@ -46,7 +47,7 @@
 
 </div>
 <script type="text/javascript">
-
+    //get data
     function refresh_data(p_m_ddtime,p_pd_name)
     {
         $.ajax({
@@ -54,17 +55,43 @@
             url : '/xadmin/batch_mgnt',
             data: {m_ddtime:p_m_ddtime,m_pdname:p_pd_name},
             success: function(data){
-                console.log(data);
+                //console.log(data);
+                $(' .txtdd').remove();
+                for(var i=0;i<data.length;i++)
+                {
+                    $('#id_btd_dtl').after('<tr class="txtdd">' +
+                            '<td>'+data[i].batch_id+'</td>' +
+                            '<td>'+data[i].batch_id_c+'</td>' +
+                            '<td>'+data[i].ddtime+'</td>' +
+                            '<td>'+data[i].serias+'</td>' +
+                            '<td>'+data[i].name+'</td>' +
+                            '<td>'+data[i].dist_place+'</td>' +
+                            '<td>'+data[i].nfc_count+'</td>' +
+                            '<td>'+data[i].design_count+'</td>' +
+                            '<td>'+data[i].verify_time+'</td>' +
+                            '<td>'+data[i].file_raw+'</td>' +
+                            '</tr>')
+                }
+
             }
         });
     }
 
+    //goods selected
     $('#id_goods').change(function(){
         var st_button='';
+        //console.log($('#id_time').val().length);
         $('#id_time').val()?st_button=$('#id_time').val():st_button='NULL';
         refresh_data(st_button,$('#id_goods').val());
     });
 
+    //time selected
+    $("button[type='button']").click(function(){
+       // console.log($(this).val());
+        refresh_data($(this).val(),$('#id_goods').val());
+    });
+
+    //initial load
     $('#id_btd_dtl').ready(function(){
         refresh_data('NULL',$('#id_goods').val());
     });
