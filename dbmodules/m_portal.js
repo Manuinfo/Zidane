@@ -235,7 +235,7 @@ exports.Insert_NFCID_PACKAGE=function(p_pid,p_city,p_rawdata,callback){
 exports.Get_BtdByTimeandPd=function(p_ddtime,p_pdname,callback){
     pool.getConnection(function(err, conn) {
         logger.debug('Req:'+sql_1st.query_bth_bytime_pdname(p_ddtime,p_pdname));
-        console.log(sql_1st.query_bth_bytime_pdname(p_ddtime,p_pdname));
+       // console.log(sql_1st.query_bth_bytime_pdname(p_ddtime,p_pdname));
         acc.Gen_DB(conn,sql_1st.query_bth_bytime_pdname(p_ddtime,p_pdname),2,function(dbres){
             callback(dbres);
         });
@@ -246,7 +246,7 @@ exports.Get_BtdByTimeandPd=function(p_ddtime,p_pdname,callback){
 exports.Get_BtdByTime=function(p_ddtime,callback){
     pool.getConnection(function(err, conn) {
         logger.debug('Req:'+sql_1st.query_bth_bytime(p_ddtime));
-        console.log(sql_1st.query_bth_bytime(p_ddtime));
+       // console.log(sql_1st.query_bth_bytime(p_ddtime));
         acc.Gen_DB(conn,sql_1st.query_bth_bytime(p_ddtime),2,function(dbres){
             callback(dbres);
         });
