@@ -254,6 +254,22 @@ create unique index ops_task_ind_1 on ops_task(task_start);
 create index ops_task_ind_2 on ops_task(task_state);
 create index ops_task_ind_3 on ops_task(batch_id);
 
+alter table ops_task add primary key(task_id,task_name);
+
+delete from g_qr_batch_map where batch_id='20141228224535-07-110000';
+delete from g_nfc_batch_map where batch_id='20141228224535-07-110000';
+delete from g_qr_batch_map where batch_id='20141228154520-01-310000';
+delete from g_nfc_batch_map where batch_id='20141228154520-01-310000';
+delete from g_qr_batch_map where batch_id='20141228224535-07-110000';
+delete from g_nfc_batch_map where batch_id='20141228224535-07-110000';
+delete from g_qr_batch_map where batch_id='20141228223852-07-440100';
+delete from g_nfc_batch_map where batch_id='20141228223852-07-440100';
+delete from ops_task_fail
+
+--20141228223852-07-440100
+--20141228154520-01-310000
+--20141228224535-07-110000
+
 #+++++++++++++++++ 后台失败详情表
 CREATE TABLE ops_task_fail (
  task_id varchar(255) comment '任务ID',
