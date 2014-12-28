@@ -50,14 +50,15 @@
             <% if(done_res.length>0) { %>
             <% for(var i=0;i<done_res.length;i++){ %>
             <tr class="txtdd">
-                <td><%=done_res[i].task_id%></td>
-                <td><%=done_res[i].task_name%></td>
+                <td id="i_tid_<%=i%>"><%=done_res[i].task_id%></td>
+                <td id="i_tname_<%=i%>"><%=done_res[i].task_name%></td>
                 <td><%=done_res[i].batch_id%></td>
                 <td><%=done_res[i].task_des%></td>
                 <td><%=done_res[i].ddtime%></td>
                 <td><%=done_res[i].task_pct%>%</td>
                 <% if (done_res[i].task_pct < 100) {  %>
-                   <td><a href="/xadmin" style="text-decoration : none">点我查看原因</a></td>
+                   <td id='i_td_<%=i%>' data-toggle="modal" data-target="#myModal"
+                           style="color: dodgerblue">点我查看原因</td>
                 <%} else {%>
                    <td></td>
                 <% }%>
@@ -67,9 +68,56 @@
         </table>
     </div>
 
+
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #808080;">
+                    <h4 class="modal-title" id="myModalLabel" style="color: #ffffff" >
+                        详细失败原因查看
+                    </h4>
+                </div>
+                <div id="id_model_txt" class="modal-body">
+                </div>
+                <div class="modal-footer" style="background: #ffffff">
+                    <button type="button" class="btn btn-info"
+                            data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <script type="text/javascript">
 
+
+    $("td[id^='i_td_']").click(function(){
+        //console.log($('#'+this.id).text())
+
+        if($('#'+this.id).text())
+        {
+            $.ajax({
+                type: 'POST',
+                url : '/xadmin/batch_task',
+                data: {m_tid:$("#i_tid_"+this.id.split('_')[2]).text(),
+                       m_tname:$("#i_tname_"+this.id.split('_')[2]).text()},
+                success: function(data){
+
+                    var string_res='';
+                    for(var i=0;i<data.length;i++)
+                    {
+                        string_res=string_res+data[i].task_dtl+'</br>'
+                       // console.log(data[i].task_dtl)
+                    }
+                    $("#id_model_txt").html(string_res)
+                }
+            });
+        }
+
+    })
 </script>
 
 

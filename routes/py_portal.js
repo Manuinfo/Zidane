@@ -286,10 +286,24 @@ exports.pt2009=function(req,res){
     {
         m_portal.Get_Tasks(function(dbres){
             m_portal.Get_Tasks_Done(function(dbres2){
-                console.log(dbres2)
+              //  console.log(dbres2)
                 res.render('batch_task',{n_res:dbres,done_res:dbres2})
             });
         })
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+//管理批次的后台任务
+exports.pt2009_p=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        //console.log(req.body);
+        m_portal.Get_Tasks_FailReason(req.body.m_tid,req.body.m_tname,function(dbres){
+            res.send(dbres)
+        });
     } else
     {
         res.redirect('/xlogin')

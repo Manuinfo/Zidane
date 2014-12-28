@@ -265,3 +265,14 @@ exports.Get_Tasks_Done=function(callback){
         });
     });
 };
+
+//查询后台已完成的任务的失败原因
+exports.Get_Tasks_FailReason=function(p_tid,p_tname,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.qs_batch_task_fail(p_tid,p_tname));
+        //console.log(sql_g.qs_batch_task_done());
+        acc.Gen_DB(conn,sql_g.qs_batch_task_fail(p_tid,p_tname),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};

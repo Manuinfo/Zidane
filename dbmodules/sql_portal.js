@@ -49,5 +49,10 @@ module.exports={
                 'round((task_snap/task_des)*100,1) as task_pct from ops_task a ' +
                 'where a.task_state=\'END\' and task_start > adddate(now(),interval -3 day) ' +
                 'order by ddtime desc'
+        },
+    'qs_batch_task_fail':
+        function(p_tid,p_tname){
+            return 'select * from ops_task_fail a where a.task_id=\''+p_tid+'\' '+
+            'and task_name=\''+p_tname+'\' ';
         }
 }
