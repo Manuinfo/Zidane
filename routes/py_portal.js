@@ -165,7 +165,7 @@ exports.pt2006_p=function(req,res){
 
             m_portal.New_Batch(req.body.i_goods,req.body.i_city,xdata.split('\r\n').length,xdata.split('\r\n').length,req.body.i_qrcc,
                 req.files.houseMaps.originalFilename,
-                req.files.houseMaps.ws.path.split('\\')[6],
+                fname,
                 xdata,req.body.i_btd_c,
                 function(dbres){
                     if(dbres.affectedRows==1)
