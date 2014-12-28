@@ -254,6 +254,18 @@ create unique index ops_task_ind_1 on ops_task(task_start);
 create index ops_task_ind_2 on ops_task(task_state);
 create index ops_task_ind_3 on ops_task(batch_id);
 
+#+++++++++++++++++ 后台失败详情表
+CREATE TABLE ops_task_fail (
+ task_id varchar(255) comment '任务ID',
+ batch_id varchar(255) comment '批次ID',
+ task_dtl varchar(255)
+ ) engine=INNODB
+DEFAULT CHARSET=gbk;
+
+create index ops_task_f_ind_1 on ops_task_fail(task_id,batch_id);
+create index ops_task_f_ind_2 on ops_task_fail(task_id);
+
+
 
 #+++++++++ nfc与批次的对应关系
 create table g_nfc_batch_map (
@@ -264,7 +276,7 @@ nfc_flag varchar(64)
 DEFAULT CHARSET=gbk;
 
 create unique index nfc_id_1 on g_nfc_batch_map(nfc_id);
-create index batch_id_1 on g_nfc_batch_map(batch_id);
+create index qr_batch_id_1 on g_nfc_batch_map(batch_id);
 
 #酵素
 #酵素

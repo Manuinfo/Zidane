@@ -168,9 +168,11 @@ exports.pt2006_p=function(req,res){
                 req.files.houseMaps.ws.path.split('\\')[6],
                 xdata,req.body.i_btd_c,
                 function(dbres){
-                    //console.log(dbres);
-                    //res.send({msg:dbres.affectedRows})
-                    res.send(dbres)
+                    if(dbres.affectedRows==1)
+                        res.send('新建批次成功，约1分钟后，后台会自动执行NFC_ID的导入，您可进入“后台任务”菜单进行查看')
+                    else
+                        res.send('新建批次失败，查看批次种是否有重复记录')
+                    //res.send(dbres)
                 });
         });
     } else
@@ -179,16 +181,7 @@ exports.pt2006_p=function(req,res){
     }
 };
 
-//上传进度条的请求处理
-exports.pt2006_progress=function(req,res){
-    if (req.cookies["l_st"])
-    {
-        res.send({'msg_progress':global.u_UPLOAD_NFC_PROGRESS,'msg_total':global.u_UPLOAD_NFC_TOTAL})
-    } else
-    {
-        res.redirect('/xlogin')
-    }
-};
+
 
 
 //批次NFC_ID箱子上传的页面GET
@@ -204,7 +197,6 @@ exports.pt2007=function(req,res){
         res.redirect('/xlogin')
     }
 };
-
 
 //处理批次NFC_ID的POST请求 箱子
 exports.pt2007_p=function(req,res){
@@ -295,8 +287,6 @@ exports.pt2009=function(req,res){
         m_portal.Get_Tasks(function(dbres){
             res.render('batch_task',{n_res:dbres})
         })
-
-
     } else
     {
         res.redirect('/xlogin')

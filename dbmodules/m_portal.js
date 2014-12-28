@@ -86,27 +86,18 @@ exports.Get_SaleCityID=function(p_city,callback){
 
 //新建批次
 exports.New_Batch=function(p_pid,p_place,p_bth_count,p_nfc_count,p_vrftime,p_rfile,p_nfile,p_rawdata,p_bid_c,callback){
-
     me.Get_SaleCityID(p_place,function(city_res){
         pool.getConnection(function(err, conn) {
             console.log(p_pid);
             console.log(t.md5hash(p_pid));
             var now=moment();
-            global.u_UPLOAD_NFC_PROGRESS=0;
-            global.u_UPLOAD_NFC_TOTAL=p_bth_count;
-
-            //console.log(sql_g.qs_if_box_has_pack(p_nfcid));
-                //开始导入NFC_ID，再新建批次
-            me.Insert_NFCID(now.format('YYYYMMDDHHmmss')+'-'+global.u_BRAND_R[p_pid]+'-'+city_res.city_code,
-                p_rawdata,function(xdbres){
-                    logger.debug('NFC_ID导入完毕，结果为:'+xdbres)
-                    logger.debug('开始新建批次');
-                    logger.debug('Req:'+sql_1st.Insert_Bth_Basic(
+            logger.debug('开始新建批次');
+            logger.debug('Req:'+sql_1st.Insert_Bth_Basic(
                         t.md5hash(p_pid),
                         t.md5hash(p_pid)[0],
                         p_place,
-                        xdbres.split('条')[0],
-                        xdbres.split('条')[0],
+                        0,
+                        0,
                         p_vrftime,
                         now.format('YYYYMMDDHHmmss')+'-'+global.u_BRAND_R[p_pid]+'-'+city_res.city_code,
                         now.format('YYYY-MM-DD HH:mm:ss'),
@@ -114,27 +105,27 @@ exports.New_Batch=function(p_pid,p_place,p_bth_count,p_nfc_count,p_vrftime,p_rfi
                         p_nfile,
                         p_bth_count,
                         p_bid_c
-                    ));
-                    acc.Gen_DB(conn,sql_1st.Insert_Bth_Basic(
-                            t.md5hash(p_pid),
-                            t.md5hash(p_pid)[0],
-                            p_place,
-                            0,
-                            xdbres.split('条')[0],
-                            p_vrftime,
-                            now.format('YYYYMMDDHHmmss')+'-'+global.u_BRAND_R[p_pid]+'-'+city_res.city_code,
-                            now.format('YYYY-MM-DD HH:mm:ss'),
-                            p_rfile,
-                            p_nfile,
-                            p_bth_count,
-                            p_bid_c
-                        ),2,function(dbres){
-                            logger.debug('批次新建完成');
-                            callback(xdbres);
-                        });
+            ));
+            acc.Gen_DB(conn,sql_1st.Insert_Bth_Basic(
+                 t.md5hash(p_pid),
+                 t.md5hash(p_pid)[0],
+                 p_place,
+                 0,
+                 0,
+                 p_vrftime,
+                 now.format('YYYYMMDDHHmmss')+'-'+global.u_BRAND_R[p_pid]+'-'+city_res.city_code,
+                 now.format('YYYY-MM-DD HH:mm:ss'),
+                 p_rfile,
+                 p_nfile,
+                 p_bth_count,
+                 p_bid_c
+                 ),2,function(dbres){
+                    logger.debug('批次新建完成');
+                    callback(dbres);
+                 });
             });
         });
-    });
+
 
 };
 

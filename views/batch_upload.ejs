@@ -118,16 +118,14 @@
                     data:{ i_goods:$('#id_goods').val(),i_city:$('#id_city').val(),i_qrcc:$('#id_qrcc').val(),i_btd_c:$('#id_btd_c').val() },
                     success: function(data, status)            //相当于java中try语句块的用法
                     {
-                        //console.log(data);
-                        //console.log(status);
+
                         $('#result').html('添加成功');
                         $("#id_goods option").eq(0).attr("selected",true);
                         $("#id_city option").eq(0).attr("selected",true);
                     },
                     error: function (data, status, e)            //相当于java中catch语句块的用法
                     {
-                        //console.log(data.responseText);
-                        //console.log(e)
+                        console.log(data.responseText)
                         $('#result').html(data.responseText);
                         $("#id_goods option").eq(0).attr("selected",true);
                         $("#id_city option").eq(0).attr("selected",true);
