@@ -39,7 +39,15 @@ module.exports={
         function(){
             return 'select task_id,task_name,batch_id,task_des,' +
                 'DATE_FORMAT(task_start,\'%Y%m%d %H:%i:%s\') as ddtime, '+
-            'round((task_snap/task_des)*100,1) as task_pct from ops_task a ' +
-            'where a.task_state=\'RUNNING\'';
+                'round((task_snap/task_des)*100,1) as task_pct from ops_task a ' +
+                'where a.task_state=\'RUNNING\'';
+        },
+    'qs_batch_task_done':
+        function(){
+            return 'select task_id,task_name,batch_id,task_des,' +
+                'DATE_FORMAT(task_start,\'%Y%m%d %H:%i:%s\') as ddtime, '+
+                'round((task_snap/task_des)*100,1) as task_pct from ops_task a ' +
+                'where a.task_state=\'END\' and task_start > adddate(now(),interval -3 day) ' +
+                'order by ddtime desc'
         }
 }

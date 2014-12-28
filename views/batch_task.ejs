@@ -1,5 +1,6 @@
 <%- include header.ejs%>
 <%- include home_nav.ejs%>
+
 <div  id="dv_home" class="col-sm-9 col-md-10 col-md-offset-1 main" style="float: left;left:80px;">
 
     <div class="table-responsive">
@@ -31,6 +32,40 @@
         </table>
     </div>
 
+    <div class="table-responsive">
+        <table class="table">
+            <caption style="color: #000000">3天内后台已完成任务</caption>
+            <thead>
+            <tr style="background: steelblue;color: #ffffff;font-size: 10px">
+                <th>任务ID</th>
+                <th>任务名称</th>
+                <th>系统批次号</th>
+                <th>目标数量</th>
+                <th>开始时间</th>
+                <th>进度</th>
+                <th>原因详情</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% if(done_res.length>0) { %>
+            <% for(var i=0;i<done_res.length;i++){ %>
+            <tr class="txtdd">
+                <td><%=done_res[i].task_id%></td>
+                <td><%=done_res[i].task_name%></td>
+                <td><%=done_res[i].batch_id%></td>
+                <td><%=done_res[i].task_des%></td>
+                <td><%=done_res[i].ddtime%></td>
+                <td><%=done_res[i].task_pct%>%</td>
+                <% if (done_res[i].task_pct < 100) {  %>
+                   <td><a href="/xadmin" style="text-decoration : none">点我查看原因</a></td>
+                <%} else {%>
+                   <td></td>
+                <% }%>
+            </tr>
+            <% }}%>
+            </tbody>
+        </table>
+    </div>
 
 </div>
 <script type="text/javascript">

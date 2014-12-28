@@ -285,7 +285,10 @@ exports.pt2009=function(req,res){
     if (req.cookies["l_st"])
     {
         m_portal.Get_Tasks(function(dbres){
-            res.render('batch_task',{n_res:dbres})
+            m_portal.Get_Tasks_Done(function(dbres2){
+                console.log(dbres2)
+                res.render('batch_task',{n_res:dbres,done_res:dbres2})
+            });
         })
     } else
     {

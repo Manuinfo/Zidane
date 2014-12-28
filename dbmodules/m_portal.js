@@ -254,3 +254,14 @@ exports.Get_Tasks=function(callback){
         });
     });
 };
+
+//查询后台已完成的任务
+exports.Get_Tasks_Done=function(callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.qs_batch_task_done());
+        //console.log(sql_g.qs_batch_task_done());
+        acc.Gen_DB(conn,sql_g.qs_batch_task_done(),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};
