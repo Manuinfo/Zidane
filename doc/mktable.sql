@@ -238,6 +238,49 @@ CREATE TABLE ops_history (
  ) engine=INNODB
 DEFAULT CHARSET=gbk;
 
+#+++++++++++++++++ 后台任务管理表
+CREATE TABLE ops_task (
+ task_name varchar(64) comment '任务名称',
+ batch_id varchar(255) comment '批次号',
+ task_des double comment '任务目标数量',
+ task_start varchar(128) comment '任务开始时间',
+ task_end varchar(255) comment '任务结束时间',
+ task_state varchar(255),
+ PRIMARY KEY(batch_id)
+ ) engine=INNODB
+DEFAULT CHARSET=gbk;
+
+create unique index ops_task_ind_1 on ops_task(task_start);
+create index ops_task_ind_2 on ops_task(task_state);
+create index ops_task_ind_3 on ops_task(batch_id);
+
+alter table ops_task add primary key(task_id,task_name);
+
+delete from g_qr_batch_map where batch_id='20141228224535-07-110000';
+delete from g_nfc_batch_map where batch_id='20141228224535-07-110000';
+delete from g_qr_batch_map where batch_id='20141228154520-01-310000';
+delete from g_nfc_batch_map where batch_id='20141228154520-01-310000';
+delete from g_qr_batch_map where batch_id='20141228224535-07-110000';
+delete from g_nfc_batch_map where batch_id='20141228224535-07-110000';
+delete from g_qr_batch_map where batch_id='20141228223852-07-440100';
+delete from g_nfc_batch_map where batch_id='20141228223852-07-440100';
+delete from ops_task_fail
+
+--20141228223852-07-440100
+--20141228154520-01-310000
+--20141228224535-07-110000
+
+#+++++++++++++++++ 后台失败详情表
+CREATE TABLE ops_task_fail (
+ task_id varchar(255) comment '任务ID',
+ batch_id varchar(255) comment '批次ID',
+ task_dtl varchar(255)
+ ) engine=INNODB
+DEFAULT CHARSET=gbk;
+
+create index ops_task_f_ind_1 on ops_task_fail(task_id,batch_id);
+create index ops_task_f_ind_2 on ops_task_fail(task_id);
+
 
 
 #+++++++++ nfc与批次的对应关系
@@ -249,7 +292,7 @@ nfc_flag varchar(64)
 DEFAULT CHARSET=gbk;
 
 create unique index nfc_id_1 on g_nfc_batch_map(nfc_id);
-create index batch_id_1 on g_nfc_batch_map(batch_id);
+create index qr_batch_id_1 on g_nfc_batch_map(batch_id);
 
 #酵素
 #酵素

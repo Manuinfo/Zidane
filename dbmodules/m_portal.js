@@ -13,6 +13,7 @@ var logger = require('../libs/log').logger;
 //查询当日装箱次数
 exports.Get_PackNumToday=function(p_ddtime,callback){
     pool.getConnection(function(err, conn) {
+        //console.log(sql_g.qs_num_pack(p_ddtime));
         logger.debug('Req:'+sql_g.qs_num_pack(p_ddtime));
         acc.Gen_DB(conn,sql_g.qs_num_pack(p_ddtime),2,function(dbres){
             callback(dbres);
@@ -84,54 +85,47 @@ exports.Get_SaleCityID=function(p_city,callback){
 };
 
 //新建批次
-exports.New_Batch=function(p_pid,p_place,p_bth_count,p_nfc_count,p_vrftime,p_rfile,p_nfile,p_rawdata,callback){
-
+exports.New_Batch=function(p_pid,p_place,p_bth_count,p_nfc_count,p_vrftime,p_rfile,p_nfile,p_rawdata,p_bid_c,callback){
     me.Get_SaleCityID(p_place,function(city_res){
         pool.getConnection(function(err, conn) {
             console.log(p_pid);
             console.log(t.md5hash(p_pid));
             var now=moment();
-            global.u_UPLOAD_NFC_PROGRESS=0;
-            global.u_UPLOAD_NFC_TOTAL=p_bth_count;
-
-            //console.log(sql_g.qs_if_box_has_pack(p_nfcid));
-                //开始导入NFC_ID，再新建批次
-            me.Insert_NFCID(now.format('YYYYMMDDHHmmss')+'-'+global.u_BRAND_R[p_pid]+'-'+city_res.city_code,
-                p_rawdata,function(xdbres){
-                    logger.debug('NFC_ID导入完毕，结果为:'+xdbres)
-                    logger.debug('开始新建批次');
-                    logger.debug('Req:'+sql_1st.Insert_Bth_Basic(
+            logger.debug('开始新建批次');
+            logger.debug('Req:'+sql_1st.Insert_Bth_Basic(
                         t.md5hash(p_pid),
                         t.md5hash(p_pid)[0],
                         p_place,
-                        xdbres.split('条')[0],
-                        xdbres.split('条')[0],
+                        0,
+                        0,
                         p_vrftime,
                         now.format('YYYYMMDDHHmmss')+'-'+global.u_BRAND_R[p_pid]+'-'+city_res.city_code,
                         now.format('YYYY-MM-DD HH:mm:ss'),
                         p_rfile,
                         p_nfile,
-                        p_bth_count
-                    ));
-                    acc.Gen_DB(conn,sql_1st.Insert_Bth_Basic(
-                            t.md5hash(p_pid),
-                            t.md5hash(p_pid)[0],
-                            p_place,
-                            xdbres.split('条')[0],
-                            xdbres.split('条')[0],
-                            p_vrftime,
-                            now.format('YYYYMMDDHHmmss')+'-'+global.u_BRAND_R[p_pid]+'-'+city_res.city_code,
-                            now.format('YYYY-MM-DD HH:mm:ss'),
-                            p_rfile,
-                            p_nfile,
-                            p_bth_count
-                        ),2,function(dbres){
-                            logger.debug('批次新建完成');
-                            callback(xdbres);
-                        });
+                        p_bth_count,
+                        p_bid_c
+            ));
+            acc.Gen_DB(conn,sql_1st.Insert_Bth_Basic(
+                 t.md5hash(p_pid),
+                 t.md5hash(p_pid)[0],
+                 p_place,
+                 0,
+                 0,
+                 p_vrftime,
+                 now.format('YYYYMMDDHHmmss')+'-'+global.u_BRAND_R[p_pid]+'-'+city_res.city_code,
+                 now.format('YYYY-MM-DD HH:mm:ss'),
+                 p_rfile,
+                 p_nfile,
+                 p_bth_count,
+                 p_bid_c
+                 ),2,function(dbres){
+                    logger.debug('批次新建完成');
+                    callback(dbres);
+                 });
             });
         });
-    });
+
 
 };
 
@@ -169,8 +163,6 @@ exports.Insert_NFCID=function(p_btd_id,p_rawdata,callback){
                 callback(n_cc+'条导入成功,'+(p_rawdata.split("\r\n").length-n_cc)+
                     '条导入失败，失败原因为</br>,'+dbres)
             }
-            //global.u_UPLOAD_NFC_PROGRESS=0;
-            //global.u_UPLOAD_NFC_TOTAL=0;
             conn.release();
         });
     });
@@ -228,5 +220,59 @@ exports.Insert_NFCID_PACKAGE=function(p_pid,p_city,p_rawdata,callback){
             });
         });
     });
+};
 
+//查询批次号根据时间和商品
+exports.Get_BtdByTimeandPd=function(p_ddtime,p_pdname,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_1st.query_bth_bytime_pdname(p_ddtime,p_pdname));
+       // console.log(sql_1st.query_bth_bytime_pdname(p_ddtime,p_pdname));
+        acc.Gen_DB(conn,sql_1st.query_bth_bytime_pdname(p_ddtime,p_pdname),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};
+
+//查询批次号根据时间
+exports.Get_BtdByTime=function(p_ddtime,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_1st.query_bth_bytime(p_ddtime));
+       // console.log(sql_1st.query_bth_bytime(p_ddtime));
+        acc.Gen_DB(conn,sql_1st.query_bth_bytime(p_ddtime),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};
+
+//查询后台正在执行的任务
+exports.Get_Tasks=function(callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.qs_batch_task());
+        // console.log(sql_1st.query_bth_bytime(p_ddtime));
+        acc.Gen_DB(conn,sql_g.qs_batch_task(),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};
+
+//查询后台已完成的任务
+exports.Get_Tasks_Done=function(callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.qs_batch_task_done());
+        //console.log(sql_g.qs_batch_task_done());
+        acc.Gen_DB(conn,sql_g.qs_batch_task_done(),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};
+
+//查询后台已完成的任务的失败原因
+exports.Get_Tasks_FailReason=function(p_tid,p_tname,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.qs_batch_task_fail(p_tid,p_tname));
+        //console.log(sql_g.qs_batch_task_done());
+        acc.Gen_DB(conn,sql_g.qs_batch_task_fail(p_tid,p_tname),2,function(dbres){
+            callback(dbres);
+        });
+    });
 };

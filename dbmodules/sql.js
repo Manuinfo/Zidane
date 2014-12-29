@@ -10,6 +10,21 @@ module.exports={
         return 'select * from batches where product_id in ('+
                'select product_id from g_products where name=\''+b+"')";
     },
+    'query_bth_bytime_pdname':function(p_ddtime,p_prdname){
+        return 'select a.batch_id,a.batch_id_c,date_format(a.created_at,\'%Y%m%d %H:%i:%s\') as ddtime,b.serias,b.name, '+
+            'a.dist_place,a.nfc_count,a.design_count,a.verify_time,a.file_raw '+
+            'from batches a ,g_products b where a.product_id=b.product_id '+
+            'and a.created_at > adddate(now(),interval -'+p_ddtime+' day)' +
+            'and b.name =\''+p_prdname+'\' '+
+            'order by a.created_at desc  '
+    },
+    'query_bth_bytime':function(p_ddtime){
+        return 'select a.batch_id,a.batch_id_c,date_format(a.created_at,\'%Y%m%d %H:%i:%s\') as ddtime ,b.serias,b.name, '+
+            'a.dist_place,a.nfc_count,a.design_count,a.verify_time,a.file_raw '+
+            'from batches a ,g_products b where a.product_id=b.product_id '+
+            'and a.created_at > adddate(now(),interval -'+p_ddtime+' day) ' +
+            'order by a.created_at desc  '
+    },
     'query_bth_bybid': function(b){
         //return 'select * from batches where batch_id=\''+b+"'";
         return 'select b.name,a.* from batches a join g_products b '+
@@ -18,11 +33,11 @@ module.exports={
     },
     'query_prd_byqrhref':function(b){
         return 'select * from  g_products where product_id in ('+
-               'select mid(batch_id,10,32) from qr_batch_map where qr_href=\''+b+"')";
+               'select mid(batch_id,10,32) from g_qr_batch_map where qr_href=\''+b+"')";
     },
     'query_bth_byqrhref':function(b){
         return 'select * from batches where batch_id in ('+
-               'select batch_id from qr_batch_map where qr_href=\''+b+"')";
+               'select batch_id from g_qr_batch_map where qr_href=\''+b+"')";
     },
     'query_shop_byshopname':function(b){
         return 'select * from g_products where shop_name=\''+b+"'";
@@ -37,7 +52,7 @@ module.exports={
     },
     'Query_Pid_ByPrdName':function(b){return 'select product_id from g_products where name=\''+b+"'";},
     'Query_Zid_ByZoneName':function(b){return 'select city_code from g_sale_zone where city=\''+b+"'";},
-    'Insert_Bth_Basic':function(p_pid,p_pid_part,p_place,p_bth_count,p_nfc_count,p_vrftime,p_bthid,p_crdate,p_rfile,p_nfile,p_raw_count){
+    'Insert_Bth_Basic':function(p_pid,p_pid_part,p_place,p_bth_count,p_nfc_count,p_vrftime,p_bthid,p_crdate,p_rfile,p_nfile,p_raw_count,p_bid_c){
         return 'insert into batches values (\''+p_pid+"',"+
                                             '\''+p_pid_part+"',"+
                                             '\''+p_place+"',"+
@@ -47,7 +62,7 @@ module.exports={
                                             '\''+p_bthid+"',"+
                                             '\''+p_crdate+'\',NULL,' +
                                             '\''+p_rfile+'\','+
-                                            '\''+p_nfile+'\','+p_raw_count+');'
+                                            '\''+p_nfile+'\','+p_raw_count+',\''+p_bid_c+'\');'
     },
     'Insert_NFCID':function(p_bid,nfcid){
         return 'insert into g_nfc_batch_map values (\''+p_bid+'\',upper(\''+nfcid+'\'),NULL);'
@@ -61,10 +76,10 @@ module.exports={
         return 'call proc_gen_qr_href(\''+p_bid+'\',\''+p_url+'\','+p_cc+','+p_av_times+');' ;
     },
     'Query_ByQRhref':function(p_qrcode){
-        return 'select * from qr_batch_map where qr_href=\''+p_qrcode+"'";
+        return 'select * from g_qr_batch_map where qr_href=\''+p_qrcode+"'";
     },
     'Update_QRAVtimes':function(p_qrcode){
-        return 'update qr_batch_map set verify_av_times=verify_av_times-1 where qr_href=\''+p_qrcode+"'";
+        return 'update g_qr_batch_map set verify_av_times=verify_av_times-1 where qr_href=\''+p_qrcode+"'";
     },
     'Insert_Log_Basic':function(p_cip,p_cua,p_qtype,p_qcode,p_nfc,p_vtime,p_result){
         return 'insert into ops_history values ('+
@@ -114,11 +129,11 @@ module.exports={
         return 'select * from ( '+
         'select name,place,price,SUBSTRING_INDEX(image_file_name,\'/\',-1) as png from g_products where product_id in ( '+
           '  select product_id from batches  where batch_id in ( '+
-           ' select batch_id from qr_batch_map where qr_href=\''+p_qrhref+'\' ' +
+           ' select batch_id from g_qr_batch_map where qr_href=\''+p_qrhref+'\' ' +
            ')) ) a, '+
            ' ( '+
            'select batch_id from batches  where batch_id in ( '+
-           ' select batch_id from qr_batch_map where qr_href=\''+p_qrhref+'\'' +
+           ' select batch_id from g_qr_batch_map where qr_href=\''+p_qrhref+'\'' +
             ') ) b '
     },
     'query_prd_bybid':function(p_bid){

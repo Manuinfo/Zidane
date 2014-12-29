@@ -106,3 +106,7 @@ body {
 
 
 li,a{font-family: "Lucida Console"}
+
+tr.txtdd{
+    font-size: 10px;
+}

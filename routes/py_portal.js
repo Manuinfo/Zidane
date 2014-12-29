@@ -154,6 +154,9 @@ exports.pt2006_p=function(req,res){
         console.log(req.files.houseMaps.ws.path);
         var fname='';
         os.type()=='Windows_NT'?fname='./public/admin/uploads/'+req.files.houseMaps.ws.path.split('\\')[6]:fname=req.files.houseMaps.ws.path;
+        logger.debug('获得文件名为:'+req.files.houseMaps.originalFilename);
+        logger.debug('落地的路径为:'+req.files.houseMaps.ws.path);
+        logger.debug('导入文件名为:'+fname);
         fs.readFile(fname,
             'utf-8',
             function (err, xdata) {
@@ -162,12 +165,14 @@ exports.pt2006_p=function(req,res){
 
             m_portal.New_Batch(req.body.i_goods,req.body.i_city,xdata.split('\r\n').length,xdata.split('\r\n').length,req.body.i_qrcc,
                 req.files.houseMaps.originalFilename,
-                req.files.houseMaps.ws.path.split('\\')[6],
-                xdata,
+                fname,
+                xdata,req.body.i_btd_c,
                 function(dbres){
-                    //console.log(dbres);
-                    //res.send({msg:dbres.affectedRows})
-                    res.send(dbres)
+                    if(dbres.affectedRows==1)
+                        res.send('新建批次成功，约1分钟后，后台会自动执行NFC_ID的导入，您可进入“后台任务”菜单进行查看')
+                    else
+                        res.send('新建批次失败，查看批次种是否有重复记录')
+                    //res.send(dbres)
                 });
         });
     } else
@@ -176,16 +181,7 @@ exports.pt2006_p=function(req,res){
     }
 };
 
-//上传进度条的请求处理
-exports.pt2006_progress=function(req,res){
-    if (req.cookies["l_st"])
-    {
-        res.send({'msg_progress':global.u_UPLOAD_NFC_PROGRESS,'msg_total':global.u_UPLOAD_NFC_TOTAL})
-    } else
-    {
-        res.redirect('/xlogin')
-    }
-};
+
 
 
 //批次NFC_ID箱子上传的页面GET
@@ -193,14 +189,14 @@ exports.pt2007=function(req,res){
     if (req.cookies["l_st"])
     {
         m_goods.Get_AllGoods(function(dbres){
-            res.render('batch_upload_package',{res_goods:dbres})
+            // console.log(dbres);
+            res.render('batch_upload',{res_goods:dbres})
         });
     } else
     {
         res.redirect('/xlogin')
     }
 };
-
 
 //处理批次NFC_ID的POST请求 箱子
 exports.pt2007_p=function(req,res){
@@ -213,6 +209,9 @@ exports.pt2007_p=function(req,res){
         console.log(req.files.houseMaps.ws.path);
         var fname='';
         os.type()=='Windows_NT'?fname='./public/admin/uploads/'+req.files.houseMaps.ws.path.split('\\')[6]:fname=req.files.houseMaps.ws.path;
+        logger.debug('获得文件名为:'+req.files.houseMaps.originalFilename);
+        logger.debug('落地的路径为:'+req.files.houseMaps.ws.path);
+        logger.debug('导入文件名为:'+fname);
         fs.readFile(fname,
             'utf-8',
             function (err, xdata) {
@@ -229,6 +228,82 @@ exports.pt2007_p=function(req,res){
                         res.send(dbres)
                     });
             });
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+
+
+//管理我的批次
+exports.pt2008=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        m_goods.Get_AllGoods(function(dbres){
+            // console.log(dbres);
+            res.render('batch_mgnt',{res_goods:dbres})
+        });    } else
+    {
+       res.redirect('/xlogin')
+    }
+};
+
+//批次的定向刷新
+exports.pt2008_p=function(req,res){
+    if (req.cookies["l_st"])
+    {
+       console.log(req.body);
+       var x_ddtime='';
+       var now=moment();
+      //  console.log(now.format('HH')*60+now.format('mm'))
+       // 时间默认值为NULL=今日从00:00到now()
+       req.body.m_ddtime=='NULL'?x_ddtime=parseFloat(now.format('HH')*60+parseInt(now.format('mm')))/(24*60):x_ddtime=req.body.m_ddtime;
+       console.log(x_ddtime);
+       // 商品初始不选择，则选择所有商品
+      if(req.body.m_pdname=='NULL')
+      {
+          m_portal.Get_BtdByTime(x_ddtime,function(dbres){
+              res.send(dbres);
+          })
+      } else
+      {
+          m_portal.Get_BtdByTimeandPd(x_ddtime,req.body.m_pdname,function(dbres){
+              res.send(dbres);
+          });
+      }
+
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+
+//管理批次的后台任务
+exports.pt2009=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        m_portal.Get_Tasks(function(dbres){
+            m_portal.Get_Tasks_Done(function(dbres2){
+              //  console.log(dbres2)
+                res.render('batch_task',{n_res:dbres,done_res:dbres2})
+            });
+        })
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+//管理批次的后台任务
+exports.pt2009_p=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        //console.log(req.body);
+        m_portal.Get_Tasks_FailReason(req.body.m_tid,req.body.m_tname,function(dbres){
+            res.send(dbres)
+        });
     } else
     {
         res.redirect('/xlogin')
