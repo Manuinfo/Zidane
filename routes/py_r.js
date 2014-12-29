@@ -85,12 +85,14 @@ exports.r2003=function(req,res){
         if(jbody.son_id)  //判断盒子ID是否属实
         {
             logger.debug('判断商品是否属实');
-            logger.debug(global.u_PACKLIMIT[jbody.expgoods]);
-            m_goods.Get_NameByNFCID(jbody.son_id,global.u_PACKLIMIT[jbody.expgoods],function(dbres){
+            logger.debug('期望装箱的商品是:'+global.u_BRAND[jbody.expgoods]);
+            logger.debug('期望的商品装箱限制是:'+global.u_PACKLIMIT[jbody.expgoods]);
 
-                if(dbres==1)
+            m_goods.Get_NameByNFCID(jbody.son_id,jbody.expgoods,function(dbres){  //判断商品是否属实
+
+                if(dbres==1)  //如果输入的盒子商品匹配
                 {
-                    logger.debug('判断商品属实');
+                    logger.debug('输入的盒子与商品匹配');
                     var x=jbody.son_id.split(',');
                     logger.debug('判断盒子是否重复，限制为:'+global.u_PACKLIMIT[jbody.expgoods]);
                     //判断盒子ID是否重复
@@ -152,14 +154,24 @@ exports.r2003=function(req,res){
                            // });
                         }
                     });
-                }else   //如果商品不匹配
+                }else   //如果输入的盒子与商品不匹配
+                {
+                    var real_res=[];
+                    logger.debug('如果输入的盒子与商品不匹配'+dbres);
+                    console.log(typeof(dbres));
+                    for(var i=0;i<dbres.length;i++)
                     {
-                        //输入的盒子与商品不匹配
-                    acc.SendOnErr(res,t.res_one('FAIL','如下ID的盒子已装箱:['+dbres+']，请重新输入或联系管理员'));
+                        if(dbres[i]!='ok')
+                            real_res.push(dbres[i])
+                    }
+                    acc.SendOnErr(res,t.res_one('FAIL','您期望的装箱货物为['+global.u_BRAND[jbody.expgoods]+
+                        ']，但如下ID的盒子与商品不匹配:['+real_res+']，请重新输入或联系管理员'));
                 }
             });
         } else
-        { acc.SendOnErr(res,t.res_one('FAIL','输入的盒子ID有误，请重新输入或联系管理员'));  }
+        {
+            acc.SendOnErr(res,t.res_one('FAIL','输入的盒子ID有误，请重新输入或联系管理员'));
+        }
     });
 };
 
