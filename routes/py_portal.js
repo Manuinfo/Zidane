@@ -309,3 +309,18 @@ exports.pt2009_p=function(req,res){
         res.redirect('/xlogin')
     }
 };
+
+
+//代理商信息维护
+exports.pt2010=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        m_portal.Get_ProxyInfo(function(dbres){
+            res.render('proxy_info',dbres);
+        });
+
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};

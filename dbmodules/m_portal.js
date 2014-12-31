@@ -276,3 +276,14 @@ exports.Get_Tasks_FailReason=function(p_tid,p_tname,callback){
         });
     });
 };
+
+//查询后台代理商信息
+exports.Get_ProxyInfo=function(callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.qs_proxy_info());
+        //console.log(sql_g.qs_batch_task_done());
+        acc.Gen_DB(conn,sql_g.qs_proxy_info(),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};

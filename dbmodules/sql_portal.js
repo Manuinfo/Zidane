@@ -54,5 +54,11 @@ module.exports={
         function(p_tid,p_tname){
             return 'select * from ops_task_fail a where a.task_id=\''+p_tid+'\' '+
             'and task_name=\''+p_tname+'\' ';
+        },
+    'qs_proxy_info':
+        function(){
+            return 'select name,alname,tbname,ulevel,uzone,state,' +
+                'frstate,s_id,person_id,person_name,person_cell ' +
+                'from py_user_accounts ';
         }
 }
