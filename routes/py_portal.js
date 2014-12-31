@@ -341,7 +341,8 @@ exports.pt2010_upt_pname=function(req,res){
 exports.pt2010_upt_normal=function(req,res){
     if (req.cookies["l_st"])
     {
-        res.send({msg:'ok'})
+        console.log(req.body);
+        res.send({status: 'error', msg: 'field cannot be empty!'})
     } else
     {
         res.redirect('/xlogin')

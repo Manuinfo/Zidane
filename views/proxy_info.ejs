@@ -32,19 +32,19 @@
             <tbody>
             <% if(n_res.length>0) { %>
             <% for(var i=0;i<n_res.length;i++){ %>
-            <tr class="txtddd">
-                <td id="i_pname_<%=i%>"><%=n_res[i].person_name%></td>
-                <td><%=n_res[i].name%></td>
-                <td><%=n_res[i].alname%></td>
-                <td><%=n_res[i].tbname%></td>
-                <td><%=n_res[i].ulevel%></td>
-                <td><%=n_res[i].uzone%></td>
-                <td><%=n_res[i].state%></td>
-                <td><%=n_res[i].frstate%></td>
-                <td><%=n_res[i].s_id%></td>
-                <td><%=n_res[i].person_id%></td>
-                <td><%=n_res[i].person_cell%></td>
-                <td><%=n_res[i].up_name%></td>
+            <tr id="i_tr_<%=i%>" class="txtddd">
+                <td id="i_nm-person_name-<%=i%>"><%=n_res[i].person_name%></td>
+                <td id="i_pacc_<%=i%>"><%=n_res[i].name%></td>
+                <td id="i_nm-alname-<%=i%>"><%=n_res[i].alname%></td>
+                <td id="i_nm-tbname-<%=i%>"><%=n_res[i].tbname%></td>
+                <td id="i_nm-ulevel-<%=i%>"><%=n_res[i].ulevel%></td>
+                <td id="i_nm-uzone-<%=i%>"><%=n_res[i].uzone%></td>
+                <td id="i_nm-state-<%=i%>"><%=n_res[i].state%></td>
+                <td id="i_nm-frstate-<%=i%>"><%=n_res[i].frstate%></td>
+                <td id="i_nm-sid-<%=i%>"><%=n_res[i].s_id%></td>
+                <td id="i_nm-person_id-<%=i%>"><%=n_res[i].person_id%></td>
+                <td id="i_nm-person_cell-<%=i%>"><%=n_res[i].person_cell%></td>
+                <td id="i_bss_upname_<%=i%>"><%=n_res[i].up_name%></td>
                 <td><%=n_res[i].up_id%></td>
 
             </tr>
@@ -63,17 +63,24 @@
 
     $.fn.editable.defaults.mode = 'inline';
 
-    $("td[id^='i_pname']").editable({
-        type: 'text',
-        pk: 1,
-        url: '/xadmin/goods_change',
-        title: 'Enter sysroot',
-        success: function(response, newValue) {
-            console.log(response);
-            console.log(newValue);
-            if(response.status == 'error') return response.msg; //msg will be shown in editable form
-        }
+    $("td[id^='i_nm']").click(function(){
+
+        var pk_real=$("#i_pacc_"+this.id.split('-')[2]).text();
+
+        $("td[id^='i_nm']").editable({
+            type: 'text',
+            pk: pk_real,
+            url: '/xadmin/proxy_upt_nml',
+            success: function(response, newValue) {
+                console.log(response);
+                console.log(newValue);
+                if(response.status == 'error') return response.msg; //msg will be shown in editable form
+            }
+        });
+       //console.log($("#i_pacc_"+this.id.split('-')[2]).text())
     });
+
+
 
     function table_filter(p_objname)
     {
@@ -98,7 +105,6 @@
             }
 
     $('#id_filter').keyup(function(){
-        //console.log($(this).val())
         table_filter($(this).val());
     });
 
