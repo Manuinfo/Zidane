@@ -210,17 +210,12 @@ exports.Update_BoxInfoPack=function(nfcid,goods_id){
 
 
 //根据NFC ID查商品名称
-exports.Get_NameByNFCID=function(nfcid,number,callback){
+exports.Get_NameByNFCID=function(nfcid,exp_goods,callback){
     pool.getConnection(function(err, conn) {
-        //var s = "[abc,abcd,aaa]";
-        //console.log(s);
-        //console.log(nfcid);
-        //if (typeof nfcid=="string")
-        console.log(nfcid.split(','));
-
+        //console.log(nfcid.split(','));
         if(nfcid.length < 14)
         {
-            console.log(111);
+            //console.log(111);
             logger.debug('Req:'+sql_g.get_goods_byNFCID(nfcid));
             conn.query(sql_g.get_goods_byNFCID(nfcid),function (err, sqlres) {
                 conn.release();
@@ -229,21 +224,38 @@ exports.Get_NameByNFCID=function(nfcid,number,callback){
         } else
         {
             var ncount=0;
-            console.log(nfcid.split(','));
+            //console.log(nfcid.split(','));
             async.mapSeries(nfcid.split(','),function(item,cb){
                 logger.debug('Req:'+sql_g.get_goods_byNFCID(item));
+                //console.log(sql_g.get_goods_byNFCID(item));
                 conn.query(sql_g.get_goods_byNFCID(item),function (err, sqlres) {
                     //console.log(sqlres[0]);
-                    if(sqlres[0])
-                    {    ncount++;
-                        cb(null,item+":"+sqlres[0].name);}
+                    if(sqlres[0])  //记录存在
+                    {
+                        //console.log(sqlres[0].name+':'+global.u_BRAND[exp_goods]);
+                        if(sqlres[0].name==global.u_BRAND[exp_goods])
+                        {
+                            ncount++;
+                            cb(null,'ok');
+                        } else
+                        {
+                            cb(null,item+":"+sqlres[0].name);
+                        }
+                    }
                     else
-                        cb(null,item+":"+"记录为空");
+                    {   cb(null,item+":"+"不存在的NFC_ID"); }
                 });
             },function(err,exres){
                 conn.release();
-                if(ncount==number){delete ncount;  callback(1); }
-                else  {delete ncount; callback(exres); }
+                //console.log(ncount);
+                if(ncount==global.u_PACKLIMIT[exp_goods])
+                {
+                    callback(1);
+                }
+                else
+                {
+                    callback(exres);
+                }
             });
         }
     })

@@ -3,12 +3,12 @@
 
 <div  id="dv_home" class="col-sm-9 col-md-10 col-md-offset-1 main" style="float: left;left:80px;">
 
-<a>3333333333333</a>
 </br>
-    <a href="#" id="xname">xroot</a>
+    <label href="#" id="xname">xroot</label>
 </div>
 <script type="text/javascript">
 
+    $.fn.editable.defaults.mode = 'inline';
     $('#xname').editable({
         type: 'text',
         pk: 1,
@@ -23,8 +23,9 @@
 
     $(document).ready(function() {
         //toggle `popup` / `inline` mode
-        $.fn.editable.defaults.mode = 'popup';
+        $.fn.editable.defaults.mode = 'inline';
 
+        /*
         //make username editable
         $('#username').editable();
 
@@ -40,6 +41,7 @@
                 {value: 3, text: 'status 3'}
             ]
         });
+        */
     });
 </script>
 
