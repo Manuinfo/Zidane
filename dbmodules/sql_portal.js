@@ -57,8 +57,9 @@ module.exports={
         },
     'qs_proxy_info':
         function(){
-            return 'select name,alname,tbname,ulevel,uzone,state,' +
-                'frstate,s_id,person_id,person_name,person_cell ' +
-                'from py_user_accounts ';
+            return 'select person_name,name,alname,tbname,ulevel,uzone,state,frstate,s_id, '+
+            'person_id,person_cell,b.up_name,b.up_id from '+
+            'py_user_accounts a  left join py_relatation b on a.name=b.down_name '+
+            'order by person_name LIMIT 100';
         }
 }

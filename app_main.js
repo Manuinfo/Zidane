@@ -61,14 +61,15 @@ app.use(logger_core('dev'));  //打印CONSOLE的日志
 
 
 //Portal管理
+//== 登陆
 app.get('/xadmin',rest_pt.pt2001);
 app.get('/xlogin',rest_pt.pt2002);
 app.post('/xlogin',rest_pt.pt2002_p);
-
+//== 商品
 app.get('/xadmin/goods_query',rest_pt.pt2004);
 app.get('/xadmin/goods_change',rest_pt.pt2005);
 app.post('/xadmin/goods_change',rest_pt.pt2005_p);
-
+//== 上传
 app.get('/xadmin/batch_upload',rest_pt.pt2006);
 app.post('/xadmin/batch_upload',rest_pt.pt2006_p);
 app.get('/xadmin/batch_upload_package',rest_pt.pt2007);
@@ -77,15 +78,16 @@ app.get('/xadmin/batch_mgnt',rest_pt.pt2008);
 app.post('/xadmin/batch_mgnt',rest_pt.pt2008_p);
 app.get('/xadmin/batch_task',rest_pt.pt2009);
 app.post('/xadmin/batch_task',rest_pt.pt2009_p);
-
-
+//== 发货
 app.get('/xadmin/pack_send',rest_pt.pt2003);
 app.post('/xadmin/pack_send_1',rest_pt.pt2003_p_1);
 app.post('/xadmin/pack_send_2',rest_pt.pt2003_p_2);
-
-
+//== 代理商
 app.get('/xadmin/proxy_info',rest_pt.pt2010);
-
+app.post('/xadmin/proxy_upt_pk',rest_pt.pt2010_upt_pname);
+app.post('/xadmin/proxy_upt_nml',rest_pt.pt2010_upt_normal);
+app.post('/xadmin/proxy_upt_acc',rest_pt.pt2010_upt_accname);
+app.post('/xadmin/proxy_upt_nml',rest_pt.pt2010_upt_boss);
 
 
 

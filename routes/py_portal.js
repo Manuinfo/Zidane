@@ -315,10 +315,55 @@ exports.pt2009_p=function(req,res){
 exports.pt2010=function(req,res){
     if (req.cookies["l_st"])
     {
+        logger.debug(req.body);
         m_portal.Get_ProxyInfo(function(dbres){
-            res.render('proxy_info',dbres);
+            logger.debug(dbres);
+            res.render('proxy_info',{n_res:dbres});
         });
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
 
+//更新代理商的姓名
+exports.pt2010_upt_pname=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        res.send({msg:'ok'})
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+//更新代理商的普通资料
+exports.pt2010_upt_normal=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        res.send({msg:'ok'})
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+//更新代理商的账户
+exports.pt2010_upt_accname=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        res.send({msg:'ok'})
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+//更新代理商的上级
+exports.pt2010_upt_boss=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        res.send({msg:'ok'})
     } else
     {
         res.redirect('/xlogin')

@@ -1,6 +1,108 @@
 <%- include header%>
 <%- include home_nav.ejs%>
+<script src="/admin/js/bootstrap-editable.min.js"></script>
+
+<div  id="dv_home" class="col-sm-9 col-md-12 col-md-offset-1 main" style="float: left;left:60px;">
+
+    <div class="table-responsive">
+        <table class="table" id="t_info">
+            <div style="">
+            <input type="text" class="form-control" id="id_filter" style="width: 500px"
+                   placeholder="请输入姓名、登陆账号来过滤表格">
+            </div>
+            </br>
+            <thead>
+            <tr style="background: steelblue;color: #ffffff;font-size: 10px">
+                <th>姓名</th>
+                <th>登陆账户</th>
+                <th>微信账号</th>
+                <th>淘宝账号</th>
+                <th>等级</th>
+                <th>区域</th>
+                <th>状态</th>
+                <th>首次登陆</th>
+                <th>渠道</th>
+                <th>身份证号</th>
+                <th>联系方式</th>
+                <th>上级</th>
+                <th>上级ID</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <% if(n_res.length>0) { %>
+            <% for(var i=0;i<n_res.length;i++){ %>
+            <tr class="txtddd">
+                <td id="i_pname_<%=i%>"><%=n_res[i].person_name%></td>
+                <td><%=n_res[i].name%></td>
+                <td><%=n_res[i].alname%></td>
+                <td><%=n_res[i].tbname%></td>
+                <td><%=n_res[i].ulevel%></td>
+                <td><%=n_res[i].uzone%></td>
+                <td><%=n_res[i].state%></td>
+                <td><%=n_res[i].frstate%></td>
+                <td><%=n_res[i].s_id%></td>
+                <td><%=n_res[i].person_id%></td>
+                <td><%=n_res[i].person_cell%></td>
+                <td><%=n_res[i].up_name%></td>
+                <td><%=n_res[i].up_id%></td>
+
+            </tr>
+            <% }}%>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
 
 
+
+    </div>
+</div>
+<script type="text/javascript">
+
+    $.fn.editable.defaults.mode = 'inline';
+
+    $("td[id^='i_pname']").editable({
+        type: 'text',
+        pk: 1,
+        url: '/xadmin/goods_change',
+        title: 'Enter sysroot',
+        success: function(response, newValue) {
+            console.log(response);
+            console.log(newValue);
+            if(response.status == 'error') return response.msg; //msg will be shown in editable form
+        }
+    });
+
+    function table_filter(p_objname)
+    {
+                //console.log('---------------------')
+                //console.log(p_objname.length);
+                var obj_length=p_objname.length;
+                var tableRows=document.getElementById("t_info").rows;
+                for(var i=1;i<tableRows.length;i++){
+                    //console.log(tableRows[i].cells[0].innerText.length);
+                    if (tableRows[i].cells[0].innerText.substr(0,obj_length).toUpperCase()==p_objname.toUpperCase() ||
+                            tableRows[i].cells[1].innerText.substr(0,obj_length).toUpperCase()==p_objname.toUpperCase()
+                            )
+                    {
+                        tableRows[i].style.display="";
+                        //console.log(tableRows[i].cells[0].innerText);
+                    } else
+                    {
+                        tableRows[i].style.display="none";
+                    }
+                    //console.log(tableRows[i])
+                }
+            }
+
+    $('#id_filter').keyup(function(){
+        //console.log($(this).val())
+        table_filter($(this).val());
+    });
+
+
+</script>
 
 <%- include footer%>
