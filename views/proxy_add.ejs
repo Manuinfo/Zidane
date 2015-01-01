@@ -1,0 +1,47 @@
+<div class="input-group">
+    <span class="input-group-addon" style="width: 70px">中文姓名</span>
+    <input type="text" class="form-control" id="f_person_name" style="width: 400px">
+</div>
+<div class="input-group" style="margin-top: 10px">
+    <span class="input-group-addon" style="width: 70px">授权编号</span>
+    <input type="text" class="form-control" id="f_name" style="width: 400px">
+</div>
+<div class="input-group" style="margin-top: 10px">
+    <span class="input-group-addon" style="width: 81px">微信号</span>
+    <input type="text" class="form-control" id="f_alname" style="width: 400px">
+</div>
+<div class="input-group" style="margin-top: 10px">
+    <span class="input-group-addon" style="width: 81px">淘宝号</span>
+    <input type="text" class="form-control" id="f_tbname" style="width: 400px">
+</div>
+<div class="input-group" style="margin-top: 10px">
+    <span class="input-group-addon" style="width: 70px">代理等级</span>
+    <input type="text" class="form-control" placeholder="仅支持数字"
+           onkeyup="value=value.replace(/[^3-7]/g,'')"
+           maxlength="1"
+           id="f_ulevel" style="width: 400px">
+</div>
+<div class="input-group" style="margin-top: 10px">
+    <span class="input-group-addon" style="width: 70px">代理区域</span>
+    <input type="text" class="form-control" id="f_uzone" style="width: 400px">
+</div>
+<div class="input-group" style="margin-top: 10px">
+    <span class="input-group-addon" style="width: 70px">代理渠道</span>
+    <input type="text" class="form-control" id="f_sid" style="width: 400px">
+</div>
+<div class="input-group" style="margin-top: 10px">
+    <span class="input-group-addon" style="width: 70px">身份证号</span>
+    <input type="text" class="form-control" id="f_person_id" style="width: 400px">
+</div>
+<div class="input-group" style="margin-top: 10px">
+    <span class="input-group-addon" style="width: 70px">联系电话</span>
+    <input type="text" class="form-control" id="f_person_cell"
+           placeholder="仅支持数字"
+           onkeyup="value=value.replace(/[^\d|\-#]/g,'')"
+           style="width: 400px">
+</div>
+</br>
+<div>
+    <input type="button" class="btn btn-danger"  style="width: 238px" id="btnConfirm" value="创建" />
+    <input type="button" class="btn btn-warning" style="width: 239px" id="btnCancel"value="取消" />
+</div>

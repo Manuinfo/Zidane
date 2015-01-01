@@ -317,7 +317,8 @@ exports.pt2010=function(req,res){
     {
         logger.debug(req.body);
         m_portal.Get_ProxyInfo(function(dbres){
-            logger.debug(dbres);
+            logger.debug('资料读取完毕')
+           // logger.debug(dbres);
             res.render('proxy_info',{n_res:dbres});
         });
     } else
@@ -384,8 +385,21 @@ exports.pt2010_query_myboss=function(req,res){
             acc.ConvToGroup(dbres,'渠道代理等级_',function(group_res){
                 res.send(group_res);
             });
-
         });
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+
+//增加代理商的记录
+exports.pt2011=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        logger.debug(req.body);
+        //res.send({msg:'22222'});
+        res.send({msg:'3333333'})
     } else
     {
         res.redirect('/xlogin')

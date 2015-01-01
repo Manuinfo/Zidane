@@ -1,5 +1,5 @@
 <%- include header%>
-<%- include home_nav.ejs%>
+<%- include home_nav%>
 <script src="/admin/js/bootstrap-editable.min.js"></script>
 <link href="/admin/css/select2.css" rel="stylesheet">
 <link href="/admin/css/select2-bootstrap.css" rel="stylesheet">
@@ -8,7 +8,22 @@
 
 <div  id="dv_home" class="col-sm-9 col-md-12 col-md-offset-1 main" style="float: left;left:60px;">
 
+    <div id="i_add" >
+        <button type="button" class="btn btn-info" id="b_add">
+            <span class="glyphicon glyphicon-user"></span> 增加用户
+        </button>
 
+        <form id="i_add_info" style="display: none" >
+            </br>
+            <%- include proxy_add %>
+
+            </br>
+
+        </form>
+
+    </div>
+
+    </br>
 
     <div class="table-responsive">
         <table class="table" id="t_info">
@@ -67,6 +82,47 @@
 </div>
 <script type="text/javascript">
 
+    //提交按钮的确认
+    $("#btnConfirm").click(function (){
+        $.ajax({
+            type: "POST",
+            url: "/xadmin/proxy_info_add",
+            data: {
+                person_name: $("#f_person_name").val(),
+                name:$("#f_name").val(),
+                alname:$("#f_alname").val(),
+                tbname:$("#f_tbname").val(),
+                ulevel:$("#f_ulevel").val(),
+                uzone:$("#f_uzone").val(),
+                sid:$("#f_sid").val(),
+                person_id:$("#f_person_id").val(),
+                person_cell:$("#f_person_cell").val()
+            },
+            dataType: "json",
+            async:false,
+            success: function(data){
+                console.log(data);
+            }
+        });
+    });
+
+    //取消按钮确认
+    $("#btnCancel").click(function (){
+        $("#i_add_info").css("display","none");
+    });
+
+
+    //折叠 记录增加的按钮
+    $("#b_add").click(function(){
+        if ($("#i_add_info").css("display")=="none")
+        {
+            $("#i_add_info").css("display","");
+        } else
+        {
+            $("#i_add_info").css("display","none");
+        }
+    });
+
     $.fn.editable.defaults.mode = 'inline';
 
     //普通资料更新 ，除BOSS/PK外
@@ -112,14 +168,6 @@
                 });
             }
         });
-
-
-
-
-
-
-
-
     });
 
     function table_filter(p_objname)
