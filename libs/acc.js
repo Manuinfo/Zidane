@@ -3,8 +3,9 @@
  */
 
 var logger = require('../libs/log').logger;
-var pool=    require('../conf/db.js');
-var http=require('http');
+var pool   = require('../conf/db.js');
+var http   = require('http');
+var me     = require('./acc.js');
 
 
 
@@ -123,4 +124,43 @@ exports.Gen_DB=function(p_conn,p_sql,p_rec_num,callback){
         p_conn.release();
         (p_rec_num==1) ? callback(sqlres[0]) : callback(sqlres);
     });
+};
+
+
+//JS 去重数组
+exports.getNoRepeat=function (s_arr) {
+    return s_arr.sort().join(",,").replace(/(,|^)([^,]+)(,,\2)+(,|$)/g,"$1$2$4").replace(/,,+/g,",").replace(/,$/,"").split(",");
+}
+
+//讲分组数据返回成html select optgroup 的格式
+exports.ConvToGroup=function(p_arr,p_title,callback){
+   // console.log(p_arr);
+    var arr_step_raw=[];
+    for(var i=0;i<p_arr.length;i++)
+    {
+        arr_step_raw.push(p_arr[i].ulevel);
+    }
+    var arr_step=me.getNoRepeat(arr_step_raw);
+   // console.log(arr_step);
+    var arr_new=[];
+    for(var i=0;i<arr_step.length;i++)
+    {
+        var obj={};
+        obj['text']=p_title+arr_step[i];
+        obj['children']=[];
+        for(var j=0;j<p_arr.length;j++)
+        {
+            if(p_arr[j].ulevel==arr_step[i])
+            {
+                var x_tmp=p_arr[j];
+                delete x_tmp.ulevel;
+               // console.log(x_tmp)
+                obj['children'].push(x_tmp)
+            }
+        }
+        arr_new.push(obj)
+    }
+    //console.log(JSON.stringify(arr_new));
+    callback(arr_new);
+
 };

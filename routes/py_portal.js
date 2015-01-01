@@ -311,7 +311,7 @@ exports.pt2009_p=function(req,res){
 };
 
 
-//代理商信息维护
+//代理商信息维护的GET 页面
 exports.pt2010=function(req,res){
     if (req.cookies["l_st"])
     {
@@ -365,7 +365,27 @@ exports.pt2010_upt_accname=function(req,res){
 exports.pt2010_upt_boss=function(req,res){
     if (req.cookies["l_st"])
     {
+        console.log(req.body);
         res.send({msg:'ok'})
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+//查询我可以分配哪些上级
+exports.pt2010_query_myboss=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        logger.debug(req.body);
+        m_portal.Get_MyBossInfo(req.body.m_ulevel,req.body.m_name,function(dbres){
+            //console.log(dbres.length);
+            logger.debug('获取到了上级BOSS信息，开始调整格式至select2');
+            acc.ConvToGroup(dbres,'渠道代理等级_',function(group_res){
+                res.send(group_res);
+            });
+
+        });
     } else
     {
         res.redirect('/xlogin')

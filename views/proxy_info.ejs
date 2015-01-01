@@ -1,8 +1,13 @@
 <%- include header%>
 <%- include home_nav.ejs%>
 <script src="/admin/js/bootstrap-editable.min.js"></script>
+<link href="/admin/css/select2.css" rel="stylesheet">
+<link href="/admin/css/select2-bootstrap.css" rel="stylesheet">
+<script src="/admin/js/select2.js"></script>
+
 
 <div  id="dv_home" class="col-sm-9 col-md-12 col-md-offset-1 main" style="float: left;left:60px;">
+
 
 
     <div class="table-responsive">
@@ -79,23 +84,42 @@
         });
     });
 
-    //普通资料更新 ，BOSS
+    //BOSS资料更新 ，BOSS
     $("td[id^='i_bss']").click(function(){
-        //console.log(this.id);
         var pk_real=$("#i_pacc_"+this.id.split('_')[3]).text();
-        //console.log(pk_real);
+        var ulevel=$("#i_nm-ulevel-"+this.id.split('_')[3]).text();
+        var my_id=this.id;
+       // console.log(my_id);
 
-        $(this).editable({
-            type:'select',
-            value: 2,
-            pk: pk_real,
-            url: '/xadmin/proxy_upt_nml',
-            source: [
-                {value: 1, text: 'Active'},
-                {value: 2, text: 'Blocked'},
-                {value: 3, text: 'Deleted'}
-            ]
+        $.ajax({
+            type: "POST",
+            url: "/xadmin/proxy_qs_myboss",
+            data: {m_ulevel:ulevel,m_name:pk_real},
+            dataType: "json",
+            async:false,
+            success: function(src_data){
+                //console.log(this);
+                //console.log(src_data);
+                $('#'+my_id).editable({
+                    type:'select2',
+                    value: 2,
+                    pk: pk_real,
+                    url: '/xadmin/proxy_upt_boss',
+                    source: src_data,
+                    select2:{
+                        width:'180px'
+                    }
+                });
+            }
         });
+
+
+
+
+
+
+
+
     });
 
     function table_filter(p_objname)

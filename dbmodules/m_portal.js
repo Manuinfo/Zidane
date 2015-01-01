@@ -287,3 +287,15 @@ exports.Get_ProxyInfo=function(callback){
         });
     });
 };
+
+
+//查询我可以分配哪些上级
+exports.Get_MyBossInfo=function(p_ulevel,p_name,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.qs_my_upname(p_ulevel,p_name));
+        //console.log(sql_g.qs_my_upname(p_ulevel,p_name));
+        acc.Gen_DB(conn,sql_g.qs_my_upname(p_ulevel,p_name),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};
