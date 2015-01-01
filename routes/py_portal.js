@@ -342,7 +342,8 @@ exports.pt2010_upt_normal=function(req,res){
     if (req.cookies["l_st"])
     {
         console.log(req.body);
-        res.send({status: 'error', msg: 'field cannot be empty!'})
+      //  res.send({status: 'error', msg: 'field cannot be empty!'})
+        res.send({msg:'3333'})
     } else
     {
         res.redirect('/xlogin')

@@ -4,6 +4,7 @@
 
 <div  id="dv_home" class="col-sm-9 col-md-12 col-md-offset-1 main" style="float: left;left:60px;">
 
+
     <div class="table-responsive">
         <table class="table" id="t_info">
             <div style="">
@@ -63,24 +64,39 @@
 
     $.fn.editable.defaults.mode = 'inline';
 
+    //普通资料更新 ，除BOSS/PK外
     $("td[id^='i_nm']").click(function(){
-
         var pk_real=$("#i_pacc_"+this.id.split('-')[2]).text();
-
-        $("td[id^='i_nm']").editable({
+        $(this).editable({
             type: 'text',
             pk: pk_real,
             url: '/xadmin/proxy_upt_nml',
-            success: function(response, newValue) {
-                console.log(response);
+            success: function(s_res, newValue) {
+                console.log(s_res);
                 console.log(newValue);
-                if(response.status == 'error') return response.msg; //msg will be shown in editable form
+                if(s_res.status == 'error') return response.msg; //msg will be shown in editable form
             }
         });
-       //console.log($("#i_pacc_"+this.id.split('-')[2]).text())
     });
 
+    //普通资料更新 ，BOSS
+    $("td[id^='i_bss']").click(function(){
+        //console.log(this.id);
+        var pk_real=$("#i_pacc_"+this.id.split('_')[3]).text();
+        //console.log(pk_real);
 
+        $(this).editable({
+            type:'select',
+            value: 2,
+            pk: pk_real,
+            url: '/xadmin/proxy_upt_nml',
+            source: [
+                {value: 1, text: 'Active'},
+                {value: 2, text: 'Blocked'},
+                {value: 3, text: 'Deleted'}
+            ]
+        });
+    });
 
     function table_filter(p_objname)
     {
