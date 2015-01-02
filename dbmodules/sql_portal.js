@@ -87,5 +87,11 @@ module.exports = {
             'down_name=\''+p_newname+'\',down_id=\''+p_newid+'\'' +
             'utime=now() ' +
             'where down_name=\''+p_oldname+'\';';
+    },
+    'up_proxy_info_myboss_all_s3': function (p_oldname) {
+        return 'update py_user_life_log set en_time=now() where obj_name=\''+p_oldname+'\'';
+    },
+    'up_proxy_info_myboss_all_s4': function (p_newname) {
+        return 'insert into py_user_life_log values (\''+p_newname+'\',now(),\'\');';
     }
 };

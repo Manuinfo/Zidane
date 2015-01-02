@@ -407,11 +407,22 @@ exports.pt2010_upt_level=function(req,res){
 exports.pt2010_upt_accname=function(req,res){
     if (req.cookies["l_st"])
     {
-        logger.debug(req.body)
-        m_portal.Up_ProxyInfo_Boss_All(req.body.old_value,req.body.value,req.body.xid,function(dbres)
+        logger.debug(req.body);
+        m_portal.Up_ProxyInfo_Boss_All(req.body.old_value,req.body.value,req.body.old_id,function(dbres)
         {
+            m_portal.Up_ProxyInfo_Boss_Log(req.body.old_value,req.body.value,function(dbres2)
+            {
+                m_portal.InsertOpsLog(req.connection.remoteAddress,
+                    'ch_abc',
+                    'update_proxy_info_accname',
+                    req.body.pk,
+                    req.body.old_value,
+                    JSON.stringify(req.body),
+                    function(xres){
+                        acc.SendOnErr(res,t.res_one('SUCC','Update OK!'));
+                    });
+            })
 
-            acc.SendOnErr(res,t.res_one('SUCC','Update OK!'));
         })
     } else
     {

@@ -210,6 +210,34 @@
         });
     });
 
+    //PK的资料更新，授权编号
+    $("td[id^='i_pacc']").click(function(){
+        var pk_real=$("#i_pacc_"+this.id.split('_')[3]).text();
+        var xid=$("#i_lv-ulevel-"+this.id.split('_')[3]).text();
+        var old_value=pk_real;
+
+        $('#'+my_id).editable({
+            type:'select2',
+            value: 2,
+            pk: pk_real,
+            url: '/xadmin/proxy_upt_pk',
+            params: function(params) {
+                params.old_value = old_value;
+                params.old_id = xid;
+                return params;
+            },
+            source: src_data.msg,
+            select2:{
+                width:'180px'
+            },
+            success: function(s_res, newValue) {
+                if(s_res.code == 'error')
+                    return s_res.msg;
+                window.location="/xadmin/proxy_info";
+            }
+        });
+    });
+
     function table_filter(p_objname)
     {
                 //console.log('---------------------')
