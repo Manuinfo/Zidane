@@ -134,33 +134,24 @@ exports.getNoRepeat=function (s_arr) {
 
 //讲分组数据返回成html select optgroup 的格式
 exports.ConvToGroup=function(p_arr,p_title,callback){
-   // console.log(p_arr);
-    var arr_step_raw=[];
+
+    var arr_new=[];
     for(var i=0;i<p_arr.length;i++)
     {
-        arr_step_raw.push(p_arr[i].ulevel);
-    }
-    var arr_step=me.getNoRepeat(arr_step_raw);
-   // console.log(arr_step);
-    var arr_new=[];
-    for(var i=0;i<arr_step.length;i++)
-    {
         var obj={};
-        obj['text']=p_title+arr_step[i];
+        obj['text']=p_title+p_arr[i].ulevel;
         obj['children']=[];
-        for(var j=0;j<p_arr.length;j++)
+
+        for(var j=0;j<p_arr[i].text.split(',').length;j++)
         {
-            if(p_arr[j].ulevel==arr_step[i])
-            {
-                var x_tmp=p_arr[j];
-                delete x_tmp.ulevel;
-               // console.log(x_tmp)
-                obj['children'].push(x_tmp)
-            }
+            var obj_inner={};
+            obj_inner['id']=p_arr[i].ulevel;
+            obj_inner['text']=p_arr[i].text.split(',')[j];
+            obj['children'].push(obj_inner)
         }
         arr_new.push(obj)
     }
-    //console.log(JSON.stringify(arr_new));
+  //  console.log(arr_new);
     callback(arr_new);
 
 };

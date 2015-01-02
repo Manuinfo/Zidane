@@ -58,8 +58,8 @@ module.exports = {
             'order by person_name LIMIT 10';
     },
     'qs_my_upname': function (p_ulevel, p_name) {
-        return 'SELECT ulevel,name as id,name as text FROM py_user_accounts ' +
+        return 'SELECT ulevel,group_concat(name) as text FROM py_user_accounts ' +
             'where ulevel <= ' + p_ulevel + ' and ulevel >=2 and name!=\'' + p_name + '\' ' +
-            'order by ulevel'
+            'group by ulevel'
     }
 };

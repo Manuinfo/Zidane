@@ -381,9 +381,11 @@ exports.pt2010_query_myboss=function(req,res){
         logger.debug(req.body);
         m_portal.Get_MyBossInfo(req.body.m_ulevel,req.body.m_name,function(dbres){
             //console.log(dbres.length);
+            logger.debug(JSON.stringify(dbres));
             logger.debug('获取到了上级BOSS信息，开始调整格式至select2');
             acc.ConvToGroup(dbres,'渠道代理等级_',function(group_res){
                 res.send(group_res);
+                logger.debug('返回上级BOSS结果');
             });
         });
     } else
