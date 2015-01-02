@@ -374,6 +374,7 @@ exports.pt2010_upt_normal=function(req,res){
 exports.pt2010_upt_level=function(req,res){
     if (req.cookies["l_st"])
     {
+        logger.debug(req.body);
         m_portal.Up_ProxyInfo_Normal(req.body.name.split('-')[1],
             req.body.value,
             req.body.pk,function(dbres){
@@ -407,9 +408,15 @@ exports.pt2010_upt_level=function(req,res){
 exports.pt2010_upt_accname=function(req,res){
     if (req.cookies["l_st"])
     {
-        logger.debug(req.body);
-        m_portal.Up_ProxyInfo_Boss_All(req.body.old_value,req.body.value,req.body.old_id,function(dbres)
+        //console.log(req.body.pk);
+        if(req.body.pk.length==0)
         {
+            acc.SendOnErr(res,t.res_one('error','PK 为空不能更新'));
+        } else
+        {
+            logger.debug(req.body);
+            m_portal.Up_ProxyInfo_Boss_All(req.body.old_value,req.body.value,req.body.old_id,function(dbres)
+            {
             m_portal.Up_ProxyInfo_Boss_Log(req.body.old_value,req.body.value,function(dbres2)
             {
                 //console.log(dbres2)
@@ -431,6 +438,7 @@ exports.pt2010_upt_accname=function(req,res){
             })
 
         })
+        }
     } else
     {
         res.redirect('/xlogin')
@@ -444,22 +452,10 @@ exports.pt2010_upt_boss=function(req,res){
         logger.debug(req.body);
         m_login.Get_AcctName(req.body.value,function(boss_res){
            logger.debug(req.body.pk+'想获取新的上级'+req.body.value+'的等级是'+boss_res.ulevel);
-            logger.debug('准备更新上级信息')
+            logger.debug('准备更新上级信息');
             m_portal.Up_ProxyInfo_MyBoss_1(req.body.pk,req.body.value,boss_res.ulevel,function(ops_res){
                 logger.debug('更新成功，记录OPS日志');
-                m_portal.InsertOpsLog(req.connection.remoteAddress,
-                    'ch_abc',
-                    'update_proxy_info_boss_1',
-                    req.body.pk,
-                    req.body.old_value,
-                    JSON.stringify(req.body),
-                    function(xres){
-                        m_portal.Up_ProxyInfo_Level(req.body.name.split('-')[1],
-                            req.body.value,
-                            req.body.pk,function(xxres){
-                                acc.SendOnErr(res, t.res_one('SUCC','Update OK!'));
-                            });
-                    });
+                acc.SendOnErr(res, t.res_one('SUCC','Update OK!'));
             });
         });
     } else

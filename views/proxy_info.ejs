@@ -8,6 +8,7 @@
 
 <div  id="dv_home" class="col-sm-9 col-md-12 col-md-offset-1 main" style="float: left;left:60px;">
 
+
     <div id="i_add" >
         <button type="button" class="btn btn-info" id="b_add">
             <span class="glyphicon glyphicon-user"></span> 增加用户
@@ -81,6 +82,8 @@
 </div>
 <script type="text/javascript">
 
+
+
     //提交按钮的确认
     $("#btnConfirm").click(function (){
         $.ajax({
@@ -110,7 +113,6 @@
         $("#i_add_info").css("display","none");
     });
 
-
     //折叠 记录增加的按钮
     $("#b_add").click(function(){
         if ($("#i_add_info").css("display")=="none")
@@ -127,24 +129,26 @@
     //普通资料更新 ，除BOSS/PK外
     $("td[id^='i_nm']").click(function(){
         var pk_real=$("#i_pacc_"+this.id.split('-')[2]).text();
-        var old_value=$("#"+this.id).text();
         $(this).editable({
             type: 'text',
             pk: pk_real,
             url: '/xadmin/proxy_upt_nml',
             params: function(params) {
-                params.old_value = old_value;
+                params.old_value = $("#"+this.id).text();
                 return params;
             },
             success: function(s_res, newValue) {
-                if(s_res.code == 'error')
-                    return s_res.msg;
-                window.location="/xadmin/proxy_info";
+                if(JSON.parse(s_res).code == 'error')
+                {
+                    return JSON.parse(s_res).msg;
+                } else
+                {
+                }
             }
         });
     });
 
-    //普通资料更新 ，纯粹的用户等级，但是上下级及PK不变
+    //纯粹的用户等级的更新，但是上下级及PK不变
     $("td[id^='i_lv']").click(function(){
         var old_value=$("#"+this.id).text();
         var pk_real=$("#i_pacc_"+this.id.split('-')[2]).text();
@@ -164,9 +168,12 @@
             },
             url: '/xadmin/proxy_upt_level',
             success: function(s_res, newValue) {
-                if(s_res.code == 'error')
-                    return s_res.msg;
-                window.location="/xadmin/proxy_info";
+                if(JSON.parse(s_res).code == 'error')
+                {
+                    return JSON.parse(s_res).msg;
+                } else
+                {
+                }
             }
         });
     });
@@ -193,7 +200,7 @@
                     pk: pk_real,
                     url: '/xadmin/proxy_upt_boss',
                     params: function(params) {
-                        params.old_value = old_value;
+                        params.old_value = $("#"+this.id).text();
                         return params;
                     },
                     source: src_data.msg,
@@ -201,9 +208,14 @@
                         width:'180px'
                     },
                     success: function(s_res, newValue) {
-                        if(s_res.code == 'error')
-                            return s_res.msg;
-                        window.location="/xadmin/proxy_info";
+                       // console.log(s_res)
+                        if(JSON.parse(s_res).code == 'error')
+                        {
+                            return JSON.parse(s_res).msg;
+                        } else
+                        {
+                            $(this).editable('option', 'source', null);
+                        }
                     }
                 });
             }
@@ -212,29 +224,25 @@
 
     //PK的资料更新，授权编号
     $("td[id^='i_pacc']").click(function(){
+
         var pk_real=$("#i_pacc_"+this.id.split('_')[2]).text();
-        //console.log(pk_real);
-        var xid=$("#i_lv-ulevel-"+this.id.split('_')[2]).text();
-        var old_value=pk_real;
-        //console.log(old_value)
-        //console.log(xid)
 
         $(this).editable({
             type:'text',
             pk: pk_real,
             url: '/xadmin/proxy_upt_pk',
             params: function(params) {
-                params.old_value = old_value;
-                params.old_id = xid;
+                params.old_value = $("#i_pacc_"+this.id.split('_')[2]).text();
+                params.old_id = $("#i_lv-ulevel-"+this.id.split('_')[2]).text();
                 return params;
             },
             success: function(s_res, newValue) {
-                //console.log(JSON.parse(s_res));
-                //console.log(JSON.parse(s_res).code);
                 if(JSON.parse(s_res).code == 'error')
                 {
-                    console.log('222222222222');
                     return JSON.parse(s_res).msg;
+                } else
+                {
+                    $(this).editable('option', 'pk', newValue);
                 }
             }
         });
@@ -242,8 +250,7 @@
 
     function table_filter(p_objname)
     {
-                //console.log('---------------------')
-                //console.log(p_objname.length);
+
                 var obj_length=p_objname.length;
                 var tableRows=document.getElementById("t_info").rows;
                 for(var i=1;i<tableRows.length;i++){
