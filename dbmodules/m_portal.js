@@ -5,6 +5,7 @@ var pool=require('../conf/db.js');
 var acc=require('../libs/acc.js');
 var t=require('../libs/t.js');
 var me=require('./m_portal.js');
+var me_login=require('./m_login.js');
 var sql_g=require('../dbmodules/sql_portal.js');
 var sql_1st=require('../dbmodules/sql.js');
 var logger = require('../libs/log').logger;
@@ -343,8 +344,18 @@ exports.Up_ProxyInfo_Level=function(p_obj_fd,p_obj_val,p_obj_pk,callback){
                     callback(dbres2);
                 });
             });
+        });
+    });
+};
 
 
+//更新我的唯一上级
+exports.Up_ProxyInfo_MyBoss_1=function(p_downame,p_upname,p_upid,callback){
+    logger.debug('更新我的唯一上级');
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.up_proxy_info_myboss_1(p_downame,p_upname,p_upid));
+        acc.Gen_DB(conn,sql_g.up_proxy_info_myboss_1(p_downame,p_upname,p_upid),2,function(dbres){
+            callback(dbres);
         });
     });
 };

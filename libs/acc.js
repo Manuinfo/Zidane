@@ -145,7 +145,7 @@ exports.ConvToGroup=function(p_arr,p_title,callback){
         for(var j=0;j<p_arr[i].text.split(',').length;j++)
         {
             var obj_inner={};
-            obj_inner['id']=p_arr[i].ulevel;
+            obj_inner['id']=p_arr[i].text.split(',')[j];
             obj_inner['text']=p_arr[i].text.split(',')[j];
             obj['children'].push(obj_inner)
         }

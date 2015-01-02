@@ -6,6 +6,8 @@ var acc=require('../libs/acc.js');
 var t=require('../libs/t.js');
 var m_portal=require('../dbmodules/m_portal.js');
 var m_goods=require('../dbmodules/m_goods.js');
+var m_login=require('../dbmodules/m_login.js');
+
 var fs = require('fs');
 var os=require('os');
 
@@ -367,11 +369,10 @@ exports.pt2010_upt_normal=function(req,res){
     }
 };
 
-
+//更新代理商的纯粹的等级，但PK和ID不变
 exports.pt2010_upt_level=function(req,res){
     if (req.cookies["l_st"])
     {
-        //console.log(req.body);
         m_portal.Up_ProxyInfo_Normal(req.body.name.split('-')[1],
             req.body.value,
             req.body.pk,function(dbres){
@@ -411,15 +412,33 @@ exports.pt2010_upt_accname=function(req,res){
     }
 };
 
-//更新代理商的上级
+//更新代理商的唯一上级
 exports.pt2010_upt_boss=function(req,res){
     if (req.cookies["l_st"])
     {
-        console.log(req.body);
-        res.send({msg:'ok'})
+        logger.debug(req.body);
+        m_login.Get_AcctName(req.body.value,function(boss_res){
+           logger.debug(req.body.pk+'想获取新的上级'+req.body.value+'的等级是'+boss_res.ulevel);
+            logger.debug('准备更新上级信息')
+            m_portal.Up_ProxyInfo_MyBoss_1(req.body.pk,req.body.value,boss_res.ulevel,function(ops_res){
+                logger.debug('更新成功，记录OPS日志');
+                m_portal.InsertOpsLog(req.connection.remoteAddress,
+                    'ch_abc',
+                    'update_proxy_info_boss_1',
+                    req.body.pk,
+                    JSON.stringify(req.body),
+                    function(xres){
+                        m_portal.Up_ProxyInfo_Level(req.body.name.split('-')[1],
+                            req.body.value,
+                            req.body.pk,function(xxres){
+                                acc.SendOnErr(res, t.res_one('SUCC','Update OK!'));
+                            });
+                    });
+            });
+        });
     } else
     {
-        res.redirect('/xlogin')
+        res.redirect('/xlogin');
     }
 };
 
