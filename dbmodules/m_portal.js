@@ -363,13 +363,13 @@ exports.Up_ProxyInfo_MyBoss_1=function(p_downame,p_upname,p_upid,callback){
 //更新代理商的等级，WHEN 授权编号发生变化的时候
 exports.Up_ProxyInfo_Boss_All=function(p_oldname,p_newname,p_newid,callback){
     //更新我作为下级的时候
-    logger.debug('授权编号变更：更新我作为下级的时候');
+    logger.debug('授权编号变更_1：更新我作为下级的时候');
     pool.getConnection(function(err, conn) {
         logger.debug('Req:'+sql_g.up_proxy_info_myboss_all_s1(p_oldname,p_newname,p_newid));
         acc.Gen_DB(conn,sql_g.up_proxy_info_myboss_all_s1(p_oldname,p_newname,p_newid),2,function(dbres1){
 
             //更新我作为上级的时候
-            logger.debug('授权编号变更：更新我作为上级的时候');
+            logger.debug('授权编号变更_2：更新我作为上级的时候');
             pool.getConnection(function(err, conn) {
                 logger.debug('Req:'+sql_g.up_proxy_info_myboss_all_s2(p_oldname,p_newname,p_newid));
                 acc.Gen_DB(conn,sql_g.up_proxy_info_myboss_all_s2(p_oldname,p_newname,p_newid),2,function(dbres2){
@@ -384,17 +384,25 @@ exports.Up_ProxyInfo_Boss_All=function(p_oldname,p_newname,p_newid,callback){
 //更新代理商的等级后的日志，WHEN 授权编号发生变化的时候
 exports.Up_ProxyInfo_Boss_Log=function(p_oldname,p_newname,callback){
     //更新我作为下级的时候
-    logger.debug('授权编号变更：更新LifeLog的oldname，增加结束时间');
+    logger.debug('授权编号变更_3：更新LifeLog的oldname，增加结束时间');
     pool.getConnection(function(err, conn) {
         logger.debug('Req:'+sql_g.up_proxy_info_myboss_all_s3(p_oldname));
         acc.Gen_DB(conn,sql_g.up_proxy_info_myboss_all_s3(p_oldname),2,function(dbres1){
 
             //更新我作为上级的时候
-            logger.debug('授权编号变更：新增LifeLog的newname，增加开始时间');
+            logger.debug('授权编号变更_4：新增LifeLog的newname，增加开始时间');
             pool.getConnection(function(err, conn) {
                 logger.debug('Req:'+sql_g.up_proxy_info_myboss_all_s4(p_newname));
                 acc.Gen_DB(conn,sql_g.up_proxy_info_myboss_all_s4(p_newname),2,function(dbres2){
-                    callback(dbres2);
+
+                    //最后更新代理商资料表
+                    logger.debug('授权编号变更_5：更新py_user_accounts表');
+                    pool.getConnection(function(err, conn) {
+                        logger.debug('Req:'+sql_g.up_proxy_info_myboss_all_s5(p_oldname,p_newname));
+                        acc.Gen_DB(conn,sql_g.up_proxy_info_myboss_all_s5(p_oldname,p_newname),2,function(dbres3){
+                            callback(dbres3);
+                        });
+                    });
                 });
             });
         });

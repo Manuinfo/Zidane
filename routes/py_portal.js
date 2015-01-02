@@ -412,6 +412,12 @@ exports.pt2010_upt_accname=function(req,res){
         {
             m_portal.Up_ProxyInfo_Boss_Log(req.body.old_value,req.body.value,function(dbres2)
             {
+                //console.log(dbres2)
+                if(dbres2.code)
+                {
+                    acc.SendOnErr(res,t.res_one('error',dbres2.message));
+                } else
+                {
                 m_portal.InsertOpsLog(req.connection.remoteAddress,
                     'ch_abc',
                     'update_proxy_info_accname',
@@ -421,6 +427,7 @@ exports.pt2010_upt_accname=function(req,res){
                     function(xres){
                         acc.SendOnErr(res,t.res_one('SUCC','Update OK!'));
                     });
+                }
             })
 
         })

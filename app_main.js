@@ -84,7 +84,7 @@ app.post('/xadmin/pack_send_1',rest_pt.pt2003_p_1);
 app.post('/xadmin/pack_send_2',rest_pt.pt2003_p_2);
 //== 代理商
 app.get('/xadmin/proxy_info',rest_pt.pt2010);
-app.post('/xadmin/proxy_upt_pk',rest_pt.pt2010_upt_pname);
+app.post('/xadmin/proxy_upt_pk',rest_pt.pt2010_upt_accname);
 app.post('/xadmin/proxy_upt_nml',rest_pt.pt2010_upt_normal);
 app.post('/xadmin/proxy_upt_level',rest_pt.pt2010_upt_level);
 app.post('/xadmin/proxy_upt_boss',rest_pt.pt2010_upt_boss);

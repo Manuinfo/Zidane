@@ -120,9 +120,15 @@ exports.G_ARRAY_KV_IF=function(arr,delimer,xstr){
 
 exports.Gen_DB=function(p_conn,p_sql,p_rec_num,callback){
     p_conn.query(p_sql,function (err, sqlres) {
-        if (err) {p_conn.release();throw err;logger.debug(err);}
-        p_conn.release();
-        (p_rec_num==1) ? callback(sqlres[0]) : callback(sqlres);
+        if (err) {
+            p_conn.release();
+            logger.debug(err.message);
+            callback(err);
+        } else
+        {
+            p_conn.release();
+            (p_rec_num==1) ? callback(sqlres[0]) : callback(sqlres);
+        }
     });
 };
 
