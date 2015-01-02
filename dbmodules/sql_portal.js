@@ -76,5 +76,16 @@ module.exports = {
             'up_name=\''+p_upname+'\' ,' +
             'utime=now() ' +
             'where down_name=\''+p_downame+'\';';
+    },
+    'up_proxy_info_myboss_all_s2': function (p_oldname,p_newname,p_newid) {
+        return 'update py_relatation set ' +
+            'up_name=\''+p_newname+'\',up_id=\''+p_newid+'\',utime=now() ' +
+            'where up_name=\''+p_oldname+'\';';
+    },
+    'up_proxy_info_myboss_all_s1': function (p_oldname,p_newname,p_newid) {
+        return 'update py_relatation set ' +
+            'down_name=\''+p_newname+'\',down_id=\''+p_newid+'\'' +
+            'utime=now() ' +
+            'where down_name=\''+p_oldname+'\';';
     }
 };

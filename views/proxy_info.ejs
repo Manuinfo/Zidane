@@ -127,19 +127,26 @@
     //普通资料更新 ，除BOSS/PK外
     $("td[id^='i_nm']").click(function(){
         var pk_real=$("#i_pacc_"+this.id.split('-')[2]).text();
+        var old_value=$("#"+this.id).text();
         $(this).editable({
             type: 'text',
             pk: pk_real,
             url: '/xadmin/proxy_upt_nml',
+            params: function(params) {
+                params.old_value = old_value;
+                return params;
+            },
             success: function(s_res, newValue) {
                 if(s_res.code == 'error')
                     return s_res.msg;
+                window.location="/xadmin/proxy_info";
             }
         });
     });
 
     //普通资料更新 ，纯粹的用户等级，但是上下级及PK不变
     $("td[id^='i_lv']").click(function(){
+        var old_value=$("#"+this.id).text();
         var pk_real=$("#i_pacc_"+this.id.split('-')[2]).text();
         $(this).editable({
             type: 'select',
@@ -151,22 +158,25 @@
                 {value: 5, text: '5'},
                 {value: 6, text: '6'},
             ],
+            params: function(params) {
+                params.old_value = old_value;
+                return params;
+            },
             url: '/xadmin/proxy_upt_level',
             success: function(s_res, newValue) {
                 if(s_res.code == 'error')
                     return s_res.msg;
+                window.location="/xadmin/proxy_info";
             }
         });
     });
 
-    //BOSS资料更新 ，BOSS
+    //一个人的上级资料更新
     $("td[id^='i_bss']").click(function(){
         var pk_real=$("#i_pacc_"+this.id.split('_')[3]).text();
-        //console.log(this.id.split('-')[3]);
         var ulevel=$("#i_lv-ulevel-"+this.id.split('_')[3]).text();
-       //console.log(ulevel);
         var my_id=this.id;
-       // console.log(my_id);
+        var old_value=$("#"+this.id).text();
 
         $.ajax({
             type: "POST",
@@ -182,9 +192,18 @@
                     value: 2,
                     pk: pk_real,
                     url: '/xadmin/proxy_upt_boss',
+                    params: function(params) {
+                        params.old_value = old_value;
+                        return params;
+                    },
                     source: src_data.msg,
                     select2:{
                         width:'180px'
+                    },
+                    success: function(s_res, newValue) {
+                        if(s_res.code == 'error')
+                            return s_res.msg;
+                        window.location="/xadmin/proxy_info";
                     }
                 });
             }

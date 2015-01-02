@@ -344,7 +344,7 @@ exports.pt2010_upt_pname=function(req,res){
 exports.pt2010_upt_normal=function(req,res){
     if (req.cookies["l_st"])
     {
-        //console.log(req.body);
+        logger.debug(req.body);
         m_portal.Up_ProxyInfo_Normal(req.body.name.split('-')[1],
                                      req.body.value,
                                      req.body.pk,function(dbres){
@@ -354,6 +354,7 @@ exports.pt2010_upt_normal=function(req,res){
                                           'ch_abc',
                                           'update_proxy_info_normal',
                                           req.body.pk,
+                                          req.body.old_value,
                                           JSON.stringify(req.body),
                         function(xres){
                             acc.SendOnErr(res,t.res_one('SUCC','Update OK!'));
@@ -382,6 +383,7 @@ exports.pt2010_upt_level=function(req,res){
                         'ch_abc',
                         'update_proxy_info_level',
                         req.body.pk,
+                        req.body.old_value,
                         JSON.stringify(req.body),
                         function(xres){
                             m_portal.Up_ProxyInfo_Level(req.body.name.split('-')[1],
@@ -401,18 +403,23 @@ exports.pt2010_upt_level=function(req,res){
     }
 };
 
-//更新代理商的账户
+//更新代理商的账户==授权编号
 exports.pt2010_upt_accname=function(req,res){
     if (req.cookies["l_st"])
     {
-        res.send({msg:'ok'})
+        logger.debug(req.body)
+        m_portal.Up_ProxyInfo_Boss_All(req.body.old_value,req.body.value,req.body.xid,function(dbres)
+        {
+
+            acc.SendOnErr(res,t.res_one('SUCC','Update OK!'));
+        })
     } else
     {
         res.redirect('/xlogin')
     }
 };
 
-//更新代理商的唯一上级
+//更新代理商的指定上级
 exports.pt2010_upt_boss=function(req,res){
     if (req.cookies["l_st"])
     {
@@ -426,6 +433,7 @@ exports.pt2010_upt_boss=function(req,res){
                     'ch_abc',
                     'update_proxy_info_boss_1',
                     req.body.pk,
+                    req.body.old_value,
                     JSON.stringify(req.body),
                     function(xres){
                         m_portal.Up_ProxyInfo_Level(req.body.name.split('-')[1],
