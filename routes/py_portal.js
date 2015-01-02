@@ -342,9 +342,58 @@ exports.pt2010_upt_pname=function(req,res){
 exports.pt2010_upt_normal=function(req,res){
     if (req.cookies["l_st"])
     {
-        console.log(req.body);
-      //  res.send({status: 'error', msg: 'field cannot be empty!'})
-        res.send({msg:'3333'})
+        //console.log(req.body);
+        m_portal.Up_ProxyInfo_Normal(req.body.name.split('-')[1],
+                                     req.body.value,
+                                     req.body.pk,function(dbres){
+                if(dbres.affectedRows==1)
+                {
+                    m_portal.InsertOpsLog(req.connection.remoteAddress,
+                                          'ch_abc',
+                                          'update_proxy_info_normal',
+                                          req.body.pk,
+                                          JSON.stringify(req.body),
+                        function(xres){
+                            acc.SendOnErr(res,t.res_one('SUCC','Update OK!'));
+                    });
+                } else
+                {
+                    acc.SendOnErr(res,t.res_one('error',dbres.message));
+                }
+            });
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+
+exports.pt2010_upt_level=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        //console.log(req.body);
+        m_portal.Up_ProxyInfo_Normal(req.body.name.split('-')[1],
+            req.body.value,
+            req.body.pk,function(dbres){
+                if(dbres.affectedRows==1)
+                {
+                    m_portal.InsertOpsLog(req.connection.remoteAddress,
+                        'ch_abc',
+                        'update_proxy_info_level',
+                        req.body.pk,
+                        JSON.stringify(req.body),
+                        function(xres){
+                            m_portal.Up_ProxyInfo_Level(req.body.name.split('-')[1],
+                                req.body.value,
+                                req.body.pk,function(xxres){
+                                acc.SendOnErr(res,t.res_one('SUCC','Update OK!'));
+                            });
+                        });
+                } else
+                {
+                    acc.SendOnErr(res,t.res_one('error',dbres.message));
+                }
+            });
     } else
     {
         res.redirect('/xlogin')
@@ -384,7 +433,7 @@ exports.pt2010_query_myboss=function(req,res){
             logger.debug(JSON.stringify(dbres));
             logger.debug('获取到了上级BOSS信息，开始调整格式至select2');
             acc.ConvToGroup(dbres,'渠道代理等级_',function(group_res){
-                res.send(group_res);
+                acc.SendOnErr(res, t.res_one('SUCC',group_res))
                 logger.debug('返回上级BOSS结果');
             });
         });

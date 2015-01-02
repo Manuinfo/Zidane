@@ -299,3 +299,52 @@ exports.Get_MyBossInfo=function(p_ulevel,p_name,callback){
         });
     });
 };
+
+
+//记录代理商表的变更日志
+exports.InsertOpsLog=function(p_ip,p_ua,p_qtype,p_pk,p_obj,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_1st.Insert_Log_Basic(p_ip,p_ua,p_qtype,p_pk,'NULL',p_obj));
+        //console.log(sql_1st.Insert_Log_Basic(p_ip,p_ua,p_qtype,'NULL','NULL',p_obj));
+        acc.Gen_DB(conn,sql_1st.Insert_Log_Basic(p_ip,p_ua,p_qtype,p_pk,'NULL',p_obj),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};
+
+
+//更新代理商的信息表
+exports.Up_ProxyInfo_Normal=function(p_obj_fd,p_obj_val,p_obj_pk,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.up_proxy_info_normal(p_obj_fd,p_obj_val,p_obj_pk));
+       // console.log(sql_g.up_proxy_info_normal(p_obj_fd,p_obj_val,p_obj_pk));
+        acc.Gen_DB(conn,sql_g.up_proxy_info_normal(p_obj_fd,p_obj_val,p_obj_pk),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};
+
+//更新代理商的等级，但其授权编号NAME、上下级关系等不变化
+exports.Up_ProxyInfo_Level=function(p_obj_fd,p_obj_val,p_obj_pk,callback){
+
+    //更新我作为下级的时候
+    logger.debug('更新我作为下级的时候');
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.up_proxy_info_level_1(p_obj_val,p_obj_pk));
+        // console.log(sql_g.up_proxy_info_level_1(p_obj_val,p_obj_pk));
+        acc.Gen_DB(conn,sql_g.up_proxy_info_level_1(p_obj_val,p_obj_pk),2,function(dbres1){
+
+            //更新我作为上级的时候
+            logger.debug('更新我作为上级的时候');
+            pool.getConnection(function(err, conn) {
+                logger.debug('Req:'+sql_g.up_proxy_info_level_2(p_obj_val,p_obj_pk));
+                // console.log(sql_g.up_proxy_info_level_2(p_obj_val,p_obj_pk));
+                acc.Gen_DB(conn,sql_g.up_proxy_info_level_2(p_obj_val,p_obj_pk),2,function(dbres2){
+                    callback(dbres2);
+                });
+            });
+
+
+        });
+    });
+};

@@ -55,11 +55,20 @@ module.exports = {
         return 'select person_name,name,alname,tbname,ulevel,uzone,state,frstate,s_id, ' +
             'person_id,person_cell,b.up_name,b.up_id from ' +
             'py_user_accounts a  left join py_relatation b on a.name=b.down_name ' +
-            'order by person_name LIMIT 10';
+            'order by person_name LIMIT 20';
     },
     'qs_my_upname': function (p_ulevel, p_name) {
         return 'SELECT ulevel,group_concat(name) as text FROM py_user_accounts ' +
             'where ulevel <= ' + p_ulevel + ' and ulevel >=2 and name!=\'' + p_name + '\' ' +
             'group by ulevel'
+    },
+    'up_proxy_info_normal': function (p_obj_fd,p_obj_val,p_pk) {
+        return 'update py_user_accounts set '+p_obj_fd+'=\''+p_obj_val+'\' where name=\''+p_pk+'\';';
+    },
+    'up_proxy_info_level_1': function (p_id,p_name) {
+        return 'update py_relatation set down_id='+p_id+',utime=now() where down_name=\''+p_name+'\';';
+    },
+    'up_proxy_info_level_2': function (p_id,p_name) {
+        return 'update py_relatation set up_id='+p_id+',utime=now() where up_name=\''+p_name+'\';';
     }
 };

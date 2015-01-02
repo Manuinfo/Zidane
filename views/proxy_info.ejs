@@ -58,7 +58,7 @@
                 <td id="i_pacc_<%=i%>"><%=n_res[i].name%></td>
                 <td id="i_nm-alname-<%=i%>"><%=n_res[i].alname%></td>
                 <td id="i_nm-tbname-<%=i%>"><%=n_res[i].tbname%></td>
-                <td id="i_nm-ulevel-<%=i%>"><%=n_res[i].ulevel%></td>
+                <td id="i_lv-ulevel-<%=i%>"><%=n_res[i].ulevel%></td>
                 <td id="i_nm-uzone-<%=i%>"><%=n_res[i].uzone%></td>
                 <td id="i_nm-state-<%=i%>"><%=n_res[i].state%></td>
                 <td id="i_nm-frstate-<%=i%>"><%=n_res[i].frstate%></td>
@@ -67,7 +67,6 @@
                 <td id="i_nm-person_cell-<%=i%>"><%=n_res[i].person_cell%></td>
                 <td id="i_bss_upname_<%=i%>"><%=n_res[i].up_name%></td>
                 <td><%=n_res[i].up_id%></td>
-
             </tr>
             <% }}%>
             </tbody>
@@ -133,9 +132,29 @@
             pk: pk_real,
             url: '/xadmin/proxy_upt_nml',
             success: function(s_res, newValue) {
-                console.log(s_res);
-                console.log(newValue);
-                if(s_res.status == 'error') return response.msg; //msg will be shown in editable form
+                if(s_res.code == 'error')
+                    return s_res.msg;
+            }
+        });
+    });
+
+    //普通资料更新 ，纯粹的用户等级，但是上下级及PK不变
+    $("td[id^='i_lv']").click(function(){
+        var pk_real=$("#i_pacc_"+this.id.split('-')[2]).text();
+        $(this).editable({
+            type: 'select',
+            pk: pk_real,
+            source: [
+                {value: 2, text: '2'},
+                {value: 3, text: '3'},
+                {value: 4, text: '4'},
+                {value: 5, text: '5'},
+                {value: 6, text: '6'},
+            ],
+            url: '/xadmin/proxy_upt_level',
+            success: function(s_res, newValue) {
+                if(s_res.code == 'error')
+                    return s_res.msg;
             }
         });
     });
@@ -143,7 +162,9 @@
     //BOSS资料更新 ，BOSS
     $("td[id^='i_bss']").click(function(){
         var pk_real=$("#i_pacc_"+this.id.split('_')[3]).text();
-        var ulevel=$("#i_nm-ulevel-"+this.id.split('_')[3]).text();
+        //console.log(this.id.split('-')[3]);
+        var ulevel=$("#i_lv-ulevel-"+this.id.split('_')[3]).text();
+       //console.log(ulevel);
         var my_id=this.id;
        // console.log(my_id);
 
@@ -161,7 +182,7 @@
                     value: 2,
                     pk: pk_real,
                     url: '/xadmin/proxy_upt_boss',
-                    source: src_data,
+                    source: src_data.msg,
                     select2:{
                         width:'180px'
                     }

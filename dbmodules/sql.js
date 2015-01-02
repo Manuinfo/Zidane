@@ -81,14 +81,14 @@ module.exports={
     'Update_QRAVtimes':function(p_qrcode){
         return 'update g_qr_batch_map set verify_av_times=verify_av_times-1 where qr_href=\''+p_qrcode+"'";
     },
-    'Insert_Log_Basic':function(p_cip,p_cua,p_qtype,p_qcode,p_nfc,p_vtime,p_result){
+    'Insert_Log_Basic':function(p_cip,p_cua,p_qtype,p_qcode,p_nfc,p_result){
         return 'insert into ops_history values ('+
                             '\''+p_cip+"',"+
                             '\''+p_cua+"',"+
                             '\''+p_qtype+"',"+
                             '\''+p_qcode+"',"+
                             '\''+p_nfc+"',"+
-                            '\''+p_vtime+"',"+
+                            'now(),'+
                             '\''+p_result+"')";
     },
     'Insert_Random_Code':function(p_qrcode,p_rdcode,p_gtime){
