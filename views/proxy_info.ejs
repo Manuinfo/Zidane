@@ -86,6 +86,12 @@
 
     //提交按钮的确认
     $("#btnConfirm").click(function (){
+
+        if(!$("#f_person_name").text()||!$("#f_name").text()||$("#f_ulevel").text())
+        {
+            $('#add_info').html('<div class="alert alert-warning">姓名、授权编号、代理等级为必填字段</div>');
+        } else
+        {
         $.ajax({
             type: "POST",
             url: "/xadmin/proxy_info_add",
@@ -106,6 +112,7 @@
                 console.log(data);
             }
         });
+        }
     });
 
     //取消按钮确认

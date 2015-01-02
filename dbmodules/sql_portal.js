@@ -98,6 +98,20 @@ module.exports = {
     },
     'up_proxy_info_myboss_all_s5': function (p_oldname,p_newname) {
         return 'update py_user_accounts set name=\''+p_newname+'\' where name=\''+p_oldname+'\';';
+    },
+    'new_proxy_info':function(p_name,p_alname,p_ulevel,p_uzone,p_sid,p_person_id,p_person_name,p_person_cell,p_tbname){
+        return 'insert into py_user_accounts values ( '+
+            '\''+p_name +'\',' +
+            '\''+p_alname +'\',' +
+            '\'96e79218965eb72c92a549dd5a330112\',' +
+            '\''+p_ulevel +'\',' +
+            '\''+p_uzone +'\',' +
+            'now(),\'A\',0,' +
+            '\''+p_sid +'\',0,' +
+            '\''+p_person_id +'\',' +
+            '\''+p_person_name +'\',' +
+            '\''+p_person_cell +'\',' +
+            '\''+p_tbname +'\', now());';
     }
 
 };
