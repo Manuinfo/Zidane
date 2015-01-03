@@ -288,12 +288,20 @@
                 }
             }
 
+    /*
     $('#id_filter').keydown(function(e){
         var curKey = e.which;
         if (curKey == 13) {
             table_filter($(this).val());
         }
     });
+    */
+    $("#id_filter").keyup(function(){
+        $("table tbody tr")
+                .hide()
+                .filter(":contains('"+( $(this).val() )+"')")
+                .show();
+    }).keyup();
 
 
 </script>
