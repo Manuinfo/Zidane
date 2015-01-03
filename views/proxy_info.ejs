@@ -270,7 +270,6 @@
 
     function table_filter(p_objname)
     {
-
                 var obj_length=p_objname.length;
                 var tableRows=document.getElementById("t_info").rows;
                 for(var i=1;i<tableRows.length;i++){
@@ -289,8 +288,11 @@
                 }
             }
 
-    $('#id_filter').keyup(function(){
-        table_filter($(this).val());
+    $('#id_filter').keydown(function(e){
+        var curKey = e.which;
+        if (curKey == 13) {
+            table_filter($(this).val());
+        }
     });
 
 

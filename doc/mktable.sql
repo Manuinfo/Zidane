@@ -566,6 +566,10 @@ create table py_user_life_log
 DEFAULT CHARSET=gbk;
 
 
+CREATE INDEX ind_bak_table_1 ON py_user_accounts_bak (baktime);
+CREATE INDEX ind_bak_table_2 ON py_relatation_bak (baktime);
+
+
 
 
 
