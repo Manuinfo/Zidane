@@ -87,7 +87,11 @@
     //提交按钮的确认
     $("#btnConfirm").click(function (){
 
-        if(!$("#f_person_name").text()||!$("#f_name").text()||$("#f_ulevel").text())
+        //console.log($("#f_person_name").val());
+        //console.log($("#f_name").val());
+        //console.log($("#f_ulevel").val());
+
+        if(!$("#f_person_name").val()||!$("#f_name").val()||!$("#f_ulevel").val())
         {
             $('#add_info').html('<div class="alert alert-warning">姓名、授权编号、代理等级为必填字段</div>');
         } else
@@ -108,8 +112,14 @@
             },
             dataType: "json",
             async:false,
-            success: function(data){
-                console.log(data);
+            success: function(s_res){
+                if(s_res.code=='error')
+                {
+                    $('#add_info').html('<div class="alert alert-warning">新增记录失败'+s_res.msg+'</div>');
+                } else
+                {
+                    $('#add_info').html('<div class="alert alert-warning">新增'+$("#f_alname").val()+'记录成功,其上级信息请在下方表格进行更新</div>');
+                }
             }
         });
         }
@@ -118,6 +128,7 @@
     //取消按钮确认
     $("#btnCancel").click(function (){
         $("#i_add_info").css("display","none");
+        $('#add_info').html('');
     });
 
     //折叠 记录增加的按钮
@@ -125,9 +136,11 @@
         if ($("#i_add_info").css("display")=="none")
         {
             $("#i_add_info").css("display","");
+            $('#add_info').html('');
         } else
         {
             $("#i_add_info").css("display","none");
+            $('#add_info').html('');
         }
     });
 

@@ -408,3 +408,25 @@ exports.Up_ProxyInfo_Boss_Log=function(p_oldname,p_newname,callback){
         });
     });
 };
+
+//新增代理商的记录
+exports.New_ProxyInfo=function(p_name,p_alname,p_ulevel,p_uzone,p_sid,p_person_id,p_person_name,p_person_cell,p_tbname,callback){                            //----
+    logger.debug('新增代理商的记录');
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.new_proxy_info(p_name,p_alname,p_ulevel,p_uzone,p_sid,p_person_id,p_person_name,p_person_cell,p_tbname));
+        acc.Gen_DB(conn,sql_g.new_proxy_info(p_name,p_alname,p_ulevel,p_uzone,p_sid,p_person_id,p_person_name,p_person_cell,p_tbname),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};
+
+//新增代理商生命表的记录
+exports.New_ProxyInfo_Life=function(p_newname,callback){                            //----
+    logger.debug('新增代理商的生命记录');
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.up_proxy_info_myboss_all_s4(p_newname));
+        acc.Gen_DB(conn,sql_g.up_proxy_info_myboss_all_s4(p_newname),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};

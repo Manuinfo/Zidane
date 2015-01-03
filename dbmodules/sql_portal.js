@@ -10,7 +10,7 @@ module.exports = {
             return 'select a.send_name,a.recv_name,b.name,count(*) as n_package from ( ' +
                 'select send_name,recv_name,par_id,alname,count(*) ' +
                 'from py_send_his where dist_time > \'' + p_ddtime + '\'' +
-                'and send_name like \'F%\'' +
+                'and send_name like \'F%\' ' +
                 'group by send_name,recv_name,par_id,alname ' +
                 ') a,b_id_mgnt b where a.alname=b.id  and b.type=\'BRAND\' group by alname '
         },
@@ -113,5 +113,4 @@ module.exports = {
             '\''+p_person_cell +'\',' +
             '\''+p_tbname +'\', now());';
     }
-
 };

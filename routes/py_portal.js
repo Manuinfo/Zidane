@@ -490,9 +490,37 @@ exports.pt2011=function(req,res){
     if (req.cookies["l_st"])
     {
         logger.debug(req.body);
-        //res.send({msg:'22222'});
-        res.send({msg:'3333333'})
-    } else
+        m_portal.New_ProxyInfo(req.body.name,
+                               req.body.alname,
+                               req.body.ulevel,
+                               req.body.uzone,
+                               req.body.sid,
+                               req.body.person_id,
+                               req.body.person_name,
+                               req.body.person_cell,
+                               req.body.tbname,function(dbres){
+           if(dbres.code)
+           {
+               logger.debug('新增记录时出现问题:'+dbres.message)
+               acc.SendOnErr(res,t.res_one('error',dbres.message));
+           }else
+           {
+               logger.debug('新增记录时成功')
+               m_portal.New_ProxyInfo_Life(req.body.name,function(dbres2){
+                   m_portal.InsertOpsLog(req.connection.remoteAddress,
+                       'ch_abc',
+                       'add_proxy_info_newacc',
+                       req.body.name,
+                       '新增记录',
+                       '新增记录',
+                       function(dbres3){
+                           acc.SendOnErr(res,t.res_one('SUCC','新增记录成功'));
+                       });
+               });
+           }
+           });
+    }
+    else
     {
         res.redirect('/xlogin')
     }
