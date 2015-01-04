@@ -5,6 +5,7 @@ var pool=require('../conf/db.js');
 var acc=require('../libs/acc.js');
 var t=require('../libs/t.js');
 var me=require('./m_portal.js');
+var me_login=require('./m_login.js');
 var sql_g=require('../dbmodules/sql_portal.js');
 var sql_1st=require('../dbmodules/sql.js');
 var logger = require('../libs/log').logger;
@@ -272,6 +273,159 @@ exports.Get_Tasks_FailReason=function(p_tid,p_tname,callback){
         logger.debug('Req:'+sql_g.qs_batch_task_fail(p_tid,p_tname));
         //console.log(sql_g.qs_batch_task_done());
         acc.Gen_DB(conn,sql_g.qs_batch_task_fail(p_tid,p_tname),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};
+
+//查询后台代理商信息
+exports.Get_ProxyInfo=function(callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.qs_proxy_info());
+        //console.log(sql_g.qs_proxy_info());
+        acc.Gen_DB(conn,sql_g.qs_proxy_info(),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};
+
+
+//查询我可以分配哪些上级
+exports.Get_MyBossInfo=function(p_ulevel,p_name,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.qs_my_upname(p_ulevel,p_name));
+        //console.log(sql_g.qs_my_upname(p_ulevel,p_name));
+        acc.Gen_DB(conn,sql_g.qs_my_upname(p_ulevel,p_name),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};
+
+
+//记录代理商表的变更日志
+exports.InsertOpsLog=function(p_ip,p_ua,p_qtype,p_pk,p_old,p_obj,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_1st.Insert_Log_Basic(p_ip,p_ua,p_qtype,p_pk,p_old,p_obj));
+        //console.log(sql_1st.Insert_Log_Basic(p_ip,p_ua,p_qtype,'NULL','NULL',p_obj));
+        acc.Gen_DB(conn,sql_1st.Insert_Log_Basic(p_ip,p_ua,p_qtype,p_pk,p_old,p_obj),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};
+
+
+//更新代理商的信息表
+exports.Up_ProxyInfo_Normal=function(p_obj_fd,p_obj_val,p_obj_pk,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.up_proxy_info_normal(p_obj_fd,p_obj_val,p_obj_pk));
+       // console.log(sql_g.up_proxy_info_normal(p_obj_fd,p_obj_val,p_obj_pk));
+        acc.Gen_DB(conn,sql_g.up_proxy_info_normal(p_obj_fd,p_obj_val,p_obj_pk),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};
+
+//更新代理商的等级，但其授权编号NAME、上下级关系等不变化
+exports.Up_ProxyInfo_Level=function(p_obj_fd,p_obj_val,p_obj_pk,callback){
+    //更新我作为下级的时候
+    logger.debug('更新我作为下级的时候');
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.up_proxy_info_level_1(p_obj_val,p_obj_pk));
+        // console.log(sql_g.up_proxy_info_level_1(p_obj_val,p_obj_pk));
+        acc.Gen_DB(conn,sql_g.up_proxy_info_level_1(p_obj_val,p_obj_pk),2,function(dbres1){
+
+            //更新我作为上级的时候
+            logger.debug('更新我作为上级的时候');
+            pool.getConnection(function(err, conn) {
+                logger.debug('Req:'+sql_g.up_proxy_info_level_2(p_obj_val,p_obj_pk));
+                // console.log(sql_g.up_proxy_info_level_2(p_obj_val,p_obj_pk));
+                acc.Gen_DB(conn,sql_g.up_proxy_info_level_2(p_obj_val,p_obj_pk),2,function(dbres2){
+                    callback(dbres2);
+                });
+            });
+        });
+    });
+};
+
+
+//更新我的唯一上级
+exports.Up_ProxyInfo_MyBoss_1=function(p_downame,p_upname,p_upid,callback){
+    logger.debug('更新我的唯一上级');
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.up_proxy_info_myboss_1(p_downame,p_upname,p_upid));
+        acc.Gen_DB(conn,sql_g.up_proxy_info_myboss_1(p_downame,p_upname,p_upid),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};
+
+
+//更新代理商的等级，WHEN 授权编号发生变化的时候
+exports.Up_ProxyInfo_Boss_All=function(p_oldname,p_newname,p_newid,callback){
+    //更新我作为下级的时候
+    logger.debug('授权编号变更_1：更新我作为下级的时候');
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.up_proxy_info_myboss_all_s1(p_oldname,p_newname,p_newid));
+        acc.Gen_DB(conn,sql_g.up_proxy_info_myboss_all_s1(p_oldname,p_newname,p_newid),2,function(dbres1){
+
+            //更新我作为上级的时候
+            logger.debug('授权编号变更_2：更新我作为上级的时候');
+            pool.getConnection(function(err, conn) {
+                logger.debug('Req:'+sql_g.up_proxy_info_myboss_all_s2(p_oldname,p_newname,p_newid));
+                acc.Gen_DB(conn,sql_g.up_proxy_info_myboss_all_s2(p_oldname,p_newname,p_newid),2,function(dbres2){
+                    callback(dbres2);
+                });
+            });
+        });
+    });
+};
+
+
+//更新代理商的等级后的日志，WHEN 授权编号发生变化的时候
+exports.Up_ProxyInfo_Boss_Log=function(p_oldname,p_newname,callback){
+    //更新我作为下级的时候
+    logger.debug('授权编号变更_3：更新LifeLog的oldname，增加结束时间');
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.up_proxy_info_myboss_all_s3(p_oldname));
+        acc.Gen_DB(conn,sql_g.up_proxy_info_myboss_all_s3(p_oldname),2,function(dbres1){
+
+            //更新我作为上级的时候
+            logger.debug('授权编号变更_4：新增LifeLog的newname，增加开始时间');
+            pool.getConnection(function(err, conn) {
+                logger.debug('Req:'+sql_g.up_proxy_info_myboss_all_s4(p_newname));
+                acc.Gen_DB(conn,sql_g.up_proxy_info_myboss_all_s4(p_newname),2,function(dbres2){
+
+                    //最后更新代理商资料表
+                    logger.debug('授权编号变更_5：更新py_user_accounts表');
+                    pool.getConnection(function(err, conn) {
+                        logger.debug('Req:'+sql_g.up_proxy_info_myboss_all_s5(p_oldname,p_newname));
+                        acc.Gen_DB(conn,sql_g.up_proxy_info_myboss_all_s5(p_oldname,p_newname),2,function(dbres3){
+                            callback(dbres3);
+                        });
+                    });
+                });
+            });
+        });
+    });
+};
+
+//新增代理商的记录
+exports.New_ProxyInfo=function(p_name,p_alname,p_ulevel,p_uzone,p_sid,p_person_id,p_person_name,p_person_cell,p_tbname,callback){                            //----
+    logger.debug('新增代理商的记录');
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.new_proxy_info(p_name,p_alname,p_ulevel,p_uzone,p_sid,p_person_id,p_person_name,p_person_cell,p_tbname));
+        acc.Gen_DB(conn,sql_g.new_proxy_info(p_name,p_alname,p_ulevel,p_uzone,p_sid,p_person_id,p_person_name,p_person_cell,p_tbname),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};
+
+//新增代理商生命表的记录
+exports.New_ProxyInfo_Life=function(p_newname,callback){                            //----
+    logger.debug('新增代理商的生命记录');
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.up_proxy_info_myboss_all_s4(p_newname));
+        acc.Gen_DB(conn,sql_g.up_proxy_info_myboss_all_s4(p_newname),2,function(dbres){
             callback(dbres);
         });
     });

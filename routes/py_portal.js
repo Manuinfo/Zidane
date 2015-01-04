@@ -6,6 +6,8 @@ var acc=require('../libs/acc.js');
 var t=require('../libs/t.js');
 var m_portal=require('../dbmodules/m_portal.js');
 var m_goods=require('../dbmodules/m_goods.js');
+var m_login=require('../dbmodules/m_login.js');
+
 var fs = require('fs');
 var os=require('os');
 
@@ -305,6 +307,220 @@ exports.pt2009_p=function(req,res){
             res.send(dbres)
         });
     } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+
+//代理商信息维护的GET 页面
+exports.pt2010=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        logger.debug(req.body);
+        m_portal.Get_ProxyInfo(function(dbres){
+            logger.debug('资料读取完毕')
+           // logger.debug(dbres);
+            res.render('proxy_info',{n_res:dbres});
+        });
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+//更新代理商的姓名
+exports.pt2010_upt_pname=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        res.send({msg:'ok'})
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+//更新代理商的普通资料
+exports.pt2010_upt_normal=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        logger.debug(req.body);
+        m_portal.Up_ProxyInfo_Normal(req.body.name.split('-')[1],
+                                     req.body.value,
+                                     req.body.pk,function(dbres){
+                if(dbres.affectedRows==1)
+                {
+                    m_portal.InsertOpsLog(req.connection.remoteAddress,
+                                          'ch_abc',
+                                          'update_proxy_info_normal',
+                                          req.body.pk,
+                                          req.body.old_value,
+                                          JSON.stringify(req.body),
+                        function(xres){
+                            acc.SendOnErr(res,t.res_one('SUCC','Update OK!'));
+                    });
+                } else
+                {
+                    acc.SendOnErr(res,t.res_one('error',dbres.message));
+                }
+            });
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+//更新代理商的纯粹的等级，但PK和ID不变
+exports.pt2010_upt_level=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        logger.debug(req.body);
+        m_portal.Up_ProxyInfo_Normal(req.body.name.split('-')[1],
+            req.body.value,
+            req.body.pk,function(dbres){
+                if(dbres.affectedRows==1)
+                {
+                    m_portal.InsertOpsLog(req.connection.remoteAddress,
+                        'ch_abc',
+                        'update_proxy_info_level',
+                        req.body.pk,
+                        req.body.old_value,
+                        JSON.stringify(req.body),
+                        function(xres){
+                            m_portal.Up_ProxyInfo_Level(req.body.name.split('-')[1],
+                                req.body.value,
+                                req.body.pk,function(xxres){
+                                acc.SendOnErr(res,t.res_one('SUCC','Update OK!'));
+                            });
+                        });
+                } else
+                {
+                    acc.SendOnErr(res,t.res_one('error',dbres.message));
+                }
+            });
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+//更新代理商的账户==授权编号
+exports.pt2010_upt_accname=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        //console.log(req.body.pk);
+        if(req.body.pk.length==0)
+        {
+            acc.SendOnErr(res,t.res_one('error','PK 为空不能更新'));
+        } else
+        {
+            logger.debug(req.body);
+            m_portal.Up_ProxyInfo_Boss_All(req.body.old_value,req.body.value,req.body.old_id,function(dbres)
+            {
+            m_portal.Up_ProxyInfo_Boss_Log(req.body.old_value,req.body.value,function(dbres2)
+            {
+                //console.log(dbres2)
+                if(dbres2.code)
+                {
+                    acc.SendOnErr(res,t.res_one('error',dbres2.message));
+                } else
+                {
+                m_portal.InsertOpsLog(req.connection.remoteAddress,
+                    'ch_abc',
+                    'update_proxy_info_accname',
+                    req.body.pk,
+                    req.body.old_value,
+                    JSON.stringify(req.body),
+                    function(xres){
+                        acc.SendOnErr(res,t.res_one('SUCC','Update OK!'));
+                    });
+                }
+            })
+
+        })
+        }
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+//更新代理商的指定上级
+exports.pt2010_upt_boss=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        logger.debug(req.body);
+        m_login.Get_AcctName(req.body.value,function(boss_res){
+           logger.debug(req.body.pk+'想获取新的上级'+req.body.value+'的等级是'+boss_res.ulevel);
+            logger.debug('准备更新上级信息');
+            m_portal.Up_ProxyInfo_MyBoss_1(req.body.pk,req.body.value,boss_res.ulevel,function(ops_res){
+                logger.debug('更新成功，记录OPS日志');
+                acc.SendOnErr(res, t.res_one('SUCC','Update OK!'));
+            });
+        });
+    } else
+    {
+        res.redirect('/xlogin');
+    }
+};
+
+//查询我可以分配哪些上级
+exports.pt2010_query_myboss=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        logger.debug(req.body);
+        m_portal.Get_MyBossInfo(req.body.m_ulevel,req.body.m_name,function(dbres){
+            //console.log(dbres.length);
+            logger.debug(JSON.stringify(dbres));
+            logger.debug('获取到了上级BOSS信息，开始调整格式至select2');
+            acc.ConvToGroup(dbres,'渠道代理等级_',function(group_res){
+                acc.SendOnErr(res, t.res_one('SUCC',group_res))
+                logger.debug('返回上级BOSS结果');
+            });
+        });
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+};
+
+
+//增加代理商的记录
+exports.pt2011=function(req,res){
+    if (req.cookies["l_st"])
+    {
+        logger.debug(req.body);
+        m_portal.New_ProxyInfo(req.body.name,
+                               req.body.alname,
+                               req.body.ulevel,
+                               req.body.uzone,
+                               req.body.sid,
+                               req.body.person_id,
+                               req.body.person_name,
+                               req.body.person_cell,
+                               req.body.tbname,function(dbres){
+           if(dbres.code)
+           {
+               logger.debug('新增记录时出现问题:'+dbres.message)
+               acc.SendOnErr(res,t.res_one('error',dbres.message));
+           }else
+           {
+               logger.debug('新增记录时成功')
+               m_portal.New_ProxyInfo_Life(req.body.name,function(dbres2){
+                   m_portal.InsertOpsLog(req.connection.remoteAddress,
+                       'ch_abc',
+                       'add_proxy_info_newacc',
+                       req.body.name,
+                       '新增记录',
+                       '新增记录',
+                       function(dbres3){
+                           acc.SendOnErr(res,t.res_one('SUCC','新增记录成功'));
+                       });
+               });
+           }
+           });
+    }
+    else
     {
         res.redirect('/xlogin')
     }

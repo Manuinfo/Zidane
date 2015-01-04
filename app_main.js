@@ -61,14 +61,15 @@ app.use(logger_core('dev'));  //打印CONSOLE的日志
 
 
 //Portal管理
+//== 登陆
 app.get('/xadmin',rest_pt.pt2001);
 app.get('/xlogin',rest_pt.pt2002);
 app.post('/xlogin',rest_pt.pt2002_p);
-
+//== 商品
 app.get('/xadmin/goods_query',rest_pt.pt2004);
 app.get('/xadmin/goods_change',rest_pt.pt2005);
 app.post('/xadmin/goods_change',rest_pt.pt2005_p);
-
+//== 上传
 app.get('/xadmin/batch_upload',rest_pt.pt2006);
 app.post('/xadmin/batch_upload',rest_pt.pt2006_p);
 app.get('/xadmin/batch_upload_package',rest_pt.pt2007);
@@ -77,89 +78,95 @@ app.get('/xadmin/batch_mgnt',rest_pt.pt2008);
 app.post('/xadmin/batch_mgnt',rest_pt.pt2008_p);
 app.get('/xadmin/batch_task',rest_pt.pt2009);
 app.post('/xadmin/batch_task',rest_pt.pt2009_p);
-
-
+//== 发货
 app.get('/xadmin/pack_send',rest_pt.pt2003);
 app.post('/xadmin/pack_send_1',rest_pt.pt2003_p_1);
 app.post('/xadmin/pack_send_2',rest_pt.pt2003_p_2);
-
+//== 代理商
+app.get('/xadmin/proxy_info',rest_pt.pt2010);
+app.post('/xadmin/proxy_upt_pk',rest_pt.pt2010_upt_accname);
+app.post('/xadmin/proxy_upt_nml',rest_pt.pt2010_upt_normal);
+app.post('/xadmin/proxy_upt_level',rest_pt.pt2010_upt_level);
+app.post('/xadmin/proxy_upt_boss',rest_pt.pt2010_upt_boss);
+app.post('/xadmin/proxy_qs_myboss',rest_pt.pt2010_query_myboss);
+app.post('/xadmin/proxy_info_add',rest_pt.pt2011);
 
 
 
 //防伪管理
-app.get('/r/2001/:prdname', rest_r.r2001);
-app.get('/r/2002/:prdname', rest_r.r2002);
-app.get('/r/2003/:bid', rest_r.r2003);
-app.get('/r/2004/:qr', rest_r.r2004);
-app.get('/r/2005/:qr', rest_r.r2005);
-app.get('/r/2006/:shopname', rest_r.r2006);
-app.get('/r/2007/:prdname', rest_r.r2007);
-app.get('/r/2008/:qrcode', rest_r.r2008);
-app.get('/r/2009/:rdcode',rest_r.r2009);
-app.get('/r/2010/:nfcid/:qtime',rest_r.r2010);
-app.get('/r/2011',rest_r.r2011);    //获取所有商品的信息
+        app.get('/r/2001/:prdname', rest_r.r2001);
+        app.get('/r/2002/:prdname', rest_r.r2002);
+        app.get('/r/2003/:bid', rest_r.r2003);
+        app.get('/r/2004/:qr', rest_r.r2004);
+        app.get('/r/2005/:qr', rest_r.r2005);
+        app.get('/r/2006/:shopname', rest_r.r2006);
+        app.get('/r/2007/:prdname', rest_r.r2007);
+        app.get('/r/2008/:qrcode', rest_r.r2008);
+        app.get('/r/2009/:rdcode',rest_r.r2009);
+        app.get('/r/2010/:nfcid/:qtime',rest_r.r2010);
+        app.get('/r/2011',rest_r.r2011);    //获取所有商品的信息
 
-app.get('/w/2001/:shopname/:prdname/:place/:price', rest_w.w2001);
-app.get('/w/2002/:prdname/:place/:bcount/:nfccount/:vrftime', rest_w.w2002);
-app.get('/w/2003/:bid/:nfcid', rest_w.w2003);
-app.get('/w/2004/:bid/:qrcount/:qravtimes', rest_w.w2004);
-app.get('/wqr/2005/:qrhref', rest_w.w2005);  //面向用户的二维码验证
-app.get('/contactus',function(req,res){res.render('contactus',{});});
-app.get('/w/2006/:qrhref', rest_w.w2006);
-app.get('/w/2007/:qrhref/:cip/:cua', rest_w.w2007);
-app.get('/w/2008/:nfcid', rest_w.w2008);  //面向商户 盒子的NFC验证，盒子存不存在
+        app.get('/w/2001/:shopname/:prdname/:place/:price', rest_w.w2001);
+        app.get('/w/2002/:prdname/:place/:bcount/:nfccount/:vrftime', rest_w.w2002);
+        app.get('/w/2003/:bid/:nfcid', rest_w.w2003);
+        app.get('/w/2004/:bid/:qrcount/:qravtimes', rest_w.w2004);
+        app.get('/wqr/2005/:qrhref', rest_w.w2005);  //面向用户的二维码验证
+        app.get('/contactus',function(req,res){res.render('contactus',{});});
+        app.get('/w/2006/:qrhref', rest_w.w2006);
+        app.get('/w/2007/:qrhref/:cip/:cua', rest_w.w2007);
+        app.get('/w/2008/:nfcid', rest_w.w2008);  //面向商户 盒子的NFC验证，盒子存不存在
 
 //代理商管理
-app.post('/py_w/2001', rest_pw.w2001); //登陆验证
-app.post('/py_w/2002', rest_pw.w2002); //密码重置
-app.post('/py_w/2003', rest_pw.w2003); //首次登陆时的密码修改
-app.post('/py_w/2004', rest_pw.w2004); //录入新资料
+        app.post('/py_w/2001', rest_pw.w2001); //登陆验证
+        app.post('/py_w/2002', rest_pw.w2002); //密码重置
+        app.post('/py_w/2003', rest_pw.w2003); //首次登陆时的密码修改
+        app.post('/py_w/2004', rest_pw.w2004); //录入新资料
 
 
-app.get('/py_r/2001/:cmd', rest_pr.r2001);
-app.get('/py_r/2002/:sid', rest_pr.r2002);  //根据系列取商品列表
-app.post('/py_r/2003', rest_pr.r2003);  //校验装箱商品是否准确
-app.post('/py_r/2004', rest_pr.r2004);  //查询装箱历史
-app.post('/py_r/2005', rest_pr.r2005);  //查询哪些下家，返回的下家的ID
-app.post('/py_r/2006', rest_pr.r2006);  //查询哪些上家
-app.post('/py_r/2007', rest_pr.r2007);  //查询这批货是否属于我，验货
-app.post('/py_r/2008', rest_pr.r2008);  //发货，当然之前还要验货
-app.post('/py_r/2009', rest_pr.r2009);  //查询发货历史，查询条件是开始时间、结束时间、发货人账号
-app.post('/py_r/2010', rest_pr.r2010);  //查询ADMIN之前查过的历史
-app.post('/py_r/2011', rest_pr.r2011);  //查询发货员下面的省级代理
-app.post('/py_r/2012', rest_pr.r2012);  //查询发货员下面的一级代理
-app.post('/py_r/2013', rest_pr.r2013);  //查询根据LEVELID和UPNAME查下家
-app.post('/py_r/2014', rest_pr.r2014);  //查询发货历史，某箱货物最近一次收发记录
-app.post('/py_r/2015', rest_pr.r2015);  //查询一个账号下所有子账号
-app.post('/py_r/2016', rest_pr.r2016);  //查询发货历史，根据起止时间
-app.post('/py_r/2017', rest_pr.r2017);  //查询装箱历史，根据箱子ID
-app.post('/py_r/2018', rest_pr.r2018);  //查询发货历史，根据起止时间+NFCID+所有记录
-app.get('/py_r/2019', rest_pr.r2019);  //查询APP最新版本号码
+        app.get('/py_r/2001/:cmd', rest_pr.r2001);
+        app.get('/py_r/2002/:sid', rest_pr.r2002);  //根据系列取商品列表
+        app.post('/py_r/2003', rest_pr.r2003);  //校验装箱商品是否准确
+        app.post('/py_r/2004', rest_pr.r2004);  //查询装箱历史
+        app.post('/py_r/2005', rest_pr.r2005);  //查询哪些下家，返回的下家的ID
+        app.post('/py_r/2006', rest_pr.r2006);  //查询哪些上家
+        app.post('/py_r/2007', rest_pr.r2007);  //查询这批货是否属于我，验货
+        app.post('/py_r/2008', rest_pr.r2008);  //发货，当然之前还要验货
+        app.post('/py_r/2009', rest_pr.r2009);  //查询发货历史，查询条件是开始时间、结束时间、发货人账号
+        app.post('/py_r/2010', rest_pr.r2010);  //查询ADMIN之前查过的历史
+        app.post('/py_r/2011', rest_pr.r2011);  //查询发货员下面的省级代理
+        app.post('/py_r/2012', rest_pr.r2012);  //查询发货员下面的一级代理
+        app.post('/py_r/2013', rest_pr.r2013);  //查询根据LEVELID和UPNAME查下家
+        app.post('/py_r/2014', rest_pr.r2014);  //查询发货历史，某箱货物最近一次收发记录
+        app.post('/py_r/2015', rest_pr.r2015);  //查询一个账号下所有子账号
+        app.post('/py_r/2016', rest_pr.r2016);  //查询发货历史，根据起止时间
+        app.post('/py_r/2017', rest_pr.r2017);  //查询装箱历史，根据箱子ID
+        app.post('/py_r/2018', rest_pr.r2018);  //查询发货历史，根据起止时间+NFCID+所有记录
+        app.get('/py_r/2019', rest_pr.r2019);  //查询APP最新版本号码
 
 
 
 //app.post('/py_w/2004',rest_pr.w2004);  //校验装箱商品是否重复
 //(?:\.\.(\w+))?$
 //(?:\.\.(\w+))
-app.get('/:aaaa',function(req, res){
-    console.log(req.url);
-    var from = req.param('aaaa');
-    res.send('commit url : ' + from);
-});
+        app.get('/:aaaa',function(req, res){
+            console.log(req.url);
+            var from = req.param('aaaa');
+            res.send('commit url : ' + from);
+        });
 
 
-logger.debug('Load Initial BaseData 1/5sec');
+        logger.debug('Load Initial BaseData 1/5sec');
 
-conf.Get_IDByType('CHANNEL',function(confall){ global.u_CHID=acc.G_JSON({},confall)});
-conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL=acc.G_JSON({},confall)});
-conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL_R=acc.G_JSON_R({},confall)});
-conf.Get_IDByType('BRAND',function(confall){ global.u_BRAND=acc.G_JSON({},confall);});
-conf.Get_IDByType('BRAND',function(confall){ global.u_BRAND_R=acc.G_JSON_R({},confall);});
-conf.Get_IDByType('LAY',function(confall){ global.u_LAY=acc.G_JSON({},confall);});
-conf.Get_IDByType('LAY',function(confall){ global.u_LAY_R=acc.G_JSON_R({},confall);});
-conf.Get_IDByType('PACKLIMIT',function(confall){ global.u_PACKLIMIT=acc.G_JSON({},confall);});
-conf.Get_IDByType('SITE',function(confall){ global.u_SITE=acc.G_JSON({},confall);});
-conf.Get_ALLAccts(function(confall){ global.u_ACCTS=acc.G_JSON({},confall);});
+        conf.Get_IDByType('CHANNEL',function(confall){ global.u_CHID=acc.G_JSON({},confall)});
+        conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL=acc.G_JSON({},confall)});
+        conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL_R=acc.G_JSON_R({},confall)});
+        conf.Get_IDByType('BRAND',function(confall){ global.u_BRAND=acc.G_JSON({},confall);});
+        conf.Get_IDByType('BRAND',function(confall){ global.u_BRAND_R=acc.G_JSON_R({},confall);});
+        conf.Get_IDByType('LAY',function(confall){ global.u_LAY=acc.G_JSON({},confall);});
+        conf.Get_IDByType('LAY',function(confall){ global.u_LAY_R=acc.G_JSON_R({},confall);});
+        conf.Get_IDByType('PACKLIMIT',function(confall){ global.u_PACKLIMIT=acc.G_JSON({},confall);});
+        conf.Get_IDByType('SITE',function(confall){ global.u_SITE=acc.G_JSON({},confall);});
+        conf.Get_ALLAccts(function(confall){ global.u_ACCTS=acc.G_JSON({},confall);});
 
 //
 
@@ -168,26 +175,26 @@ conf.Get_ALLAccts(function(confall){ global.u_ACCTS=acc.G_JSON({},confall);});
 //console.log(x.split('-'));
 
 
-setTimeout(function(){
-    app.listen(3000,function(){        //console.log(global.u_SITE);
+        setTimeout(function(){
+            app.listen(3000,function(){        //console.log(global.u_SITE);
 
-        console.log('Zidane Web Service is started at 3000,ID:'+process.pid);
-        logger.debug('--------------------------------------------------------')
-        logger.debug('Zidane Web Service is started at 3000,ID:'+process.pid);
-        logger.debug('--------------------------------------------------------')
-        //console.log(global.u_SERIAL_R);
-        console.log(global.u_BRAND_R);
-        //console.log(global.u_SERIAL_R);
-        //console.log(global.u_LAY_R);
-    });
-},1500);
+                console.log('Zidane Web Service is started at 3000,ID:'+process.pid);
+                logger.debug('--------------------------------------------------------')
+                logger.debug('Zidane Web Service is started at 3000,ID:'+process.pid);
+                logger.debug('--------------------------------------------------------')
+                //console.log(global.u_SERIAL_R);
+                console.log(global.u_BRAND_R);
+                //console.log(global.u_SERIAL_R);
+                //console.log(global.u_LAY_R);
+            });
+        },1500);
 
 
-setInterval(function(){
-    logger.debug('Load Initial BaseData 1/5sec');
-    conf.Get_IDByType('CHANNEL',function(confall){ global.u_CHID=acc.G_JSON({},confall)});
-    conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL=acc.G_JSON({},confall)});
-    conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL_R=acc.G_JSON_R({},confall)});
+        setInterval(function(){
+            logger.debug('Load Initial BaseData 1/5sec');
+            conf.Get_IDByType('CHANNEL',function(confall){ global.u_CHID=acc.G_JSON({},confall)});
+            conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL=acc.G_JSON({},confall)});
+            conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL_R=acc.G_JSON_R({},confall)});
     conf.Get_IDByType('BRAND',function(confall){ global.u_BRAND=acc.G_JSON({},confall);});
     conf.Get_IDByType('LAY',function(confall){ global.u_LAY=acc.G_JSON({},confall);});
     conf.Get_IDByType('LAY',function(confall){ global.u_LAY_R=acc.G_JSON_R({},confall);});

@@ -556,6 +556,20 @@ create table sys_config
 DEFAULT CHARSET=gbk;
 
 
+#---------------- 账户生命周期表 -------------------
+create table py_user_life_log
+(
+    obj_name varchar(255),
+    st_time datetime,
+    en_time datetime
+) engine=INNODB
+DEFAULT CHARSET=gbk;
+
+
+CREATE INDEX ind_bak_table_1 ON py_user_accounts_bak (baktime);
+CREATE INDEX ind_bak_table_2 ON py_relatation_bak (baktime);
+
+
 
 
 

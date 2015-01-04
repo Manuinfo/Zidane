@@ -3,8 +3,9 @@
  */
 
 var logger = require('../libs/log').logger;
-var pool=    require('../conf/db.js');
-var http=require('http');
+var pool   = require('../conf/db.js');
+var http   = require('http');
+var me     = require('./acc.js');
 
 
 
@@ -119,8 +120,44 @@ exports.G_ARRAY_KV_IF=function(arr,delimer,xstr){
 
 exports.Gen_DB=function(p_conn,p_sql,p_rec_num,callback){
     p_conn.query(p_sql,function (err, sqlres) {
-        if (err) {p_conn.release();throw err;logger.debug(err);}
-        p_conn.release();
-        (p_rec_num==1) ? callback(sqlres[0]) : callback(sqlres);
+        if (err) {
+            p_conn.release();
+            logger.debug(err.message);
+            callback(err);
+        } else
+        {
+            p_conn.release();
+            (p_rec_num==1) ? callback(sqlres[0]) : callback(sqlres);
+        }
     });
+};
+
+
+//JS 去重数组
+exports.getNoRepeat=function (s_arr) {
+    return s_arr.sort().join(",,").replace(/(,|^)([^,]+)(,,\2)+(,|$)/g,"$1$2$4").replace(/,,+/g,",").replace(/,$/,"").split(",");
+}
+
+//讲分组数据返回成html select optgroup 的格式
+exports.ConvToGroup=function(p_arr,p_title,callback){
+
+    var arr_new=[];
+    for(var i=0;i<p_arr.length;i++)
+    {
+        var obj={};
+        obj['text']=p_title+p_arr[i].ulevel;
+        obj['children']=[];
+
+        for(var j=0;j<p_arr[i].text.split(',').length;j++)
+        {
+            var obj_inner={};
+            obj_inner['id']=p_arr[i].text.split(',')[j];
+            obj_inner['text']=p_arr[i].text.split(',')[j];
+            obj['children'].push(obj_inner)
+        }
+        arr_new.push(obj)
+    }
+  //  console.log(arr_new);
+    callback(arr_new);
+
 };
