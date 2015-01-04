@@ -192,7 +192,7 @@ exports.pt2007=function(req,res){
     {
         m_goods.Get_AllGoods(function(dbres){
             // console.log(dbres);
-            res.render('batch_upload',{res_goods:dbres})
+            res.render('batch_upload_package',{res_goods:dbres})
         });
     } else
     {
