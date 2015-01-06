@@ -70,7 +70,7 @@ module.exports={
     'Insert_NFCID_PACKAGE':function(p_nfcid,p_bid,p_flag){
         return 'insert into g_nfc_box_map values (upper(\''+p_nfcid+'\'),'+
             '\''+p_bid+'\','+
-            '\'0000-00-00 00:00:00\',\''+p_flag+'\');'
+            '\'0000-00-00 00:00:00\',\''+p_flag+'\',now());'
     },
     'Insert_QRHrefID':function(p_bid,p_url,p_cc,p_av_times){
         return 'call proc_gen_qr_href(\''+p_bid+'\',\''+p_url+'\','+p_cc+','+p_av_times+');' ;
