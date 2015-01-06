@@ -619,3 +619,5 @@ exports.Query_SendHisLastOne=function(uname,stime,etime,nfcid,goodsid,callback){
         });
     });
 };
+
+

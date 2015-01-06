@@ -26,7 +26,7 @@ exports.pt2001=function(req,res){
     }
 };
 
-//主登陆路界面
+//主登陆界面
 exports.pt2002=function(req,res){
     res.render('xlogin',{});
 };

@@ -54,7 +54,7 @@ exports.get_zoneid=function(zname,callback){
     pool.getConnection(function(err, conn) {
         conn.query(sql.Query_Zid_ByZoneName(zname),function (err, sqlres) {
             conn.release();
-            console.log(sqlres[0]);
+          //  console.log(sqlres[0]);
             callback(sqlres[0]);
         });
     });
