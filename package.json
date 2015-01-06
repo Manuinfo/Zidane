@@ -17,6 +17,7 @@
     "async":"*",
     "moment":"*",
     "mysql":"*",
-    "log4js":"*"
+    "log4js":"*",
+    "express-mysql-session":"*"
   }
 }
