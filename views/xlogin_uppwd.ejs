@@ -10,12 +10,6 @@
 
 <div id="d_login" style="margin:0 auto; width:100px; height:50px; border:1px solid #ffff00;background:url('/admin/images/login_back.jpg')">
     <div style="margin-left: 900px;margin-top:200px">
-        <div class="form-group">
-            <div class="col-sm-7">
-                <input type="password" class="form-control" id="acc_old_pwd"  placeholder="请输入旧密码">
-            </div>
-        </div>
-
         <div class="form-group" >
             <div class="col-sm-7" style="margin-top: 10px">
                 <input type="password" class="form-control" id="acc_new_pwd_1" placeholder="请输入新密码">
@@ -32,7 +26,12 @@
         <div class="form-group">
             <div class="col-sm-6" style="margin-top: 10px">
                 <button type="submit" class="btn btn-default" id="acc_btn"
-                        style="width:240px;font-family: 'Microsoft YaHei';font-weight:bold">点击确认</button>
+                        style="width:240px;font-family: 'Microsoft YaHei';font-weight:bold">确认并修改密码</button>
+            </div>
+        </div>
+        </br>
+        <div class="form-group">
+            <div class="alert alert-warning col-sm-7" style="margin-top: 10px" id="acc_msg">
             </div>
         </div>
     </div>
@@ -47,6 +46,31 @@
     $("#acc_name").ready(function(){
         //console.log($("#acc_name").css("width"));
         $("#acc_btn").css("width",$("#acc_name").css("width"))
+    });
+
+    $("#acc_btn").click(function(){
+        if(!$("#acc_new_pwd_1").val() || !$("#acc_new_pwd_2").val())
+        {
+            $("#acc_msg").css('display','');
+            $("#acc_msg").html('<strong>警告：</strong>新密码为空请重新输入')
+        } else if ($("#acc_new_pwd_1").val() != $("#acc_new_pwd_2").val())
+        {
+            $("#acc_msg").css('display','');
+            $("#acc_msg").html('<strong>警告：</strong>两次输入的密码不一致，请重新确认')
+        } else
+        {
+            $.ajax({
+                type: "POST",
+                url: "/xlsfjl34lsdflsllewrojlwej",
+                data: {acc_name:$("#acc_name").val(),acc_pwd:hex_md5($("#acc_pwd").val())},
+                dataType: "json",
+                async:true,
+                success: function(data){
+                    console.log(data)
+
+                }
+            });
+        }
     });
 </script>
 

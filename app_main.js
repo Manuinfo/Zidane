@@ -73,8 +73,8 @@ app.use(session({
    key: 'session_zidane',
    secret: 'session_goldenking',
    store: sessionStore,
-   cookie:{maxAge:60*1000},
-   resave: true,
+   cookie:{maxAge:60000},
+   resave:true,
    saveUninitialized: true
 }));
 app.use(express.static(path.join(__dirname, 'public'),{
@@ -107,7 +107,8 @@ app.use(function(req, res, next){
 //== 登陆
 app.get('/xadmin',rest_pt.pt2001);   //管理页
 app.get('/xlogin',rest_pt.pt2002);   //登陆页
-app.post('/xlsfjl34lsdflsllewrojlwej',rest_pt.pt2002_p);  //登陆的POST服务
+app.post('/xlsfjl34lsdflsllewrojlwej',rest_pt.pt2002_p);  //登陆的基础POST服务
+app.post('/xmls39sjfll2nz40cmnfl3sk3',rest_pt.pt2002_post_updatepwd);  //登陆的基础POST服务
 app.get(/^\/xlogin_uppwd/,rest_pt.pt2002_get_updatepwd);   //修改密码
 //== 商品
 app.get('/xadmin/goods_query',rest_pt.pt2004);

@@ -24,9 +24,8 @@ exports.pt2002=function(req,res){
     res.render('xlogin',{rtn_msg:null});
 };
 
+//首次登陆后的密码修改页面
 exports.pt2002_get_updatepwd=function(req,res){
-    //console.log(req.url);
-    //console.log(req.query.r);
     if(req.session.r==req.query.r)
     {
         logger.debug('进入首次登陆的密码修改页');
@@ -38,6 +37,9 @@ exports.pt2002_get_updatepwd=function(req,res){
         res.redirect('/xlogin');
     }
 };
+
+
+//登陆页面的基础POST服务
 exports.pt2002_p=function(req,res){
 
     logger.debug(req.body);
