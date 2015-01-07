@@ -1,4 +1,5 @@
 <%- include header%>
+<script src="/admin/js/jquery-shadow.js"></script>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -9,36 +10,78 @@
 
 <div id="d_login" style="margin:0 auto; width:100px; height:50px; border:1px solid #ffff00;background:url('/admin/images/login_back.jpg')">
     <div style="margin-left: 900px;margin-top:200px">
-        <form class="form-horizontal" role="form" method="post">
             <div class="form-group">
-                <div class="col-sm-6">
+                <div class="col-sm-7">
                     <input type="text" class="form-control" id="acc_name"  name="acc_name" placeholder="请输入登陆账号">
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-sm-6">
+
+            <div class="form-group" >
+                <div class="col-sm-7" style="margin-top: 10px">
                     <input type="password" class="form-control" id="acc_pwd" name="acc_pwd" placeholder="请输入密码">
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-6">
+                <div class="col-sm-6" style="margin-top: 10px">
                     <button type="submit" class="btn btn-default" id="acc_btn"
                             style="width:210px;font-family: 'Microsoft YaHei';font-weight:bold">登录</button>
                 </div>
             </div>
+            </br>
+            <div class="form-group">
+                <div class="alert alert-warning col-sm-7" style="margin-top: 10px" id="acc_msg">
+                </div>
+            </div>
 
-        </form>
     </div>
 
 </div>
 <script type="text/javascript">
     $("#d_login").ready(function(){
+        $("#acc_msg").css('display','none');
         $("#d_login").css("width",screen.width)
         $("#d_login").css("height",screen.height*0.8)
     });
     $("#acc_name").ready(function(){
         //console.log($("#acc_name").css("width"));
         $("#acc_btn").css("width",$("#acc_name").css("width"))
+    });
+
+    $("#acc_btn").click(function(){
+        //console.log($("#acc_name").val())
+        //console.log(hex_md5($("#acc_pwd").val()))
+        if(!$("#acc_name").val())
+        {
+            $("#acc_msg").css('display','');
+            $("#acc_msg").html('<strong>警告：</strong>用户名为空，请重新输入')
+        } else if (!$("#acc_pwd").val())
+        {
+            $("#acc_msg").css('display','');
+            $("#acc_msg").html('<strong>警告：</strong>密码为空，请重新输入')
+        } else
+        {
+        $.ajax({
+            type: "POST",
+            url: "/xlsfjl34lsdflsllewrojlwej",
+            data: {acc_name:$("#acc_name").val(),acc_pwd:hex_md5($("#acc_pwd").val())},
+            dataType: "json",
+            async:true,
+            success: function(data){
+                console.log(data)
+                if(data.code=='FAIL')
+                {
+                    $("#acc_msg").css('display','');
+                    $("#acc_msg").html('<strong>警告：</strong>'+data.msg)
+                } else if(data.code=='SUCC')
+                {
+                    window.location.href="/xadmin"
+                } else if(data.code=='DOUBT')
+                {
+                    window.location.href="/xlogin_uppwd?r="+data.r
+                }
+            }
+        });
+        }
     });
 </script>
 

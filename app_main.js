@@ -69,32 +69,46 @@ app.use(cookieParser());
 
 
     //app.use(express.cookieSession({ secret: 'ch!', cookie: { maxAge: 60 * 60 * 1000 }}));
-    app.use(session({
-        key: 'session_zidane',
-        secret: 'session_goldenking',
-        store: sessionStore,
-        resave: true,
-        saveUninitialized: true
-    }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+   key: 'session_zidane',
+   secret: 'session_goldenking',
+   store: sessionStore,
+   cookie:{maxAge:60*1000},
+   resave: true,
+   saveUninitialized: true
+}));
+app.use(express.static(path.join(__dirname, 'public'),{
+    maxAge:'1d',
+    setHeaders: function (res, path) {
+        res.set('X-Powered-By', 'X-Man');
+        res.set('x-timestamp', Date.now());
+    }
+}));
 app.use(logger_core('dev'));  //打印CONSOLE的日志
 
 //session 自定义处理的中间件
 app.use(function(req, res, next){
         res.setHeader('X-Powered-By', 'X-Man');
+        logger.debug(req.headers);
         if(req.url[1]=='x')  //说明是访问Portal，进行session校验
         {
-            logger.debug(req.headers);
+            if(!req.session)
+                res.redirect('/xadmin');
+            next();
+        } else
+        {
+            next();
         }
-        next();
+
 });
 
 
 //Portal管理
 //== 登陆
-app.get('/xadmin',rest_pt.pt2001);
-app.get('/xlogin',rest_pt.pt2002);
-app.post('/xlogin',rest_pt.pt2002_p);
+app.get('/xadmin',rest_pt.pt2001);   //管理页
+app.get('/xlogin',rest_pt.pt2002);   //登陆页
+app.post('/xlsfjl34lsdflsllewrojlwej',rest_pt.pt2002_p);  //登陆的POST服务
+app.get(/^\/xlogin_uppwd/,rest_pt.pt2002_get_updatepwd);   //修改密码
 //== 商品
 app.get('/xadmin/goods_query',rest_pt.pt2004);
 app.get('/xadmin/goods_change',rest_pt.pt2005);
