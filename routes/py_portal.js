@@ -38,6 +38,36 @@ exports.pt2002_get_updatepwd=function(req,res){
     }
 };
 
+//首次登陆后的密码修改服务
+exports.pt2002_post_updatepwd=function(req,res){
+    logger.debug(req.body);
+    logger.debug(req.url);
+    logger.debug('首次登陆后的密码修改服务')
+    if(req.session.r==req.query.r)
+    {
+        m_login.Get_AcctName(req.body.acc_name,function(db_res){
+            //console.log(db_res);
+            if(db_res.frstate==1)
+            {
+                m_login.Login_HisAppend(req.body.acc_name,req.headers['x-real-ip'],'非首次登陆不能修改密码，请联系厂商重置密码');
+                acc.SendOnErr(res,t.res_one('FAIL','非首次登陆不能修改密码，请联系厂商重置密码'));
+            }
+            else
+            {
+                m_login.UpdatePasswdFr(req.body.acc_name,req.body.acc_pwd_2);
+                m_login.Login_HisAppend(req.body.acc_name,req.headers['x-real-ip'],'首次密码修改成功，即将进入新的页面');
+                acc.SendOnErr(res,t.res_one('SUCC','首次密码修改成功，即将进入新的页面'));
+            }
+        });
+    } else
+    {
+        logger.debug('非法登陆密码修改页面基础服务,踢出到登陆页')
+        req.session.destroy();
+        res.redirect('/xlogin');
+    }
+
+};
+
 
 //登陆页面的基础POST服务
 exports.pt2002_p=function(req,res){

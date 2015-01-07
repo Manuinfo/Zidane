@@ -39,6 +39,7 @@
 </div>
 <script type="text/javascript">
     $("#d_login").ready(function(){
+        //console.log(window.location.search);
         $("#acc_msg").css('display','none');
         $("#d_login").css("width",screen.width)
         $("#d_login").css("height",screen.height*0.8)
@@ -61,13 +62,22 @@
         {
             $.ajax({
                 type: "POST",
-                url: "/xlsfjl34lsdflsllewrojlwej",
-                data: {acc_name:$("#acc_name").val(),acc_pwd:hex_md5($("#acc_pwd").val())},
+                url: "/xmls39sjfll2nz40cmnfl3sk3"+window.location.search,
+                data: {acc_pwd_1:hex_md5($("#acc_new_pwd_1").val()),
+                       acc_pwd_2:hex_md5($("#acc_new_pwd_2").val()),
+                       acc_name:window.location.search.split('=')[2]
+                },
                 dataType: "json",
                 async:true,
                 success: function(data){
-                    console.log(data)
-
+                    if(data.code='SUCC')
+                    {
+                        window.location.href="/xadmin"
+                    } else
+                    {
+                        $("#acc_msg").css('display','');
+                        $("#acc_msg").html('<strong>警告：</strong>'+data.msg)
+                    }
                 }
             });
         }
