@@ -16,22 +16,112 @@ var logger = require('../libs/log').logger;
 
 //主管理界面
 exports.pt2001=function(req,res){
-    console.log(req.cookies);
-    if (req.cookies["l_st"])
+  res.render('home',{});
+};
+
+//主登陆界面
+exports.pt2002=function(req,res){
+    res.render('xlogin',{rtn_msg:null});
+};
+
+//首次登陆后的密码修改页面
+exports.pt2002_get_updatepwd=function(req,res){
+    if(req.session.r==req.query.r)
     {
-        res.render('home',{});
+        logger.debug('进入首次登陆的密码修改页');
+        res.render('xlogin_uppwd',{});
     } else
     {
-        res.redirect('/xlogin')
+        logger.debug('非法登陆密码修改页面,踢出到登陆页')
+        req.session.destroy();
+        res.redirect('/xlogin');
     }
 };
 
-//主登陆路界面
-exports.pt2002=function(req,res){
-    res.render('xlogin',{});
+//首次登陆后的密码修改服务
+exports.pt2002_post_updatepwd=function(req,res){
+    logger.debug(req.body);
+    logger.debug(req.url);
+    logger.debug('首次登陆后的密码修改服务')
+    if(req.session.r==req.query.r)
+    {
+        m_login.Get_AcctName(req.body.acc_name,function(db_res){
+            //console.log(db_res);
+            if(db_res.frstate==1)
+            {
+                m_login.Login_HisAppend(req.body.acc_name,req.headers['x-real-ip'],'非首次登陆不能修改密码，请联系厂商重置密码');
+                acc.SendOnErr(res,t.res_one('FAIL','非首次登陆不能修改密码，请联系厂商重置密码'));
+            }
+            else
+            {
+                m_login.UpdatePasswdFr(req.body.acc_name,req.body.acc_pwd_2);
+                m_login.Login_HisAppend(req.body.acc_name,req.headers['x-real-ip'],'首次密码修改成功，即将进入新的页面');
+                acc.SendOnErr(res,t.res_one('SUCC','首次密码修改成功，即将进入新的页面'));
+            }
+        });
+    } else
+    {
+        logger.debug('非法登陆密码修改页面基础服务,踢出到登陆页')
+        req.session.destroy();
+        res.redirect('/xlogin');
+    }
+
 };
+
+
+//登陆页面的基础POST服务
 exports.pt2002_p=function(req,res){
-    //console.log(req.body);
+
+    logger.debug(req.body);
+    logger.debug('先判断用户名是否存在?');
+    //console.log(jbody);
+
+    m_login.Get_AcctName(req.body.acc_name,function(db_res){
+        if(!db_res)   //先判断用户名是否存在？
+        {
+            logger.debug(req.body.acc_name+'该登陆名不存在，请重新再试');
+            m_login.Login_HisAppend(req.body.acc_name,req.headers['x-real-ip'],'该登陆名不存在');
+            acc.SendOnErr(res,t.res_one('FAIL','该登陆名不存在，请重新再试'));
+        } else if (req.body.acc_name.substr(0,2)!='ch')  //存在后再判断是否可以登陆PORTAL
+        {
+            logger.debug(req.body.acc_name+'该用户名不允许登陆PORTAL');
+            m_login.Login_HisAppend(req.body.acc_name,req.headers['x-real-ip'],'该用户名不允许登陆PORTAL');
+            acc.SendOnErr(res,t.res_one('FAIL','该用户名不允许登陆PORTAL'));
+        }
+        else //再判断密码是否正确
+        {
+            m_login.Get_PassWord(req.body.acc_name,req.body.acc_pwd,function(db_res){
+                if(!db_res)
+                {
+                    logger.debug(req.body.acc_name+'密码错误');
+                    m_login.Login_Fail(req.body.acc_name,
+                                       req.body.acc_pwd,
+                                       req.headers['x-real-ip'],'密码错误');
+                    acc.SendOnErr(res,t.res_one('FAIL','密码错误'));
+                } else if (db_res.state=='D')  //再判断账户是否被锁定
+                {
+                    logger.debug(req.body.acc_name+'账户被锁定');
+                    m_login.Login_Fail(req.body.acc_name,req.body.acc_pwd,req.headers['x-real-ip'],'账户被锁定');
+                    acc.SendOnErr(res,t.res_one('FAIL','账户被锁定'));
+                } else if (db_res.frstate==0)
+                {
+                    logger.debug(req.body.acc_name+'首次登陆需要修改密码');
+                    m_login.Login_Fail(req.body.acc_name,req.body.acc_pwd,req.headers['x-real-ip'],'首次登陆需要修改密码');
+                    x_rand=t.get_random(10);
+                    req.session.r=x_rand;
+                    res.send({code:'DOUBT',msg:'首次登陆需要修改密码',r: x_rand});
+                } else //登陆成功
+                {
+                    logger.debug(req.body.acc_name+'登陆成功');
+                    m_login.Login_Succ(req.body.acc_name,req.body.acc_pwd,req.headers['x-real-ip']);
+                    m_login.Get_AcctName(req.body.acc_name,function(dbres2){
+                        acc.SendOnErr(res,t.res_one('SUCC',dbres2));
+                    });
+                }
+            })
+        }
+    })
+    /*
     if (req.body.acc_name=="ch_abc")
     {
         res.cookie("l_st", t.md5hash('fsdf'),{ maxAge: 30*60*1000,domain:"www.131su.com",httpOnly:true,path:"/"});
@@ -39,6 +129,7 @@ exports.pt2002_p=function(req,res){
     }
     else
     { res.redirect('/xlogin')}
+    */
 
 };
 
@@ -192,7 +283,7 @@ exports.pt2007=function(req,res){
     {
         m_goods.Get_AllGoods(function(dbres){
             // console.log(dbres);
-            res.render('batch_upload',{res_goods:dbres})
+            res.render('batch_upload_package',{res_goods:dbres})
         });
     } else
     {

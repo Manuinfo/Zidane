@@ -18,7 +18,7 @@ var me=require('./m_login.js');
 exports.Get_AppVersion=function(callback){
     pool.getConnection(function(err, conn) {
         logger.debug('Req:'+sql_py.check_app_version());
-        console.log(sql_py.check_app_version())
+       // console.log(sql_py.check_app_version())
         conn.query(sql_py.check_app_version(),function (err, sqlres) {
             if (err)  {throw err; logger.debug(err);}
             conn.release();

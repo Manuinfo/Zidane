@@ -1,0 +1,87 @@
+<%- include header%>
+<script src="/admin/js/jquery-shadow.js"></script>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">欢迎您，承煌Portal</a>
+        </div>
+    </div>
+</nav>
+
+<div id="d_login" style="margin:0 auto; width:100px; height:50px; border:1px solid #ffff00;background:url('/admin/images/login_back.jpg')">
+    <div style="margin-left: 900px;margin-top:200px">
+        <div class="form-group" >
+            <div class="col-sm-7" style="margin-top: 10px">
+                <input type="password" class="form-control" id="acc_new_pwd_1" placeholder="请输入新密码">
+            </div>
+        </div>
+
+        </br>
+        <div class="form-group" >
+            <div class="col-sm-7" style="margin-top: 10px">
+                <input type="password" class="form-control" id="acc_new_pwd_2"  placeholder="请输入新密码">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6" style="margin-top: 10px">
+                <button type="submit" class="btn btn-default" id="acc_btn"
+                        style="width:240px;font-family: 'Microsoft YaHei';font-weight:bold">确认并修改密码</button>
+            </div>
+        </div>
+        </br>
+        <div class="form-group">
+            <div class="alert alert-warning col-sm-7" style="margin-top: 10px" id="acc_msg">
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    $("#d_login").ready(function(){
+        //console.log(window.location.search);
+        $("#acc_msg").css('display','none');
+        $("#d_login").css("width",screen.width)
+        $("#d_login").css("height",screen.height*0.8)
+    });
+    $("#acc_name").ready(function(){
+        //console.log($("#acc_name").css("width"));
+        $("#acc_btn").css("width",$("#acc_name").css("width"))
+    });
+
+    $("#acc_btn").click(function(){
+        if(!$("#acc_new_pwd_1").val() || !$("#acc_new_pwd_2").val())
+        {
+            $("#acc_msg").css('display','');
+            $("#acc_msg").html('<strong>警告：</strong>新密码为空请重新输入')
+        } else if ($("#acc_new_pwd_1").val() != $("#acc_new_pwd_2").val())
+        {
+            $("#acc_msg").css('display','');
+            $("#acc_msg").html('<strong>警告：</strong>两次输入的密码不一致，请重新确认')
+        } else
+        {
+            $.ajax({
+                type: "POST",
+                url: "/xmls39sjfll2nz40cmnfl3sk3"+window.location.search,
+                data: {acc_pwd_1:hex_md5($("#acc_new_pwd_1").val()),
+                       acc_pwd_2:hex_md5($("#acc_new_pwd_2").val()),
+                       acc_name:window.location.search.split('=')[2]
+                },
+                dataType: "json",
+                async:true,
+                success: function(data){
+                    if(data.code='SUCC')
+                    {
+                        window.location.href="/xadmin"
+                    } else
+                    {
+                        $("#acc_msg").css('display','');
+                        $("#acc_msg").html('<strong>警告：</strong>'+data.msg)
+                    }
+                }
+            });
+        }
+    });
+</script>
+
+<%- include footer%>

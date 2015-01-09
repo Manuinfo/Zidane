@@ -55,8 +55,8 @@
             <% if(n_res.length>0) { %>
             <% for(var i=0;i<n_res.length;i++){ %>
             <tr id="i_tr_<%=i%>" class="txtddd">
-                <td id="i_nm-person_name-<%=i%>"><%=n_res[i].person_name%></td>
-                <td id="i_pacc_<%=i%>"><%=n_res[i].name%></td>
+                <td id="i_nm-person_name-<%=i%>" class="txtdddd"><%=n_res[i].person_name%></td>
+                <td id="i_pacc_<%=i%>" class="txtdddd"><%=n_res[i].name%></td>
                 <td id="i_nm-alname-<%=i%>"><%=n_res[i].alname%></td>
                 <td id="i_nm-tbname-<%=i%>"><%=n_res[i].tbname%></td>
                 <td id="i_lv-ulevel-<%=i%>"><%=n_res[i].ulevel%></td>
@@ -298,6 +298,7 @@
     */
     $("#id_filter").keyup(function(){
         $("table tbody tr")
+       // $("td[id^='i_pacc']")
                 .hide()
                 .filter(":contains('"+( $(this).val() )+"')")
                 .show();

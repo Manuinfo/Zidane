@@ -490,8 +490,8 @@ exports.r2019=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     logger.debug('查询APP的最新版本号');
 
-    console.log(req.cookies);
-    console.log(req.headers);
+   //console.log(req.cookies);
+    //console.log(req.headers);
 
     m_login.Get_AppVersion(function(dbres){
     acc.SendOnErr(res,t.res_one('SUCC',dbres));

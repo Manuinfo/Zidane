@@ -11,14 +11,25 @@ var acc=require('./libs/acc.js');
 var logger = require('./libs/log').logger;
 var logger_core = require('morgan');
 var cluster = require('cluster');
-var numCPUs = require('os').cpus().length;
+var SessionStore = require('express-mysql-session');
+
+var options = {
+    host: 'minfo2014.mysql.rds.aliyuncs.com',
+    port: 3306,
+    user: 'minfo',
+    password: '6yhn7ujm',
+    database: 'minfo'
+};
+
+var sessionStore = new SessionStore(options);
+
 
 //var morgan = require('morgan');
 //var accessLogStream = fs.createWriteStream(__dirname + '/logs/run.log', {flags: 'a'});
 //112.124.117.97
 
 if (cluster.isMaster) {
-    // Fork workers.
+    // Fork workers
     for (var i = 0; i < 4; i++) {
         cluster.fork();
     }
@@ -34,8 +45,8 @@ if (cluster.isMaster) {
     });
 } else
 {
-var log = require('./libs/log');
 
+var log = require('./libs/log');
 
 var rest_r = require('./routes/r.js');
 var rest_w = require('./routes/w.js');
@@ -55,16 +66,50 @@ app.use(express.bodyParser({ keepExtensions: true, uploadDir: path.join(__dirnam
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
-app.use(express.cookieSession({ secret: 'ch!', cookie: { maxAge: 60 * 60 * 1000 }}));
-app.use(express.static(path.join(__dirname, 'public')));
+
+
+    //app.use(express.cookieSession({ secret: 'ch!', cookie: { maxAge: 60 * 60 * 1000 }}));
+app.use(session({
+   key: 'session_zidane',
+   secret: 'session_goldenking',
+   store: sessionStore,
+   cookie:{maxAge:60000},
+   resave:true,
+   saveUninitialized: true
+}));
+app.use(express.static(path.join(__dirname, 'public'),{
+    maxAge:'1d',
+    setHeaders: function (res, path) {
+        res.set('X-Powered-By', 'X-Man');
+        res.set('x-timestamp', Date.now());
+    }
+}));
 app.use(logger_core('dev'));  //打印CONSOLE的日志
+
+//session 自定义处理的中间件
+app.use(function(req, res, next){
+        res.setHeader('X-Powered-By', 'X-Man');
+        logger.debug(req.headers);
+        if(req.url[1]=='x')  //说明是访问Portal，进行session校验
+        {
+            if(!req.session)
+                res.redirect('/xadmin');
+            next();
+        } else
+        {
+            next();
+        }
+
+});
 
 
 //Portal管理
 //== 登陆
-app.get('/xadmin',rest_pt.pt2001);
-app.get('/xlogin',rest_pt.pt2002);
-app.post('/xlogin',rest_pt.pt2002_p);
+app.get('/xadmin',rest_pt.pt2001);   //管理页
+app.get('/xlogin',rest_pt.pt2002);   //登陆页
+app.post('/xlsfjl34lsdflsllewrojlwej',rest_pt.pt2002_p);  //登陆的基础POST服务
+app.post('/xmls39sjfll2nz40cmnfl3sk3',rest_pt.pt2002_post_updatepwd);  //登陆的基础POST服务
+app.get(/^\/xlogin_uppwd/,rest_pt.pt2002_get_updatepwd);   //修改密码
 //== 商品
 app.get('/xadmin/goods_query',rest_pt.pt2004);
 app.get('/xadmin/goods_change',rest_pt.pt2005);
@@ -145,14 +190,7 @@ app.post('/xadmin/proxy_info_add',rest_pt.pt2011);
 
 
 
-//app.post('/py_w/2004',rest_pr.w2004);  //校验装箱商品是否重复
-//(?:\.\.(\w+))?$
-//(?:\.\.(\w+))
-        app.get('/:aaaa',function(req, res){
-            console.log(req.url);
-            var from = req.param('aaaa');
-            res.send('commit url : ' + from);
-        });
+
 
 
         logger.debug('Load Initial BaseData 1/5sec');
@@ -175,7 +213,7 @@ app.post('/xadmin/proxy_info_add',rest_pt.pt2011);
 //console.log(x.split('-'));
 
 
-        setTimeout(function(){
+setTimeout(function(){
             app.listen(3000,function(){        //console.log(global.u_SITE);
 
                 console.log('Zidane Web Service is started at 3000,ID:'+process.pid);
@@ -183,14 +221,14 @@ app.post('/xadmin/proxy_info_add',rest_pt.pt2011);
                 logger.debug('Zidane Web Service is started at 3000,ID:'+process.pid);
                 logger.debug('--------------------------------------------------------')
                 //console.log(global.u_SERIAL_R);
-                console.log(global.u_BRAND_R);
+               // console.log(global.u_BRAND_R);
                 //console.log(global.u_SERIAL_R);
                 //console.log(global.u_LAY_R);
             });
-        },1500);
+},1500);
 
 
-        setInterval(function(){
+setInterval(function(){
             logger.debug('Load Initial BaseData 1/5sec');
             conf.Get_IDByType('CHANNEL',function(confall){ global.u_CHID=acc.G_JSON({},confall)});
             conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL=acc.G_JSON({},confall)});
