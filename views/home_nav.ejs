@@ -1,3 +1,23 @@
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background: #808080;">
+                <h4 class="modal-title" id="myModalLabel" style="color: #ffffff" >
+                    更新及帮助指南
+                </h4>
+            </div>
+            <div id="id_model_txt" class="modal-body">
+            </div>
+            <div class="modal-footer" style="background: #ffffff">
+                <button type="button" class="btn btn-info"
+                        data-dismiss="modal">关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -5,12 +25,27 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">账户</a></li>
-                <li><a href="#">帮助</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        账户
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/xlogin">退出</a></li>
+                    </ul>
+                </li>
+                <li><a href="#" data-toggle="modal" data-target="#myModal" id="id_help">帮助</a></li>
             </ul>
         </div>
     </div>
 </nav>
+
+<script type="text/javascript">
+    $("#id_help").click(function(){
+        $("#id_model_txt").html('2015-01-07 新增权限登陆控制</br>' +
+                '2015-01-07 新增SessionDB</br>DB2015-01-09 修复新增账号时的上级指定');
+    })
+</script>
 
 <div class="container-fluid">
     <div class="row">

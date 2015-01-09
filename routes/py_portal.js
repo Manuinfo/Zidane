@@ -21,6 +21,7 @@ exports.pt2001=function(req,res){
 
 //主登陆界面
 exports.pt2002=function(req,res){
+    req.session.destroy();
     res.render('xlogin',{rtn_msg:null});
 };
 
@@ -56,6 +57,8 @@ exports.pt2002_post_updatepwd=function(req,res){
             {
                 m_login.UpdatePasswdFr(req.body.acc_name,req.body.acc_pwd_2);
                 m_login.Login_HisAppend(req.body.acc_name,req.headers['x-real-ip'],'首次密码修改成功，即将进入新的页面');
+                req.session.user=req.body.acc_name;
+                req.session.login_state='YES';
                 acc.SendOnErr(res,t.res_one('SUCC','首次密码修改成功，即将进入新的页面'));
             }
         });
@@ -115,6 +118,8 @@ exports.pt2002_p=function(req,res){
                     logger.debug(req.body.acc_name+'登陆成功');
                     m_login.Login_Succ(req.body.acc_name,req.body.acc_pwd,req.headers['x-real-ip']);
                     m_login.Get_AcctName(req.body.acc_name,function(dbres2){
+                        req.session.user=req.body.acc_name;
+                        req.session.login_state='YES';
                         acc.SendOnErr(res,t.res_one('SUCC',dbres2));
                     });
                 }
@@ -135,7 +140,7 @@ exports.pt2002_p=function(req,res){
 
 //查询当日装箱和发货
 exports.pt2003=function(req,res){
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
         var now=moment();
         m_portal.Get_PackNumToday(now.format('YYYY-MM-DD'),function(dbres){
@@ -155,7 +160,7 @@ exports.pt2003=function(req,res){
 
 //查询单个NFC_ID的装箱记录
 exports.pt2003_p_1=function(req,res){
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
         //console.log(req.body.nfc_id)
         m_portal.Get_BoxHasPacked(req.body.nfc_id,function(dbres){
@@ -170,9 +175,9 @@ exports.pt2003_p_1=function(req,res){
 
 //查询单个NFC_ID是否有效
 exports.pt2003_p_2=function(req,res){
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
-        console.log(req.body.nfc_id)
+        //console.log(req.body.nfc_id)
         logger.debug('需要查询的ID为：'+req.body.nfc_id)
         m_portal.Get_NFC_legal(req.body.nfc_id,function(dbres){
             console.log(dbres);
@@ -187,7 +192,7 @@ exports.pt2003_p_2=function(req,res){
 
 //查询单个NFC_ID是否有效
 exports.pt2004=function(req,res){
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
         m_goods.Get_AllGoods(function(dbres){
             //console.log(dbres);
@@ -201,7 +206,7 @@ exports.pt2004=function(req,res){
 
 //变更商品，添加、删除
 exports.pt2005=function(req,res){
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
           res.render('goods_change',{})
     } else
@@ -212,7 +217,7 @@ exports.pt2005=function(req,res){
 
 //变更商品，添加、删除-POST
 exports.pt2005_p=function(req,res){
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
         console.log(req.body);
         console.log(req.files);
@@ -226,7 +231,7 @@ exports.pt2005_p=function(req,res){
 
 //批次NFC_ID上传的页面GET 盒子
 exports.pt2006=function(req,res){
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
         m_goods.Get_AllGoods(function(dbres){
            // console.log(dbres);
@@ -241,7 +246,7 @@ exports.pt2006=function(req,res){
 //处理批次NFC_ID的POST请求盒子
 exports.pt2006_p=function(req,res){
     res.setTimeout(360*1000);
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
         //console.log(req.body);
         //console.log(req.files);
@@ -281,7 +286,7 @@ exports.pt2006_p=function(req,res){
 
 //批次NFC_ID箱子上传的页面GET
 exports.pt2007=function(req,res){
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
         m_goods.Get_AllGoods(function(dbres){
             // console.log(dbres);
@@ -296,7 +301,7 @@ exports.pt2007=function(req,res){
 //处理批次NFC_ID的POST请求 箱子
 exports.pt2007_p=function(req,res){
     res.setTimeout(300*1000);
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
         //console.log(req.body);
         //console.log(req.files);
@@ -333,7 +338,7 @@ exports.pt2007_p=function(req,res){
 
 //管理我的批次
 exports.pt2008=function(req,res){
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
         m_goods.Get_AllGoods(function(dbres){
             // console.log(dbres);
@@ -346,7 +351,7 @@ exports.pt2008=function(req,res){
 
 //批次的定向刷新
 exports.pt2008_p=function(req,res){
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
        console.log(req.body);
        var x_ddtime='';
@@ -377,7 +382,7 @@ exports.pt2008_p=function(req,res){
 
 //管理批次的后台任务
 exports.pt2009=function(req,res){
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
         m_portal.Get_Tasks(function(dbres){
             m_portal.Get_Tasks_Done(function(dbres2){
@@ -393,7 +398,7 @@ exports.pt2009=function(req,res){
 
 //管理批次的后台任务
 exports.pt2009_p=function(req,res){
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
         //console.log(req.body);
         m_portal.Get_Tasks_FailReason(req.body.m_tid,req.body.m_tname,function(dbres){
@@ -408,7 +413,7 @@ exports.pt2009_p=function(req,res){
 
 //代理商信息维护的GET 页面
 exports.pt2010=function(req,res){
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
         logger.debug(req.body);
         m_portal.Get_ProxyInfo(function(dbres){
@@ -424,7 +429,7 @@ exports.pt2010=function(req,res){
 
 //更新代理商的姓名
 exports.pt2010_upt_pname=function(req,res){
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
         res.send({msg:'ok'})
     } else
@@ -435,7 +440,7 @@ exports.pt2010_upt_pname=function(req,res){
 
 //更新代理商的普通资料
 exports.pt2010_upt_normal=function(req,res){
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
         logger.debug(req.body);
         m_portal.Up_ProxyInfo_Normal(req.body.name.split('-')[1],
@@ -465,7 +470,7 @@ exports.pt2010_upt_normal=function(req,res){
 
 //更新代理商的纯粹的等级，但PK和ID不变
 exports.pt2010_upt_level=function(req,res){
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
         logger.debug(req.body);
         m_portal.Up_ProxyInfo_Normal(req.body.name.split('-')[1],
@@ -499,7 +504,7 @@ exports.pt2010_upt_level=function(req,res){
 
 //更新代理商的账户==授权编号
 exports.pt2010_upt_accname=function(req,res){
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
         //console.log(req.body.pk);
         if(req.body.pk.length==0)
@@ -540,7 +545,7 @@ exports.pt2010_upt_accname=function(req,res){
 
 //更新代理商的指定上级
 exports.pt2010_upt_boss=function(req,res){
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
         logger.debug(req.body);
         m_login.Get_AcctName(req.body.value,function(boss_res){
@@ -572,7 +577,7 @@ exports.pt2010_upt_boss=function(req,res){
 
 //查询我可以分配哪些上级
 exports.pt2010_query_myboss=function(req,res){
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
         logger.debug(req.body);
         m_portal.Get_MyBossInfo(req.body.m_ulevel,req.body.m_name,function(dbres){
@@ -593,7 +598,7 @@ exports.pt2010_query_myboss=function(req,res){
 
 //增加代理商的记录
 exports.pt2011=function(req,res){
-    if (req.session)
+    if (req.session.user && req.session.login_state=='YES')
     {
         logger.debug(req.body);
         m_portal.New_ProxyInfo(req.body.name,
