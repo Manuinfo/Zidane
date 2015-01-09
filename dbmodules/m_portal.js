@@ -348,12 +348,24 @@ exports.Up_ProxyInfo_Level=function(p_obj_fd,p_obj_val,p_obj_pk,callback){
 };
 
 
-//更新我的唯一上级
-exports.Up_ProxyInfo_MyBoss_1=function(p_downame,p_upname,p_upid,callback){
+//更新我的唯一上级 --新增
+exports.Up_ProxyInfo_MyBoss_1=function(p_downame,p_upname,p_upid,p_downid,callback){
+    logger.debug('新增我的唯一上级');
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.up_proxy_info_myboss_1(p_downame,p_upname,p_upid,p_downid));
+        acc.Gen_DB(conn,sql_g.up_proxy_info_myboss_1(p_downame,p_upname,p_upid,p_downid),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};
+
+
+//更新我的唯一上级 -- 更新
+exports.Up_ProxyInfo_MyBoss_2=function(p_downame,p_upname,p_upid,callback){
     logger.debug('更新我的唯一上级');
     pool.getConnection(function(err, conn) {
-        logger.debug('Req:'+sql_g.up_proxy_info_myboss_1(p_downame,p_upname,p_upid));
-        acc.Gen_DB(conn,sql_g.up_proxy_info_myboss_1(p_downame,p_upname,p_upid),2,function(dbres){
+        logger.debug('Req:'+sql_g.up_proxy_info_myboss_2(p_downame,p_upname,p_upid));
+        acc.Gen_DB(conn,sql_g.up_proxy_info_myboss_2(p_downame,p_upname,p_upid),2,function(dbres){
             callback(dbres);
         });
     });

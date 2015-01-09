@@ -71,7 +71,11 @@ module.exports = {
     'up_proxy_info_level_2': function (p_id,p_name) {
         return 'update py_relatation set up_id='+p_id+',utime=now() where up_name=\''+p_name+'\';';
     },
-    'up_proxy_info_myboss_1': function (p_downame,p_upname,p_upid) {
+    'up_proxy_info_myboss_1': function (p_upname,p_downname,p_upid,p_downid) {
+        return 'insert into py_relatation values (\''+p_upname+'\',\''+p_downname+'\'' +
+            ''+p_upid+','+p_downid+',now());'
+    },
+    'up_proxy_info_myboss_2': function (p_downame,p_upname,p_upid) {
         return 'update py_relatation set up_id='+p_upid+',' +
             'up_name=\''+p_upname+'\' ,' +
             'utime=now() ' +
@@ -99,6 +103,7 @@ module.exports = {
     'up_proxy_info_myboss_all_s5': function (p_oldname,p_newname) {
         return 'update py_user_accounts set name=\''+p_newname+'\' where name=\''+p_oldname+'\';';
     },
+
     'new_proxy_info':function(p_name,p_alname,p_ulevel,p_uzone,p_sid,p_person_id,p_person_name,p_person_cell,p_tbname){
         return 'insert into py_user_accounts values ( '+
             '\''+p_name +'\',' +
