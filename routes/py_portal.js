@@ -550,7 +550,7 @@ exports.pt2010_upt_boss=function(req,res){
             {
                 m_login.Get_AcctName(req.body.pk,function(my_res){
                     logger.debug('准备自己的ID信息');
-                    m_portal.Up_ProxyInfo_MyBoss_2(req.body.pk,req.body.value,boss_res.ulevel,my_res.ulevel,function(ops_res){
+                    m_portal.Up_ProxyInfo_MyBoss_1(req.body.pk,req.body.value,boss_res.ulevel,my_res.ulevel,function(ops_res){
                         logger.debug('新增成功，记录OPS日志');
                         acc.SendOnErr(res, t.res_one('SUCC','Update OK!'));
                     });

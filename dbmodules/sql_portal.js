@@ -71,8 +71,8 @@ module.exports = {
     'up_proxy_info_level_2': function (p_id,p_name) {
         return 'update py_relatation set up_id='+p_id+',utime=now() where up_name=\''+p_name+'\';';
     },
-    'up_proxy_info_myboss_1': function (p_upname,p_downname,p_upid,p_downid) {
-        return 'insert into py_relatation values (\''+p_upname+'\',\''+p_downname+'\'' +
+    'up_proxy_info_myboss_1': function (p_downname,p_upname,p_upid,p_downid) {
+        return 'insert into py_relatation values (\''+p_upname+'\',\''+p_downname+'\',' +
             ''+p_upid+','+p_downid+',now());'
     },
     'up_proxy_info_myboss_2': function (p_downame,p_upname,p_upid) {
