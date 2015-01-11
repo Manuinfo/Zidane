@@ -82,6 +82,15 @@
 </div>
 <script type="text/javascript">
 
+$( "#f_myboss").click(function(){
+    var boss_info = [];
+    var tableRows=document.getElementById("t_info").rows;
+    for(var i=1;i<tableRows.length;i++)
+        boss_info.push(tableRows[i].cells[1].innerText);
+    $( "#f_myboss" ).autocomplete({
+        source: boss_info
+    });
+});
 
 
     //提交按钮的确认
@@ -89,7 +98,7 @@
 
         //console.log($("#f_person_name").val());
         //console.log($("#f_name").val());
-        //console.log($("#f_ulevel").val());
+        console.log($("#f_myboss").val());
 
         if(!$("#f_person_name").val()||!$("#f_name").val()||!$("#f_ulevel").val())
         {
@@ -108,7 +117,8 @@
                 uzone:$("#f_uzone").val(),
                 sid:$("#f_sid").val(),
                 person_id:$("#f_person_id").val(),
-                person_cell:$("#f_person_cell").val()
+                person_cell:$("#f_person_cell").val(),
+                my_boss:$( "#f_myboss").val()
             },
             dataType: "json",
             async:false,

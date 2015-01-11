@@ -1,3 +1,4 @@
+<script src="/admin/js/jquery-ui-1.10.js"></script>
 <div class="input-group">
     <span class="input-group-addon" style="width: 70px">中文姓名</span>
     <input type="text" class="form-control" id="f_person_name"
@@ -18,7 +19,7 @@
 <div class="input-group" style="margin-top: 10px">
     <span class="input-group-addon" style="width: 70px">代理等级</span>
     <input type="text" class="form-control" placeholder="仅支持数字"
-           onkeyup="value=value.replace(/[^3-7]/g,'')"
+           onkeyup="value=value.replace(/[^0-7]/g,'')"
            maxlength="1"
            id="f_ulevel" style="width: 400px">
 </div>
@@ -41,6 +42,11 @@
            onkeyup="value=value.replace(/[^\d|\-#]/g,'')"
            style="width: 400px">
 </div>
+<div class="input-group" style="margin-top: 10px">
+    <span class="input-group-addon" style="width: 70px">上级信息</span>
+    <input type="text" class="form-control" id="f_myboss"
+           style="width: 400px">
+</div>
 </br>
 <div>
     <input type="button" class="btn btn-danger"  style="width: 238px" id="btnConfirm" value="创建" />
@@ -48,3 +54,4 @@
 </div>
 </br>
 <div id="add_info"></div>
+
