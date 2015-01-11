@@ -73,7 +73,7 @@ app.use(session({
    key: 'session_zidane',
    secret: 'session_goldenking',
    store: sessionStore,
-   cookie:{maxAge:60000},
+   cookie:{maxAge:30*60*1000},
    resave:true,
    saveUninitialized: true
 }));
