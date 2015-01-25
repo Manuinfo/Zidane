@@ -59,6 +59,7 @@ exports.pt2002_post_updatepwd=function(req,res){
                 m_login.Login_HisAppend(req.body.acc_name,req.headers['x-real-ip'],'首次密码修改成功，即将进入新的页面');
                 req.session.user=req.body.acc_name;
                 req.session.login_state='YES';
+                req.session.menulevel=db_res.menulevel;
                 acc.SendOnErr(res,t.res_one('SUCC','首次密码修改成功，即将进入新的页面'));
             }
         });
@@ -118,8 +119,10 @@ exports.pt2002_p=function(req,res){
                     logger.debug(req.body.acc_name+'登陆成功');
                     m_login.Login_Succ(req.body.acc_name,req.body.acc_pwd,req.headers['x-real-ip']);
                     m_login.Get_AcctName(req.body.acc_name,function(dbres2){
+                        //console.log(dbres2)
                         req.session.user=req.body.acc_name;
                         req.session.login_state='YES';
+                        req.session.menulevel=dbres2.menulevel;
                         acc.SendOnErr(res,t.res_one('SUCC',dbres2));
                     });
                 }
@@ -413,14 +416,22 @@ exports.pt2009_p=function(req,res){
 
 //代理商信息维护的GET 页面
 exports.pt2010=function(req,res){
+   // console.log(req.session)
     if (req.session.user && req.session.login_state=='YES')
     {
-        logger.debug(req.body);
-        m_portal.Get_ProxyInfo(function(dbres){
-            logger.debug('资料读取完毕')
-           // logger.debug(dbres);
-            res.render('proxy_info',{n_res:dbres});
-        });
+        logger.debug('检验登陆状态OK，继续检验菜单权限'+req.session.menulevel)
+        if( req.session.menulevel>4)
+        {
+            logger.debug(req.body);
+            m_portal.Get_ProxyInfo(function(dbres){
+                logger.debug('资料读取完毕')
+                // logger.debug(dbres);
+                res.render('proxy_info',{n_res:dbres});
+            });
+        } else
+        {
+            res.redirect('/xadmin')
+        }
     } else
     {
         res.redirect('/xlogin')

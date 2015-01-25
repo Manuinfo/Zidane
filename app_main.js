@@ -86,21 +86,23 @@ app.use(express.static(path.join(__dirname, 'public'),{
 }));
 app.use(logger_core('dev'));  //打印CONSOLE的日志
 
-//session 自定义处理的中间件 校验真实和菜单权限
+//session 自定义处理的中间件 校验真实
 app.use(function(req, res, next){
         res.setHeader('X-Powered-By', 'X-Man');
         logger.debug(req.headers);
         if(req.url[1]=='x')  //说明是访问Portal，进行session校验
         {
-            if(!req.session)
+            if(!req.session)   //非法session
                 res.redirect('/xadmin');
-            next();
+             next();
         } else
         {
             next();
         }
-
 });
+
+
+
 
 
 //Portal管理
