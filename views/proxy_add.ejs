@@ -18,10 +18,19 @@
 </div>
 <div class="input-group" style="margin-top: 10px">
     <span class="input-group-addon" style="width: 70px">代理等级</span>
-    <input type="text" class="form-control" placeholder="仅支持数字"
+    <select class="js-example-basic-single" id="f_ulevel">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+    </select>
+    <!--input type="text" class="form-control" placeholder="仅支持数字"
            onkeyup="value=value.replace(/[^0-7]/g,'')"
            maxlength="1"
-           id="f_ulevel" style="width: 400px">
+           id="f_ulevel" style="width: 400px"-->
 </div>
 <div class="input-group" style="margin-top: 10px">
     <span class="input-group-addon" style="width: 70px">代理区域</span>
@@ -45,6 +54,11 @@
 <div class="input-group" style="margin-top: 10px">
     <span class="input-group-addon" style="width: 70px">上级信息</span>
     <input type="text" class="form-control" id="f_myboss"
+           style="width: 400px">
+</div>
+<div class="input-group" style="margin-top: 10px">
+    <span class="input-group-addon" style="width: 70px">菜单权限</span>
+    <input type="text" class="form-control" id="f_menulevel"
            style="width: 400px">
 </div>
 </br>

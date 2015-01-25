@@ -4,9 +4,20 @@
 <link href="/admin/css/select2.css" rel="stylesheet">
 <link href="/admin/css/select2-bootstrap.css" rel="stylesheet">
 <script src="/admin/js/select2.js"></script>
+<style type="text/css">
+    .select2-container .select2-choice {
+        height: 10px;
+        line-height: 10px;
+    }
 
+</style>
 
 <div  id="dv_home" class="col-sm-9 col-md-12 col-md-offset-1 main" style="float: left;left:60px;">
+
+
+
+
+
 
 
     <div id="i_add" >
@@ -84,11 +95,21 @@
 
 /*尺寸自适应屏幕*/
 $(document).ready(function(){
-    //调整新增菜单尺寸宽度大小
-    console.log(screen.width)
+
+    //自适应屏幕参数
+    //console.log(screen.width)
     length_info_add=screen.width/4;
     length_info_add_span=screen.width/8;
     length_info_add_btn=screen.width/8.15;
+
+    //美化下拉菜单
+    $(".js-example-basic-single").select2();
+    $(".select2-container .select2-choice").css("height","34px")
+    $(".select2-container .select2-choice").css("line-height","34px")
+    $(".select2-container .select2-choice").css("width",length_info_add)
+
+    //调整新增菜单尺寸宽度大小
+
 
     $("span.input-group-addon").css("width",length_info_add_span);
 
@@ -111,6 +132,8 @@ $(document).ready(function(){
     $("#id_filter").css("width",length_info_add_span+length_info_add);
 
 });
+
+
 
 $("#f_myboss").click(function(){
     var boss_info = [];
