@@ -114,7 +114,7 @@ exports.UpdatePasswdFr=function(name,passwd){
 //更新新资料
 //13140731-1-1	王煜熳	一级代理	王孟佳	省级代理	湖南	110105198204118641	18301333551	lena1117
 
-exports.UpdateNewID=function(accid,alname,ulevel,uzone,person_id,person_cell,person_name,serial_id){
+exports.UpdateNewID=function(accid,alname,ulevel,uzone,person_id,person_cell,person_name,serial_id,menulevel){
     pool.getConnection(function(err, conn) {
         if(person_id=='无') {
             var passwd= t.md5hash('admin7890')
@@ -123,8 +123,8 @@ exports.UpdateNewID=function(accid,alname,ulevel,uzone,person_id,person_cell,per
             console.log(person_id.substr(12,6));
             var passwd= t.md5hash(person_id.substr(12,6))
         }
-        logger.debug('Req:'+sql_py.update_new_id(accid,alname,passwd,ulevel,uzone,'A','0',serial_id,person_id,person_name,person_cell));                                                //3333333333
-        conn.query(sql_py.update_new_id(accid,alname,passwd,ulevel,uzone,'A','0',serial_id,person_id,person_name,person_cell),function (err, sqlres) {
+        logger.debug('Req:'+sql_py.update_new_id(accid,alname,passwd,ulevel,uzone,'A','0',serial_id,person_id,person_name,person_cell,menulevel));                                                //3333333333
+        conn.query(sql_py.update_new_id(accid,alname,passwd,ulevel,uzone,'A','0',serial_id,person_id,person_name,person_cell,menulevel),function (err, sqlres) {
             if (!err)
             {
                 conn.release();
@@ -141,7 +141,7 @@ exports.UpdateNewID=function(accid,alname,ulevel,uzone,person_id,person_cell,per
 //首次录入新资料
 //13140731-1-1	王煜熳	一级代理	王孟佳	省级代理	湖南	110105198204118641	18301333551	lena1117
 //0             1          2        3   4       5   6                   7           8
-exports.AddNewID=function(accid,alname,ulevel,uzone,person_id,person_cell,person_name,serial_id){
+exports.AddNewID=function(accid,alname,ulevel,uzone,person_id,person_cell,person_name,serial_id,menulevel){
     pool.getConnection(function(err, conn) {
         if(person_id=='无') {
             var passwd= t.md5hash('admin7890')
@@ -150,8 +150,8 @@ exports.AddNewID=function(accid,alname,ulevel,uzone,person_id,person_cell,person
             console.log(person_id.substr(12,6));
             var passwd= t.md5hash(person_id.substr(12,6))
         }
-        logger.debug('Req:'+sql_py.insert_new_id(accid,alname,passwd,ulevel,uzone,'A','0',serial_id,person_id,person_name,person_cell));                                                //3333333333
-        conn.query(sql_py.insert_new_id(accid,alname,passwd,ulevel,uzone,'A','0',serial_id,person_id,person_name,person_cell),function (err, sqlres) {
+        logger.debug('Req:'+sql_py.insert_new_id(accid,alname,passwd,ulevel,uzone,'A','0',serial_id,person_id,person_name,person_cell,menulevel));                                                //3333333333
+        conn.query(sql_py.insert_new_id(accid,alname,passwd,ulevel,uzone,'A','0',serial_id,person_id,person_name,person_cell,menulevel),function (err, sqlres) {
             if (!err)
             {
                 conn.release();

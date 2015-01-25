@@ -53,7 +53,7 @@ module.exports = {
     },
     'qs_proxy_info': function () {
         return 'select person_name,name,alname,tbname,ulevel,uzone,state,frstate,s_id, ' +
-            'person_id,person_cell,b.up_name,b.up_id from ' +
+            'person_id,person_cell,b.up_name,b.up_id,menulevel from ' +
             'py_user_accounts a  left join py_relatation b on a.name=b.down_name ' +
             'order by person_name limit 10 ';
     },
@@ -104,7 +104,8 @@ module.exports = {
         return 'update py_user_accounts set name=\''+p_newname+'\' where name=\''+p_oldname+'\';';
     },
 
-    'new_proxy_info':function(p_name,p_alname,p_ulevel,p_uzone,p_sid,p_person_id,p_person_name,p_person_cell,p_tbname){
+    'new_proxy_info':function(p_name,p_alname,p_ulevel,p_uzone,p_sid,p_person_id,p_person_name,
+                              p_person_cell,p_tbname,p_menulevel){
         return 'insert into py_user_accounts values ( '+
             '\''+p_name +'\',' +
             '\''+p_alname +'\',' +
@@ -116,6 +117,6 @@ module.exports = {
             '\''+p_person_id +'\',' +
             '\''+p_person_name +'\',' +
             '\''+p_person_cell +'\',' +
-            '\''+p_tbname +'\', now());';
+            '\''+p_tbname +'\', now(),\''+p_menulevel+'\');';
     }
 };

@@ -59,6 +59,7 @@
                 <th>联系方式</th>
                 <th>上级</th>
                 <th>上级ID</th>
+                <th>菜单权限</th>
 
             </tr>
             </thead>
@@ -79,6 +80,8 @@
                 <td id="i_nm-person_cell-<%=i%>"><%=n_res[i].person_cell%></td>
                 <td id="i_bss_upname_<%=i%>"><%=n_res[i].up_name%></td>
                 <td><%=n_res[i].up_id%></td>
+                <td id="i_nm-menulevel-<%=i%>"><%=n_res[i].menulevel%></td>
+
             </tr>
             <% }}%>
             </tbody>
@@ -158,7 +161,7 @@ $("#btnReset").click(function(){
     $("#f_myboss").val('')
 });
 
-    //提交按钮的确认
+//提交按钮的确认
 $("#btnConfirm").click(function (){
 
         //console.log($("#f_person_name").val());
@@ -200,13 +203,13 @@ $("#btnConfirm").click(function (){
         }
 });
 
-    //取消按钮确认
+//取消按钮确认
 $("#btnCancel").click(function (){
         $("#i_add_info").css("display","none");
         $('#add_info').html('');
 });
 
-    //折叠 记录增加的按钮
+//折叠 记录增加的按钮
 $("#b_add").click(function(){
         if ($("#i_add_info").css("display")=="none")
         {
@@ -223,6 +226,7 @@ $.fn.editable.defaults.mode = 'inline';
 
 //普通资料更新 ，除BOSS/PK外
 $("td[id^='i_nm']").click(function(){
+        console.log(this)
         var pk_real=$("#i_pacc_"+this.id.split('-')[2]).text();
         $(this).editable({
             type: 'text',
@@ -318,7 +322,7 @@ $("td[id^='i_bss']").click(function(){
     });
 
     //PK的资料更新，授权编号
-    $("td[id^='i_pacc']").click(function(){
+$("td[id^='i_pacc']").click(function(){
 
         var pk_real=$("#i_pacc_"+this.id.split('_')[2]).text();
 
@@ -343,8 +347,8 @@ $("td[id^='i_bss']").click(function(){
         });
     });
 
-    function table_filter(p_objname)
-    {
+function table_filter(p_objname)
+{
                 var obj_length=p_objname.length;
                 var tableRows=document.getElementById("t_info").rows;
                 for(var i=1;i<tableRows.length;i++){

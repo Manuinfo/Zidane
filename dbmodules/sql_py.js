@@ -72,7 +72,8 @@ module.exports={
             return 'select getChildName(\''+p_name+'\')';
         },
     'insert_new_id':
-        function(p_name,p_alname,p_passwd,p_ulevel,p_uzone,p_state,p_frstate,p_sid,p_person_id,p_per_name,p_per_cell){
+        function(p_name,p_alname,p_passwd,p_ulevel,p_uzone,p_state,p_frstate,
+                 p_sid,p_person_id,p_per_name,p_per_cell,p_menulevel){
             return 'insert into py_user_accounts values ('+
                 '\''+p_name+'\','+
                 '\''+p_alname+'\','+
@@ -84,10 +85,10 @@ module.exports={
                 '\''+p_sid+'\',null,'+
                 '\''+p_person_id+'\','+
                 '\''+p_per_name+'\','+
-                '\''+p_per_cell+'\');';
+                '\''+p_per_cell+'\',\''+p_menulevel+'\');';
         },
     'update_new_id':
-        function(p_name,p_alname,p_passwd,p_ulevel,p_uzone,p_state,p_frstate,p_sid,p_person_id,p_per_name,p_per_cell){
+        function(p_name,p_alname,p_passwd,p_ulevel,p_uzone,p_state,p_frstate,p_sid,p_person_id,p_per_name,p_per_cell,p_menulevel){
             return 'update py_user_accounts set '+
                 'alname=\''+p_alname+'\','+
                 'passwd=\''+p_passwd+'\','+
@@ -98,6 +99,7 @@ module.exports={
                 's_id=\''+p_sid+'\','+
                 'person_id=\''+p_person_id+'\','+
                 'person_name=\''+p_per_name+'\','+
+                'menulevel=\''+p_menulevel+'\','+
                 'person_cell=\''+p_per_cell+'\' where name=\''+p_name+'\' ;';
         }
 

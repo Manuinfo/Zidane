@@ -422,12 +422,14 @@ exports.Up_ProxyInfo_Boss_Log=function(p_oldname,p_newname,callback){
 };
 
 //新增代理商的记录
-exports.New_ProxyInfo=function(p_name,p_alname,p_ulevel,p_uzone,p_sid,p_person_id,p_person_name,p_person_cell,p_tbname,callback){                            //----
+exports.New_ProxyInfo=function(p_name,p_alname,p_ulevel,p_uzone,p_sid,p_person_id,
+                               p_person_name,p_person_cell,p_tbname,p_menulevel,callback){                            //----
     logger.debug('新增代理商的记录');
     pool.getConnection(function(err, conn) {
-        logger.debug('Req:'+sql_g.new_proxy_info(p_name,p_alname,p_ulevel,p_uzone,p_sid,p_person_id,p_person_name,p_person_cell,p_tbname));
+        logger.debug('Req:'+sql_g.new_proxy_info(p_name,p_alname,p_ulevel,p_uzone,p_sid,p_person_id,p_person_name,
+            p_person_cell,p_tbname,p_menulevel));
         acc.Gen_DB(conn,sql_g.new_proxy_info(p_name,p_alname,p_ulevel,p_uzone,p_sid,
-            p_person_id,p_person_name,p_person_cell,p_tbname),2,function(dbres){
+            p_person_id,p_person_name,p_person_cell,p_tbname,p_menulevel),2,function(dbres){
             callback(dbres);
         });
     });
