@@ -86,7 +86,7 @@ app.use(express.static(path.join(__dirname, 'public'),{
 }));
 app.use(logger_core('dev'));  //打印CONSOLE的日志
 
-//session 自定义处理的中间件
+//session 自定义处理的中间件 校验真实和菜单权限
 app.use(function(req, res, next){
         res.setHeader('X-Powered-By', 'X-Man');
         logger.debug(req.headers);
