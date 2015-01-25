@@ -82,7 +82,37 @@
 </div>
 <script type="text/javascript">
 
-$( "#f_myboss").click(function(){
+/*尺寸自适应屏幕*/
+$(document).ready(function(){
+    //调整新增菜单尺寸宽度大小
+    console.log(screen.width)
+    length_info_add=screen.width/4;
+    length_info_add_span=screen.width/8;
+    length_info_add_btn=screen.width/8.15;
+
+    $("span.input-group-addon").css("width",length_info_add_span);
+
+    $("#f_person_name").css("width",length_info_add);
+    $("#f_name").css("width",length_info_add);
+    $("#f_alname").css("width",length_info_add);
+    $("#f_tbname").css("width",length_info_add);
+    $("#f_ulevel").css("width",length_info_add);
+    $("#f_uzone").css("width",length_info_add);
+    $("#f_sid").css("width",length_info_add);
+    $("#f_person_id").css("width",length_info_add);
+    $("#f_person_cell").css("width",length_info_add);
+    $("#f_myboss").css("width",length_info_add);
+
+    $("#btnConfirm").css("width",length_info_add_btn);
+    $("#btnCancel").css("width",length_info_add_btn);
+    $("#btnReset").css("width",length_info_add_btn);
+
+    //调整过滤框的搜索大小
+    $("#id_filter").css("width",length_info_add_span+length_info_add);
+
+});
+
+$("#f_myboss").click(function(){
     var boss_info = [];
     var tableRows=document.getElementById("t_info").rows;
     for(var i=1;i<tableRows.length;i++)
@@ -92,9 +122,21 @@ $( "#f_myboss").click(function(){
     });
 });
 
+$("#btnReset").click(function(){
+    $("#f_person_name").val('')
+    $("#f_name").val('')
+    $("#f_alname").val('')
+    $("#f_tbname").val('')
+    $("#f_ulevel").val('')
+    $("#f_uzone").val('')
+    $("#f_sid").val('')
+    $("#f_person_id").val('')
+    $("#f_person_cell").val('')
+    $("#f_myboss").val('')
+});
 
     //提交按钮的确认
-    $("#btnConfirm").click(function (){
+$("#btnConfirm").click(function (){
 
         //console.log($("#f_person_name").val());
         //console.log($("#f_name").val());
@@ -133,16 +175,16 @@ $( "#f_myboss").click(function(){
             }
         });
         }
-    });
+});
 
     //取消按钮确认
-    $("#btnCancel").click(function (){
+$("#btnCancel").click(function (){
         $("#i_add_info").css("display","none");
         $('#add_info').html('');
-    });
+});
 
     //折叠 记录增加的按钮
-    $("#b_add").click(function(){
+$("#b_add").click(function(){
         if ($("#i_add_info").css("display")=="none")
         {
             $("#i_add_info").css("display","");
@@ -152,12 +194,12 @@ $( "#f_myboss").click(function(){
             $("#i_add_info").css("display","none");
             $('#add_info').html('');
         }
-    });
+});
 
-    $.fn.editable.defaults.mode = 'inline';
+$.fn.editable.defaults.mode = 'inline';
 
-    //普通资料更新 ，除BOSS/PK外
-    $("td[id^='i_nm']").click(function(){
+//普通资料更新 ，除BOSS/PK外
+$("td[id^='i_nm']").click(function(){
         var pk_real=$("#i_pacc_"+this.id.split('-')[2]).text();
         $(this).editable({
             type: 'text',
@@ -176,10 +218,10 @@ $( "#f_myboss").click(function(){
                 }
             }
         });
-    });
+});
 
-    //纯粹的用户等级的更新，但是上下级及PK不变
-    $("td[id^='i_lv']").click(function(){
+//纯粹的用户等级的更新，但是上下级及PK不变
+$("td[id^='i_lv']").click(function(){
         var old_value=$("#"+this.id).text();
         var pk_real=$("#i_pacc_"+this.id.split('-')[2]).text();
         $(this).editable({
@@ -206,10 +248,10 @@ $( "#f_myboss").click(function(){
                 }
             }
         });
-    });
+});
 
-    //一个人的上级资料更新
-    $("td[id^='i_bss']").click(function(){
+//一个人的上级资料更新
+$("td[id^='i_bss']").click(function(){
         var pk_real=$("#i_pacc_"+this.id.split('_')[3]).text();
         var ulevel=$("#i_lv-ulevel-"+this.id.split('_')[3]).text();
         var my_id=this.id;

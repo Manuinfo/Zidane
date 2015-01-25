@@ -55,7 +55,7 @@ module.exports = {
         return 'select person_name,name,alname,tbname,ulevel,uzone,state,frstate,s_id, ' +
             'person_id,person_cell,b.up_name,b.up_id from ' +
             'py_user_accounts a  left join py_relatation b on a.name=b.down_name ' +
-            'order by person_name ';
+            'order by person_name limit 10 ';
     },
     'qs_my_upname': function (p_ulevel, p_name) {
         return 'SELECT ulevel,group_concat(name) as text FROM py_user_accounts ' +
