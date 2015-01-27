@@ -631,22 +631,41 @@ exports.pt2011=function(req,res){
                logger.debug('新增记录时成功，接下来新增我的上级')
                m_login.Get_AcctName(req.body.my_boss,function(my_res){
                    logger.debug('准备好BOSS的ID信息');
-                   //p_downame,p_upname,p_upid,p_downid,callback
-                   m_portal.Up_ProxyInfo_MyBoss_1(req.body.name,req.body.my_boss,my_res.ulevel,req.body.ulevel,
-                       function(ops_res){
-                       logger.debug('新增成功，记录OPS日志');
-                           m_portal.New_ProxyInfo_Life(req.body.name,function(dbres2){
-                               m_portal.InsertOpsLog(req.connection.remoteAddress,
-                                   'ch_abc',
-                                   'add_proxy_info_newacc',
-                                   req.body.name,
-                                   '新增记录',
-                                   '新增记录',
-                                   function(dbres3){
-                                       acc.SendOnErr(res,t.res_one('SUCC','新增记录成功'));
-                                   });
+                   console.log(my_res);
+                   if (!my_res)
+                   {
+                       logger.debug('由于未设置上级信息，直接更新');
+                       m_portal.New_ProxyInfo_Life(req.body.name,function(dbres2){
+                           m_portal.InsertOpsLog(req.connection.remoteAddress,
+                               'ch_abc',
+                               'add_proxy_info_newacc',
+                               req.body.name,
+                               '新增记录',
+                               '新增记录',
+                               function(dbres3){
+                                   acc.SendOnErr(res,t.res_one('SUCC','新增记录成功'));
+                               });
+                       });
+                   } else
+                   {
+                       logger.debug('上级信息已查询到，进行更新');
+                       m_portal.Up_ProxyInfo_MyBoss_1(req.body.name,req.body.my_boss,my_res.ulevel,req.body.ulevel,
+                           function(ops_res){
+                               logger.debug('新增成功，记录OPS日志');
+                               m_portal.New_ProxyInfo_Life(req.body.name,function(dbres2){
+                                   m_portal.InsertOpsLog(req.connection.remoteAddress,
+                                       'ch_abc',
+                                       'add_proxy_info_newacc',
+                                       req.body.name,
+                                       '新增记录',
+                                       '新增记录',
+                                       function(dbres3){
+                                           acc.SendOnErr(res,t.res_one('SUCC','新增记录成功'));
+                                       });
+                               });
                            });
-                   });
+                   }
+                   //p_downame,p_upname,p_upid,p_downid,callback
                });
            }
            });
