@@ -620,7 +620,8 @@ exports.pt2011=function(req,res){
                                req.body.person_id,
                                req.body.person_name,
                                req.body.person_cell,
-                               req.body.tbname,function(dbres){
+                               req.body.tbname,
+                               req.body.menulevel,function(dbres){
            if(dbres.code)
            {
                logger.debug('新增记录时出现问题:'+dbres.message)
