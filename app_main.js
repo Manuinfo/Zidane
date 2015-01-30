@@ -125,6 +125,7 @@ app.get('/xadmin/batch_mgnt',rest_pt.pt2008);
 app.post('/xadmin/batch_mgnt',rest_pt.pt2008_p);
 app.get('/xadmin/batch_task',rest_pt.pt2009);
 app.post('/xadmin/batch_task',rest_pt.pt2009_p);
+app.get('/xadmin/batch_qrmake',rest_pt.pt2012);
 //== 发货
 app.get('/xadmin/pack_send',rest_pt.pt2003);
 app.post('/xadmin/pack_send_1',rest_pt.pt2003_p_1);
@@ -231,10 +232,10 @@ setTimeout(function(){
 
 
 setInterval(function(){
-            logger.debug('Load Initial BaseData 1/5sec');
-            conf.Get_IDByType('CHANNEL',function(confall){ global.u_CHID=acc.G_JSON({},confall)});
-            conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL=acc.G_JSON({},confall)});
-            conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL_R=acc.G_JSON_R({},confall)});
+    logger.debug('Load Initial BaseData 1/5sec');
+    conf.Get_IDByType('CHANNEL',function(confall){ global.u_CHID=acc.G_JSON({},confall)});
+    conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL=acc.G_JSON({},confall)});
+    conf.Get_IDByType('SERIAL',function(confall){ global.u_SERIAL_R=acc.G_JSON_R({},confall)});
     conf.Get_IDByType('BRAND',function(confall){ global.u_BRAND=acc.G_JSON({},confall);});
     conf.Get_IDByType('LAY',function(confall){ global.u_LAY=acc.G_JSON({},confall);});
     conf.Get_IDByType('LAY',function(confall){ global.u_LAY_R=acc.G_JSON_R({},confall);});

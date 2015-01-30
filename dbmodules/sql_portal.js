@@ -118,5 +118,9 @@ module.exports = {
             '\''+p_person_name +'\',' +
             '\''+p_person_cell +'\',' +
             '\''+p_tbname +'\', now(),\''+p_menulevel+'\');';
+    },
+    'new_qr_task': function (p_name,p_url,p_cc,p_vcc) {
+        return 'insert into ops_task VALUES (date_format(now(),\'%Y%m%d%H%i%s\'),'+
+        '\'GEN_QRCODE\',\''+p_name+','+p_url+','+p_cc+','+p_vcc+'\','+ +',now(),NULL,\'BEGIN\',0)'
     }
 };

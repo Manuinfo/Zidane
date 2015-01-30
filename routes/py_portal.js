@@ -675,3 +675,17 @@ exports.pt2011=function(req,res){
         res.redirect('/xlogin')
     }
 };
+
+//QR URL 随机生成的页面
+exports.pt2012=function(req,res){
+    if (req.session.user && req.session.login_state=='YES')
+    {
+        m_goods.Get_AllGoods(function(dbres){
+            // console.log(dbres);
+            res.render('batch_qrmake',{res_goods:dbres})
+        });
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+}

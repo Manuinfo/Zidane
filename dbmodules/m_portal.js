@@ -445,3 +445,15 @@ exports.New_ProxyInfo_Life=function(p_newname,callback){                        
         });
     });
 };
+
+
+//新增二维码生成
+exports.New_QRCC=function(p_name,p_url,p_cc,p_vcc,callback){                            //----
+    logger.debug('新增二维码批量生成');
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.new_qr_task(p_name,p_url,p_cc,p_vcc));
+        acc.Gen_DB(conn,sql_g.new_qr_task(p_name,p_url,p_cc,p_vcc),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};

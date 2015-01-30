@@ -1,0 +1,65 @@
+<%- include header%>
+<%- include home_nav%>
+<script src="/admin/js/bootstrap-editable.min.js"></script>
+<link href="/admin/css/select2.css" rel="stylesheet">
+<link href="/admin/css/select2-bootstrap.css" rel="stylesheet">
+<script src="/admin/js/select2.js"></script>
+
+<style type="text/css">
+    body{ font-size:14px;font-family: "Microsoft YaHei"}
+    input{ vertical-align:middle; margin:0; padding:0}
+ </style>
+
+
+<div  id="dv_home" class="col-sm-9 col-md-12 col-md-offset-1 main" style="float: left;left:60px;">
+
+
+
+    <div class="input-group" >
+        <select id="id_goods" name="select" class="btn btn-default" style="width: 200px" >
+            <option value ="酵素">请选择生成的商品</option>
+            <% for (var i=0;i<res_goods.length;i++) {%>
+            <option value ="<%= res_goods[i].name%>"><%= res_goods[i].name%></option>
+            <% } %>
+        </select>
+
+        <select id="id_nums" name="select" class="btn btn-default" style="margin-left: 30px;width: 200px" >
+            <option value ="10">请选择生成的数量</option>
+            <% for (var i=1;i<=30;i++) {%>
+            <option value ="<%= i*1000%>"><%= i*1000%></option>
+            <% } %>
+        </select>
+
+        <select id="id_nums" name="select" class="btn btn-default" style="margin-left: 30px;width: 200px" >
+            <option value ="1">请选择可验证次数</option>
+            <% for (var i=1;i<=10;i++) {%>
+            <option value ="<%= i%>"><%= i%></option>
+            <% } %>
+        </select>
+
+        <input id="btn_commit" class="btn btn-danger" type="button" value="提交" style="margin-left:30px;width: 200px" />
+    </div>
+
+    </br>
+    <div id="d_split">
+        <canvas id="i_split"  height="10"></canvas>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            length_info_add=screen.width*0.77;
+            //console.log(length_info_add)
+            $("#i_split").css("width",length_info_add);
+
+            var c=document.getElementById("i_split");
+            var cxt=c.getContext("2d");
+            cxt.fillStyle="#6495ED";
+            cxt.fillRect(0,0,length_info_add,2);
+        });
+    </script>
+
+</div>
+
+
+<%- include footer%>
