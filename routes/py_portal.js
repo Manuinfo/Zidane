@@ -734,7 +734,7 @@ exports.pt2012_p_export=function(req,res){
             }
             setTimeout(function(){
                 res.send({filename:'/xdownload/'+fname})
-            },2500);
+            },4000);
         });
     } else
     {
