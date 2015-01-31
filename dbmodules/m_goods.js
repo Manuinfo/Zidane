@@ -30,6 +30,18 @@ exports.Get_AllGoods=function(callback){
     })
 };
 
+//商品管理，根据商品名称查询系列名称
+exports.Get_SerialByName=function(p_name,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.get_serials_byName(p_name));
+        conn.query(sql_g.get_serials_byName(p_name),function (err, sqlres) {
+            if(err) {throw (err);logger.debug(err);}
+            conn.release();
+            callback(sqlres);
+        });
+    })
+};
+
 
 //ID管理，根据中文名称获取ID
 exports.Get_IdByName=function(name,type,callback){
@@ -117,18 +129,7 @@ exports.Get_RealName=function(callback){
             conn.release();
             //console.log(sqlres);
             callback(sqlres);
-            /*
-            var out_o={};
-            for(var i=0;i<sqlres.length;i++)
-            {
-                out_o[sqlres[i].name]=sqlres[i];
-            }
-           setTimeout(function(){
-               //console.log(out_o);
-               conn.release();
-               callback(out_o);
-           },300);
-           */
+
         });
     })
 };

@@ -681,8 +681,48 @@ exports.pt2012=function(req,res){
     if (req.session.user && req.session.login_state=='YES')
     {
         m_goods.Get_AllGoods(function(dbres){
-            // console.log(dbres);
-            res.render('batch_qrmake',{res_goods:dbres})
+            //console.log(dbres);
+            m_portal.Query_QRTask(3,function(dbres2){
+                res.render('batch_qrmake',
+                    {res_goods:dbres,n_res:dbres2})
+            });
+        });
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+}
+
+//QR URL 随机生成的页面
+exports.pt2012_p_submit=function(req,res){
+    if (req.session.user && req.session.login_state=='YES')
+    {
+        console.log(req.body)
+        m_goods.Get_SerialByName(req.body.name,function(dbres){
+          //  console.log(global.u_SITE[dbres[0].serias]);
+            m_portal.New_QRCC(req.body.name,
+                global.u_SITE[dbres[0].serias],
+                req.body.cc,
+                req.body.ccv,function(dbres2){
+                   // console.log(dbres2);
+                    acc.SendOnErr(res,t.res_one('SUCC',dbres2));
+                })
+        });
+    } else
+    {
+        res.redirect('/xlogin')
+    }
+}
+
+
+//QR URL 导出二维码
+exports.pt2012_p_export=function(req,res){
+    if (req.session.user && req.session.login_state=='YES')
+    {
+       // console.log(req.body)
+        m_portal.Export_QR(req.body.tid,function(dbres){
+            //console.log(dbres)
+            res.send(dbres);
         });
     } else
     {

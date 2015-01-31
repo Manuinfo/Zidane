@@ -17,6 +17,8 @@ module.exports={
         function(){return 'SELECT name,alname,ulevel,uzone,person_id,person_name,s_id FROM py_user_accounts  ;'},
     'get_goods_bySerialID':
         function(b){return 'select name from g_products where serias=\''+b+'\';'},
+    'get_serials_byName':
+        function(b){return 'select serias from g_products where name=\''+b+'\';'},
     'get_goods_byNFCID':
         function(b){return 'select name from g_products a where a.product_id in ('+
             'select b.product_id from batches b where b.batch_id in ('+

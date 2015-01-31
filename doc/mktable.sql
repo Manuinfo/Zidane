@@ -516,6 +516,8 @@ create index verify_at_1 on ops_history(verify_at);
 create index client_ip_1 on ops_history(client_ip);
 create index qr_code_1 on veri_randcode(qrcode);
 create index rdcode_1 on veri_randcode(rdcode);
+create index ops_task_1002 on ops_task(task_start);
+create index ops_task_1003 on ops_task(task_name);
 
 
 #测试数据

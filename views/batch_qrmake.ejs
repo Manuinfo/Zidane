@@ -15,6 +15,8 @@
 
 
 
+
+
     <div class="input-group" >
         <select id="id_goods" name="select" class="btn btn-default" style="width: 200px" >
             <option value ="酵素">请选择生成的商品</option>
@@ -30,7 +32,7 @@
             <% } %>
         </select>
 
-        <select id="id_nums" name="select" class="btn btn-default" style="margin-left: 30px;width: 200px" >
+        <select id="id_numsv" name="select" class="btn btn-default" style="margin-left: 30px;width: 200px" >
             <option value ="1">请选择可验证次数</option>
             <% for (var i=1;i<=10;i++) {%>
             <option value ="<%= i%>"><%= i%></option>
@@ -41,16 +43,51 @@
     </div>
 
     </br>
+    <div id="d_rtn" class="alert alert-info"  style="height: 70px">
+
+    </div>
     <div id="d_split">
         <canvas id="i_split"  height="10"></canvas>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table">
+            <caption style="color: #000000">3天内二维码生成记录</caption>
+            <thead>
+            <tr style="background: steelblue;color: #ffffff;font-size: 10px">
+                <th>导出按钮</th>
+                <th>生成ID</th>
+                <th>参数[商品/系列/数量/验证次数]</th>
+                <th>数量</th>
+                <th>生成状态</th>
+                <th>生成/最新导出时间</th>
+                <th>导出次数</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% if(n_res.length>0) { %>
+            <% for(var i=0;i<n_res.length;i++){ %>
+            <tr class="txtdd">
+                <td style="width: 80px"><a id="i_exp_<%=i%>">点我导出</a></td>
+                <td style="width: 100px" id="i_tid_<%=i%>"><%=n_res[i].task_id%></td>
+                <td style="width: 370px"><%=n_res[i].batch_id%></td>
+                <td><%=n_res[i].task_des%></td>
+                <td style="width: 80px"><%=n_res[i].task_state%></td>
+                <td style="width: 150px" id="i_time_<%=i%>"><%=n_res[i].task_end%></td>
+                <td id="i_expcc_<%=i%>"><%=n_res[i].task_snap%></td>
+            </tr>
+            <% }}%>
+            </tbody>
+        </table>
     </div>
 
     <script type="text/javascript">
         $(document).ready(function(){
 
-            length_info_add=screen.width*0.77;
+            length_info_add=screen.width*0.65;
             //console.log(length_info_add)
             $("#i_split").css("width",length_info_add);
+            $("#d_rtn").css("width",length_info_add);
 
             var c=document.getElementById("i_split");
             var cxt=c.getContext("2d");
@@ -59,7 +96,65 @@
         });
     </script>
 
+
 </div>
 
+<script type="text/javascript">
+
+    $("#btn_commit").click(function(){
+        $.ajax({
+            type: "POST",
+            url: "/xadmin/batch_qrmake",
+            data: {name:$("#id_goods").val(),
+                   cc:$("#id_nums").val(),
+                   ccv:$("#id_numsv").val()
+                    },
+            dataType: "json",
+            async:false,
+            success: function(data){
+                console.log(data.msg.affectedRows)
+                if(data.msg.affectedRows)
+                {
+                    var now = new Date();
+                    var now_dd = now.format("yyyy年MM月dd日hh小时mm分ss秒");
+                    $("#d_rtn").text(now_dd+" : 二维码生成成功，约2-3分钟可在下方进行查询并导出")
+                } else
+                {
+                    $("#d_rtn").text(now_dd+" : 二维码生成失败，"+data.msg)
+                }
+
+            }
+        });
+    });
+
+    $("[id^='i_exp']").click(function(){
+        //console.log(this.id)
+
+        tid_id='i_tid_'+this.id.split('_')[2];
+        exp_id='i_exp_'+this.id.split('_')[2];
+        time_id='i_time_'+this.id.split('_')[2];
+        expcc_id='i_expcc_'+this.id.split('_')[2];
+        $("#"+exp_id).text('正在导出')
+        console.log('333333333')
+        //console.log(tid_id)
+        //console.log($("#"+tid_id).text())
+        $.ajax({
+            type: "POST",
+            url: "/xadmin/batch_qrmake_exp",
+            data: {tid:$("#"+tid_id).text()},
+            dataType: "json",
+            async:false,
+            success: function(data){
+                console.log(data)
+                $("#"+exp_id).text('导出完成')
+                $("#"+exp_id).css('color','#DC143C')
+                var now = new Date();
+                var now_dd = now.format("yyyy-MM-dd hh:mm:ss");
+                $("#"+time_id).text(now_dd)
+                $("#"+expcc_id).text(parseInt($("#"+expcc_id).text())+1)
+            }
+        });
+    });
+</script>
 
 <%- include footer%>

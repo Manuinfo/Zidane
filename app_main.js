@@ -126,6 +126,9 @@ app.post('/xadmin/batch_mgnt',rest_pt.pt2008_p);
 app.get('/xadmin/batch_task',rest_pt.pt2009);
 app.post('/xadmin/batch_task',rest_pt.pt2009_p);
 app.get('/xadmin/batch_qrmake',rest_pt.pt2012);
+app.post('/xadmin/batch_qrmake',rest_pt.pt2012_p_submit);
+app.post('/xadmin/batch_qrmake_exp',rest_pt.pt2012_p_export);
+
 //== 发货
 app.get('/xadmin/pack_send',rest_pt.pt2003);
 app.post('/xadmin/pack_send_1',rest_pt.pt2003_p_1);
@@ -223,9 +226,9 @@ setTimeout(function(){
                 logger.debug('--------------------------------------------------------')
                 logger.debug('Zidane Web Service is started at 3000,ID:'+process.pid);
                 logger.debug('--------------------------------------------------------')
-                //console.log(global.u_SERIAL_R);
+               // console.log(global.u_SERIAL_R);
                // console.log(global.u_BRAND_R);
-                //console.log(global.u_SERIAL_R);
+               // console.log(global.u_SITE);
                 //console.log(global.u_LAY_R);
             });
 },1500);

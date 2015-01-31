@@ -457,3 +457,32 @@ exports.New_QRCC=function(p_name,p_url,p_cc,p_vcc,callback){                    
         });
     });
 };
+
+//查询二维码导出
+exports.Query_QRTask=function(p_ddtime,callback){                            //----
+    logger.debug('查询二维码生成的任务');
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.query_qr_task(p_ddtime));
+        acc.Gen_DB(conn,sql_g.query_qr_task(p_ddtime),2,function(dbres){
+            callback(dbres);
+        });
+    });
+};
+
+//二维码导出
+exports.Export_QR=function(p_tid,callback){                            //----
+    logger.debug('导出二维码，查询明细');
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.query_qr_detail(p_tid));
+        acc.Gen_DB(conn,sql_g.query_qr_detail(p_tid),2,function(dbres){
+
+            logger.debug('导出二维码，更新导出记录');
+            pool.getConnection(function(err, conn) {
+                logger.debug('Req:'+sql_g.update_qr_task(p_tid));
+                acc.Gen_DB(conn,sql_g.update_qr_task(p_tid),2,function(dbres2){
+                    callback(dbres);
+                });
+            });
+        });
+    });
+};

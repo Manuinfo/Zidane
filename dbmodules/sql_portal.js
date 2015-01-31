@@ -121,6 +121,18 @@ module.exports = {
     },
     'new_qr_task': function (p_name,p_url,p_cc,p_vcc) {
         return 'insert into ops_task VALUES (date_format(now(),\'%Y%m%d%H%i%s\'),'+
-        '\'GEN_QRCODE\',\''+p_name+','+p_url+','+p_cc+','+p_vcc+'\','+ +',now(),NULL,\'BEGIN\',0)'
+        '\'GEN_QRCODE\',\''+p_name+','+p_url+','+p_cc+','+p_vcc+'\','+p_cc+',now(),NULL,\'BEGIN\',0)'
+    },
+    'query_qr_task':function(p_ddtime){
+        return 'select task_id,batch_id,task_des,task_state,task_end,task_snap '+
+        'from ops_task where task_name=\'GEN_QRCODE\' '+
+        'and task_start > DATE_ADD(now(),INTERVAL -'+p_ddtime+' DAY) order by task_id desc'
+    },
+    'query_qr_detail':function(p_tid){
+        return 'select qr_href from g_qr_batch_map where task_id=\''+p_tid+'\'';
+    },
+    'update_qr_task':function(p_tid){
+        return 'update ops_task set task_end=now(),task_snap=task_snap+1 where task_id=\''+p_tid+'\'';
     }
+
 };
