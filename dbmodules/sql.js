@@ -127,15 +127,8 @@ module.exports={
                '(select batch_id from g_nfc_batch_map where nfc_id=\''+p_nfcid+'\' )  c';
     },
     'get_infoaf_qrcode_succ':function(p_qrhref){
-        return 'select * from ( '+
-        'select name,place,price,SUBSTRING_INDEX(image_file_name,\'/\',-1) as png from g_products where product_id in ( '+
-          '  select product_id from batches  where batch_id in ( '+
-           ' select batch_id from g_qr_batch_map where qr_href=\''+p_qrhref+'\' ' +
-           ')) ) a, '+
-           ' ( '+
-           'select batch_id from batches  where batch_id in ( '+
-           ' select batch_id from g_qr_batch_map where qr_href=\''+p_qrhref+'\'' +
-            ') ) b '
+        return 'select * from g_products where name in '+
+           ' ( select name from g_qr_batch_map where qr_href=\''+p_qrhref+'\')'
     },
     'query_prd_bybid':function(p_bid){
         return 'select shop_name,serias,name from g_products where product_id in ( '+

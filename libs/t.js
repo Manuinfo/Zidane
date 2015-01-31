@@ -74,7 +74,7 @@ exports.get_random=function(n){
 exports.db_ops_log=function(conn,cip,cua,qtype,qcode,nfcid,vtime,result){
    // console.log('1111111');
     runsqls=sql.Insert_Log_Basic(cip,cua,qtype,qcode,nfcid,vtime,result);
-    console.log(runsqls);
+   // console.log(runsqls);
     conn.query(runsqls,function (err, sqlres){
         if(err)
         {

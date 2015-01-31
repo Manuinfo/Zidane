@@ -143,10 +143,14 @@ exports.w2005=function(req,res){
     res.set({'Content-Type':'text/html;charset=utf-8','Encodeing':'utf-8'});
     var now=moment();
 
+   // console.log(req.url)
+    //重要 ，需要替换
+    //var runsqls=sql.Query_ByQRhref('http://'+req.headers.host+req.url);
+    //var pp_qrhref='http://'+req.headers.host+req.url;
+    var runsqls=sql.Query_ByQRhref('http://www.131su.com'+req.url);
+    var pp_qrhref='http://www.131su.com'+req.url;
+    console.log(runsqls)
 
-    //console.log(req.headers.host);
-    var runsqls=sql.Query_ByQRhref('http://'+req.headers.host+req.url);
-    var pp_qrhref='http://'+req.headers.host+req.url;
 
     //console.log(runsqls)
 
@@ -158,9 +162,7 @@ exports.w2005=function(req,res){
             if(!sqlres[0])
             {
                 logger.debug('该链接不存在');
-                res.render('failed',{
-                                    });
-                //acc.SendOnErr(res, t.res_one('FAIL','该链接不存在'));
+                res.render('failed',{});
                 t.db_ops_log(conn,'NULL','NULL','WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'该短链接不存在');
             }
             else
@@ -168,34 +170,27 @@ exports.w2005=function(req,res){
                if(sqlres[0].verify_av_times<1)
                {
                    logger.debug('该短链接存在，但可验证次数已达到上限');
-
-                   res.render('failed',{
-                       res_qrcode:"taobao"
-                   });
-                   //acc.SendOnErr(res, t.res_one('FAIL','该短链接存在，但可验证次数已达到上限'));
+                   res.render('failed',{});
                    t.db_ops_log(conn,'NULL','NULL','WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'该短链接存在，但可验证次数已达到上限');
-
                }
                else
                {
                    logger.debug('该短链接存在，且未达到验证上限');
                    m_anti.Get_InfoAfQrcode_succ(pp_qrhref,function(h_res){
-                        console.log(h_res);
-                       res.render('success',{
-                           res_png:h_res.png,
-                           res_name:h_res.name,
-                           res_price:h_res.price,
-                           res_place:h_res.place,
-                           res_batch_id:h_res.batch_id
+                       logger.debug('该短链接存在，且未达到验证上限，扣减可验证次数');
+                       m_anti.Update_QRAVtimes(pp_qrhref,function(dbres3){
+                           t.db_ops_log(conn,'NULL','NULL','WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'验证成功:未达到验证上限');
+                           res.render('success',{
+                               res_png:h_res.image_file_name,
+                               res_name:h_res.name,
+                               res_price:h_res.price,
+                               res_place:h_res.place
+                           });
                        });
                    });
-                   //acc.SendOnErr(res,t.res_one('SUCCESS','该短链接存在，且未达到验证上限'));
-                   conn.query(sql.Update_QRAVtimes(req.param('qrhref')),function(err,res){});
-                   t.db_ops_log(conn,'NULL','NULL','WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'验证成功:未达到验证上限');
                }
             }
         })
-
     });
 };
 

@@ -24,6 +24,17 @@ exports.Get_InfoAfQrcode_succ=function(qrhref,callback){
     })
 };
 
+//二维码验证成功后的信息获取
+exports.Update_QRAVtimes=function(qrhref,callback){
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.Update_QRAVtimes(qrhref));
+        conn.query(sql_g.Update_QRAVtimes(qrhref),function (err, sqlres) {
+            conn.release();
+            callback(sqlres[0]);
+        });
+    })
+};
+
 //根据批次获取商品的信息，公司名称等等
 exports.Get_PrdByBid=function(bid,callback){
     pool.getConnection(function(err, conn) {
