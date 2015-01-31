@@ -145,10 +145,10 @@ exports.w2005=function(req,res){
 
    // console.log(req.url)
     //重要 ，需要替换
-    //var runsqls=sql.Query_ByQRhref('http://'+req.headers.host+req.url);
-    //var pp_qrhref='http://'+req.headers.host+req.url;
-    var runsqls=sql.Query_ByQRhref('http://www.131su.com'+req.url);
-    var pp_qrhref='http://www.131su.com'+req.url;
+    var runsqls=sql.Query_ByQRhref('http://'+req.headers.host+req.url);
+    var pp_qrhref='http://'+req.headers.host+req.url;
+    //var runsqls=sql.Query_ByQRhref('http://www.mianea.com'+req.url);
+   // var pp_qrhref='http://www.mianea.com'+req.url;
     console.log(runsqls)
 
 
@@ -181,7 +181,7 @@ exports.w2005=function(req,res){
                        m_anti.Update_QRAVtimes(pp_qrhref,function(dbres3){
                            t.db_ops_log(conn,'NULL','NULL','WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'验证成功:未达到验证上限');
                            res.render('success',{
-                               res_log_png:global.u_SERIAL_R[h_res.serias]+'.png',
+                               res_logo_png:global.u_SERIAL_R[h_res.serias]+'.png',
                                res_png:h_res.image_file_name,
                                res_name:h_res.name,
                                res_price:h_res.price,
