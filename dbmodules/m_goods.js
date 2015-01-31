@@ -351,7 +351,7 @@ exports.WhoIsMyDaddy=function(down_name,callback){
 
 //查询这箱货是否属于我的，校验收货人是不是我
 exports.Check_Belongme=function(cvname,nfcids,callback){
-    var now=moment().subtract(1,'month').format('YYYY-MM-DD HH:mm:ss');
+    var now=moment().subtract(3,'month').format('YYYY-MM-DD HH:mm:ss');
     pool.getConnection(function(err, conn) {
         async.map(nfcids.split(','),function(item,cb){
             logger.debug('Req:'+sql_g.query_belongme(cvname,item,now));
