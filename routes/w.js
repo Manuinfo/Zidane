@@ -149,7 +149,7 @@ exports.w2005=function(req,res){
     var pp_qrhref='http://'+req.headers.host+req.url;
     //var runsqls=sql.Query_ByQRhref('http://www.mianea.com'+req.url);
    // var pp_qrhref='http://www.mianea.com'+req.url;
-    console.log(runsqls)
+   // console.log(runsqls)
 
 
     //console.log(runsqls)
