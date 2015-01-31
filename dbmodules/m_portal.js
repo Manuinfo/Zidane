@@ -486,3 +486,14 @@ exports.Export_QR=function(p_tid,callback){                            //----
         });
     });
 };
+
+//导出后的更新日期
+exports.Update_ExpQR=function(p_tid,callback){
+    logger.debug('导出二维码，更新导出记录');
+    pool.getConnection(function(err, conn) {
+        logger.debug('Req:'+sql_g.update_qr_task(p_tid));
+        acc.Gen_DB(conn,sql_g.update_qr_task(p_tid),2,function(dbres2){
+            callback(dbres2);
+        });
+    });
+}
