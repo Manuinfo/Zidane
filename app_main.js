@@ -226,7 +226,7 @@ setTimeout(function(){
                 logger.debug('--------------------------------------------------------')
                 logger.debug('Zidane Web Service is started at 3000,ID:'+process.pid);
                 logger.debug('--------------------------------------------------------')
-               // console.log(global.u_SERIAL_R);
+           //     console.log(global.u_SERIAL_R);
                // console.log(global.u_BRAND_R);
                // console.log(global.u_SITE);
                 //console.log(global.u_LAY_R);
