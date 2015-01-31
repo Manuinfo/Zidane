@@ -68,9 +68,9 @@
             <% if(n_res.length>0) { %>
             <% for(var i=0;i<n_res.length;i++){ %>
             <tr class="txtdd">
-                <td style="width: 80px"><a id="i_exp_<%=i%>">点我导出</a></td>
+                <td style="width: 160px"><a id="i_exp_<%=i%>">双击导出</a></td>
                 <td style="width: 100px" id="i_tid_<%=i%>"><%=n_res[i].task_id%></td>
-                <td style="width: 370px"><%=n_res[i].batch_id%></td>
+                <td style="width: 370px" id="i_ele_<%=i%>"><%=n_res[i].batch_id%></td>
                 <td><%=n_res[i].task_des%></td>
                 <td style="width: 80px"><%=n_res[i].task_state%></td>
                 <td style="width: 150px" id="i_time_<%=i%>"><%=n_res[i].task_end%></td>
@@ -127,31 +127,37 @@
         });
     });
 
-    $("[id^='i_exp']").click(function(){
+    $("[id^='i_exp']").dblclick(function(){
         //console.log(this.id)
 
         tid_id='i_tid_'+this.id.split('_')[2];
         exp_id='i_exp_'+this.id.split('_')[2];
+        ele_id='i_ele_'+this.id.split('_')[2];
         time_id='i_time_'+this.id.split('_')[2];
         expcc_id='i_expcc_'+this.id.split('_')[2];
         $("#"+exp_id).text('正在导出')
-        console.log('333333333')
+        $("#"+exp_id).css('color','#DC143C');
+        //console.log('333333333')
         //console.log(tid_id)
         //console.log($("#"+tid_id).text())
         $.ajax({
             type: "POST",
             url: "/xadmin/batch_qrmake_exp",
-            data: {tid:$("#"+tid_id).text()},
+            data: {tid:$("#"+tid_id).text(),ele:$("#"+ele_id).text()},
             dataType: "json",
-            async:false,
+            async:true,
             success: function(data){
                 console.log(data)
-                $("#"+exp_id).text('导出完成')
-                $("#"+exp_id).css('color','#DC143C')
+                $("#"+exp_id).text('文件生产完毕，再点我导出');
+                $("#"+exp_id).css('color','#DC143C');
                 var now = new Date();
                 var now_dd = now.format("yyyy-MM-dd hh:mm:ss");
                 $("#"+time_id).text(now_dd)
                 $("#"+expcc_id).text(parseInt($("#"+expcc_id).text())+1)
+                $("#"+exp_id).attr("href",data.filename);
+                $("#"+exp_id).attr("target","_blank");
+                $("#"+exp_id).text('点我导出');
+
             }
         });
     });

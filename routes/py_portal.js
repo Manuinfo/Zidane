@@ -719,10 +719,22 @@ exports.pt2012_p_submit=function(req,res){
 exports.pt2012_p_export=function(req,res){
     if (req.session.user && req.session.login_state=='YES')
     {
-       // console.log(req.body)
+        console.log(req.body)
+        var now=moment();
+        //console.log(now.format('YYYYMMDD_hh_m_ss'));
+        var fname=now.format('YYYYMMDD_hh_m_ss')+'_'+req.body.tid+'_'+req.body.ele.replace(/,/g,'_')+'.qr.txt'
         m_portal.Export_QR(req.body.tid,function(dbres){
-            //console.log(dbres)
-            res.send(dbres);
+
+            var xstring=''
+            logger.debug('导出的文件记录数为'+dbres.length);
+            for(var i=0;i<dbres.length;i++)
+            {
+               // xstring=dbres[i].qr_href+'\n'
+                fs.appendFileSync('./public/xdownload/'+fname,dbres[i].qr_href+'\n');
+            }
+            setTimeout(function(){
+                res.send({filename:'/xdownload/'+fname})
+            },2500);
         });
     } else
     {
