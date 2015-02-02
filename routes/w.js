@@ -10,6 +10,7 @@ var pool=require('../conf/db.js');
 var acc=require('../libs/acc.js');
 var t=require('../libs/t.js');
 var sql=require('../dbmodules/sql.js');
+var m_goods=require('../dbmodules/m_goods.js');
 var tasks=require('../dbmodules/rule.js');
 var m_anti=require('../dbmodules/m_anti.js');
 var logger = require('../libs/log').logger;
@@ -147,8 +148,8 @@ exports.w2005=function(req,res){
     //重要 ，需要替换
     var runsqls=sql.Query_ByQRhref('http://'+req.headers.host+req.url);
     var pp_qrhref='http://'+req.headers.host+req.url;
-    //var runsqls=sql.Query_ByQRhref('http://www.mianea.com'+req.url);
-   // var pp_qrhref='http://www.mianea.com'+req.url;
+ //   var runsqls=sql.Query_ByQRhref('http://www.131su.com'+req.url);
+ //  var pp_qrhref='http://www.131su.com'+req.url;
    // console.log(runsqls)
 
 
@@ -162,16 +163,30 @@ exports.w2005=function(req,res){
             if(!sqlres[0])
             {
                 logger.debug('该链接不存在');
-                res.render('failed',{});
+                res.render('failed',{
+                    msg_error:'该防伪标签非法',
+                    logo_png:'A1'
+                });
                 t.db_ops_log(conn,'NULL','NULL','WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'该短链接不存在');
             }
             else
             {
+               console.log(sqlres[0])
+              // console.log(global.u_SERIAL_R[sqlres[0].name])
                if(sqlres[0].verify_av_times<1)
                {
                    logger.debug('该短链接存在，但可验证次数已达到上限');
-                   res.render('failed',{});
                    t.db_ops_log(conn,'NULL','NULL','WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'该短链接存在，但可验证次数已达到上限');
+                   m_goods.Get_SerialByName(sqlres[0].name,function(dbres2){
+                       console.log(dbres2)
+                       console.log(dbres2[0].serias)
+                       console.log(global.u_SERIAL_R[dbres2[0].serias]);
+                       res.render('failed',{
+                           msg_error:'该防伪标签已失效',
+                           logo_png:global.u_SERIAL_R[dbres2[0].serias]
+                       });
+                   });
+
                }
                else
                {
@@ -180,8 +195,9 @@ exports.w2005=function(req,res){
                        logger.debug('该短链接存在，且未达到验证上限，扣减可验证次数');
                        m_anti.Update_QRAVtimes(pp_qrhref,function(dbres3){
                            t.db_ops_log(conn,'NULL','NULL','WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'验证成功:未达到验证上限');
+                           console.log(global.u_SERIAL_R[h_res.serias])
                            res.render('success',{
-                               res_logo_png:global.u_SERIAL_R[h_res.serias]+'.png',
+                               res_logo_png:global.u_SERIAL_R[h_res.serias],
                                res_png:h_res.image_file_name,
                                res_name:h_res.name,
                                res_price:h_res.price,
