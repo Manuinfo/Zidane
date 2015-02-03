@@ -148,8 +148,8 @@ exports.w2005=function(req,res){
     //重要 ，需要替换
     var runsqls=sql.Query_ByQRhref('http://'+req.headers.host+req.url);
     var pp_qrhref='http://'+req.headers.host+req.url;
- //   var runsqls=sql.Query_ByQRhref('http://www.131su.com'+req.url);
- //  var pp_qrhref='http://www.131su.com'+req.url;
+   // var runsqls=sql.Query_ByQRhref('http://www.131su.com'+req.url);
+  // var pp_qrhref='http://www.131su.com'+req.url;
    // console.log(runsqls)
 
 
@@ -165,13 +165,15 @@ exports.w2005=function(req,res){
                 logger.debug('该链接不存在');
                 res.render('failed',{
                     msg_error:'该防伪标签非法',
-                    logo_png:'A1'
+                    logo_png:'A1',
+                    msg_error_time:null
                 });
                 t.db_ops_log(conn,'NULL','NULL','WX',req.param('qrhref'),'NULL',now.format('YYYY-MM-DD HH:mm:ss'),'该短链接不存在');
             }
             else
             {
                console.log(sqlres[0])
+               // console.log(sqlres[0].up_time)
               // console.log(global.u_SERIAL_R[sqlres[0].name])
                if(sqlres[0].verify_av_times<1)
                {
@@ -183,7 +185,8 @@ exports.w2005=function(req,res){
                        console.log(global.u_SERIAL_R[dbres2[0].serias]);
                        res.render('failed',{
                            msg_error:'该防伪标签已失效',
-                           logo_png:global.u_SERIAL_R[dbres2[0].serias]
+                           logo_png:global.u_SERIAL_R[dbres2[0].serias],
+                           msg_error_time:sqlres[0].up_time
                        });
                    });
 

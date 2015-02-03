@@ -35,8 +35,11 @@
         <br/>
         <br/>
         <div class="features-grids text-center" style="color:#ffffff; margin:auto; font-size:20px;">
-            <div>无法识别的标签</div>
             <div><%=msg_error%></div>
+            <% if (msg_error_time){%>
+                <div>上次验证时间</div>
+                <div><%=msg_error_time%></div>
+            <%}%>
             <div>请谨防假冒</div>
         </div>
         <br/>

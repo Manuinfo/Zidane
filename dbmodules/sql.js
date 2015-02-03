@@ -77,10 +77,10 @@ module.exports={
         return 'call proc_gen_qr_href(\''+p_bid+'\',\''+p_url+'\','+p_cc+','+p_av_times+');' ;
     },
     'Query_ByQRhref':function(p_qrcode){
-        return 'select * from g_qr_batch_map where qr_href=\''+p_qrcode+"'";
+        return 'select qr_href,verify_av_times,name,DATE_FORMAT(up_time,\'%Y%m%d %H:%i:%s\') as up_time,exp_times,task_id from g_qr_batch_map where qr_href=\''+p_qrcode+"'";
     },
     'Update_QRAVtimes':function(p_qrcode){
-        return 'update g_qr_batch_map set verify_av_times=verify_av_times-1 where qr_href=\''+p_qrcode+"'";
+        return 'update g_qr_batch_map set verify_av_times=verify_av_times-1,up_time=now() where qr_href=\''+p_qrcode+"'";
     },
     'Insert_Log_Basic':function(p_cip,p_cua,p_qtype,p_qcode,p_nfc,p_result){
         return 'insert into ops_history values ('+
