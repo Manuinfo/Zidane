@@ -145,11 +145,16 @@ exports.w2005=function(req,res){
     var now=moment();
 
    // console.log(req.url)
-    //重要 ，需要替换
+    //重要 ，需要替换 -------- 生产
     var runsqls=sql.Query_ByQRhref('http://'+req.headers.host+req.url);
     var pp_qrhref='http://'+req.headers.host+req.url;
+    //-------------- mianea 192.168.1.103:3000
+  //  var runsqls=sql.Query_ByQRhref('http://www.mianea.com'+req.url);
+  //  var pp_qrhref='http://www.mianea.com'+req.url;
+    //-------------- 131su 192.168.1.103:3000
    // var runsqls=sql.Query_ByQRhref('http://www.131su.com'+req.url);
-  // var pp_qrhref='http://www.131su.com'+req.url;
+   // var pp_qrhref='http://www.131su.com'+req.url;
+
    // console.log(runsqls)
 
 
