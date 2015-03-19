@@ -167,6 +167,7 @@ exports.w2005=function(req,res){
         conn.query(runsqls,function (err, sqlres){
             if (err) {logger.debug(err);throw err;}
             //console.log(sqlres);
+            logger.debug(sqlres)
             if(!sqlres[0])
             {
                 logger.debug('该链接不存在');
