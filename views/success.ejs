@@ -16,16 +16,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <link  href="/anti/css/jquery.mobile-1.4.2.min.css" rel="Stylesheet" type="text/css" />
     <script src="/anti/js/jquery.mobile-1.4.2.min.js" type="text/javascript"></script>
 
-    <script>
-        $(document).on("pageinit","#page-success",function(){
-            $("p").on("tap",function(){
-                if($(this).attr('id') == "contact") {
-                    window.location.href = "/contactus_<%= res_logo_png%>";
-                }
-            });
-        });
-    </script>
+
 </head>
+
+<script>
+    $(document).on("pageinit","#page-success",function(){
+        $("p").on("tap",function(){
+            if($(this).attr('id') == "contact") {
+                window.location.href = "/contactus_<%= res_logo_png%>";
+            }
+        });
+    });
+</script>
 
 <body>
 <div data-role="page" id="page-success">
