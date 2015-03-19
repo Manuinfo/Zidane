@@ -147,7 +147,9 @@ exports.w2005=function(req,res){
    // console.log(req.url)
     //重要 ，需要替换 -------- 生产
     var runsqls=sql.Query_ByQRhref('http://'+req.headers.host+req.url);
+    logger.debug(runsqls);
     var pp_qrhref='http://'+req.headers.host+req.url;
+    logger.debug(pp_qrhref);
     //-------------- mianea 192.168.1.103:3000
   //  var runsqls=sql.Query_ByQRhref('http://www.mianea.com'+req.url);
   //  var pp_qrhref='http://www.mianea.com'+req.url;
