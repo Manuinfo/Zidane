@@ -12,15 +12,7 @@
 
 
 </head>
-<script>
-    $(function(){
-        $("p").on("tap",function(){
-            if($(this).attr('id') == "contact") {
-                window.location.href = "/contactus_<%=logo_png%>";
-            }
-        });
-    });
-</script>
+
 
 <body>
 <div data-role="page" id="page-failed">
@@ -55,5 +47,16 @@
         <p id="contact"><img align="absmiddle" src="/anti/images/phone-1.png" style="vertical-align:middle;padding-right:10px;" width="19px" height="19px" >  联系我们</p>
     </div>
 </div>
+
+<script>
+    $(function(){
+        $("p").on("tap",function(){
+            if($(this).attr('id') == "contact") {
+                window.location.href = "/contactus_<%=logo_png%>";
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
