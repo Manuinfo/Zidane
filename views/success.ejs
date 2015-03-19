@@ -20,7 +20,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 </head>
 
 <script>
-    $(document).on("pageinit","#page-success",function(){
+    $(function(){
         $("p").on("tap",function(){
             if($(this).attr('id') == "contact") {
                 window.location.href = "/contactus_<%= res_logo_png%>";
