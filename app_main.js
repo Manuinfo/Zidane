@@ -161,8 +161,10 @@ app.post('/xadmin/proxy_info_add',rest_pt.pt2011);
         app.get('/w/2002/:prdname/:place/:bcount/:nfccount/:vrftime', rest_w.w2002);
         app.get('/w/2003/:bid/:nfcid', rest_w.w2003);
         app.get('/w/2004/:bid/:qrcount/:qravtimes', rest_w.w2004);
-    app.get('/wqr/2005/:qrhref', rest_w.w2005);  //面向用户的二维码验证
-    app.get('/wqr/:qrhref', rest_w.w2005);  //面向用户的二维码验证
+    app.get('/wqr/2005/:qrhref', rest_w.w2005);  //面向用户的二维码验证 **
+    app.get('/wqr/:qrhref', rest_w.w2005);  //面向用户的二维码验证 **
+    app.get(/^\/[A-Za-z0-9]{6}$/,rest_w.w2005);   //修改密码
+
     app.get('/contactus_A1',function(req,res){res.render('contactus_A1',{});});
         app.get('/contactus_A2',function(req,res){res.render('contactus_A2',{});});
         app.get('/w/2006/:qrhref', rest_w.w2006);

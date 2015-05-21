@@ -147,6 +147,7 @@ exports.w2005=function(req,res){
    // console.log(req.url)
     //重要 ，需要替换 -------- 生产
     var runsqls=sql.Query_ByQRhref('http://'+req.headers.host+req.url);
+    console.log(runsqls)
     logger.debug(runsqls);
     var pp_qrhref='http://'+req.headers.host+req.url;
     logger.debug(pp_qrhref);

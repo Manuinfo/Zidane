@@ -76,6 +76,10 @@ module.exports={
     'Insert_QRHrefID':function(p_bid,p_url,p_cc,p_av_times){
         return 'call proc_gen_qr_href(\''+p_bid+'\',\''+p_url+'\','+p_cc+','+p_av_times+');' ;
     },
+    /*
+    'Query_ByQRhref':function(p_qrcode){
+        return 'select qr_href,verify_av_times,name,DATE_FORMAT(up_time,\'%Y%m%d %H:%i:%s\') as up_time,exp_times,task_id from g_qr_batch_map where qr_href=\''+p_qrcode+"'";
+    },*/
     'Query_ByQRhref':function(p_qrcode){
         return 'select qr_href,verify_av_times,name,DATE_FORMAT(up_time,\'%Y%m%d %H:%i:%s\') as up_time,exp_times,task_id from g_qr_batch_map where qr_href=\''+p_qrcode+"'";
     },
