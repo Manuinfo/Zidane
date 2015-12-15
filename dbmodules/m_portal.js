@@ -186,6 +186,7 @@ exports.Insert_NFCID_PACKAGE=function(p_pid,p_city,p_rawdata,callback){
     me.Get_SaleCityID(p_city,function(city_res){
 
         logger.debug('查询城市编码的结果'+city_res);
+        logger.debug(global.u_BRAND)
        // console.log(city_res);
        // console.log(map_serias['酵素']);
         var nfc_flag='CH'+city_res.city_code+map_serias[p_pid]+u_BRAND_R[p_pid]+'AA'
