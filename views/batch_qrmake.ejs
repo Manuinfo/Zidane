@@ -27,7 +27,13 @@
 
         <select id="id_nums" name="select" class="btn btn-default" style="margin-left: 30px;width: 200px" >
             <option value ="10">请选择生成的数量</option>
-            <% for (var i=1;i<=20;i++) {%>
+            <% for (var i=1;i<=9;i++) {%>
+            <option value ="<%= i*100%>"><%= i*100%></option>
+            <% } %>
+            <% for (var i=1;i<=9;i++) {%>
+            <option value ="<%= i*1000%>"><%= i*1000%></option>
+            <% } %>
+            <% for (var i=1;i<=10;i++) {%>
             <option value ="<%= i*10000%>"><%= i*10000%></option>
             <% } %>
         </select>
