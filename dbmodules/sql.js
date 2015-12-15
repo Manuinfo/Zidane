@@ -68,7 +68,6 @@ module.exports={
         return 'insert into g_nfc_batch_map values (\''+p_bid+'\',upper(\''+nfcid+'\'),NULL);'
     },
     'Insert_NFCID_PACKAGE':function(p_nfcid,p_bid,p_flag){
-        p_bid='0';
         return 'insert into g_nfc_box_map values (upper(\''+p_nfcid+'\'),'+
             '\''+p_bid+'\','+
             '\'0000-00-00 00:00:00\',\''+p_flag+'\',now());'
