@@ -2,6 +2,8 @@
 logs
 *.log
 servertype.json
+.idea
+.idea/*
 
 # Runtime data
 pids

@@ -30,7 +30,7 @@ var sessionStore = new SessionStore(options);
 
 if (cluster.isMaster) {
     // Fork workers
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < 1; i++) {
         cluster.fork();
     }
 

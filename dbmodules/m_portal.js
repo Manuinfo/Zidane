@@ -177,6 +177,7 @@ exports.Insert_NFCID_PACKAGE=function(p_pid,p_city,p_rawdata,callback){
         '牛樟菇':'A1',
         '乳酸菌':'A1',
         '益多菌':'A1',
+        '三素果':'A1',
         '三素藻':'A1',
         '白金橙花匀亮修护隐形面膜':'A2',
         '白金橙花水润洁颜慕斯':'A2'
