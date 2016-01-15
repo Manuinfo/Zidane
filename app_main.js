@@ -12,6 +12,7 @@ var logger = require('./libs/log').logger;
 var logger_core = require('morgan');
 var cluster = require('cluster');
 var SessionStore = require('express-mysql-session');
+numCPUs = require('os').cpus().length;
 
 var options = {
     host: 'minfo2014.mysql.rds.aliyuncs.com',
@@ -30,7 +31,7 @@ var sessionStore = new SessionStore(options);
 
 if (cluster.isMaster) {
     // Fork workers
-    for (var i = 0; i < 1; i++) {
+    for (var i = 0; i < numCPUs; i++) {
         cluster.fork();
     }
 
