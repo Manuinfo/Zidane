@@ -13,7 +13,13 @@ var me     = require('./acc.js');
 //发送时做校验
 exports.SendOnErr=function(res,objsend){
     try{
-        logger.debug('Res:'+objsend);
+        if (objsend.length<300){
+            logger.debug('Res:'+objsend);
+        } else
+        {
+            logger.debug('Res:'+objsend.length+':'+objsend.substr(0,300));
+        }
+
         logger.debug('DB Pool Monitor Info@Res:'+pool._freeConnections.length+'/'+pool._allConnections.length);
         res.send(objsend);
     }
