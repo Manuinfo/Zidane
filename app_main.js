@@ -106,7 +106,8 @@ app.use(function(req, res, next){
 
 
 //支付宝静态伪造页
-    app.get('/msite',rest_alipay.prodHome);   //管理页
+    app.get('/msite/app',rest_alipay.prodHome);   //管理页
+    app.get('/msite/dtl',rest_alipay.prdDetailPage);   //管理页
 
 
 //Portal管理
@@ -239,7 +240,7 @@ setTimeout(function(){
                // console.log(global.u_SITE);
                 //console.log(global.u_LAY_R);
             });
-},1500);
+},1000);
 
 
 setInterval(function(){
