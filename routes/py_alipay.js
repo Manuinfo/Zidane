@@ -50,7 +50,29 @@ var prdObj={
         'price':380,
         'intro_text':'2种人早业大省，不断提',
         'intro_img':'a5i'
+    },
+    'b1':{
+        'prd_img':'b1',
+        'prd_name':'白金橙花水润洁颜慕斯',
+        'price':390,
+        'intro_text':'2种人早业大省，不断提',
+        'intro_img':'b1i'
+    },
+    'b2':{
+        'prd_img':'b2',
+        'prd_name':'白金橙花锌合金眼霜',
+        'price':390,
+        'intro_text':'2种人早业大省，不断提',
+        'intro_img':'b2i'
+    },
+    'b3':{
+        'prd_img':'b3',
+        'prd_name':'白金橙花锌合金眼霜',
+        'price':280,
+        'intro_text':'2种人早业大省，不断提',
+        'intro_img':'b3i'
     }
+
 
 };
 
