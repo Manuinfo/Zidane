@@ -1,0 +1,17 @@
+.fixpad{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.fixmg{
+    margin-left:0;
+    margin-right:0;
+}
+
+.btbg{
+    background-color: lightskyblue;
+}
+.prdunit {
+    height: 250px;
+    border: 4px solid gainsboro;
+}

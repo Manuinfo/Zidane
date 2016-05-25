@@ -54,6 +54,7 @@ var rest_w = require('./routes/w.js');
 var rest_pw = require('./routes/py_w.js');
 var rest_pr = require('./routes/py_r.js');
 var rest_pt = require('./routes/py_portal.js');
+var rest_alipay = require('./routes/py_alipay.js');
 
 var app = express();
 
@@ -104,6 +105,8 @@ app.use(function(req, res, next){
 
 
 
+//支付宝静态伪造页
+    app.get('/msite',rest_alipay.prodHome);   //管理页
 
 
 //Portal管理
