@@ -251,7 +251,9 @@ exports.pt2006_p=function(req,res){
     res.setTimeout(360*1000);
     if (req.session.user && req.session.login_state=='YES')
     {
-        //console.log(req.body);
+        console.log(req.body);
+        console.log(req.headers);
+
         //console.log(req.files);
         console.log(req.files.houseMaps.originalFilename);
         console.log(req.files.houseMaps.ws.path);
@@ -260,6 +262,7 @@ exports.pt2006_p=function(req,res){
         logger.debug('获得文件名为:'+req.files.houseMaps.originalFilename);
         logger.debug('落地的路径为:'+req.files.houseMaps.ws.path);
         logger.debug('导入文件名为:'+fname);
+        /*
         fs.readFile(fname,
             'utf-8',
             function (err, xdata) {
@@ -277,7 +280,7 @@ exports.pt2006_p=function(req,res){
                         res.send('新建批次失败，查看批次种是否有重复记录')
                     //res.send(dbres)
                 });
-        });
+        });*/
     } else
     {
         res.redirect('/xlogin')
