@@ -262,7 +262,7 @@ exports.pt2006_p=function(req,res){
         logger.debug('获得文件名为:'+req.files.houseMaps.originalFilename);
         logger.debug('落地的路径为:'+req.files.houseMaps.ws.path);
         logger.debug('导入文件名为:'+fname);
-        /*
+
         fs.readFile(fname,
             'utf-8',
             function (err, xdata) {
@@ -275,12 +275,12 @@ exports.pt2006_p=function(req,res){
                 xdata,req.body.i_btd_c,
                 function(dbres){
                     if(dbres.affectedRows==1)
-                        res.send('新建批次成功，约1分钟后，后台会自动执行NFC_ID的导入，您可进入“后台任务”菜单进行查看')
+                        res.send('新建批次成功，约1分钟后，后台会自动执行NFC_ID的导入，您可进入“后台任务”菜单进行查看');
                     else
-                        res.send('新建批次失败，查看批次种是否有重复记录')
+                        res.send('新建批次失败，查看批次种是否有重复记录');
                     //res.send(dbres)
                 });
-        });*/
+        });
     } else
     {
         res.redirect('/xlogin')
