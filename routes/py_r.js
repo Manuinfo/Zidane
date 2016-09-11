@@ -108,10 +108,10 @@ exports.r2003=function(req,res){
                                 if(boxres)
                                 {
                                     logger.debug('箱子的ID存在'+jbody.par_id);
-                                    if( (boxres.g_name!=jbody.expgoods ) && ((boxres.nfc_flag).substr(10,2)==jbody.expgoods))        //
-                                    //if (boxres.g_name!=jbody.expgoods )
+                                    //if( (boxres.g_name==jbody.expgoods ) && ((boxres.nfc_flag).substr(10,2)==jbody.expgoods))        //
+                                    if( (boxres.nfc_flag).substr(10,2)==jbody.expgoods)
                                     {
-                                        logger.debug('判断箱子ID存在与NFCFLAG相符合，继续校验是否已被装过箱');
+                                        logger.debug('判断箱子ID存在与NFCFLAG相符合,扫描入参expgoods与预录入箱子吻合，继续校验是否已被装过箱');
                                         m_goods.Check_BoxExistMulti(jbody.par_id,jbody.expgoods,function(eeres){
                                             if(eeres[0]='NA')
                                             {
@@ -128,7 +128,9 @@ exports.r2003=function(req,res){
 
                                             }else
                                             {
-                                                acc.SendOnErr(res,t.res_one('FAIL','箱子ID存在，但是已被装过箱，请核实，请重新输入或联系管理员'));
+                                                acc.SendOnErr(res,t.res_one('FAIL','箱子ID存在,且也装过箱，上次商品是:'+boxres.g_name+',上次时间为:'+boxres.bind_date));
+                                                logger.debug('箱子ID存在,且也装过箱，上次商品是:'+boxres.g_name+',上次时间为:'+boxres.bind_date);
+
                                             }
                                         });
                                     } else
