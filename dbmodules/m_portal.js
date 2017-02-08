@@ -181,7 +181,8 @@ exports.Insert_NFCID_PACKAGE=function(p_pid,p_city,p_rawdata,callback){
         '三素藻':'A1',
         '白金橙花匀亮修护隐形面膜':'A2',
         '白金橙花水润洁颜慕斯':'A2',
-        '三中睛':'A1'
+        '三中睛':'A1',
+        '黑金藻':'A1'
     };
     logger.debug('查询城市编码'+JSON.stringify(p_city)+'|'+p_pid);
     me.Get_SaleCityID(p_city,function(city_res){
