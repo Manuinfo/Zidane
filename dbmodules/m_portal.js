@@ -87,7 +87,9 @@ exports.Get_SaleCityID=function(p_city,callback){
 
 //新建批次
 exports.New_Batch=function(p_pid,p_place,p_bth_count,p_nfc_count,p_vrftime,p_rfile,p_nfile,p_rawdata,p_bid_c,callback){
-    me.Get_SaleCityID(p_place,function(city_res){
+  console.log(p_nfc_count)
+  console.log(p_bth_count)
+  me.Get_SaleCityID(p_place,function(city_res){
         pool.getConnection(function(err, conn) {
             console.log(p_pid);
             console.log(t.md5hash(p_pid));

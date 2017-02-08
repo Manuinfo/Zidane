@@ -266,8 +266,10 @@ exports.pt2006_p=function(req,res){
         fs.readFile(fname,
             'utf-8',
             function (err, xdata) {
+              //if(err) console.log(err.message)
             if (err) throw err;
-            //console.log(data.split('\r\n'));
+            //console.log(xdata.split('\r\n'));
+              //p_pid,p_place,p_bth_count,p_nfc_count
 
             m_portal.New_Batch(req.body.i_goods,req.body.i_city,xdata.split('\r\n').length,xdata.split('\r\n').length,req.body.i_qrcc,
                 req.files.houseMaps.originalFilename,
